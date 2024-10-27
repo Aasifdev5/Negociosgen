@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @php
-        $general_setting = getApplicationsettings();
+        $general_setting = \App\Models\Setting::pluck('option_value', 'option_key')->toArray();
         $adminNotifications = adminNotifications();
     @endphp
 
@@ -14,9 +14,9 @@
     <!-- Include necessary libraries -->
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
 
-    <link rel="icon" href="{{ asset('site_favicon/') }}<?php echo '/' . $general_setting->site_favicon; ?>" type="image/x-icon">
-    <link rel="shortcut icon" href="{{ asset('site_favicon/') }}<?php echo '/' . $general_setting->site_favicon; ?>" type="image/x-icon">
-    <title>{{ $general_setting->site_name }} || @yield('title')</title>
+    <link rel="icon" href="<?php echo '/' . $general_setting['app_fav_icon'] ?? ''; ?>" type="image/x-icon">
+    <link rel="shortcut icon" href="<?php echo '/' . $general_setting['app_fav_icon'] ?? ''; ?>" type="image/x-icon">
+    <title>{{ $general_setting['app_name'] ?? '' }} || @yield('title')</title>
     <!-- Google font-->
     <link href="https://fonts.googleapis.com/css?family=Work+Sans:100,200,300,400,500,600,700,800,900" rel="stylesheet">
     <link
@@ -261,7 +261,7 @@
             <div class="page-sidebar" style="background: #000">
                 <div class="main-header-left d-none d-lg-block">
                     <div class="logo-wrapper"><a href="{{ url('admin/dashboard') }}"><img
-                                src="{{ asset('site_logo/') }}<?php echo '/' . $general_setting->site_logo; ?>" style="width: 200px;height:60px"
+                                src="<?php echo '/' . $general_setting['app_logo'] ?? ''; ?>" style="width: 200px;height:60px"
                                 alt=""></a>
                     </div>
                 </div>
@@ -295,23 +295,7 @@
                     </li>
 
                             </li>
-                            <li><a class="sidebar-header" href="#"><i
-                                        data-feather="settings"></i><span>{{ __('Configuraciones') }}
-                                    </span><i class="fa fa-angle-right pull-right"></i></a>
-                                <ul class="sidebar-submenu">
 
-                                    <li><a href="{{ url('admin/smtp_setting') }}"><i
-                                                class="fa fa-circle"></i>{{ __('Configuración SMTP') }}
-                                        </a></li>
-                                    <li><a href="{{ url('admin/payment_gateway') }}"><i
-                                                class="fa fa-circle"></i>{{ __('Pasarela de Pago') }} </a></li>
-                                    <li><a href="{{ url('admin/social_lite_login') }}"><i
-                                                class="fa fa-circle"></i>{{ __('Configuración de Socialite') }}</a>
-                                    </li>
-                                    <li><a href="{{ url('admin/website_setting') }}"><i class="fa fa-circle"></i>
-                                            {{ __('Configuración General') }} </a></li>
-                                </ul>
-                            </li>
 
                             <li>
                                 <a class="sidebar-header" href="#">

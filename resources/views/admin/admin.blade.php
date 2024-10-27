@@ -4,12 +4,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @php
-        $general_setting = getApplicationsettings();
+        $general_setting = \App\Models\Setting::pluck('option_value', 'option_key')->toArray();
     @endphp
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="icon" href="{{ asset('site_favicon/') }}<?php echo '/' . $general_setting->site_favicon; ?>" type="image/x-icon">
-    <link rel="shortcut icon" href="{{ asset('site_favicon/') }}<?php echo '/' . $general_setting->site_favicon; ?>" type="image/x-icon">
-    <title>{{ $general_setting->site_name }} || Inicio de Sesión de Administrador</title>
+    <link rel="icon" href="<?php echo '/' . $general_setting['app_fav_icon'] ?? ''; ?>" type="image/x-icon">
+    <link rel="shortcut icon" href="<?php echo '/' . $general_setting['app_fav_icon'] ?? ''; ?>" type="image/x-icon">
+    <title>{{ $general_setting['app_name'] ?? '' }} || Inicio de Sesión de Administrador</title>
     <!-- Google font-->
     <link href="https://fonts.googleapis.com/css?family=Work+Sans:100,200,300,400,500,600,700,800,900" rel="stylesheet">
     <link
@@ -52,7 +52,7 @@
 
                 <div class="authentication-box" style="background: #000;padding: 20px; border: 1px solid #000; border-radius: 16px;">
                     <div class="text-center">
-                        <h1 style="font-weight: 100;"><a href="{{ url('/') }}"><img src="{{ asset('site_favicon/') }}<?php echo '/' . $general_setting->site_favicon; ?>" width="200px" height="200px"  alt="300px"></a></h1>
+                        <h1 style="font-weight: 100;"><a href="{{ url('/') }}"><img src="<?php echo '/' . $general_setting['app_footer_payment_image'] ?? ''; ?>" width="200px" height="200px"  alt="300px"></a></h1>
                     </div>
                     <div class="card mt-4" style="background: #000">
                         <div class="card-body">

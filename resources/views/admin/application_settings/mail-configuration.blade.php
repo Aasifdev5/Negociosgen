@@ -42,37 +42,36 @@
                                     <div class="row">
                                         <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4 mb-3">
                                             <div class="form-group text-black">
-                                                <label>{{__('MAIL DRIVER')}} </label>
-                                                <input type="text" name="MAIL_MAILER" value="{{get_option('MAIL_MAILER')}}" class="form-control">
+                                                <label>{{__('MAIL DRIVER')}}</label>
+                                                <input type="text" name="MAIL_MAILER" value="{{ $settings['MAIL_MAILER'] ?? '' }}" class="form-control">
                                             </div>
                                         </div>
 
                                         <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4 mb-3">
                                             <div class="form-group text-black">
-                                                <label>{{__('MAIL HOST')}} </label>
-                                                <input type="text" name="MAIL_HOST" value="{{get_option('MAIL_HOST')}}" class="form-control">
+                                                <label>{{__('MAIL HOST')}}</label>
+                                                <input type="text" name="MAIL_HOST" value="{{ $settings['MAIL_HOST'] ?? '' }}" class="form-control">
                                             </div>
                                         </div>
 
                                         <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4 mb-3">
                                             <div class="form-group text-black">
-                                                <label>{{__('MAIL PORT')}} </label>
-                                                <input type="text" name="MAIL_PORT" value="{{get_option('MAIL_PORT')}}" class="form-control">
+                                                <label>{{__('MAIL PORT')}}</label>
+                                                <input type="text" name="MAIL_PORT" value="{{ $settings['MAIL_PORT'] ?? '' }}" class="form-control">
                                             </div>
                                         </div>
 
                                         <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4 mb-3">
                                             <div class="form-group text-black">
-                                                <label>{{__('MAIL USERNAME')}} </label>
-                                                <input type="text" name="MAIL_USERNAME" value="{{get_option('MAIL_USERNAME')}}" class="form-control">
+                                                <label>{{__('MAIL USERNAME')}}</label>
+                                                <input type="text" name="MAIL_USERNAME" value="{{ $settings['MAIL_USERNAME'] ?? '' }}" class="form-control">
                                             </div>
                                         </div>
 
-
                                         <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4 mb-3">
                                             <div class="form-group text-black">
-                                                <label>{{__('MAIL PASSWORD')}} </label>
-                                                <input type="password" name="MAIL_PASSWORD" value="{{get_option('MAIL_PASSWORD')}}" class="form-control">
+                                                <label>{{__('MAIL PASSWORD')}}</label>
+                                                <input type="password" name="MAIL_PASSWORD" value="{{ $settings['MAIL_PASSWORD'] ?? '' }}" class="form-control">
                                             </div>
                                         </div>
 
@@ -80,27 +79,27 @@
                                             <div class="form-group text-black">
                                                 <label>{{__('MAIL ENCRYPTION')}} <span class="text-danger">*</span></label>
                                                 <select name="MAIL_ENCRYPTION" class="form-control">
-                                                    <option value="tls" {{get_option('MAIL_ENCRYPTION') == 'tls' ? 'selected' : '' }} > tls </option>
-                                                    <option value="ssl" {{get_option('MAIL_ENCRYPTION') == 'ssl' ? 'selected' : '' }} > ssl </option>
+                                                    <option value="tls" {{ $settings['MAIL_ENCRYPTION'] ?? '' == 'tls' ? 'selected' : '' }}>tls</option>
+                                                    <option value="ssl" {{ $settings['MAIL_ENCRYPTION'] ?? '' == 'ssl' ? 'selected' : '' }}>ssl</option>
                                                 </select>
                                             </div>
                                         </div>
 
                                         <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4 mb-3">
                                             <div class="form-group text-black">
-                                                <label>{{__('MAIL FROM ADDRESS')}} </label>
-                                                <input type="text" name="MAIL_FROM_ADDRESS" value="{{get_option('MAIL_FROM_ADDRESS')}}" class="form-control">
+                                                <label>{{__('MAIL FROM ADDRESS')}}</label>
+                                                <input type="text" name="MAIL_FROM_ADDRESS" value="{{ $settings['MAIL_FROM_ADDRESS'] ?? '' }}" class="form-control">
                                             </div>
                                         </div>
-
 
                                         <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4 mb-3">
                                             <div class="form-group text-black">
-                                                <label>{{__('MAIL FROM NAME')}} </label>
-                                                <input type="text" name="MAIL_FROM_NAME" value="{{get_option('MAIL_FROM_NAME')}}" class="form-control">
+                                                <label>{{__('MAIL FROM NAME')}}</label>
+                                                <input type="text" name="MAIL_FROM_NAME" value="{{ $settings['MAIL_FROM_NAME'] ?? '' }}" class="form-control">
                                             </div>
                                         </div>
                                     </div>
+
 
                                     <div class="row">
                                         <div class="col-12">

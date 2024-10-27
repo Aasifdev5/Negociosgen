@@ -6,11 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Mail\TestMail;
 use App\Models\Currency;
 use App\Models\FaqQuestion;
-use App\Models\InstructorFeature;
-use App\Models\InstructorProcedure;
 use App\Models\Language;
 use App\Models\Meta;
-use App\Models\Package;
 use App\Models\Setting;
 use App\Models\SupportTicketQuestion;
 use App\Models\User;
@@ -25,6 +22,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
+
 use Response;
 use Spatie\Sitemap\SitemapGenerator;
 
@@ -48,6 +46,7 @@ class SettingController extends Controller
             $data['subNavGlobalSettingsActiveClass'] = 'mm-active';
             $data['generalSettingsActiveClass'] = 'active';
             $data['currencies'] = Currency::all();
+            $data['settings'] = Setting::pluck('option_value', 'option_key')->toArray();
             $data['current_currency'] = Currency::where('current_currency', 'on')->first();
             $data['languages'] = Language::all();
             $data['default_language'] = Language::where('default_language', 'on')->first();
@@ -312,6 +311,7 @@ class SettingController extends Controller
             $data['navApplicationSettingParentActiveClass'] = 'mm-active';
             $data['subNavPaymentOptionsSettingsActiveClass'] = 'mm-active';
             $data['paymentMethodSettingsActiveClass'] = 'active';
+            $data['settings'] = Setting::pluck('option_value', 'option_key')->toArray();
             return view('admin.application_settings.payment-method', $data);
         }
     }
@@ -324,6 +324,7 @@ class SettingController extends Controller
             $data['navApplicationSettingParentActiveClass'] = 'mm-active';
             $data['subNavMailConfigSettingsActiveClass'] = 'mm-active';
             $data['mailConfigSettingsActiveClass'] = 'active';
+            $data['settings'] = Setting::pluck('option_value', 'option_key')->toArray();
             return view('admin.application_settings.mail-configuration', $data);
         }
     }

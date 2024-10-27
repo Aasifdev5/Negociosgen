@@ -41,170 +41,185 @@ Application Settings || General Setting
                                     @csrf
 
                                     <div class="row input__group mb-25">
-                                        <label class="col-lg-3">{{__('App Name')}} <span class="text-danger">*</span></label>
+                                        <label class="col-lg-3">{{ __('App Name') }} <span class="text-danger">*</span></label>
                                         <div class="col-lg-9">
-                                            <input type="text" name="app_name" value="{{get_option('app_name')}}" class="form-control" required>
+                                            <input type="text" name="app_name" value="{{ $settings['app_name'] ?? '' }}" class="form-control" required>
                                         </div>
                                     </div>
                                     <br>
                                     <div class="row input__group mb-25">
                                         <label class="col-lg-3">{{ __('App Email') }} <span class="text-danger">*</span></label>
                                         <div class="col-lg-9">
-                                            <input type="text" name="app_email" value="{{get_option('app_email')}}" class="form-control" required>
+                                            <input type="text" name="app_email" value="{{ $settings['app_email'] ?? '' }}" class="form-control" required>
                                         </div>
                                     </div>
                                     <br>
                                     <div class="row input__group mb-25">
                                         <label class="col-lg-3">{{ __('App Contact Number') }} <span class="text-danger">*</span></label>
                                         <div class="col-lg-9">
-                                            <input type="text" name="app_contact_number" value="{{get_option('app_contact_number')}}" class="form-control" required>
+                                            <input type="text" name="app_contact_number" value="{{ $settings['app_contact_number'] ?? '' }}" class="form-control" required>
                                         </div>
                                     </div>
                                     <br>
                                     <div class="row input__group mb-25">
                                         <label class="col-lg-3">{{ __('App Location') }} <span class="text-danger">*</span></label>
                                         <div class="col-lg-9">
-                                            <input type="text" name="app_location" value="{{get_option('app_location')}}" class="form-control" required>
+                                            <input type="text" name="app_location" value="{{ $settings['app_location'] ?? '' }}" class="form-control" required>
                                         </div>
                                     </div>
                                     <br>
                                     <div class="row input__group mb-25">
                                         <label class="col-lg-3">{{ __('App Copyright') }} <span class="text-danger">*</span></label>
                                         <div class="col-lg-9">
-                                            <input type="text" name="app_copyright" value="{{get_option('app_copyright')}}" class="form-control" required>
+                                            <input type="text" name="app_copyright" value="{{ $settings['app_copyright'] ?? '' }}" class="form-control" required>
                                         </div>
                                     </div>
                                     <br>
+
                                     <div class="row input__group mb-25">
                                         <label class="col-lg-3">{{ __('Developed By') }} <span class="text-danger">*</span></label>
                                         <div class="col-lg-9">
-                                            <input type="text" name="app_developed" value="{{get_option('app_developed')}}" class="form-control" required>
+                                            <input type="text" name="app_developed" value="{{$settings['app_developed'] ?? ''}}" class="form-control" required>
                                         </div>
                                     </div>
                                     <br>
                                     <div class="row input__group mb-25">
-                                        <label for="app_date_format" class="col-lg-3">{{__('Date Format')}} <span class="text-danger">*</span></label>
+                                        <label for="app_date_format" class="col-lg-3">{{ __('Date Format') }} <span class="text-danger">*</span></label>
                                         <div class="col-lg-9">
                                             <select name="app_date_format" class="form-control">
-                                                <option value="m/d/Y" {{get_option('app_date_format') == 'm/d/Y' ? 'selected' : ''}} >
-                                                    m/d/Y (eg. {{\Carbon\Carbon::now()->format("m/d/Y")}} )
+                                                <option value="m/d/Y" {{ ($settings['app_date_format'] ?? '') == 'm/d/Y' ? 'selected' : '' }}>
+                                                    m/d/Y (eg. {{ \Carbon\Carbon::now()->format("m/d/Y") }})
                                                 </option>
-                                                <option value="d/m/Y" {{get_option('app_date_format') == 'd/m/Y' ? 'selected' : ''}} >
-                                                    d/m/Y (eg. {{\Carbon\Carbon::now()->format("d/m/Y")}} )
+                                                <option value="d/m/Y" {{ ($settings['app_date_format'] ?? '') == 'd/m/Y' ? 'selected' : '' }}>
+                                                    d/m/Y (eg. {{ \Carbon\Carbon::now()->format("d/m/Y") }})
                                                 </option>
-                                                <option value="Y/m/d" {{get_option('app_date_format') == 'Y/m/d' ? 'selected' : ''}} >
-                                                    Y/m/d (eg. {{\Carbon\Carbon::now()->format("Y/m/d")}} )
+                                                <option value="Y/m/d" {{ ($settings['app_date_format'] ?? '') == 'Y/m/d' ? 'selected' : '' }}>
+                                                    Y/m/d (eg. {{ \Carbon\Carbon::now()->format("Y/m/d") }})
                                                 </option>
-                                                <option value="Y/d/m" {{get_option('app_date_format') == 'Y/d/m' ? 'selected' : ''}} >
-                                                    Y/d/m (eg. {{\Carbon\Carbon::now()->format("Y/d/m")}} )
+                                                <option value="Y/d/m" {{ ($settings['app_date_format'] ?? '') == 'Y/d/m' ? 'selected' : '' }}>
+                                                    Y/d/m (eg. {{ \Carbon\Carbon::now()->format("Y/d/m") }})
                                                 </option>
-                                                <option value="m-d-Y" {{get_option('app_date_format') == 'm-d-Y' ? 'selected' : ''}} >
-                                                    m-d-Y (eg. {{\Carbon\Carbon::now()->format("m-d-Y")}} )
+                                                <option value="m-d-Y" {{ ($settings['app_date_format'] ?? '') == 'm-d-Y' ? 'selected' : '' }}>
+                                                    m-d-Y (eg. {{ \Carbon\Carbon::now()->format("m-d-Y") }})
                                                 </option>
-                                                <option value="d-m-Y" {{get_option('app_date_format') == 'd-m-Y' ? 'selected' : ''}} >
-                                                    d-m-Y (eg. {{\Carbon\Carbon::now()->format("d-m-Y")}} )
+                                                <option value="d-m-Y" {{ ($settings['app_date_format'] ?? '') == 'd-m-Y' ? 'selected' : '' }}>
+                                                    d-m-Y (eg. {{ \Carbon\Carbon::now()->format("d-m-Y") }})
                                                 </option>
-                                                <option value="Y-m-d" {{get_option('app_date_format') == 'Y-m-d' ? 'selected' : ''}} >
-                                                    Y-m-d (eg. {{\Carbon\Carbon::now()->format("Y-m-d")}} )
+                                                <option value="Y-m-d" {{ ($settings['app_date_format'] ?? '') == 'Y-m-d' ? 'selected' : '' }}>
+                                                    Y-m-d (eg. {{ \Carbon\Carbon::now()->format("Y-m-d") }})
                                                 </option>
-                                                <option value="Y-d-m" {{get_option('app_date_format') == 'Y-d-m' ? 'selected' : ''}} >
-                                                    Y-d-m (eg. {{\Carbon\Carbon::now()->format("Y-d-m")}} )
+                                                <option value="Y-d-m" {{ ($settings['app_date_format'] ?? '') == 'Y-d-m' ? 'selected' : '' }}>
+                                                    Y-d-m (eg. {{ \Carbon\Carbon::now()->format("Y-d-m") }})
                                                 </option>
-                                                <option value="d M, Y" {{get_option('app_date_format') == 'd M, Y' ? 'selected' : ''}} >
-                                                    d M, Y (eg. {{\Carbon\Carbon::now()->format("d M, Y")}} )
+                                                <option value="d M, Y" {{ ($settings['app_date_format'] ?? '') == 'd M, Y' ? 'selected' : '' }}>
+                                                    d M, Y (eg. {{ \Carbon\Carbon::now()->format("d M, Y") }})
                                                 </option>
-                                                <option value="M d, Y" {{get_option('app_date_format') == 'M d, Y' ? 'selected' : ''}} >
-                                                    M d, Y (eg. {{\Carbon\Carbon::now()->format("M d, Y")}} )
+                                                <option value="M d, Y" {{ ($settings['app_date_format'] ?? '') == 'M d, Y' ? 'selected' : '' }}>
+                                                    M d, Y (eg. {{ \Carbon\Carbon::now()->format("M d, Y") }})
                                                 </option>
-                                                <option value="Y M, d" {{get_option('app_date_format') == 'Y M, d' ? 'selected' : ''}} >
-                                                    Y M, d (eg. {{\Carbon\Carbon::now()->format("Y M, d")}} )
+                                                <option value="Y M, d" {{ ($settings['app_date_format'] ?? '') == 'Y M, d' ? 'selected' : '' }}>
+                                                    Y M, d (eg. {{ \Carbon\Carbon::now()->format("Y M, d") }})
                                                 </option>
-                                                <option value="d F, Y" {{get_option('app_date_format') == 'd F, Y' ? 'selected' : ''}} >
-                                                    d F, Y (eg. {{\Carbon\Carbon::now()->format("d F, Y")}} )
+                                                <option value="d F, Y" {{ ($settings['app_date_format'] ?? '') == 'd F, Y' ? 'selected' : '' }}>
+                                                    d F, Y (eg. {{ \Carbon\Carbon::now()->format("d F, Y") }})
                                                 </option>
-                                                <option value="Y F, d" {{get_option('app_date_format') == 'Y F, d' ? 'selected' : ''}} >
-                                                    Y F, d (eg. {{\Carbon\Carbon::now()->format("Y F, d")}} )
+                                                <option value="Y F, d" {{ ($settings['app_date_format'] ?? '') == 'Y F, d' ? 'selected' : '' }}>
+                                                    Y F, d (eg. {{ \Carbon\Carbon::now()->format("Y F, d") }})
                                                 </option>
                                             </select>
                                         </div>
                                     </div>
                                     <br>
+
                                     <div class="row input__group mb-25">
-                                        <label for="app_date_format" class="col-lg-3">{{__('Default Currency')}} <span class="text-danger">*</span></label>
+                                        <label for="currency_id" class="col-lg-3">{{ __('Default Currency') }} <span class="text-danger">*</span></label>
                                         <div class="col-lg-9">
                                             <select name="currency_id" class="form-control select2">
                                                 <option value="">{{ __('Select Option') }}</option>
                                                 @foreach($currencies as $currency)
-                                                <option value="{{ $currency->id }}" {{$currency->id == @$current_currency->id ? 'selected' : ''}} > {{ $currency->symbol }}</option>
+                                                    <option value="{{ $currency->id }}" {{ $currency->id == (@$current_currency->id ?? null) ? 'selected' : '' }}>
+                                                        {{ $currency->symbol }}
+                                                    </option>
                                                 @endforeach
                                             </select>
                                         </div>
                                     </div>
                                     <br>
+
                                     <div class="row input__group mb-25">
-                                        <label for="app_date_format" class="col-lg-3">{{__('Force HTTPS')}} <span class="text-danger">*</span></label>
+                                        <label for="FORCE_HTTPS" class="col-lg-3">{{ __('Force HTTPS') }} <span class="text-danger">*</span></label>
                                         <div class="col-lg-9">
                                             <select name="FORCE_HTTPS" class="form-control select2">
-                                                <option value="true" {{config('app.force_https') == true ? 'selected' : ''}} > {{ __('TRUE') }}</option>
-                                                <option value="false" {{config('app.force_https') == false ? 'selected' : ''}} > {{ __('FALSE') }}</option>
+                                                <option value="true" {{ $settings['force_https'] ?? '' == true ? 'selected' : '' }}>
+                                                    {{ __('TRUE') }}
+                                                </option>
+                                                <option value="false" {{ $settings['force_https'] ?? '' == false ? 'selected' : '' }}>
+                                                    {{ __('FALSE') }}
+                                                </option>
                                             </select>
                                         </div>
                                     </div>
                                     <br>
+
                                     <div class="row input__group mb-25">
                                         <label for="app_date_format" class="col-lg-3">{{__('Default Language')}} <span class="text-danger">*</span></label>
                                         <div class="col-lg-9">
                                             <select name="language_id" class="form-control select2">
                                                 <option value="">{{ __('Select Option') }}</option>
                                                 @foreach($languages as $language)
-                                                <option value="{{ $language->id }}" {{$language->id == @$default_language->id ? 'selected' : ''}} > {{ $language->language }}</option>
+                                                <option value="{{ $language->id }}" {{$language->id == @$default_language->id ? 'selected' : ''}}>{{ $language->language }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
                                     </div>
                                     <br>
+
                                     <div class="row input__group mb-25">
                                         <label for="app_date_format" class="col-lg-3">{{__('Time Zone')}} <span class="text-danger">*</span></label>
                                         <div class="col-lg-9">
                                             <select name="TIMEZONE" class="form-control select2">
                                                 @foreach(getTimeZone() as $timezone)
-                                                <option value="{{ $timezone }}" {{$timezone == env('TIMEZONE', 'UTC') ? 'selected' : ''}} > {{ $timezone }}</option>
+                                                <option value="{{ $timezone }}" {{ $timezone == ($settings['timezone'] ?? 'UTC') ? 'selected' : '' }}>{{ $timezone }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
                                     </div>
                                     <br>
+
                                     <div class="row input__group mb-25">
                                         <label class="col-lg-3">{{ __('Platform Charge') }} (%) <span class="text-danger">*</span></label>
                                         <div class="col-lg-9">
-                                            <input type="number" min="0" max="100" name="platform_charge" value="{{get_option('platform_charge')}}" class="form-control" required>
+                                            <input type="number" min="0" max="100" name="platform_charge" value="{{ $settings['platform_charge'] ?? '' }}" class="form-control" required>
                                         </div>
                                     </div>
                                     <br>
+
                                     <div class="row input__group mb-25">
-                                        <label class="col-lg-3"> {{ __('Sell Commission') }} (%) <span class="text-danger">*</span></label>
+                                        <label class="col-lg-3">{{ __('Sell Commission') }} (%) <span class="text-danger">*</span></label>
                                         <div class="col-lg-9">
-                                            <input type="number" min="0" max="100" name="sell_commission" value="{{get_option('sell_commission')}}" class="form-control" required>
+                                            <input type="number" min="0" max="100" name="sell_commission" value="{{ $settings['sell_commission'] ?? '' }}" class="form-control" required>
                                         </div>
                                     </div>
                                     <br>
+
                                     <div class="row input__group mb-25">
                                         <label for="allow_preloader" class="col-lg-3">{{__('Allow Preloader')}} <span class="text-danger">*</span></label>
                                         <div class="col-lg-9">
                                             <select name="allow_preloader" class="form-control">
                                                 <option value="">{{ __('Select Option') }}</option>
-                                                <option value="1" @if(get_option('allow_preloader') == 1) selected @endif>{{ __('Active') }}</option>
-                                                <option value="0" @if(get_option('allow_preloader') != 1) selected @endif>{{ __('Disable') }}</option>
+                                                <option value="1" @if($settings['allow_preloader'] ?? '' == 1) selected @endif>{{ __('Active') }}</option>
+                                                <option value="0" @if($settings['allow_preloader'] ?? '' != 1) selected @endif>{{ __('Disable') }}</option>
                                             </select>
                                         </div>
                                     </div>
                                     <br>
+
                                     <div class="row input__group mb-25">
                                         <label class="col-lg-3">{{ __('Preloader') }}</label>
                                         <div class="col-lg-4">
                                             <div class="upload-img-box">
-                                                @if(get_option('app_preloader') != '')
-                                                    <img src="{{getImageFile(get_option('app_preloader'))}}">
+                                                @if($settings['app_preloader'] ?? '')
+                                                    <img src="{{ getImageFile($settings['app_preloader']) }}">
                                                 @else
                                                     <img src="">
                                                 @endif
@@ -221,12 +236,13 @@ Application Settings || General Setting
                                         </div>
                                     </div>
                                     <br>
+
                                     <div class="row input__group mb-25">
                                         <label class="col-lg-3">{{ __('App Logo') }}</label>
                                         <div class="col-lg-4">
                                             <div class="upload-img-box">
-                                                @if(get_option('app_logo') != '')
-                                                    <img src="{{getImageFile(get_option('app_logo'))}}">
+                                                @if($settings['app_logo'] ?? '')
+                                                    <img src="{{ getImageFile($settings['app_logo']) }}">
                                                 @else
                                                     <img src="">
                                                 @endif
@@ -243,12 +259,13 @@ Application Settings || General Setting
                                         </div>
                                     </div>
                                     <br>
+
                                     <div class="row input__group mb-25">
                                         <label class="col-lg-3">{{ __('App Black Logo') }}</label>
                                         <div class="col-lg-4">
                                             <div class="upload-img-box">
-                                                @if(get_option('app_black_logo') != '')
-                                                    <img src="{{getImageFile(get_option('app_black_logo'))}}">
+                                                @if($settings['app_black_logo'] ?? '')
+                                                    <img src="{{ getImageFile($settings['app_black_logo']) }}">
                                                 @else
                                                     <img src="">
                                                 @endif
@@ -264,14 +281,14 @@ Application Settings || General Setting
                                             <p><span class="text-black">{{ __('Accepted Files') }}:</span> PNG, SVG <br> <span class="text-black">{{ __('Recommend Size') }}:</span> 140 x 40</p>
                                         </div>
                                     </div>
-
                                     <br>
+
                                     <div class="row input__group mb-25">
-                                        <label class="col-lg-3">{{ __('App Fav Icon') }} </label>
+                                        <label class="col-lg-3">{{ __('App Fav Icon') }}</label>
                                         <div class="col-lg-4">
                                             <div class="upload-img-box">
-                                                @if(get_option('app_fav_icon') != '')
-                                                    <img src="{{getImageFile(get_option('app_fav_icon'))}}">
+                                                @if($settings['app_fav_icon'] ?? '')
+                                                    <img src="{{ getImageFile($settings['app_fav_icon']) }}">
                                                 @else
                                                     <img src="{{ asset('uploads/default/no-image-found.png') }}">
                                                 @endif
@@ -288,12 +305,13 @@ Application Settings || General Setting
                                         </div>
                                     </div>
                                     <br>
+
                                     <div class="row input__group mb-25">
-                                        <label class="col-lg-3">{{ __('App Footer Payment Banner') }} </label>
+                                        <label class="col-lg-3">{{ __('App Footer Payment Banner') }}</label>
                                         <div class="col-lg-4">
                                             <div class="upload-img-box">
-                                                @if(get_option('app_footer_payment_image') != '')
-                                                    <img src="{{getImageFile(get_option('app_footer_payment_image'))}}">
+                                                @if($settings['app_footer_payment_image'] ?? '')
+                                                    <img src="{{ getImageFile($settings['app_footer_payment_image']) }}">
                                                 @else
                                                     <img src="{{ asset('uploads/default/no-image-found.png') }}">
                                                 @endif
@@ -306,108 +324,36 @@ Application Settings || General Setting
                                             @if ($errors->has('app_footer_payment_image'))
                                                 <span class="text-danger"><i class="fas fa-exclamation-triangle"></i> {{ $errors->first('app_footer_payment_image') }}</span>
                                             @endif
-                                            <p><span class="text-black">{{ __('Accepted Files') }}:</span> PNG, SVG <br> <span class="text-black">{{ __('Recommend Size') }}:</span>206 × 22 px</p>
-                                        </div>
-                                    </div>
-                                    <br>
-                                    <div class="row input__group mb-25">
-                                        <label class="col-lg-3">{{ __('App PWA Icon') }} </label>
-                                        <div class="col-lg-4">
-                                            <div class="upload-img-box">
-                                                @if(get_option('app_pwa_icon') != '')
-                                                    <img src="{{getImageFile(get_option('app_pwa_icon'))}}">
-                                                @else
-                                                    <img src="{{ asset('uploads/default/no-image-found.png') }}">
-                                                @endif
-                                                <input type="file" name="app_pwa_icon" id="app_pwa_icon" accept="image/*" onchange="previewFile(this)">
-                                                <div class="upload-img-box-icon">
-                                                    <i class="fa fa-camera"></i>
-                                                    <p class="m-0">{{ __('App Fav Icon') }}</p>
-                                                </div>
-                                            </div>
-                                            @if ($errors->has('app_pwa_icon'))
-                                                <span class="text-danger"><i class="fas fa-exclamation-triangle"></i> {{ $errors->first('app_pwa_icon') }}</span>
-                                            @endif
-                                            <p><span class="text-black">{{ __('Accepted Files') }}:</span> PNG <br> <span class="text-black">{{ __('Recommend Size') }}:</span> 512 x 512</p>
-                                        </div>
-                                    </div>
-                                    <br>
-                                    <div class="row input__group mb-25">
-                                        <label for="allow_preloader" class="col-lg-3">{{__('PWA enable')}} <span class="text-danger">*</span></label>
-                                        <div class="col-lg-9">
-                                            <select name="pwa_enable" class="form-control">
-                                                <option value="">{{ __('Select Option') }}</option>
-                                                <option value="1" @if(get_option('pwa_enable') == 1) selected @endif>{{ __('Active') }}</option>
-                                                <option value="0" @if(get_option('pwa_enable') != 1) selected @endif>{{ __('Disable') }}</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <br>
-                                    <div class="row input__group mb-25">
-                                        <label class="col-lg-3">{{ __('Sign up Left Text') }} <span class="text-danger">*</span></label>
-                                        <div class="col-lg-9">
-                                            <input type="text" name="sign_up_left_text" value="{{get_option('sign_up_left_text')}}" class="form-control" >
+                                            <p><span class="text-black">{{ __('Accepted Files') }}:</span> PNG, SVG <br> <span class="text-black">{{ __('Recommend Size') }}:</span> 780 x 80</p>
                                         </div>
                                     </div>
                                     <br>
 
                                     <div class="row input__group mb-25">
-                                        <label for="allow_preloader" class="col-lg-3">{{__('Registration Email Verification')}} <span class="text-danger">*</span></label>
-                                        <div class="col-lg-9">
-                                            <select name="registration_email_verification" class="form-control">
-                                                <option value="">{{ __('Select Option') }}</option>
-                                                <option value="1" @if(get_option('registration_email_verification') == 1) selected @endif>{{ __('Active') }}</option>
-                                                <option value="0" @if(get_option('registration_email_verification') != 1) selected @endif>{{ __('Disable') }}</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <br>
-                                    <div class="row input__group mb-25">
-                                        <label class="col-lg-3">{{ __('Sign up Left Image') }} </label>
-                                        <div class="col-lg-4">
-                                            <div class="upload-img-box">
-                                                @if(get_option('sign_up_left_image') != '')
-                                                    <img src="{{getImageFile(get_option('sign_up_left_image'))}}">
-                                                @else
-                                                    <img src="{{ asset('uploads/default/no-image-found.png') }}">
-                                                @endif
-                                                <input type="file" name="sign_up_left_image" id="sign_up_left_image" accept="image/*" onchange="previewFile(this)">
-                                                <div class="upload-img-box-icon">
-                                                    <i class="fa fa-camera"></i>
-                                                </div>
-                                            </div>
-                                            @if ($errors->has('sign_up_left_image'))
-                                                <span class="text-danger"><i class="fas fa-exclamation-triangle"></i> {{ $errors->first('sign_up_left_image') }}</span>
-                                            @endif
-                                            <p><span class="text-black">{{ __('Accepted Files') }}:</span> PNG, SVG <br> <span class="text-black">{{ __('Recommend Size') }}:</span> 800 x 540 (1MB)</p>
-                                        </div>
-                                    </div>
-                                    <br>
-                                    <div class="row input__group mb-25">
                                         <label class="col-lg-3">{{ __('Forgot Title') }} <span class="text-danger">*</span></label>
                                         <div class="col-lg-9">
-                                            <input type="text" name="forgot_title" value="{{get_option('forgot_title')}}" class="form-control" >
+                                            <input type="text" name="forgot_title" value="{{ $settings['forgot_title'] ?? '' }}" class="form-control">
                                         </div>
                                     </div>
                                     <br>
                                     <div class="row input__group mb-25">
                                         <label class="col-lg-3">{{ __('Forgot Subtitle') }} <span class="text-danger">*</span></label>
                                         <div class="col-lg-9">
-                                            <input type="text" name="forgot_subtitle" value="{{get_option('forgot_subtitle')}}" class="form-control" >
+                                            <input type="text" name="forgot_subtitle" value="{{ $settings['forgot_subtitle'] ?? '' }}" class="form-control">
                                         </div>
                                     </div>
                                     <br>
                                     <div class="row input__group mb-25">
                                         <label class="col-lg-3">{{ __('Forgot Button Name') }} <span class="text-danger">*</span></label>
                                         <div class="col-lg-9">
-                                            <input type="text" name="forgot_btn_name" value="{{get_option('forgot_btn_name')}}" class="form-control" >
+                                            <input type="text" name="forgot_btn_name" value="{{ $settings['forgot_btn_name'] ?? '' }}" class="form-control">
                                         </div>
                                     </div>
                                     <br>
                                     <div class="row input__group mb-25">
                                         <label class="col-lg-3">{{ __('Footer Quote') }} <span class="text-danger">*</span></label>
                                         <div class="col-lg-9">
-                                            <textarea class="form-control" name="footer_quote" id="" rows="5">{{get_option('footer_quote')}}</textarea>
+                                            <textarea class="form-control" name="footer_quote" rows="5">{{ $settings['footer_quote'] ?? '' }}</textarea>
                                         </div>
                                     </div>
 
@@ -417,44 +363,45 @@ Application Settings || General Setting
                                     <div class="row input__group mb-25">
                                         <label class="col-lg-3">{{ __('Facebook URL') }} <span class="text-danger">*</span></label>
                                         <div class="col-lg-9">
-                                            <input type="text" name="facebook_url" value="{{get_option('facebook_url')}}" class="form-control">
+                                            <input type="text" name="facebook_url" value="{{ $settings['facebook_url'] ?? '' }}" class="form-control">
                                         </div>
                                     </div>
                                     <br>
                                     <div class="row input__group mb-25">
                                         <label class="col-lg-3">{{ __('Twitter URL') }} <span class="text-danger">*</span></label>
                                         <div class="col-lg-9">
-                                            <input type="text" name="twitter_url" value="{{get_option('twitter_url')}}" class="form-control">
+                                            <input type="text" name="twitter_url" value="{{ $settings['twitter_url'] ?? '' }}" class="form-control">
                                         </div>
                                     </div>
                                     <br>
                                     <div class="row input__group mb-25">
                                         <label class="col-lg-3">{{ __('LinkedIn URL') }} <span class="text-danger">*</span></label>
                                         <div class="col-lg-9">
-                                            <input type="text" name="linkedin_url" value="{{get_option('linkedin_url')}}" class="form-control">
+                                            <input type="text" name="linkedin_url" value="{{ $settings['linkedin_url'] ?? '' }}" class="form-control">
                                         </div>
                                     </div>
                                     <br>
                                     <div class="row input__group mb-25">
                                         <label class="col-lg-3">{{ __('Pinterest URL') }} <span class="text-danger">*</span></label>
                                         <div class="col-lg-9">
-                                            <input type="text" name="pinterest_url" value="{{get_option('pinterest_url')}}" class="form-control">
+                                            <input type="text" name="pinterest_url" value="{{ $settings['pinterest_url'] ?? '' }}" class="form-control">
                                         </div>
                                     </div>
                                     <br>
                                     <div class="row input__group mb-25">
                                         <label class="col-lg-3">{{ __('Instagram URL') }} <span class="text-danger">*</span></label>
                                         <div class="col-lg-9">
-                                            <input type="text" name="instagram_url" value="{{get_option('instagram_url')}}" class="form-control">
+                                            <input type="text" name="instagram_url" value="{{ $settings['instagram_url'] ?? '' }}" class="form-control">
                                         </div>
                                     </div>
                                     <br>
                                     <div class="row input__group mb-25">
                                         <label class="col-lg-3">{{ __('Tiktok URL') }} <span class="text-danger">*</span></label>
                                         <div class="col-lg-9">
-                                            <input type="text" name="tiktok_url" value="{{get_option('tiktok_url')}}" class="form-control">
+                                            <input type="text" name="tiktok_url" value="{{ $settings['tiktok_url'] ?? '' }}" class="form-control">
                                         </div>
                                     </div>
+
                                     <br>
                                     <div class="row">
                                         <div class="col-12">

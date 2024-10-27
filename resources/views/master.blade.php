@@ -4,15 +4,16 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     @php
-        $general_setting = getApplicationsettings();
+        $general_setting = \App\Models\Setting::pluck('option_value', 'option_key')->toArray();
         $category = getCategory();
         $adminNotifications = userNotifications();
 
     @endphp
-    <title> {{ $general_setting->site_name }} || @yield('title') </title>
+    <title> {{ $general_setting['app_name'] ?? '' }} || @yield('title') </title>
     <!-- favicons Icons -->
+    <link rel="icon" href="<?php echo '/' . $general_setting['app_fav_icon'] ?? ''; ?>" type="image/x-icon">
+    <link rel="shortcut icon" href="<?php echo '/' . $general_setting['app_fav_icon'] ?? ''; ?>" type="image/x-icon">
 
-    <meta name="description" content="{{ $general_setting->site_description }}" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
@@ -41,7 +42,6 @@
 
 
 
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('site_favicon/') }}<?php echo '/' . $general_setting->site_favicon; ?>">
 
     <!-- ======= All CSS Plugins here ======== -->
 
@@ -59,7 +59,7 @@
         <div class="container-fluid">
           <a class="navbar-brand" href="{{ url('/') }}">
             <img
-              src="{{ asset('site_logo/') }}<?php echo '/' . $general_setting->site_logo; ?>"
+              src="<?php echo '/' . $general_setting['app_logo'] ?? ''; ?>"
               alt="Avatar Logo"
               style="width: 100px"
               class="rounded-pill"
@@ -165,7 +165,7 @@
                 <!-- Logo Section -->
                 <div class="col-lg-3 col-md-12 text-center mb-4">
                     <div class="content-brand">
-                        <img class="logoipo-icon" alt="Logo" src="{{ asset('site_favicon/') }}<?php echo '/' . $general_setting->site_favicon; ?>" style="max-width: 100%; height: auto;">
+                        <img class="logoipo-icon" alt="Logo" src="<?php echo '/' . $general_setting['app_footer_payment_image'] ?? ''; ?>" style="max-width: 100%; height: auto;">
                     </div>
                 </div>
 
