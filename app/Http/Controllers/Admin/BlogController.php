@@ -22,7 +22,7 @@ use Illuminate\Support\Str;
 
 class BlogController extends Controller
 {
-    use General, ImageSaveTrait,SendNotification;
+    use General, ImageSaveTrait, SendNotification;
 
     protected $model;
     public function __construct(Blog $blog)
@@ -86,6 +86,7 @@ class BlogController extends Controller
             'title' => $request->title,
             'slug' => $slug,
             'user_id' => $request->user_id, // Assuming user_id is provided in the request
+            'short_description' => $request->short_description,
             'details' => $request->details,
             'image' => $image,
             'blog_category_id' => $request->blog_category_id,
@@ -170,6 +171,7 @@ class BlogController extends Controller
         $data = [
             'title' => $request->title,
             'slug' => $slug,
+            'short_description' => $request->short_description,
             'details' => $request->details,
             'blog_category_id' => $request->blog_category_id,
             'image' => $image,
@@ -259,5 +261,29 @@ class BlogController extends Controller
 
 
         return redirect()->back()->with('Blog has been deleted');
+    }
+    public function bulkDeleteComments(Request $request)
+    {
+        $ids = $request->input('selected_ids');
+
+        // Validate that IDs were provided
+        if (empty($ids)) {
+            return response()->json(['message' => 'No comments selected for deletion.'], 400);
+        }
+
+        // Perform the deletion
+        BlogComment::whereIn('id', $ids)->delete();
+
+        return response()->json(['message' => 'Selected comments have been deleted successfully.']);
+    }
+
+    public function bulkDelete(Request $request)
+    {
+        $selectedIds = $request->input('selected_ids');
+        if ($selectedIds) {
+            Blog::whereIn('uuid', $selectedIds)->delete();
+            return redirect()->back()->with('success', 'Los registros seleccionados se han eliminado correctamente.');
+        }
+        return redirect()->back()->with('error', 'No hay registros seleccionados para eliminar.');
     }
 }

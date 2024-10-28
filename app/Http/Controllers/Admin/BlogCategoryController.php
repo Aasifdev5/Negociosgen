@@ -79,11 +79,37 @@ class BlogCategoryController extends Controller
         return redirect()->back()->with('Updated Successful');
     }
 
+
+    // Method to handle bulk delete
+    public function bulkDeleteBlogCategory(Request $request)
+    {
+        // Validate the request to ensure selected_ids are present
+        $request->validate([
+            'selected_ids' => 'required|array',
+            'selected_ids.*' => 'exists:blog_categories,uuid', // Adjust based on your table structure
+        ]);
+
+        // Delete the categories using the provided UUIDs
+        BlogCategory::whereIn('uuid', $request->selected_ids)->delete();
+
+        // Flash a success message
+        Session::flash('success', __('Blog categories deleted successfully.'));
+
+        // Redirect back to the previous page
+        return redirect()->back();
+    }
+
+    // Method to handle individual delete
     public function delete($uuid)
     {
+        // Find the category by UUID and delete it
+        $category = BlogCategory::where('uuid', $uuid)->firstOrFail();
+        $category->delete();
 
-        $this->model->deleteByUuid($uuid); // delete record
+        // Flash a success message
+        Session::flash('success', __('Blog category deleted successfully.'));
 
-        return redirect()->back()->with('Blog has been deleted');
+        // Redirect back to the previous page
+        return redirect()->back();
     }
 }

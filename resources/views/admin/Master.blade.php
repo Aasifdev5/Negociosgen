@@ -1,6 +1,5 @@
 <!DOCTYPE HTML>
 <html lang="en">
-
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -17,6 +16,12 @@
     <link rel="icon" href="<?php echo '/' . $general_setting['app_fav_icon'] ?? ''; ?>" type="image/x-icon">
     <link rel="shortcut icon" href="<?php echo '/' . $general_setting['app_fav_icon'] ?? ''; ?>" type="image/x-icon">
     <title>{{ $general_setting['app_name'] ?? '' }} || @yield('title')</title>
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
+
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+
     <!-- Google font-->
     <link href="https://fonts.googleapis.com/css?family=Work+Sans:100,200,300,400,500,600,700,800,900" rel="stylesheet">
     <link
@@ -60,16 +65,18 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('admin/css/select2.css') }}">
 
     <style>
-        .page-body{
+        .page-body {
             background: #000;
         }
-        .card{
+
+        .card {
             background: #000;
 
         }
+
         label {
-    color: #fff !important;
-}
+            color: #fff !important;
+        }
 
         /* input file  */
         .personal-image {
@@ -166,8 +173,10 @@
 
                         <!-- Notification Dropdown -->
                         <li class="admin-notification-menu position-relative">
-                            <a href="#" class="btn btn-dropdown site-language position-relative" id="dropdownNotification" data-bs-toggle="dropdown" aria-expanded="false">
-                                <span class="badge rounded-pill bg-danger" style="position: absolute; top: 5px; left: 75%; transform: translate(-50%, -50%);">
+                            <a href="#" class="btn btn-dropdown site-language position-relative"
+                                id="dropdownNotification" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span class="badge rounded-pill bg-danger"
+                                    style="position: absolute; top: 5px; left: 75%; transform: translate(-50%, -50%);">
                                     {{ $adminNotifications ? count($adminNotifications) : 0 }}
                                 </span>
                                 <i data-feather="bell"></i>
@@ -180,15 +189,20 @@
                                         @forelse($adminNotifications as $notification)
                                             @if ($notification->sender)
                                                 <li>
-                                                    <a href="{{ route('notification.url', [$notification->uuid]) }}" class="message-user-item dropdown-item">
+                                                    <a href="{{ route('notification.url', [$notification->uuid]) }}"
+                                                        class="message-user-item dropdown-item">
                                                         <div class="d-flex align-items-center">
                                                             <div class="user-img-wrap position-relative radius-50">
-                                                                <img src="{{ asset($notification->sender->profile_photo ?? '149071.png') }}" alt="img" style="width: 50px; height: 50px; border-radius: 50%;">
+                                                                <img src="{{ asset($notification->sender->profile_photo ?? '149071.png') }}"
+                                                                    alt="img"
+                                                                    style="width: 50px; height: 50px; border-radius: 50%;">
                                                             </div>
                                                             <div class="ms-2">
-                                                                <h6 class="color-heading font-14">{{ $notification->sender->name }}</h6>
+                                                                <h6 class="color-heading font-14">
+                                                                    {{ $notification->sender->name }}</h6>
                                                                 <p class="font-13 mb-0">{{ __($notification->text) }}</p>
-                                                                <div class="font-11 color-gray mt-1">{{ $notification->created_at->diffForHumans() }}</div>
+                                                                <div class="font-11 color-gray mt-1">
+                                                                    {{ $notification->created_at->diffForHumans() }}</div>
                                                             </div>
                                                         </div>
                                                     </a>
@@ -205,7 +219,8 @@
                                     <div class="dropdown-divider"></div>
                                     <form action="{{ route('notification.all-read') }}" method="POST">
                                         @csrf
-                                        <button type="submit" class="dropdown-item dropdown-footer">{{ __('Mark all as read') }}</button>
+                                        <button type="submit"
+                                            class="dropdown-item dropdown-footer">{{ __('Mark all as read') }}</button>
                                     </form>
                                 @endif
                             </div>
@@ -213,14 +228,18 @@
 
                         <!-- Language Dropdown -->
                         <li>
-                            <a href="#" class="btn btn-dropdown site-language" id="dropdownLanguage" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="{{ asset(selectedLanguage(session()->get('local'))->flag) }}" width="50" height="30" alt="Language Icon">
+                            <a href="#" class="btn btn-dropdown site-language" id="dropdownLanguage"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="{{ asset(selectedLanguage(session()->get('local'))->flag) }}"
+                                    width="50" height="30" alt="Language Icon">
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="dropdownLanguage" style="background: #000">
                                 @foreach (appLanguages() as $app_lang)
                                     <li>
-                                        <a class="dropdown-item" href="{{ url('admin/local/' . $app_lang->iso_code) }}">
-                                            <img src="{{ asset($app_lang->flag) }}" width="50" height="30" alt="icon">
+                                        <a class="dropdown-item"
+                                            href="{{ url('admin/local/' . $app_lang->iso_code) }}">
+                                            <img src="{{ asset($app_lang->flag) }}" width="50" height="30"
+                                                alt="icon">
                                             <span>{{ $app_lang->language }}</span>
                                         </a>
                                     </li>
@@ -231,16 +250,21 @@
                         <!-- User Profile Dropdown -->
                         <li class="onhover-dropdown">
                             <div class="media align-items-center">
-                                <img class="align-self-center img-50 rounded-circle" src="{{ asset('profile_photo/' . $user_session->profile_photo) }}" alt="header-user">
+                                <img class="align-self-center img-50 rounded-circle"
+                                    src="{{ asset('profile_photo/' . $user_session->profile_photo) }}"
+                                    alt="header-user">
                                 <div class="dotted-animation">
                                     <span class="animate-circle"></span>
                                     <span class="main-circle"></span>
                                 </div>
                             </div>
                             <ul class="profile-dropdown onhover-show-div p-20" style="background: #000">
-                                <li ><a href="{{ url('admin/edit_profile') }}" class="text-light"><i data-feather="user" ></i> {{ __('Editar Perfil') }}</a></li>
-                                <li><a href="{{ url('admin/change_password') }}" class="text-light"><i data-feather="lock"></i> {{ __('Cambiar Contraseña') }}</a></li>
-                                <li><a href="{{ url('admin/signout') }}" class="text-light"><i data-feather="log-out"></i> {{ __('Cerrar Sesión') }}</a></li>
+                                <li><a href="{{ url('admin/edit_profile') }}" class="text-light"><i
+                                            data-feather="user"></i> {{ __('Editar Perfil') }}</a></li>
+                                <li><a href="{{ url('admin/change_password') }}" class="text-light"><i
+                                            data-feather="lock"></i> {{ __('Cambiar Contraseña') }}</a></li>
+                                <li><a href="{{ url('admin/signout') }}" class="text-light"><i
+                                            data-feather="log-out"></i> {{ __('Cerrar Sesión') }}</a></li>
                             </ul>
                         </li>
 
@@ -260,9 +284,8 @@
             <!-- Page Sidebar Start-->
             <div class="page-sidebar" style="background: #000">
                 <div class="main-header-left d-none d-lg-block">
-                    <div class="logo-wrapper"><a href="{{ url('admin/dashboard') }}"><img
-                                src="<?php echo '/' . $general_setting['app_logo'] ?? ''; ?>" style="width: 200px;height:60px"
-                                alt=""></a>
+                    <div class="logo-wrapper"><a href="{{ url('admin/dashboard') }}"><img src="<?php echo '/' . $general_setting['app_logo'] ?? ''; ?>"
+                                style="width: 200px;height:60px" alt=""></a>
                     </div>
                 </div>
                 <div class="sidebar custom-scrollbar">
@@ -290,9 +313,9 @@
 
                             </li>
                             <li><a class="sidebar-header" href="{{ url('admin/earn') }}"><i
-                                data-feather="dollar-sign"></i><span> {{ __('Gestión Ganancias') }}</span></a>
+                                        data-feather="dollar-sign"></i><span> {{ __('Gestión Ganancias') }}</span></a>
 
-                    </li>
+                            </li>
 
                             </li>
 
@@ -367,7 +390,8 @@
                             <li class="">
                                 <a class="has-arrow sidebar-header" href="#">
                                     <i class="icofont icofont-social-blogger"></i>
-                                    <span>{{ __('Administrar Blog') }}<i class="fa fa-angle-right pull-right"></i></span>
+                                    <span>{{ __('Administrar Blog') }}<i
+                                            class="fa fa-angle-right pull-right"></i></span>
                                 </a>
                                 <ul class="sidebar-submenu">
                                     <li>
@@ -483,7 +507,7 @@
 
             <!-- Right sidebar Ends-->
 
-                @yield('content')
+            @yield('content')
 
             <!-- footer start-->
             <!-- <footer class="footer">
@@ -502,7 +526,7 @@
     </div>
     <!-- latest jquery-->
 
-     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- Bootstrap js-->
     <script src="{{ asset('admin/js/popper.min.js') }}"></script>
@@ -585,7 +609,7 @@
     <!-- Script to initialize Summernote -->
     <script>
         $(document).ready(function() {
-            $('#summernote').summernote({
+            $('.summernote').summernote({
                 placeholder: 'Start typing here...',
                 tabsize: 2,
                 height: 300, // Set editor height
@@ -617,13 +641,13 @@
             };
         });
     </script>
- <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
- <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
- <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
- <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
- <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
- <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
- <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
     <script src="{{ asset('admin/js/custom/image-preview.js') }}"></script>
     <script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
     <script>

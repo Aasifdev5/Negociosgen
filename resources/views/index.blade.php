@@ -8,7 +8,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <!-- Video with autoplay, loop, muted, and playsinline for reliable autoplay across devices -->
-                    <video class="img-fluid rounded-3 shadow-lg" autoplay loop muted playsinline style="width: 100%;">
+                    <video class="img-fluid rounded-3 shadow-lg" autoplay loop  playsinline style="width: 100%;">
                         <source src="{{ asset('assets/VIDEO GEN PÁGINA WEB.MP4') }}" type="video/mp4">
 
                     </video>

@@ -5,13 +5,13 @@
 @section('content')
     <!-- Page content area start -->
 
-    <div class="page-body">
+    <div class="page-body" style="background: #000">
 <br>
         <!-- Container-fluid starts-->
-        <div class="container-fluid">
+        <div class="container-fluid" >
             <div class="row">
                 <div class="col-sm-12">
-                    <div class="card">
+                    <div class="card" style="background: #fff">
                         @if (Session::has('success'))
                             <div class="alert alert-success">
                                 <p>{{ session::get('success') }}</p>
@@ -88,7 +88,17 @@
                                                                 {{ $errors->first('slug') }}</span>
                                                         @endif
                                                     </div>
+                                                    <br>
+                                                    <div class="input__group mb-25">
+                                                        <label>{{ __('Descripción breve') }} <span class="text-danger">*</span></label>
+                                                        <textarea name="short_description" class="summernote"></textarea>
 
+                                                        @if ($errors->has('short_description'))
+                                                            <span class="text-danger"><i class="fas fa-exclamation-triangle"></i>
+                                                                {{ $errors->first('short_description') }}</span>
+                                                        @endif
+
+                                                    </div>
                                                     <div class="input__group mb-25">
                                                         <label for="blog_category_id"> {{ __('Categoría del Blog') }} </label>
                                                         <select name="blog_category_id" class="form-control"
@@ -113,7 +123,7 @@
                                                     <div class="input__group mb-25">
                                                         <label>{{ __('Detalles') }} <span
                                                                 class="text-danger">*</span></label>
-                                                        <textarea name="details" class="editor">{{ old('details') }}</textarea>
+                                                        <textarea name="details" class="summernote">{{ old('details') }}</textarea>
 
                                                         @if ($errors->has('details'))
                                                             <span class="text-danger"><i

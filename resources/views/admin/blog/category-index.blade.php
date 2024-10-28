@@ -4,7 +4,7 @@
 @endsection
 @section('content')
     <!-- Page content area start -->
-    <div class="page-body">
+    <div class="page-body" style="background: #000">
         <div class="page-content">
             <div class="container-fluid">
                 <div class="row">
@@ -29,7 +29,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="card">
+                        <div class="card" style="background: #fff">
                             @if (Session::has('success'))
                                 <div class="alert alert-success">
                                     <p>{{ session::get('success') }}</p>
@@ -42,65 +42,69 @@
                             @endif
                             <div class="card-header">
                                 <h2>{{ __('Blog Category') }}</h2>
-                                <button class="btn btn-success btn-sm pull-right" type="button" data-bs-toggle="modal"
+                                <button class="btn btn-danger btn-sm " type="button" id="bulk-delete-btn">
+                                    <i class="fa fa-trash"></i> {{ __('Delete Selected') }}
+                                </button>
+                                <button class="btn btn-success btn-sm pull-right mr-2" type="button" data-bs-toggle="modal"
                                     data-bs-target="#add-todo-modal">
                                     <i class="fa fa-plus"></i> {{ __('Agregar Categoría de Blog') }}
                                 </button>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table id="advance-1" class="row-border data-table-filter table-style">
-                                        <thead>
-                                            <tr>
-                                                <th>{{ __('Nombre') }}</th>
-                                                <th>{{ __('Estado') }}</th>
-                                                <th>{{ __('Acción') }}</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($blogCategories as $category)
-                                                <tr class="removable-item">
-                                                    <td>
-                                                        {{ $category->name }}
-                                                    </td>
-                                                    <td>
-                                                        @if ($category->status == 1)
-                                                            <span class="status bg-green">{{ __('Activo') }}</span>
-                                                        @else
-                                                            <span class="status bg-red">{{ __('Desactivado') }}</span>
-                                                        @endif
-                                                    </td>
-                                                    <td>
-                                                        <div class="action__buttons">
-                                                            {{-- <a data-item="{{ $category }}" href="#"
-                                                            data-updateurl="{{ route('blog.blog-category.update', $category->uuid) }}"
-                                                            data-toggle="tooltip" title="Edit"
-                                                            class="edit btn btn-icon waves-effect waves-light btn-success m-b-5 m-r-5"
-                                                            data-bs-toggle="modal" data-bs-target="#edit-blog-category-modal">
-                                                            <i class="fa fa-edit"></i>
-                                                        </a> --}}
-                                                            <a href="{{ route('blog.blog-category.delete', [$category->uuid]) }}"
-                                                                class="btn btn-icon waves-effect waves-light btn-danger m-b-5"
-                                                                onclick="return confirm('{{ trans('do you want to delete') }}')"
-                                                                data-toggle="tooltip" title="{{ trans('remove') }}"> <i
-                                                                    class="fa fa-remove"></i>
-                                                            </a>
+                                    <form id="bulk-delete-form" method="POST" action="{{ route('blog.bulkDeleteBlogCategory') }}">
+                                        @csrf
+                                        <table id="advance-1" class="row-border data-table-filter table-style">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center">
+                                                        <div class="d-flex align-items-center justify-content-center">
+                                                            <input type="checkbox" id="select-all" class="mr-2">&nbsp;
+                                                            <label for="select-all" class="mb-0 text-dark">Select All</label>
                                                         </div>
-                                                    </td>
+                                                    </th>
+                                                    <th>{{ __('Nombre') }}</th>
+                                                    <th>{{ __('Estado') }}</th>
+                                                    <th>{{ __('Acción') }}</th>
                                                 </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($blogCategories as $category)
+                                                    <tr class="removable-item">
+                                                        <td class="text-center">
+                                                            <input type="checkbox" class="select-item" name="selected_ids[]" value="{{ $category->uuid }}">
+                                                        </td>
+                                                        <td>{{ $category->name }}</td>
+                                                        <td>
+                                                            @if ($category->status == 1)
+                                                                <span class="status bg-green">{{ __('Activo') }}</span>
+                                                            @else
+                                                                <span class="status bg-red">{{ __('Desactivado') }}</span>
+                                                            @endif
+                                                        </td>
+                                                        <td>
+                                                            <div class="action__buttons">
+                                                                <a href="{{ route('blog.blog-category.delete', [$category->uuid]) }}"
+                                                                    class="btn btn-icon waves-effect waves-light btn-danger m-b-5 delete-category"
+                                                                    data-id="{{ $category->uuid }}"
+                                                                    data-toggle="tooltip" title="{{ trans('remove') }}">
+                                                                    <i class="fa fa-remove"></i>
+                                                                </a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </form>
                                     <div class="mt-3">
                                         {{ $blogCategories->links() }}
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
         <!-- Page content area end -->
@@ -145,8 +149,6 @@
         </div>
         <!-- Add Modal section end -->
 
-
-
         <!-- Edit Modal section start -->
         <div class="modal fade" id="edit-blog-category-modal" aria-hidden="true" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered">
@@ -186,27 +188,76 @@
         </div>
         <!-- Edit Modal section end -->
 
-
-
     </div>
+    <!-- JavaScript for Select All and Bulk Delete -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- SweetAlert Library -->
+    <script>
+        $(function() {
+            'use strict';
+
+            // Seleccionar/Deseleccionar todas las casillas de verificación
+            document.getElementById('select-all').addEventListener('change', function() {
+                const checkboxes = document.querySelectorAll('.select-item');
+                checkboxes.forEach(checkbox => checkbox.checked = this.checked);
+            });
+
+            // SweetAlert para Confirmación de Eliminación (Individual)
+            $('.delete-category').on('click', function(e) {
+                e.preventDefault();
+                const deleteUrl = $(this).attr('href');
+                const categoryId = $(this).data('id');
+
+                Swal.fire({
+                    title: '¿Estás seguro?',
+                    text: '¡No podrás recuperar este archivo imaginario!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: '¡Sí, elimínalo!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = deleteUrl; // Redirigir a la URL de eliminación
+                    }
+                });
+            });
+
+            // Acción de Eliminación Masiva
+            $('#bulk-delete-btn').on('click', function() {
+                const selectedIds = [];
+                $('.select-item:checked').each(function() {
+                    selectedIds.push($(this).val());
+                });
+
+                if (selectedIds.length === 0) {
+                    Swal.fire({
+                        title: '¡No se seleccionaron categorías!',
+                        text: 'Por favor selecciona al menos una categoría para eliminar.',
+                        icon: 'info',
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'Aceptar'
+                    });
+                    return;
+                }
+
+                Swal.fire({
+                    title: '¿Estás seguro?',
+                    text: '¡No podrás recuperar estas categorías!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: '¡Sí, elimínalas!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Enviar el formulario para la eliminación masiva
+                        $('#bulk-delete-form').submit();
+                    }
+                });
+            });
+        });
+    </script>
+
 @endsection
 
-
-
-@push('script')
-    <script>
-       $(function() {
-        'use strict';
-        $('.edit').on('click', function(e) {
-            e.preventDefault();
-            const modal = $('#edit-blog-category-modal');
-            const category = $(this).data('item');
-            modal.find('input[name=name]').val(category.name);
-            modal.find('select[name=status]').val(category.status);
-            const route = $(this).data('updateurl');
-            $('#updateEditModal').attr('action', route);
-            modal.modal('show');
-        });
-    });
-    </script>
-@endpush

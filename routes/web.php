@@ -10,15 +10,17 @@ use App\Http\Controllers\Admin\BlogCategoryController;
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\ContactUsController;
 use App\Http\Controllers\Admin\CurrencyController;
 use App\Http\Controllers\Admin\HomeSettingController;
 use App\Http\Controllers\Admin\LanguageController;
 use App\Http\Controllers\Admin\LocationController;
+use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\RoleController;
-use App\Http\Controllers\Admin\ColorController;
-use App\Http\Controllers\Admin\SizeController;
 use App\Http\Controllers\Admin\SettingController;
+
+use App\Http\Controllers\Admin\SizeController;
 
 use App\Http\Controllers\Admin\SubcategoryController;
 
@@ -26,18 +28,17 @@ use App\Http\Controllers\Admin\SupportTicketController;
 
 use App\Http\Controllers\Admin\TagController;
 
-use App\Http\Controllers\Admin\MediaController;
+use App\Http\Controllers\Auth\OTPController;
 
 use App\Http\Controllers\Backend\ProductsController;
-
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\EmailAppController;
 use App\Http\Controllers\FacebookSocialiteController;
 use App\Http\Controllers\FundController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\InvoiceController;
-use App\Http\Controllers\MailTemplateController;
 
+use App\Http\Controllers\MailTemplateController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Pages;
 use App\Http\Controllers\QRCodeController;
@@ -46,12 +47,13 @@ use App\Http\Controllers\ScreenTimeController;
 use App\Http\Controllers\SubscriptionPlanController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VerificationController;
-use App\Http\Middleware\SetLocale;
 use App\Http\Middleware\InactivityTimeout;
+use App\Http\Middleware\SetLocale;
 use App\Models\Language;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 use Maatwebsite\Excel\Facades\Excel;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -92,7 +94,7 @@ Route::group(['middleware' => ['prevent-back-history', SetLocale::class]], funct
     Route::get('shop', [UserController::class, 'shop'])->name('shop')->middleware('isLoggedIn');
     Route::get('search', [UserController::class, 'search'])->name('search')->middleware('isLoggedIn');
     Route::post('/post-insert', [UserController::class, 'Ad_insert'])->name('Ad_insert')->middleware('isLoggedIn');
-    Route::get('blog', [UserController::class, 'blog'])->name('blog');
+    Route::get('blog', [UserController::class, 'blogs'])->name('blog');
     Route::get('course', [UserController::class, 'course'])->name('course');
     Route::get('nosotros', [UserController::class, 'nosotros'])->name('nosotros');
     Route::post('/save_address', [UserController::class, 'save_address'])->name('save_address');
@@ -151,7 +153,10 @@ Route::post('/reg', [UserController::class, 'registration']);
 
 Route::post('/log', [UserController::class, 'login'])->name('login');
 
-
+Route::post('send-otp', [OTPController::class, 'sendOtp'])->name('send.otp');
+Route::post('/otp/resend', [OTPController::class, 'resendOtp'])->name('otp.resend');
+Route::get('verify-otp', [OTPController::class, 'showOtpForm'])->name('verify.otp');
+Route::post('verify-otp', [OTPController::class, 'verifyOtp'])->name('verify.otp.submit');
 Route::get('/logout', [UserController::class, 'logout'])->name('logout');
 
 Route::get('/blog_details/{id}', [UserController::class, 'blog_details'])->name('blog_details');
@@ -510,12 +515,16 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('blog-comment-list', [BlogController::class, 'blogCommentList'])->name('blog-comment-list')->middleware('AdminIsLoggedIn');
             Route::post('change-blog-comment-status', [BlogController::class, 'changeBlogCommentStatus'])->name('changeBlogCommentStatus');
             Route::get('blog-comment-delete/{id}', [BlogController::class, 'blogCommentDelete'])->name('blogComment.delete');
+            Route::post('blog-comment-bulk-delete', [BlogController::class, 'bulkDeleteComments'])->name('blogComment.bulkDelete'); // Unique name for blog comment bulk delete
+            Route::post('bulk-delete', [BlogController::class, 'bulkDelete'])->name('bulkDelete'); // Fixed bulk delete route
 
             Route::get('blog-category-index', [BlogCategoryController::class, 'index'])->name('blog-category.index')->middleware('AdminIsLoggedIn');
             Route::post('blog-category-store', [BlogCategoryController::class, 'store'])->name('blog-category.store');
             Route::patch('blog-category-update/{uuid}', [BlogCategoryController::class, 'update'])->name('blog-category.update');
             Route::get('blog-category-delete/{uuid}', [BlogCategoryController::class, 'delete'])->name('blog-category.delete');
+            Route::post('blog-category-bulk-delete', [BlogCategoryController::class, 'bulkDeleteBlogCategory'])->name('bulkDeleteBlogCategory');
         });
+
 
 
 

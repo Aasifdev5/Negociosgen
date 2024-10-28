@@ -35,7 +35,7 @@ class User extends Authenticatable
         'location',
         'alter_mobile_number',
         'categories',
-        'price',
+        'birth_date',
         'city',
         'is_active',
         'is_system',

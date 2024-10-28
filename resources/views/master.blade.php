@@ -40,15 +40,6 @@
     <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
 
-
-
-
-    <!-- ======= All CSS Plugins here ======== -->
-
-
-    <!-- Plugin css -->
-    <link rel="stylesheet" href="{{ asset('assets/css/vendor/bootstrap.min.css') }}">
-
     <!-- Custom Style CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/styles.css') }}">
 

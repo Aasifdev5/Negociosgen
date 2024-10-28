@@ -76,8 +76,8 @@ class UserController extends Controller
         $user_session = User::where('id', Session::get('LoggedIn'))->first();
 
         $pages = Page::all();
-        $general_setting = GeneralSetting::find('1');
-        return view('index', compact('user_session',  'general_setting', 'pages'));
+
+        return view('index', compact('user_session',   'pages'));
     }
 
     public function ganancias()
@@ -137,35 +137,49 @@ class UserController extends Controller
     {
         $user = new User();
         $request->validate([
-            'name' => 'required',
-            'email' => 'required|unique:users',
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'email' => 'required|email|unique:users,email',
             'password' => ['required', 'string', 'min:8', 'max:30'],
-
-            'mobile_number' => 'required'
+            'cell_phone' => 'required',
+            // 'country' => 'required',
+            'address' => 'required',
+            // 'city' => 'required',
+            'birth_date' => 'required|date'
         ]);
-        $mobileNumber = $request->mobile_number;
+
+        // Mobile number handling
+        $mobileNumber = $request->cell_phone; // Updated to match your form field
         $prefixedMobileNumber = "591" . $mobileNumber;
 
         // Create a new user instance
         $user = User::create([
-            'name' => $request->name,
+            'account_type'=>'affiliate',
+            'name' => $request->first_name . ' ' . $request->last_name, // Combine first and last name
             'email' => $request->email,
-            'password' => $request->password,
-
+            'password' => bcrypt($request->password), // Ensure the password is hashed
             'mobile_number' => $prefixedMobileNumber,
             'ip_address' => getIp(),
+            'country' => $request->country, // Assuming you have country in User model
+            'address' => $request->address, // Assuming you have address in User model
+            'city' => $request->city, // Assuming you have city in User model
+            'birth_date' => $request->birth_date // Assuming you have birth_date in User model
         ]);
 
         // Send email verification notification
         $user->notify(new VerifyEmailNotification($user));
-        // Fire the UserRegistered event
+
+        // Fire the UserRegistered event (if needed)
         // event(new UserRegistered($user));
+
+        // Notification for registration
         $text = 'A new user has registered on the platform.';
         $target_url = route('users');
         $this->sendForApi($text, 1, $target_url, $user->id, $user->id);
+
         $pages = Page::all();
         if ($user) {
-            return view('feedback', compact('user', 'pages'));
+            return redirect('Userlogin');
         } else {
             return back()->with('fail', 'failed');
         }
@@ -188,13 +202,8 @@ class UserController extends Controller
                 $user->update(['is_online' => 1, 'last_seen' => Carbon::now('UTC')]);
                 $request->session()->put('LoggedIn', $user->id);
                 $userId = Session::get('LoggedIn');
-                // Create a new time log entry with UTC timestamp
-                TimeLog::create([
-                    'user_id' => $userId,
-                    'start_time' => Carbon::now('America/La_Paz'),
 
-                ]);
-                return redirect('home');
+                return redirect('dashboard');
             } else {
                 return back()->with('fail', 'Password does not match');
             }
@@ -224,8 +233,8 @@ class UserController extends Controller
                 ->orderBy('related_products.id', 'desc')
                 ->paginate(15);
 
-            $general_setting = GeneralSetting::find('1');
-            return view('product_detail', compact('product', 'user_session', 'related_products', 'general_setting', 'pages', 'latestProductId', 'IsVariationProductDetails'));
+
+            return view('product_detail', compact('product', 'user_session', 'related_products',  'pages', 'latestProductId', 'IsVariationProductDetails'));
         } else {
             return Redirect()->with('fail', 'Tienes que iniciar sesión primero');
         }
@@ -248,8 +257,8 @@ class UserController extends Controller
 
 
 
-            $general_setting = GeneralSetting::find('1');
-            return view('my_orders', compact('user_session',  'general_setting', 'pages', 'orders'));
+
+            return view('my_orders', compact('user_session',   'pages', 'orders'));
         } else {
             return Redirect()->with('fail', 'Tienes que iniciar sesión primero');
         }
@@ -271,8 +280,8 @@ class UserController extends Controller
 
             $qrcode =  BankDetails::orderby('id', 'desc')->first();
             $carts = Cart::where('user_id', Session::get('LoggedIn'))->get();
-            $general_setting = GeneralSetting::find('1');
-            return view('checkout', compact('user_session',  'general_setting', 'pages', 'carts', 'qrcode'));
+
+            return view('checkout', compact('user_session',   'pages', 'carts', 'qrcode'));
         } else {
             return Redirect()->with('fail', 'Tienes que iniciar sesión primero');
         }
@@ -280,14 +289,13 @@ class UserController extends Controller
     public function term()
     {
 
-            $pages = Page::all();
-            $user_session = User::where('id', Session::get('LoggedIn'))->first();
+        $pages = Page::all();
+        $user_session = User::where('id', Session::get('LoggedIn'))->first();
 
-            $general_setting = GeneralSetting::find(1);
+        $general_setting = GeneralSetting::find(1);
 
-            // Pass the order ID to the success view for triggering the PDF download
-            return view('term', compact('user_session', 'general_setting', 'pages'));
-
+        // Pass the order ID to the success view for triggering the PDF download
+        return view('term', compact('user_session',  'pages'));
     }
 
 
@@ -334,8 +342,8 @@ class UserController extends Controller
             $pages = Page::all();
             $user_session = User::where('id', Session::get('LoggedIn'))->first();
 
-            $general_setting = GeneralSetting::find('1');
-            return view('verification', compact( 'user_session',  'general_setting', 'pages'));
+
+            return view('verification', compact('user_session',   'pages'));
         } else {
             return Redirect()->with('fail', 'Tienes que iniciar sesión primero');
         }
@@ -343,16 +351,14 @@ class UserController extends Controller
     public function blog_detail(Request $request)
     {
 
-
-
-        $project_detail = Blog::where('id', $request->id)->first();
-        $category = Category::all();
-        $countries = Country::all();
+        $blog_detail = Blog::where('slug', $request->id)->first();
+        $data['blogComments'] = BlogComment::active();
+        $blogComments = $data['blogComments']->whereNull('parent_id')->get();
         $pages = Page::all();
-        $general_setting = GeneralSetting::find('1');
+        $latest_posts = Blog::orderBy('id', 'DESC')->paginate(3);
         $user_session = User::where('id', Session::get('LoggedIn'))->first();
         // dd($request->id);
-        return view('blog_detail', compact('countries', 'user_session', 'project_detail', 'category', 'general_setting', 'pages'));
+        return view('blog_detail', compact('blogComments', 'user_session', 'blog_detail', 'pages', 'latest_posts'));
     }
     public function storeLikes(Request $request)
     {
@@ -401,7 +407,6 @@ class UserController extends Controller
         $user_session = User::where('id', Session::get('LoggedIn'))->first();
         $pages = Page::all();
         return view('ayuda', compact('user_session', 'pages'));
-
     }
     public function sendResetPasswordLink(Request $request)
     {
@@ -453,13 +458,13 @@ class UserController extends Controller
 
         $pages = Page::all();
 
-        $general_setting = GeneralSetting::find('1');
-        return view('welcome', compact('user_session', 'pages', 'general_setting'));
+
+        return view('welcome', compact('user_session', 'pages'));
     }
     public function blogs()
     {
 
-        $news = Blog::orderBy('id', 'DESC')->paginate(3);
+        $blogs = Blog::orderBy('id', 'DESC')->paginate(9);
 
         $user_session = User::where('id', Session::get('LoggedIn'))->first();
 
@@ -467,8 +472,8 @@ class UserController extends Controller
         $blogComments = $data['blogComments']->whereNull('parent_id')->get();
         $pages = Page::all();
         $latest_posts = Blog::orderBy('id', 'DESC')->paginate(3);
-        $general_setting = GeneralSetting::find('1');
-        return view('ads', compact('user_session', 'latest_posts', 'news', 'pages', 'blogComments', 'general_setting'));
+
+        return view('blog', compact('user_session', 'latest_posts', 'blogs', 'pages', 'blogComments'));
     }
     public function news_category($slug)
     {
@@ -485,8 +490,8 @@ class UserController extends Controller
         $blogComments = $data['blogComments']->whereNull('parent_id')->get();
         $pages = Page::all();
         $latest_posts = Blog::orderBy('id', 'DESC')->paginate(3);
-        $general_setting = GeneralSetting::find('1');
-        return view('news_category', compact('user_session', 'latest_posts', 'title', 'news', 'pages', 'blogComments', 'general_setting'));
+
+        return view('news_category', compact('user_session', 'latest_posts', 'title', 'news', 'pages', 'blogComments'));
     }
     public function blogCommentStore(Request $request)
     {
@@ -587,8 +592,8 @@ class UserController extends Controller
 
 
 
-            $general_setting = GeneralSetting::find('1');
-            return view('shop', compact('products', 'user_session',  'general_setting', 'pages'));
+
+            return view('shop', compact('products', 'user_session',   'pages'));
         } else {
             return Redirect()->with('fail', 'Tienes que iniciar sesión primero');
         }
@@ -619,8 +624,8 @@ class UserController extends Controller
 
 
 
-            $general_setting = GeneralSetting::find('1');
-            return view('search-results', compact('products', 'user_session',  'general_setting', 'pages'));
+
+            return view('search-results', compact('products', 'user_session',   'pages'));
         } else {
             return Redirect()->with('fail', 'Tienes que iniciar sesión primero');
         }
@@ -630,7 +635,7 @@ class UserController extends Controller
 
 
         $user_session = User::where('id', Session::get('LoggedIn'))->first();
-       return view('geanologìa',compact('user_session'));
+        return view('geanologìa', compact('user_session'));
     }
     public function productbybrand($id)
     {
@@ -647,8 +652,8 @@ class UserController extends Controller
                 ->paginate(9);
 
             $category = $id;
-            $general_setting = GeneralSetting::find('1');
-            return view('productbybrand', compact('products', 'user_session',  'general_setting', 'pages', 'category'));
+
+            return view('productbybrand', compact('products', 'user_session',   'pages', 'category'));
         } else {
             return Redirect()->with('fail', 'Tienes que iniciar sesión primero');
         }
@@ -668,8 +673,8 @@ class UserController extends Controller
                 ->paginate(9);
 
             $category = $id;
-            $general_setting = GeneralSetting::find('1');
-            return view('productbyCategory', compact('products', 'user_session',  'general_setting', 'pages', 'category'));
+
+            return view('productbyCategory', compact('products', 'user_session',   'pages', 'category'));
         } else {
             return Redirect()->with('fail', 'Tienes que iniciar sesión primero');
         }
@@ -690,8 +695,8 @@ class UserController extends Controller
 
             $subcategory = $subcategory;
             $category = $category;
-            $general_setting = GeneralSetting::find('1');
-            return view('productbySubCategory', compact('products', 'user_session',  'general_setting', 'pages', 'subcategory', 'category'));
+
+            return view('productbySubCategory', compact('products', 'user_session',   'pages', 'subcategory', 'category'));
         } else {
             return Redirect()->with('fail', 'Tienes que iniciar sesión primero');
         }
@@ -711,8 +716,8 @@ class UserController extends Controller
                 ->paginate(9);
 
             $childcategory = $childcategory;
-            $general_setting = GeneralSetting::find('1');
-            return view('productbyChildCategory', compact('products', 'user_session',  'general_setting', 'pages', 'childcategory'));
+
+            return view('productbyChildCategory', compact('products', 'user_session',   'pages', 'childcategory'));
         } else {
             return Redirect()->with('fail', 'Tienes que iniciar sesión primero');
         }
@@ -964,8 +969,8 @@ class UserController extends Controller
                 ->orderBy('id', 'desc')->get();
 
             $carts = Cart::where('user_id', Session::get('LoggedIn'))->get();
-            $general_setting = GeneralSetting::find('1');
-            return view('cart', compact('products', 'user_session',  'general_setting', 'pages', 'latest_products', 'carts'));
+
+            return view('cart', compact('products', 'user_session',   'pages', 'latest_products', 'carts'));
         } else {
             return Redirect()->with('fail', 'Tienes que iniciar sesión primero');
         }

@@ -17,13 +17,13 @@ class CurrencyController extends Controller
     {
         if (Session::has('LoggedIn')) {
             $data['user_session'] = User::where('id', Session::get('LoggedIn'))->first();
-        $data['title'] = 'Currency Setting';
-        $data['navApplicationSettingParentActiveClass'] = 'mm-active';
-        $data['subNavGlobalSettingsActiveClass'] = 'mm-active';
-        $data['subNavCurrencyActiveClass'] = 'active';
-        $data['currencies'] = Currency::all();
+            $data['title'] = 'Currency Setting';
+            $data['navApplicationSettingParentActiveClass'] = 'mm-active';
+            $data['subNavGlobalSettingsActiveClass'] = 'mm-active';
+            $data['subNavCurrencyActiveClass'] = 'active';
+            $data['currencies'] = Currency::all();
 
-        return view('admin.application_settings.general.currency', $data);
+            return view('admin.application_settings.general.currency', $data);
         }
     }
 
@@ -31,12 +31,12 @@ class CurrencyController extends Controller
     {
         if (Session::has('LoggedIn')) {
             $data['user_session'] = User::where('id', Session::get('LoggedIn'))->first();
-        $data['title'] = 'Edit Currency';
-        $data['navApplicationSettingParentActiveClass'] = 'mm-active';
-        $data['subNavGlobalSettingsActiveClass'] = 'mm-active';
-        $data['subNavCurrencyActiveClass'] = 'active';
-        $data['currency'] = Currency::findOrFail($id);
-        return view('admin.application_settings.general.currency-edit', $data);
+            $data['title'] = 'Edit Currency';
+            $data['navApplicationSettingParentActiveClass'] = 'mm-active';
+            $data['subNavGlobalSettingsActiveClass'] = 'mm-active';
+            $data['subNavCurrencyActiveClass'] = 'active';
+            $data['currency'] = Currency::findOrFail($id);
+            return view('admin.application_settings.general.currency-edit', $data);
         }
     }
 
@@ -55,8 +55,7 @@ class CurrencyController extends Controller
         $currency->currency_placement = $request->currency_placement;
         $currency->save();
 
-        if ($request->current_currency)
-        {
+        if ($request->current_currency) {
             Currency::where('id', $currency->id)->update(['current_currency' => 'on']);
             Currency::where('id', '!=', $currency->id)->update(['current_currency' => 'off']);
         }
@@ -80,8 +79,7 @@ class CurrencyController extends Controller
         $currency->currency_placement = $request->currency_placement;
         $currency->save();
 
-        if ($request->current_currency)
-        {
+        if ($request->current_currency) {
             Currency::where('id', $currency->id)->update(['current_currency' => 'on']);
             Currency::where('id', '!=', $currency->id)->update(['current_currency' => 'off']);
         }

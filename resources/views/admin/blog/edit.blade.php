@@ -3,16 +3,11 @@
     {{ $title }}
 @endsection
 @section('content')
-    <div class="page-body">
-        <div class="container-fluid">
-            <!-- sign up page start-->
-            <div class="auth-bg-video">
-
+    <div class="page-body" style="background: #000">
+        <div class="container-fluid" >
                 <div class="col-sm-12">
                     <div class="text-center"><img src="assets/images/endless-logo.png" alt=""></div>
-                    <div class="card mt-4 p-4">
-
-
+                    <div class="card mt-4 p-4" style="background: #fff">
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="customers__area bg-style mb-30">
@@ -56,6 +51,17 @@
                                         </div>
                                         <br>
                                         <div class="input__group mb-25">
+                                            <label>{{ __('Descripción breve') }} <span class="text-danger">*</span></label>
+                                            <textarea name="short_description" class="summernote">{{ $blog->short_description }}</textarea>
+
+                                            @if ($errors->has('short_description'))
+                                                <span class="text-danger"><i class="fas fa-exclamation-triangle"></i>
+                                                    {{ $errors->first('short_description') }}</span>
+                                            @endif
+
+                                        </div>
+                                        <br>
+                                        <div class="input__group mb-25">
                                             <label for="blog_category_id"> {{ __('Categoría del Blog') }} </label>
                                             <select name="blog_category_id" id="blog_category_id" class="form-control">
                                                 <option value="">--{{ __('Select Option') }}--</option>
@@ -93,7 +99,7 @@
                                         <br>
                                         <div class="input__group mb-25">
                                             <label>{{ __('Detalles') }} <span class="text-danger">*</span></label>
-                                            <textarea name="details" class="editor">{{ $blog->details }}</textarea>
+                                            <textarea name="details" class="summernote">{{ $blog->details }}</textarea>
 
                                             @if ($errors->has('details'))
                                                 <span class="text-danger"><i class="fas fa-exclamation-triangle"></i>
@@ -179,8 +185,10 @@
                                                 <span class="text-danger"><i class="fas fa-exclamation-triangle"></i>
                                                     {{ $errors->first('og_image') }}</span>
                                             @endif
-                                            <p><span class="text-black">{{ __('Archivos Aceptados') }}:</span> PNG, JPG <br>
-                                                <span class="text-black">{{ __('Tamaño Recomendado') }}:</span> 1200 x 627</p>
+                                            <p><span class="text-black">{{ __('Archivos Aceptados') }}:</span> PNG, JPG
+                                                <br>
+                                                <span class="text-black">{{ __('Tamaño Recomendado') }}:</span> 1200 x 627
+                                            </p>
                                         </div>
 
                                         <div class="row mb-3">
@@ -195,7 +203,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+
         </div>
 
     </div>

@@ -1,0 +1,91 @@
+<?php
+
+namespace App\Http\Controllers\Auth;
+
+use App\Http\Controllers\Controller;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Session;
+
+class OTPController extends Controller
+{
+    public function sendOtp(Request $request)
+    {
+        // Validate email exists in the users table
+        $request->validate(['email' => 'required|email|exists:users,email']);
+
+        // Generate OTP
+        $otp = Str::random(6); // Generate a random OTP (or use any OTP generation logic)
+
+        // Store OTP in the session
+        Session::put('otp', $otp);
+        Session::put('email', $request->email);
+        // Send OTP via email
+        Mail::to($request->email)->send(new \App\Mail\SendOtpMail($otp));
+
+        return redirect()->route('verify.otp')->with('success', 'OTP sent to your email.');
+    }
+    public function resendOtp(Request $request)
+    {
+        // Retrieve the email from the session
+        $email = Session::get('email');
+
+        // Validate email exists in the users table
+        if (!$email || !User::where('email', $email)->exists()) {
+            return back()->with('fail', 'No se puede reenviar el código. Por favor intenta de nuevo.'); // Or handle error appropriately
+        }
+
+        // Generate a new OTP
+        $otp = Str::random(6); // You might want to use a better OTP generation logic
+
+        // Store the new OTP in the session
+        Session::put('otp', $otp);
+
+        // Send the new OTP via email
+        Mail::to($email)->send(new \App\Mail\SendOtpMail($otp));
+
+        return redirect()->route('verify.otp')->with('success', 'Nuevo código enviado a tu correo electrónico.');
+    }
+    public function showOtpForm()
+    {
+        return view('verification'); // Show OTP verification form
+    }
+
+   public function verifyOtp(Request $request)
+{
+    // Validate OTP input
+    $request->validate([
+        'otp_digit1' => 'required|min:0|max:9',
+        'otp_digit2' => 'required|min:0|max:9',
+        'otp_digit3' => 'required|min:0|max:9',
+        'otp_digit4' => 'required|min:0|max:9',
+        'otp_digit5' => 'required|min:0|max:9',
+        'otp_digit6' => 'required|min:0|max:9',
+    ]);
+
+    // Combine OTP digits into a single string
+    $otp = $request->otp_digit1 . $request->otp_digit2 . $request->otp_digit3 . $request->otp_digit4 . $request->otp_digit5 . $request->otp_digit6;
+
+    // Retrieve the OTP from the session
+    $sessionOtp = Session::get('otp');
+
+    // Log the session OTP and submitted OTP for debugging
+    \Log::info('Session OTP: ' . $sessionOtp);
+    \Log::info('Submitted OTP: ' . $otp);
+
+    // Verify the OTP
+    if ($sessionOtp && $otp === $sessionOtp) {
+        // Successful verification
+        Session::forget('otp'); // Clear the OTP from the session
+        $user = User::where('email', Session::get('email'))->first();
+        $request->session()->put('LoggedIn', $user->id);
+        return redirect('dashboard')->with('success', 'OTP verified successfully.');
+    } else {
+        return back()->with('fail', 'Invalid OTP. Please try again.'); // Invalid OTP
+    }
+}
+
+
+}
