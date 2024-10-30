@@ -34,7 +34,7 @@ class SubcategoryController extends Controller
 
             $data['user_session'] = User::where('id', Session::get('LoggedIn'))->first();
             $data['title'] = 'Manage Subcategory';
-            $data['subcategories'] = Subcategory::where('category_id','!=', '0')->get();
+            $data['subcategories'] = Subcategory::where('category_id', '!=', '0')->get();
             return view('admin.subcategory.index', $data);
         }
     }
@@ -45,7 +45,7 @@ class SubcategoryController extends Controller
 
             $data['user_session'] = User::where('id', Session::get('LoggedIn'))->first();
             $data['title'] = 'Manage Subcategory';
-            $data['subcategories'] = Subcategory::where('category_id','!=', '0')->get();
+            $data['subcategories'] = Subcategory::where('category_id', '!=', '0')->get();
             return view('admin.childcategory', $data);
         }
     }
@@ -55,25 +55,25 @@ class SubcategoryController extends Controller
 
         if (Session::has('LoggedIn')) {
 
-        $data['user_session'] = User::where('id', Session::get('LoggedIn'))->first();
-        $data['title'] = 'Add Subcategory';
-        $data['categories'] = $this->categoryModel->all();
-        $data['subcategories'] = Subcategory::where('category_id','0')->get();
-        return view('admin.subcategory.create', $data);
+            $data['user_session'] = User::where('id', Session::get('LoggedIn'))->first();
+            $data['title'] = 'Add Subcategory';
+            $data['categories'] = $this->categoryModel->all();
+            $data['subcategories'] = Subcategory::where('category_id', '0')->get();
+            return view('admin.subcategory.create', $data);
         }
     }
 
     public function store(Request $request)
     {
-if(!empty($request->category_id)){
-    $category = $request->category_id;
-}else{
-    $category = 0;
-}
+        if (!empty($request->category_id)) {
+            $category = $request->category_id;
+        } else {
+            $category = 0;
+        }
 
         $data = [
             'parent_category_id' => $request->parent_category_id,
-            'category_id' =>$category ,
+            'category_id' => $category,
             'name' => $request->name,
             'slug' => getSlug($request->name),
             'meta_title' => $request->meta_title,
@@ -87,7 +87,7 @@ if(!empty($request->category_id)){
 
         $this->model->create($data); // create new category
 
-        return back()->with('success','Succssfully');
+        return redirect('admin/subcategory')->with('success', 'Succssfully');
     }
 
     public function edit($uuid)
@@ -95,23 +95,23 @@ if(!empty($request->category_id)){
 
         if (Session::has('LoggedIn')) {
 
-        $data['user_session'] = User::where('id', Session::get('LoggedIn'))->first();
-        $data['title'] = 'Edit Subcategory';
-        $data['subcategory'] = $this->model->getRecordByUuid($uuid);
-        $data['subcategories'] = Subcategory::where('category_id','0')->get();
-        $data['categories'] = $this->categoryModel->all();
-        return view('admin.subcategory.edit', $data);
+            $data['user_session'] = User::where('id', Session::get('LoggedIn'))->first();
+            $data['title'] = 'Edit Subcategory';
+            $data['subcategory'] = $this->model->getRecordByUuid($uuid);
+            $data['subcategories'] = Subcategory::where('category_id', '0')->get();
+            $data['categories'] = $this->categoryModel->all();
+            return view('admin.subcategory.edit', $data);
         }
     }
 
     public function update(Request $request, $uuid)
     {
 
-if(!empty($request->category_id)){
-    $category = $request->category_id;
-}else{
-    $category = 0;
-}
+        if (!empty($request->category_id)) {
+            $category = $request->category_id;
+        } else {
+            $category = 0;
+        }
         $data = [
             'parent_category_id' => $request->parent_category_id,
             'category_id' => $category,
@@ -127,8 +127,7 @@ if(!empty($request->category_id)){
         }
         $this->model->updateByUuid($data, $uuid); // update category
 
-
-        return back()->with('success','Succssfully');
+        return redirect('admin/subcategory')->with('success', 'Succssfully');
     }
 
     public function delete($uuid)
@@ -138,5 +137,16 @@ if(!empty($request->category_id)){
 
 
         return response()->json(['success' => true]);
+    }
+    // In SubcategoryController
+    public function bulkDelete(Request $request)
+    {
+        $ids = $request->input('ids');
+        try {
+            Subcategory::whereIn('uuid', $ids)->delete();
+            return response()->json(['success' => true, 'message' => 'Subcategorías eliminadas correctamente.']);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Error al eliminar subcategorías.']);
+        }
     }
 }

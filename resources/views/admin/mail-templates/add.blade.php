@@ -3,30 +3,14 @@
     Plantillas de Correo
 @endsection
 @section('content')
-    <div class="page-body">
-        <div class="container-fluid">
-            <div class="page-header">
-                <div class="row">
-                    <div class="col">
-                        <div class="page-header-left">
-                            <h3>Social Citas</h3>
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="dashboard"><i data-feather="home"></i></a></li>
-                                <li class="breadcrumb-item">Plantillas de Correo</li>
-
-                            </ol>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
+    <div class="page-body" style="background: #000">
+      <br>
         <!-- Container-fluid starts-->
         <!-- Container-fluid starts-->
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-12">
-                    <div class="card">
+                    <div class="card" style="background: #fff">
                         @if (Session::has('success'))
                             <div class="alert alert-success">
                                 <p>{{ session::get('success') }}</p>
@@ -39,7 +23,7 @@
                         @endif
                         <form id="vironeer-submited-form" action="{{ url('admin/mail-templates/save') }}" method="POST">
                             @csrf
-                            <div class="card">
+                            <div class="card" style="background: #fff">
                                 <div class="card-header bg-lg-3 text-white">Plantilla</div>
                                 <div class="card-body">
                                     <div class="row g-3 mb-4">
@@ -56,7 +40,7 @@
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">Cuerpo </label>
-                                            <textarea name="body" class="editor">{{ old('body') }}</textarea>
+                                            <textarea name="body" class="summernote">{{ old('body') }}</textarea>
                                         </div>
 
                                         <div class="row g-2">

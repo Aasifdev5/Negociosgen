@@ -15,7 +15,7 @@ use Illuminate\Support\Str;
 
 class MediaController extends Controller
 {
-   
+
     public function index()
     {
         if (Session::has('LoggedIn')) {
@@ -120,4 +120,15 @@ class MediaController extends Controller
 
         return back();
     }
+    public function bulkDelete(Request $request)
+{
+    $ids = $request->input('ids');
+    if (is_array($ids) && count($ids) > 0) {
+        Media::whereIn('id', $ids)->delete();
+        return response()->json(['success' => true, 'message' => 'Medios eliminados exitosamente.']);
+    }
+
+    return response()->json(['success' => false, 'message' => 'No se seleccionaron medios.']);
+}
+
 }

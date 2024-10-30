@@ -6,12 +6,12 @@
 <div class="page-body">
     <br>
  <!-- Page content area start -->
- <div class="page-content">
+ <div class="page-content" style="background: #000">
     <div class="container-fluid">
-       
+
         <div class="row">
             <div class="col-md-12">
-                <div class="card form-vertical__item bg-style">
+                <div class="card form-vertical__item bg-style" style="background: #fff">
                     <div class="card-header item-top mb-30">
                         <h2>{{__('Editar subcategoría')}}</h2>
                     </div>
@@ -43,7 +43,7 @@
                                 <select name="category_id" id="category_id" class="select2 form-control">
                                     <option value="">{{ __('selecciona una categoría') }}</option>
                                     @php
-                                    
+
                                     @endphp
                                     @foreach ($subcategories as $category)
                                         <option value="{{ $category->id }}"

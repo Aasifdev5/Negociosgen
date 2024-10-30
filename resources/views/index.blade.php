@@ -3,22 +3,15 @@
     Inicio
 @endsection
 @section('content')
-    <div class="container-fluid custom-bg w-100">
-        <div class="container my-5">
-            <div class="row">
-                <div class="col-lg-12">
-                    <!-- Video with autoplay, loop, muted, and playsinline for reliable autoplay across devices -->
-                    <video class="img-fluid rounded-3 shadow-lg" autoplay loop  playsinline style="width: 100%;">
-                        <source src="{{ asset('assets/VIDEO GEN PÁGINA WEB.MP4') }}" type="video/mp4">
-
-                    </video>
-                </div>
-
-            </div>
-        </div>
+<div class="container-fluid custom-bg w-100 p-0">
+    <div class="position-relative" style="overflow: hidden;">
+        <!-- Responsive video with autoplay, loop, muted, and playsinline for reliable autoplay across devices -->
+        <video class="img-fluid w-100 h-100" autoplay loop  playsinline style="object-fit: cover; width: 100%;margin-top: 60px;">
+            <source src="{{ asset('assets/VIDEO GEN PÁGINA WEB.MP4') }}" type="video/mp4">
+        </video>
     </div>
-
-    <div class="container-fluid" style="background: #000000; position: relative; padding: 30px 0;">
+</div>
+    <div class="container-fluid" style="background: #000000; position: relative; padding: 30px 0;margin-top: -10px;">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-2 text-center mb-4 mb-lg-0">

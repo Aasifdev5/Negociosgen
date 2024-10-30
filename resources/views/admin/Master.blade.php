@@ -32,7 +32,7 @@
         rel="stylesheet">
     <!-- Font Awesome-->
     <link rel="stylesheet" type="text/css" href="{{ asset('admin/css/fontawesome.css') }}">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- ico-font-->
     <link rel="stylesheet" type="text/css" href="{{ asset('admin/css/icofont.css') }}">
     <!-- Themify icon-->
@@ -316,8 +316,10 @@
                                         data-feather="dollar-sign"></i><span> {{ __('Gestión Ganancias') }}</span></a>
 
                             </li>
+                            <li><a class="sidebar-header" href="{{ url('admin/earn') }}"><i
+                                data-feather="calendar"></i><span> {{ __('Eventos') }}</span></a></li>
 
-                            </li>
+
 
 
                             <li>

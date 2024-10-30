@@ -3,17 +3,13 @@
     Editar categoria
 @endsection
 @section('content')
-    <div class="page-wrapper">
-        <div class="container-fluid">
-            <!-- sign up page start-->
-            <div class="auth-bg-video">
-                <video id="bgvid" poster="{{ asset('admin/images/coming-soon-bg.jpg') }}" playsinline="" autoplay=""
-                    muted="" loop="">
-                    <source src="{{ asset('admin/video/auth-bg.mp4') }}" type="video/mp4">
-                </video>
-                <div class="authentication-box">
+    <div class="page-wrapper" style="background: #000;margin-top:80px">
+        <div class="container">
+
+
+                <div class="card mt-4 p-4" style="background: #fff;">
                     <div class="text-center"><img src="assets/images/endless-logo.png" alt=""></div>
-                    <div class="card mt-4 p-4">
+                    <div class="card-body">
 
                         <div class="row">
                             <div class="col-md-12">
@@ -139,7 +135,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+
         </div>
     </div>
     <!-- Page content area end -->

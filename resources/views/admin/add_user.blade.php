@@ -3,263 +3,178 @@
     Agregar Usuario
 @endsection
 @section('content')
-    <!-- page-wrapper Start-->
-    <div class="page-wrapper">
-        <div class="container-fluid">
-            <!-- sign up page start-->
-            <div class="auth-bg-video">
-                <video id="bgvid" poster="{{ asset('admin/images/coming-soon-bg.jpg') }}" playsinline="" autoplay=""
-                    muted="" loop="">
-                    <source src="{{ asset('admin/video/auth-bg.mp4') }}" type="video/mp4">
-                </video>
-                <div class="col-sm-8">
-                    <div class="text-center"><img src="assets/images/endless-logo.png" alt=""></div>
-                    <div class="card mt-4 p-4">
-                        <h4 class="text-center">Agregar Usuario</h4>
+<div class="page-wrapper" style="background: #000;">
+    <br>
+    <br>
+    <br>
+    <div class="container" style="margin-top: 50px">
+        <div class="card" style="background: #fff;">
+            <div class="card-body">
+                <form action="{{ url('admin/save_user') }}" method="post">
+                    @csrf
+                    @if (session()->has('success'))
+                        <div class="alert alert-success" style="background-color: green;">
+                            <p style="color: #fff;">{{ session()->get('success') }}</p>
+                        </div>
+                    @endif
+                    @if (session()->has('fail'))
+                        <div class="alert alert-danger" style="background-color: red;">
+                            <p style="color: #fff;">{{ session()->get('fail') }}</p>
+                        </div>
+                    @endif
 
-                        <form class="theme-form" action="{{ url('admin/save_user') }}" method="post" enctype="multipart/form-data">
-                            @if (Session::has('success'))
-                                <div class="alert alert-success">
-                                    <p>{{ session::get('success') }}</p>
+                    <div class="row mb-3 pt-3 ps-3">
+                        <div class="col-md-6 mb-3">
+                            <label for="nombre" class="form-label text-secondary">Nombre</label>
+                            <input type="text" class="form-control @error('first_name') is-invalid @enderror" name="first_name" id="nombre" placeholder="Nombre" value="{{ old('first_name') }}" aria-label="Nombre">
+                            @error('first_name')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
                                 </div>
-                            @endif
-                            @if (Session::has('fail'))
-                                <div class="alert alert-danger">
-                                    <p>{{ session::get('fail') }}</p>
+                            @enderror
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="apellido" class="form-label text-secondary">Apellido</label>
+                            <input type="text" class="form-control @error('last_name') is-invalid @enderror" name="last_name" id="apellido" placeholder="Apellido" value="{{ old('last_name') }}" aria-label="Apellido">
+                            @error('last_name')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
                                 </div>
-                            @endif
-                            @csrf
-
-                            <div class="row g-1">
-                                <div class="col-md-12">
-                                    <div class="mb-2">
-
-                                        <div class="personal-image">
-                                            <label class="label">
-                                                <input type="file" name="profile_photo" id="profilePhotoInput"
-                                                    onchange="previewImage(this)" />
-                                                <figure class="personal-figure">
-
-                                                    <img src="149071.png" class="personal-avatar" alt="avatar"
-                                                        id="profileImagePreview">
-
-
-                                                </figure>
-                                            </label>
-                                            <p>PNG, JPG, JPEG</p>
-                                        </div>
-                                        <!-- ... (rest of your form code) ... -->
-
-
-                                        <script>
-                                            function previewImage(input) {
-                                                var preview = document.getElementById('profileImagePreview');
-                                                var file = input.files[0];
-                                                var reader = new FileReader();
-
-                                                reader.onloadend = function() {
-                                                    preview.src = reader.result;
-                                                }
-
-                                                if (file) {
-                                                    reader.readAsDataURL(file);
-                                                } else {
-                                                    preview.src = "149071.png"; // Default image when no file selected
-                                                }
-                                            }
-                                        </script>
-                                        <span class="text-danger">
-                                            @error('profile_photo')
-                                                {{ $message }}
-                                            @enderror
-                                        </span>
-                                    </div>
-                                </div>
-
-                                <div class="col-sm-6">
-                                    <label class="col-form-label">Nombre completo</label>
-                                    <input class="form-control" type="text" name="name" value="{{ old('name') }}"
-                                        placeholder="John">
-                                    <span class="text-danger">
-                                        @error('name')
-                                            {{ $message }}
-                                        @enderror
-                                    </span>
-                                </div>
-
-
-
-
-                                <div class="col-sm-6">
-                                    <label class="col-form-label">Nombre de la tienda</label>
-                                    <input class="form-control" type="text" name="store" value="{{ old('store') }}">
-                                    <span class="text-danger">
-                                        @error('store')
-                                            {{ $message }}
-                                        @enderror
-                                    </span>
-
-                                </div>
-                                <div class="col-sm-6">
-                                    <label class="col-form-label">Departamento</label>
-                                    <input class="form-control" type="text" name="department"
-                                        value="{{ old('department') }}">
-                                    <span class="text-danger">
-                                        @error('department')
-                                            {{ $message }}
-                                        @enderror
-                                    </span>
-
-                                </div>
-                                <div class="col-sm-6">
-                                    <label class="col-form-label">Ciudad </label>
-                                    <input class="form-control" type="text" name="city" value="{{ old('city') }}"
-                                        >
-                                    <span class="text-danger">
-                                        @error('city')
-                                            {{ $message }}
-                                        @enderror
-                                    </span>
-                                </div>
-                                <div class="col-sm-6">
-                                    <label class="col-form-label">Zona </label>
-                                    <input class="form-control" type="text" name="location"
-                                        value="{{ old('location') }}" >
-                                    <span class="text-danger">
-                                        @error('location')
-                                            {{ $message }}
-                                        @enderror
-                                    </span>
-                                </div>
-                                <div class="col-sm-6">
-                                    <label class="col-form-label">Correo electrónico</label>
-                                    <input class="form-control" type="email" name="email" value="{{ old('email') }}">
-                                    <span class="text-danger">
-                                        @error('email')
-                                            {{ $message }}
-                                        @enderror
-                                    </span>
-
-                                </div>
-                                <div class="col-sm-6">
-                                    <label class="col-form-label">Contraseña</label>
-                                    <input class="form-control" type="password" name="password"
-                                        value="{{ old('password') }}">
-                                    <span class="text-danger">
-                                        @error('password')
-                                            {{ $message }}
-                                        @enderror
-                                    </span>
-
-                                </div>
-                                <div class="col-sm-6">
-                                    <label class="col-form-label">Número de celular</label>
-                                    <input class="form-control" type="text" name="mobile_number"
-                                        value="{{ old('mobile_number') }}">
-                                    <span class="text-danger">
-                                        @error('mobile_number')
-                                            {{ $message }}
-                                        @enderror
-                                    </span>
-
-                                </div>
-                                <div class="col-sm-6">
-                                    <label class="col-form-label">Número de celular secundario</label>
-                                    <input class="form-control" type="text" name="alter_mobile_number"
-                                        value="{{ old('alter_mobile_number') }}">
-                                    <span class="text-danger">
-                                        @error('alter_mobile_number')
-                                            {{ $message }}
-                                        @enderror
-                                    </span>
-
-                                </div>
-                                <div class="col-sm-6">
-                                    <label class="col-form-label">Categorías asignadas</label>
-                                    <select name="categories[]" multiple class="select2 form-control">
-                                        @php
-                                        $categories = \App\Models\Category::all();
-                                        @endphp
-                                        @foreach($categories as $row)
-                                        <option value="{{$row->id}}">{{$row->name}}</option>
-                                        @endforeach
-                                    </select>
-                                  </div>
-                                <div class="col-sm-6">
-                                    <label class="col-form-label">Precio asignado</label>
-                                    <br>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" id="priceBicycle" name="price"
-                                            value="price1" >
-                                        <label class="form-check-label" for="priceBicycle">Precio 1 </label>
-                                    </div>
-
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" id="priceMotorcycle"
-                                            name="price" value="price2" >
-                                        <label class="form-check-label" for="priceMotorcycle">Precio 2 </label>
-                                    </div>
-
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" id="priceShimano" name="price"
-                                            value="price3" >
-                                        <label class="form-check-label" for="priceShimano">Precio 3 </label>
-                                    </div>
-
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" id="priceLoadline" name="price"
-                                            value="price4" >
-                                        <label class="form-check-label" for="priceLoadline">Precio 4 </label>
-                                    </div>
-<div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" id="priceLoadline" name="price"
-                                            value="price5" >
-                                        <label class="form-check-label" for="priceLoadline">Precio 5 </label>
-                                    </div>
-                                    <span class="text-danger">
-                                        @error('price')
-                                            {{ $message }}
-                                        @enderror
-                                    </span>
-                                </div>
-                                <div class="col-sm-6">
-                                    <label class="col-form-label">Activo</label>
-                                    <br>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" id="statusYes" name="status"
-                                            value="1" >
-                                        <label class="form-check-label" for="statusYes">Sí </label>
-                                    </div>
-
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" id="statusNo" name="status"
-                                            value="0" >
-                                        <label class="form-check-label" for="statusNo">No</label>
-                                    </div>
-
-                                    <span class="text-danger">
-                                        @error('status')
-                                            {{ $message }}
-                                        @enderror
-                                    </span>
-                                </div>
-
-
-                                <div class="row g-2">
-                                    <div class="col-sm-4">
-                                        <button class="btn btn-primary" type="submit">Guardar</button>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </form>
+                            @enderror
+                        </div>
                     </div>
-                </div>
+
+                    <div class="row mb-3 ps-3">
+                        <div class="col-md-12 mb-3">
+                            <label for="email" class="form-label text-secondary">Email</label>
+                            <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" id="email" placeholder="ejemplo@gmail.com" value="{{ old('email') }}" aria-label="Email">
+                            @error('email')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="row mb-3 ps-3">
+                        <div class="col-md-6 mb-3">
+                            <label for="carnet" class="form-label text-secondary">Número de carnet</label>
+                            <input type="text" class="form-control @error('id_number') is-invalid @enderror" name="id_number" id="carnet" placeholder="Número" value="{{ old('id_number') }}" aria-label="Número de carnet">
+                            @error('id_number')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="fechaNacimiento" class="form-label text-secondary">Fecha de Nacimiento</label>
+                            <input type="date" name="birth_date" class="form-control @error('birth_date') is-invalid @enderror" id="fechaNacimiento" value="{{ old('birth_date') }}" aria-label="Fecha de nacimiento">
+                            @error('birth_date')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="row mb-3 ps-3">
+                        <div class="col-md-12 mb-3">
+                            <label for="celular" class="form-label text-secondary">Celular</label>
+                            <input type="text" class="form-control @error('mobile_number') is-invalid @enderror" name="mobile_number" id="celular" placeholder="+591" value="{{ old('mobile_number') }}" aria-label="Celular">
+                            @error('mobile_number')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="row mb-3 ps-3">
+                        <div class="col-md-12 mb-3">
+                            <label for="pais" class="form-label text-secondary">País</label>
+                            <select class="form-select @error('country') is-invalid @enderror" name="country" id="pais" aria-label="País">
+                                <option value="">Seleccionar País</option>
+                                @foreach($countries as $country)
+                                    <option value="{{ $country->id }}" {{ old('country') == $country->id ? 'selected' : '' }}>{{ $country->name }}</option>
+                                @endforeach
+                            </select>
+                            @error('country')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="row mb-3 ps-3">
+                        <div class="col-md-6 mb-3">
+                            <label for="direccion" class="form-label text-secondary">Dirección</label>
+                            <input type="text" class="form-control @error('address') is-invalid @enderror" name="address" id="direccion" placeholder="Dirección" value="{{ old('address') }}" aria-label="Dirección">
+                            @error('address')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="ciudad" class="form-label text-secondary">Ciudad</label>
+                            <select class="form-select @error('city') is-invalid @enderror" name="city" id="ciudad" aria-label="Ciudad">
+                                <option value="">Seleccionar Ciudad</option>
+                                @foreach($cities as $city)
+                                    <option value="{{ $city->id }}" {{ old('city') == $city->id ? 'selected' : '' }}>{{ $city->name }}</option>
+                                @endforeach
+                            </select>
+                            @error('city')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="row mb-3 ps-3">
+                        <div class="col-md-6 mb-3">
+                            <label for="contrasena" class="form-label text-secondary">Contraseña</label>
+                            <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" id="contrasena" placeholder="xxxxxxxxxxxxx" aria-label="Contraseña">
+                            @error('password')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="confirmContrasena" class="form-label text-secondary">Repetir Contraseña</label>
+                            <input type="password" name="confirm_password" class="form-control @error('confirm_password') is-invalid @enderror" id="confirmContrasena" placeholder="xxxxxxxxxxxxx" aria-label="Repetir contraseña">
+                            @error('confirm_password')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mb-3 ps-3">
+                        <label class="col-form-label text-secondary">Activo</label>
+                        <br>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="statusYes" name="status" value="1" {{ old('status') == 1 ? 'checked' : '' }}>
+                            <label class="form-check-label" for="statusYes">Sí</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="statusNo" name="status" value="0" {{ old('status') == 0 ? 'checked' : '' }}>
+                            <label class="form-check-label" for="statusNo">No</label>
+                        </div>
+                        @error('status')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="d-grid mb-3 ps-3">
+                        <button type="submit" class="btn btn-primary">Continuar</button>
+                    </div>
+                </form>
             </div>
         </div>
-
-        <!-- sign up page ends-->
     </div>
-    </div>
-    <!-- page-wrapper Ends-->
+</div>
 @endsection

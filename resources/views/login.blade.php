@@ -3,7 +3,7 @@
     {{ __('Iniciar Sesión') }}
 @endsection
 @section('content')
-    <section style="padding: 110px 0; background: #1a1a1a;">
+    <section style="padding: 170px 0; background: #1a1a1a;">
         <div class="container">
             <div class="container" style="background: #000;padding: 20px; border: 1px solid #000; border-radius: 16px;">
 

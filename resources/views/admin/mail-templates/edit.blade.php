@@ -4,31 +4,16 @@ Plantillas de Correo
 @endsection
 @section('content')
 
-<div class="page-body">
+<div class="page-body" style="background: #000">
    <div class="container-fluid">
-      <div class="page-header">
-         <div class="row">
-            <div class="col">
-               <div class="page-header-left">
-                  <h3>BIKEBROS</h3>
-                  <ol class="breadcrumb">
-                     <li class="breadcrumb-item"><a href="dashboard"><i
-                              data-feather="home"></i></a></li>
-                     <li class="breadcrumb-item">Plantillas de Correo</li>
 
-                  </ol>
-               </div>
-            </div>
-
-         </div>
-      </div>
    </div>
    <!-- Container-fluid starts-->
    <!-- Container-fluid starts-->
    <div class="container-fluid">
       <div class="row">
          <div class="col-sm-12">
-            <div class="card">
+            <div class="card" style="background: #fff">
             @if(Session::has('success'))
                   <div class="alert alert-success">
                      <p>{{session::get('success')}}</p>
@@ -43,7 +28,7 @@ Plantillas de Correo
                <form id="vironeer-submited-form" action="{{ url('admin/mail-templates/update', $mailTemplate->id) }}"
         method="POST">
         @csrf
-        <div class="card">
+        <div class="card" style="background: #fff">
             <div class="card-header bg-lg-3 text-white">Plantilla</div>
                <div class="card-body">
                <div class="row g-3 mb-4">
@@ -62,7 +47,7 @@ Plantillas de Correo
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Cuerpo </label>
-                    <textarea name="body" class="editor">{{ $mailTemplate->body }}</textarea>
+                    <textarea name="body" class="summernote">{{ $mailTemplate->body }}</textarea>
                 </div>
                 <div class="alert alert-secondary mb-0">
                     <p class="mb-0"><strong>Códigos cortos</strong></p>

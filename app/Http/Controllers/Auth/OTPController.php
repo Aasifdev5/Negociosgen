@@ -4,10 +4,11 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 
 class OTPController extends Controller
 {
@@ -17,7 +18,8 @@ class OTPController extends Controller
         $request->validate(['email' => 'required|email|exists:users,email']);
 
         // Generate OTP
-        $otp = Str::random(6); // Generate a random OTP (or use any OTP generation logic)
+        $otp = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT); // Pads the number with zeros if necessary
+
 
         // Store OTP in the session
         Session::put('otp', $otp);
@@ -37,8 +39,8 @@ class OTPController extends Controller
             return back()->with('fail', 'No se puede reenviar el código. Por favor intenta de nuevo.'); // Or handle error appropriately
         }
 
-        // Generate a new OTP
-        $otp = Str::random(6); // You might want to use a better OTP generation logic
+         // Generate OTP
+         $otp = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT); // Pads the number with zeros if necessary
 
         // Store the new OTP in the session
         Session::put('otp', $otp);
@@ -80,8 +82,9 @@ class OTPController extends Controller
         // Successful verification
         Session::forget('otp'); // Clear the OTP from the session
         $user = User::where('email', Session::get('email'))->first();
+        $user->update(['is_online' => 1, 'last_seen' => Carbon::now('UTC')]);
         $request->session()->put('LoggedIn', $user->id);
-        return redirect('dashboard')->with('success', 'OTP verified successfully.');
+        return redirect('welcome')->with('success', 'OTP verified successfully.');
     } else {
         return back()->with('fail', 'Invalid OTP. Please try again.'); // Invalid OTP
     }

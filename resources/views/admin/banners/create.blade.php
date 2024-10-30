@@ -1,92 +1,121 @@
 @extends('admin.Master')
 @section('title')
-Agregar banner
+    Agregar banner
 @endsection
 @section('content')
-<!-- page-wrapper Start-->
-<div class="page-wrapper">
-    <div class="container-fluid">
-        <!-- sign up page start-->
-        <div class="auth-bg-video">
+    <!-- page-wrapper Start-->
+    <div class="page-wrapper" style="background: #000; padding: 120px 0;">
+        <div class="container">
+            <div class="card" style="background: #fff; margin-top: 50px;">
+                <div class="card-header text-center">
+                    <h4>Agregar banner</h4>
+                </div>
+                <div class="card-body">
 
-            <div class="authentication-box">
-                <div class="text-center"><img src="assets/images/endless-logo.png" alt=""></div>
-                <div class="card mt-4 p-4">
-    <h4 class="text-center">Agregar banner</h4>
+                    <!-- Form to create a new banner -->
+                    <form action="{{ route('admin.banners.store') }}" class="theme-form" method="post" enctype="multipart/form-data">
+                        @csrf
 
-    <!-- Form to create a new banner -->
-    <form action="{{ route('admin.banners.store') }}" class="theme-form" method="post" enctype="multipart/form-data">
-        @if(Session::has('success'))
-        <div class="alert alert-success">
-            <p>{{ session::get('success') }}</p>
-        </div>
-        @endif
-        @if(Session::has('fail'))
-        <div class="alert alert-danger">
-            <p>{{ session::get('fail') }}</p>
-        </div>
-        @endif
-        @csrf
-        <div class="row">
-            <div class="col-sm-6">
-                <label for="title1">Título 1:</label>
-                <input type="text" class="form-control" name="title1" value="{{ old('title1') }}" placeholder="Colección 2024">
-                <span class="text-danger">@error('title1'){{ $message }}@enderror</span>
+                        @if (Session::has('success'))
+                            <div class="alert alert-success">
+                                <p>{{ session('success') }}</p>
+                            </div>
+                        @endif
+                        @if (Session::has('fail'))
+                            <div class="alert alert-danger">
+                                <p>{{ session('fail') }}</p>
+                            </div>
+                        @endif
 
-                <label for="title2">Título 2:</label>
-                <input type="text" class="form-control" name="title2" value="{{ old('title2') }}" placeholder="Ruedas">
-                <span class="text-danger">@error('title2'){{ $message }}@enderror</span>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="title1">Título 1:</label>
+                                    <input type="text" class="form-control" name="title1" value="{{ old('title1') }}" placeholder="Colección 2024">
+                                    @error('title1')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
 
-                <label for="title3">Título 3:</label>
-                <input type="text" class="form-control" name="title3" value="{{ old('title3') }}" placeholder="Parte del cuerpo">
-                <span class="text-danger">@error('title3'){{ $message }}@enderror</span>
+                                <div class="form-group">
+                                    <label for="title2">Título 2:</label>
+                                    <input type="text" class="form-control" name="title2" value="{{ old('title2') }}" placeholder="Ruedas">
+                                    @error('title2')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
 
- <label for="title3">Botón:</label>
-                <input type="text" class="form-control" name="button" value="{{ old('button') }}" placeholder="">
-                <span class="text-danger">@error('button'){{ $message }}@enderror</span>
-                <label for="title3">Enlace de botón:</label>
-                <input type="text" class="form-control" name="link" value="{{ old('link') }}" placeholder="">
-                <span>Enlaces disponibles que puedes introducir en la entrada de enlaces
-                <p>https://bikebros.net/shop</p>
-                <br>
-                <p>https://bikebros.net/productbyCategory/7 (Bicicleta)</p>
-                <p>https://bikebros.net/productbyCategory/9 (Motocicleta)</p>
-                <p>https://bikebros.net/productbyCategory/14 (Shimano)</p>
-                <p>https://bikebros.net/productbyCategory/15 (Linea de carga)</p>
-                </span>
-                <span class="text-danger">@error('link'){{ $message }}@enderror</span>
-                <label for="image">Imagen:</label>
-                <input type="file" class="form-control" id="image" name="image" accept="image/*">
-                <img id="preview" src="#" alt="Imagen Preview" style="display:none; width: 100%; max-width: 500px; margin-top: 10px;"/>
+                                <div class="form-group">
+                                    <label for="title3">Título 3:</label>
+                                    <input type="text" class="form-control" name="title3" value="{{ old('title3') }}" placeholder="Parte del cuerpo">
+                                    @error('title3')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
 
-                <script>
-                    document.getElementById('image').addEventListener('change', function(event) {
-                        var reader = new FileReader();
-                        reader.onload = function() {
-                            var preview = document.getElementById('preview');
-                            preview.src = reader.result;
-                            preview.style.display = 'block';
-                        }
-                        reader.readAsDataURL(event.target.files[0]);
-                    });
-                </script>
+                                <div class="form-group">
+                                    <label for="button">Botón:</label>
+                                    <input type="text" class="form-control" name="button" value="{{ old('button') }}" placeholder="Texto del botón">
+                                    @error('button')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="link">Enlace de botón:</label>
+                                    <input type="text" class="form-control" name="link" value="{{ old('link') }}" placeholder="https://example.com">
+                                    <small class="form-text text-muted">Enlaces disponibles que puedes introducir en la entrada de enlaces</small>
+                                    @error('link')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="image">Imagen:</label>
+                                    <input type="file" class="form-control" id="image" name="image" accept="image/*">
+                                    <img id="preview" src="#" alt="Imagen Preview" style="display:none; width: 100%; max-width: 500px; margin-top: 10px;" />
+                                </div>
+
+                                <script>
+                                    document.getElementById('image').addEventListener('change', function(event) {
+                                        var reader = new FileReader();
+                                        reader.onload = function() {
+                                            var preview = document.getElementById('preview');
+                                            preview.src = reader.result;
+                                            preview.style.display = 'block';
+                                        }
+                                        reader.readAsDataURL(event.target.files[0]);
+                                    });
+                                </script>
+                            </div>
+                            <br>
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="page_banner" class="form-label">Seleccione una opción:</label>
+                                    <select class="form-select text-dark" name="page_banner" id="page_banner" onchange="window.location.href=this.value">
+                                        <option value="">Seleccione una opción</option>
+                                        <option value="nosotros">Nosotros</option>
+                                        <option value="course">Cursos</option>
+                                        <option value="blog">Blog</option>
+                                        <option value="contact">Contáctanos</option>
+                                        <option value="ayuda">¿Necesitas ayuda?</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="col-sm-6 text-center">
+                                <img src="{{ asset('Screenshot (317).png') }}" width="300px" alt="Ejemplo de Banner" class="img-fluid" style="margin-top: 20px;">
+                            </div>
+                        </div>
+
+                        <br>
+                        <button type="submit" class="btn btn-primary btn-sm">Crear banner</button>
+                    </form>
+                </div>
             </div>
-            <div class="col-sm-6">
-                <img src="{{ asset('Screenshot (317).png') }}" width="300px">
-            </div>
         </div>
-
-        <br>
-        <button type="submit" class="btn btn-primary btn-sm">Crear banner</button>
-    </form>
-</div>
-
-            </div>
-        </div>
+        <!-- sign up page ends-->
     </div>
-
-    <!-- sign up page ends-->
-</div>
-</div>
-<!-- page-wrapper Ends-->
+    <!-- page-wrapper Ends-->
 @endsection

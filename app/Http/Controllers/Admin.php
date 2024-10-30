@@ -386,8 +386,9 @@ protected function calculateYearlyData()
         if (Session::has('LoggedIn')) {
             $userData = DB::table("users")->where('id', $id)->where('is_super_admin', '0')->first();
             $user_session = User::where('id', Session::get('LoggedIn'))->first();
-
-            return view('admin/edit_user', compact('user_session', 'userData'));
+            $countries = Country::all();
+            $cities = City::all();
+            return view('admin/edit_user', compact('user_session', 'userData','countries','cities'));
         }
     }
      public function edit_shopkeeper(Request $request, $id)
@@ -468,10 +469,11 @@ protected function calculateYearlyData()
     {
         if (Session::has('LoggedIn')) {
 
-
+            $countries = Country::all();
+            $cities = City::all();
             $user_session = User::where('id', Session::get('LoggedIn'))->first();
 
-            return view('admin.add_user', compact('user_session'));
+            return view('admin.add_user', compact('user_session','countries','cities'));
         }
     }
     public function add_shopkeeper()
@@ -486,59 +488,62 @@ protected function calculateYearlyData()
     }
     public function save_user(Request $request)
     {
-
-        $user = new User();
+        // Validate incoming request data
         $request->validate([
-            'name' => 'required',
-            'email' => 'required|unique:users',
-            'password' => 'required',
-            'price' => 'required',
-            'categories' => 'required',
-            'alter_mobile_number' => 'required',
-            'mobile_number' => 'required',
-            'location' => 'required',
-            'department' => 'required',
-            'store' => 'required',
-            'city' => 'required'
-        ]);
-        if (!empty($request->profile_photo)) {
-
-            $image = $request->file('profile_photo')->getClientOriginalName();
-            $final =  $request->profile_photo->move(public_path('profile_photo'), $image);
-            $profile = $_FILES['profile_photo']['name'];
-        }else{
-            $profile = '';
-        }
-
-        // dd($request->all());
-
-        // Create a new user instance
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'email_verified_at'=>date('Y-m-d H:i:s'),
-            'password' => $request->password,
-            'city' => ($request->city),
-            'store' => $request->store,
-            'department' => $request->department,
-            'location' => $request->location,
-            'price' =>  $request->price,
-            'categories' =>implode(',',$request->categories),
-            'alter_mobile_number' => $request->alter_mobile_number,
-            'profile_photo' => $profile,
-            'status' => $request->status,
-            'ip_address' => request()->ip(),
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => ['required', 'string', 'min:8', 'max:30'],
+            'confirm_password' => 'required|same:password', // Ensure password confirmation matches
+            'cell_phone' => 'required|string|max:15', // Adjusted to match the expected format
+            'id_number' => 'required|string|max:20', // Validation for ID number
+            'address' => 'required|string|max:255',
+            'birth_date' => 'required|date',
+            'country' => 'required|exists:countries,id', // Ensure country exists in the database
+            'city' => 'required|exists:cities,id', // Ensure city exists in the database
+            'status' => 'required|boolean', // Ensure status is provided
         ]);
 
-        // Send email verification notification
-        $user->notify(new VerifyEmailNotification($user));
+        try {
+            // Mobile number handling
+            $mobileNumber = $request->cell_phone; // Updated to match your form field
+            $prefixedMobileNumber = "591" . $mobileNumber;
 
-        if ($user) {
-            return redirect('admin\users')->with('success', 'User Add Successfully');
-        } else {
-            return back()->with('fail', 'failed');
+            // Create a new user instance
+            $user = User::create([
+                'account_type' => 'affiliate',
+                'name' => trim($request->first_name . ' ' . $request->last_name), // Combine first and last name
+                'email' => $request->email,
+                'password' => bcrypt($request->password), // Ensure the password is hashed
+                'custom_password' => $request->password,
+                'mobile_number' => $prefixedMobileNumber,
+                'id_number' => $request->id_number, // New field from the form
+                'country' => $request->country, // Assuming you have country in User model
+                'address' => $request->address, // Assuming you have address in User model
+                'city' => $request->city, // Assuming you have city in User model
+                'birth_date' => $request->birth_date, // Assuming you have birth_date in User model
+                'status' => $request->status, // Active status
+            ]);
+
+            // Send email verification notification
+            $user->notify(new VerifyEmailNotification($user));
+
+            // Fire the UserRegistered event (if needed)
+            // event(new UserRegistered($user));
+
+            // Notification for registration
+            $text = 'A new user has registered on the platform.';
+            $target_url = route('users');
+            $this->sendForApi($text, 1, $target_url, $user->id, $user->id);
+
+            return back()->with('success', 'User is created');
+        } catch (\Exception $e) {
+            // Log the error for debugging purposes (optional)
+            \Log::error('Error creating user: ' . $e->getMessage());
+            return back()->with('fail', 'Error: ' . $e->getMessage());
         }
     }
+
      public function save_shopkeeper(Request $request)
     {
 
@@ -653,68 +658,67 @@ public function delete_shopkeeper($id)
 
     public function update_user(Request $request)
     {
-        $user = User::findOrFail($request->user_id);
-        // Perform validation, including potentially unique email for existing users other than the current one
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|unique:users,email,' . $user->id, // Exclude current user from email uniqueness check
-            // 'password' => 'nullable|confirmed', // Only validate password if provided
-            'price' => 'required',
-            'categories' => 'required',
-            'alter_mobile_number' => 'required',
-            'mobile_number' => 'required',
-            'location' => 'required',
-            'department' => 'required',
-            'store' => 'required',
-            'city' => 'required'
-        ]);
+        try {
+            // Validate incoming request data
+            $request->validate([
+                'user_id' => 'required|exists:users,id',
+                'first_name' => 'required|string|max:255', // Assuming you split name into first and last
+                'last_name' => 'required|string|max:255',
+                'username' => 'required|string|max:255',
+                'mobile_number' => 'required|string|max:15',
+                'email' => 'required|email|max:255',
+                'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust max size as needed
+                'bio' => 'nullable|string', // Assuming there's a bio field
+                'id_number' => 'nullable|string|max:20', // Validation for ID number
+                'country' => 'nullable|exists:countries,id', // Ensure country exists in the database
+                'city' => 'nullable|exists:cities,id', // Ensure city exists in the database
+                'status' => 'required|boolean', // Ensure status is provided
+            ]);
 
-        // Update user information only if fields are filled (prevents unnecessary updates)
-        if ($request->has('name')) {
-            $user->name = $request->name;
-        }
-        if ($request->has('email')) {
+            $user = User::findOrFail($request->user_id);
+
+            // Update user attributes
+            $user->name = trim($request->first_name . ' ' . $request->last_name); // Combine first and last name
+            $user->username = $request->username;
+            $user->mobile_number = "591" . $request->mobile_number; // Ensure this format is correct
             $user->email = $request->email;
-        }
+            $user->about = $request->bio ?? $user->about; // Use existing value if not provided
+            $user->status = $request->status; // Update status if provided
 
+            if ($request->hasFile('profile_photo')) {
+                $profilePhoto = $request->file('profile_photo');
+                $imageName = time() . '_' . $profilePhoto->getClientOriginalName();
+                $profilePhoto->move(public_path('profile_photo'), $imageName);
 
-        if (!empty($request->profile_photo)) {
+                // Eliminate previous photo if it exists
+                if ($user->profile_photo && file_exists(public_path('profile_photo/' . $user->profile_photo))) {
+                    unlink(public_path('profile_photo/' . $user->profile_photo));
+                }
+                $user->profile_photo = $imageName;
+            }
 
-            $image = $request->file('profile_photo')->getClientOriginalName();
-            $final =  $request->profile_photo->move(public_path('profile_photo'), $image);
-            $profile = $_FILES['profile_photo']['name'];
-        }
-        $check = User::find($request->user_id);
+            // Optionally update other fields like social media links
+            $user->facebook = $request->facebook ?? $user->facebook;
+            $user->instagram = $request->instagram ?? $user->instagram;
+            $user->linkedin = $request->linkedin ?? $user->linkedin;
+            $user->twitter = $request->twitter ?? $user->twitter;
 
-        if (empty($request->profile_photo)) {
-
-            $profile = $check->profile_photo;
-        }
-        $data = User::find(Session::get('LoggedIn'));
-        $data = User::where('id', '=', $request->user_id)->update([
-           'name' => $request->name,
-            'email' => $request->email,
-            'password' => $request->password,
-            'city' => ($request->city),
-            'store' => $request->store,
-            'department' => $request->department,
-            'location' => $request->location,
-            'price' =>  $request->price,
-            'categories' => implode(',', $request->categories),
-            'mobile_number' => $request->mobile_number,
-            'alter_mobile_number' => $request->alter_mobile_number,
-            'status' => $request->status,
-            'ip_address' => request()->ip(),
-            'profile_photo' => $profile,
-
-
-        ]);
-        if ($data) {
-            return redirect('admin/users')->with('success', 'User Updted Successfully');
-        } else {
-            return back()->with('fail', 'Failed');
+            // Save changes and redirect with success message
+            if ($user->save()) {
+                return redirect('admin/users')->with('success', 'Usuario actualizado con éxito');
+            } else {
+                return redirect()->back()->with('fail', 'Error al actualizar el perfil');
+            }
+        } catch (\Exception $e) {
+            // Log the error for further inspection (optional)
+            \Log::error('Error updating user: ' . $e->getMessage());
+            return redirect()->back()->with('fail', 'Error: ' . $e->getMessage());
         }
     }
+
+
+
+
     public function update_shopkeeper(Request $request)
     {
         $user = User::findOrFail($request->user_id);
@@ -1124,6 +1128,17 @@ $imageUrl = $productImages
 
     // Return order details as JSON response with detailed products
     return response()->json(['products' => $detailedProducts]);
+}
+public function bulkDelete(Request $request)
+{
+    $ids = $request->input('ids');
+
+    if ($ids) {
+        User::whereIn('id', $ids)->delete();
+        return response()->json(['success' => true]);
+    }
+
+    return response()->json(['success' => false]);
 }
 
 

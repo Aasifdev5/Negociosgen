@@ -3,9 +3,10 @@
 {{ $title }}
 @endsection
 @section('content')
-<div class="page-body">
+<div class="page-body" style="background: #000">
+    <br>
 <!-- Page content area start -->
-<div class="page-content">
+<div class="card" style="background: #fff">
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
@@ -75,7 +76,7 @@
                         </div>
 
                         <div class="custom-form-group mb-3 row">
-                            <label for="rtl" class="col-lg-1 text-lg-right text-black"> {{ __('RTL Support') }}</label>
+                            <label for="rtl" class="col-lg-1 text-lg-right text-secondary"> {{ __('RTL Support') }}</label>
                             <div class="col-lg-1">
                                 <input type="checkbox" name="rtl" value="1" id="rtl">
                             </div>

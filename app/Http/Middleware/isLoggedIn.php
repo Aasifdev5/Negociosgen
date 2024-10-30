@@ -15,9 +15,10 @@ class isLoggedIn
      */
     public function handle(Request $request, Closure $next): Response
     {
-       if(!Session()->has('LoggedIn')){
-            return redirect('/')->with('fail','You have to login First');
+        if (!Session()->has('LoggedIn')) {
+            return redirect('/')->with('fail', 'Primero debes iniciar sesión');
         }
         return $next($request);
+
     }
 }

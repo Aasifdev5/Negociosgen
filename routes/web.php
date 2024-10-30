@@ -136,7 +136,7 @@ Route::group(['middleware' => ['prevent-back-history', SetLocale::class]], funct
     Route::get('/blog_detail/{id}', [UserController::class, 'blog_detail'])->name('blog_detail');
     Route::get('/addpaymentmethod', [UserController::class, 'addpaymentmethod'])->name('addpaymentmethod')->middleware('isLoggedIn');
     Route::get('/ayuda', [UserController::class, 'ayuda'])->name('ayuda');
-    Route::get('/welcome', [UserController::class, 'welcome'])->name('welcome');
+    Route::get('/welcome', [UserController::class, 'welcome'])->name('welcome')->middleware('isLoggedIn');
     Route::get('/Details', [UserController::class, 'Details'])->name('Details')->middleware('isLoggedIn');
     Route::get('/product-details/{slug}', [UserController::class, 'ProductDetail'])->name('ProductDetail')->middleware('isLoggedIn');
     Route::get('/productbybrand/{id}', [UserController::class, 'productbybrand'])->name('productbybrand')->middleware('isLoggedIn');
@@ -145,7 +145,7 @@ Route::group(['middleware' => ['prevent-back-history', SetLocale::class]], funct
     Route::get('/productbyChildCategory/{category}/{subcategory}/{childcategory}', [UserController::class, 'productbyChildCategory'])->name('productbyChildCategory')->middleware('isLoggedIn');
     Route::get('/transferencia', [UserController::class, 'transferencia'])->name('transferencia')->middleware('isLoggedIn');
     Route::get('/signup', [UserController::class, 'signup'])->name('signup')->middleware('alreadyLoggedIn');
-
+    Route::get('verify-otp', [OTPController::class, 'showOtpForm'])->name('verify.otp')->middleware('alreadyLoggedIn');
     Route::get('/Userlogin', [UserController::class, 'Userlogin'])->name('Userlogin')->middleware('alreadyLoggedIn');
 });
 Route::post('/update-logout-time', [UserController::class, 'updateLogoutTime'])->name('update.logout.time');
@@ -155,7 +155,7 @@ Route::post('/log', [UserController::class, 'login'])->name('login');
 
 Route::post('send-otp', [OTPController::class, 'sendOtp'])->name('send.otp');
 Route::post('/otp/resend', [OTPController::class, 'resendOtp'])->name('otp.resend');
-Route::get('verify-otp', [OTPController::class, 'showOtpForm'])->name('verify.otp');
+
 Route::post('verify-otp', [OTPController::class, 'verifyOtp'])->name('verify.otp.submit');
 Route::get('/logout', [UserController::class, 'logout'])->name('logout');
 
@@ -178,6 +178,7 @@ Route::group(['prefix' => 'admin'], function () {
 
     Route::group(['middleware' => 'admin-prevent-back-history', SetLocale::class], function () {
         Route::resource('banners', BannerController::class)->names('admin.banners');
+        Route::post('banners/bulk-destroy', [BannerController::class, 'bulkDestroy'])->name('admin.banners.bulkDestroy');
         Route::resource('ads', AdController::class)->names('admin.ads');
         Route::get('/local/{ln}', function ($ln) {
             $language = Language::where('iso_code', $ln)->first();
@@ -393,6 +394,7 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('edit/{uuid}', [CategoryController::class, 'edit'])->name('category.edit')->middleware('AdminIsLoggedIn');
             Route::post('update/{uuid}', [CategoryController::class, 'update'])->name('category.update');
             Route::get('delete/{uuid}', [CategoryController::class, 'delete'])->name('category.delete');
+            Route::post('bulk-delete', [CategoryController::class, 'bulkDelete'])->name('category.bulk.delete');
         });
         Route::prefix('subcategory')->group(function () {
             Route::get('/', [SubcategoryController::class, 'index'])->name('subcategory.index');
@@ -401,6 +403,7 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('edit/{uuid}', [SubcategoryController::class, 'edit'])->name('subcategory.edit');
             Route::post('update/{uuid}', [SubcategoryController::class, 'update'])->name('subcategory.update');
             Route::delete('delete/{uuid}', [SubcategoryController::class, 'delete'])->name('subcategory.delete');
+            Route::post('bulk-delete', [SubcategoryController::class, 'bulkDelete'])->name('subcategory.bulk.delete');
         });
         Route::prefix('brands')->group(function () {
             Route::get('/', [BrandController::class, 'index'])->name('brands.index')->middleware('AdminIsLoggedIn');
@@ -434,6 +437,8 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('edit/{id}', [MediaController::class, 'edit'])->name('gallery.edit')->middleware('AdminIsLoggedIn');
             Route::post('update/{id}', [MediaController::class, 'update'])->name('gallery.update');
             Route::get('delete/{id}', [MediaController::class, 'delete'])->name('gallery.delete');
+            Route::post('bulk-delete', [MediaController::class, 'bulkDelete'])->name('gallery.bulk.delete');
+
         });
         //Products
         Route::get('/products', [ProductsController::class, 'getProductsPageLoad'])->name('backend.products')->middleware('AdminIsLoggedIn');
@@ -572,6 +577,7 @@ Route::group(['prefix' => 'admin'], function () {
 
 
         Route::get('users', [Admin::class, 'users'])->name('users')->middleware('AdminIsLoggedIn');
+
         Route::get('user/edit/{id}', [Admin::class, 'edit_user'])->name('edit_user')->middleware('AdminIsLoggedIn');
         Route::post('update_user', [Admin::class, 'update_user'])->name('update_user')->middleware('AdminIsLoggedIn');
 
@@ -579,7 +585,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('save_user', [Admin::class, 'save_user'])->middleware('AdminIsLoggedIn');
 
         Route::get('user/delete_user/{id}', [Admin::class, 'delete_user'])->middleware('AdminIsLoggedIn');
-
+        Route::post('user/bulk_delete', [Admin::class, 'bulkDelete'])->name('user.bulkDelete');
         Route::get('shopkeepers', [Admin::class, 'shopkeepers'])->name('shopkeepers')->middleware('AdminIsLoggedIn');
         Route::get('shopkeeper/edit/{id}', [Admin::class, 'edit_shopkeeper'])->name('edit_shopkeeper')->middleware('AdminIsLoggedIn');
         Route::post('update_shopkeeper', [Admin::class, 'update_shopkeeper'])->name('update_shopkeeper');

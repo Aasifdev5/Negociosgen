@@ -15,9 +15,14 @@ class AlreadyLoggedIn
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Session()->has('LoggedIn') && (url('/signup') == $request->url() || url('/Userlogin') == $request->url())) {
+        if (Session()->has('LoggedIn') && (
+            url('/signup') == $request->url() ||
+            url('/Userlogin') == $request->url() ||
+            url('/verify-otp') == $request->url()
+        )) {
             return back();
         }
+
         return $next($request);
     }
 }

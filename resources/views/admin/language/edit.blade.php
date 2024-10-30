@@ -3,9 +3,10 @@
 {{ $title }}
 @endsection
 @section('content')
-<div class="page-body">
+<div class="page-body" style="background: #000">
  <!-- Page content area start -->
- <div class="page-content">
+ <br>
+ <div class="card" style="background: #fff">
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
@@ -79,13 +80,13 @@
                         </div>
 
                         <div class="custom-form-group mb-3 row">
-                            <label for="rtl" class="col-lg-2 text-lg-right text-black"> {{ __('RTL Support') }}</label>
+                            <label for="rtl" class="col-lg-2 text-lg-right text-secondary"> {{ __('RTL Support') }}</label>
                             <div class="col-lg-1">
                                 <input type="checkbox" {{ $language->rtl == 1 ? 'checked' : '' }} name="rtl" value="1" id="rtl">
                             </div>
                         </div>
                         <div class="custom-form-group mb-3 row">
-                            <label for="default_language" class="col-lg-2 text-lg-right text-black"> {{ __('Default Language') }}</label>
+                            <label for="default_language" class="col-lg-2 text-lg-right text-secondary"> {{ __('Default Language') }}</label>
                             <div class="col-lg-1">
                                 <input type="checkbox" {{ $language->default_language == 'on' ? 'checked' : '' }} name="default_language" value="on" id="default_language">
                             </div>

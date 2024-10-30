@@ -3,34 +3,15 @@
     {{ $title }}
 @endsection
 @section('content')
-    <div class="page-body">
+    <div class="page-body" style="background: #000">
+        <br>
         <!-- Page content area start -->
         <div class="page-content">
             <div class="container-fluid">
+
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="breadcrumb__content">
-                            <div class="breadcrumb__content__left">
-                                <div class="breadcrumb__title">
-                                    <h2>{{ __('Settings') }}</h2>
-                                </div>
-                            </div>
-                            <div class="breadcrumb__content__right">
-                                <nav aria-label="breadcrumb">
-                                    <ul class="breadcrumb">
-                                        <li class="breadcrumb-item"><a
-                                                href="{{ url('admin\dashboard') }}">{{ __('Dashboard') }}</a></li>
-                                        <li class="breadcrumb-item active" aria-current="page">{{ __('Language Settings') }}
-                                        </li>
-                                    </ul>
-                                </nav>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card">
+                        <div class="card" style="background: #fff">
                             <div class="card-header">
                                 <h2>{{ __('Language Settings') }}</h2>
                                 <a href="{{ route('language.create') }}" class="btn btn-success btn-sm pull-right"> <i

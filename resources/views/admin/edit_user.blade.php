@@ -1,281 +1,172 @@
 @extends('admin.Master')
 @section('title')
-Edit User
+    {{ __('Editar Tu Perfil') }}
 @endsection
 @section('content')
-<!-- page-wrapper Start-->
-<div class="page-wrapper">
-   <div class="container-fluid">
-      <!-- sign up page start-->
-      <div class="auth-bg-video">
-      <video id="bgvid" poster="{{asset('admin/images/coming-soon-bg.jpg')}}" playsinline="" autoplay="" muted="" loop="">
-               <source src="{{asset('admin/video/auth-bg.mp4')}}" type="video/mp4">
-            </video>
-         <div class="col-sm-8">
-            <div class="text-center"><img src="assets/images/endless-logo.png" alt=""></div>
-            <div class="card mt-4 p-4">
-               <h4 class="text-center">Edit User</h4>
+<div class="page-wrapper" style="background: #000;">
+    <div class="container" style="margin-top: 100px">
+        <div class="card" style="background: #fff;">
+            <div class="card-body">
+                <form action="{{ url('admin/update_user') }}" method="post">
+                    @csrf
 
-               <form class="theme-form" action="{{ url('admin/update_user') }}" method="post" enctype="multipart/form-data">
-                @csrf
-                @if (Session::has('success'))
-                    <div class="alert alert-success">
-                        <p>{{ Session::get('success') }}</p>
-                    </div>
-                @endif
-                @if (Session::has('fail'))
-                    <div class="alert alert-danger">
-                        <p>{{ Session::get('fail') }}</p>
-                    </div>
-                @endif
-<input type="hidden" name="user_id" value="{{ $userData->id }}">
-                <div class="row g-1">
-                    <div class="col-md-12">
-                        <div class="mb-2">
-                            <div class="personal-image">
-                                <label class="label">
-                                    <input type="file" name="profile_photo" id="profilePhotoInput" onchange="previewImage(this)" />
-                                    
-                                     @if (!empty($userData->profile_photo))
-                                                        <img src="{{ asset('profile_photo/') }}<?php echo '/' . $userData->profile_photo; ?>"
-                                                            class="personal-avatar rounded-circle" width="100px" height="100px"
-                                                            alt="avatar" id="profileImagePreview">
-                                                    @else
-                                                        <img src="{{ asset('149071.png') }}" class="personal-avatar" alt="avatar"
-                                                            id="profileImagePreview">
-                                                    @endif
-                                </label>
-                                <p>PNG, JPG, JPEG</p>
-                            </div>
-                            <span class="text-danger">
-                                @error('profile_photo')
+                    @if (session()->has('success'))
+                        <div class="alert alert-success" style="background-color: green;">
+                            <p style="color: #fff;">{{ session()->get('success') }}</p>
+                        </div>
+                    @endif
+                    @if (session()->has('fail'))
+                        <div class="alert alert-danger" style="background-color: red;">
+                            <p style="color: #fff;">{{ session()->get('fail') }}</p>
+                        </div>
+                    @endif
+
+                    <div class="row mb-3">
+                        <div class="col-md-12 mb-3">
+                            <label for="nombre" class="form-label text-secondary">Nombre</label>
+                            <input type="text" class="form-control @error('first_name') is-invalid @enderror" name="first_name" id="nombre" placeholder="Nombre" value="{{ old('first_name', $userData->name) }}" aria-label="Nombre">
+                            @error('first_name')
+                                <div class="invalid-feedback">
                                     {{ $message }}
-                                @enderror
-                            </span>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6">
-                        <label class="col-form-label">Nombre completo</label>
-                        <input class="form-control" type="text" name="name" value="{{ old('name', $userData->name) }}" placeholder="John">
-                        <span class="text-danger">
-                            @error('name')
-                                {{ $message }}
-                            @enderror
-                        </span>
-                    </div>
-
-                    <div class="col-sm-6">
-                        <label class="col-form-label">Store Name</label>
-                        <input class="form-control" type="text" name="store" value="{{ old('store', $userData->store) }}">
-                        <span class="text-danger">
-                            @error('store')
-                                {{ $message }}
-                            @enderror
-                        </span>
-                    </div>
-
-                    <div class="col-sm-6">
-                        <label class="col-form-label">Department</label>
-                        <input class="form-control" type="text" name="department" value="{{ old('department', $userData->department) }}">
-                        <span class="text-danger">
-                            @error('department')
-                                {{ $message }}
-                            @enderror
-                        </span>
-                    </div>
-
-                    <div class="col-sm-6">
-                        <label class="col-form-label">City</label>
-                        <input class="form-control" type="text" name="city" value="{{ old('city', $userData->city) }}" >
-                        <span class="text-danger">
-                            @error('city')
-                                {{ $message }}
-                            @enderror
-                        </span>
-                    </div>
-
-                    <div class="col-sm-6">
-                        <label class="col-form-label">Location</label>
-                        <input class="form-control" type="text" name="location" value="{{ old('location', $userData->location) }}" >
-                        <span class="text-danger">
-                            @error('location')
-                                {{ $message }}
-                            @enderror
-                        </span>
-                    </div>
-
-                    <div class="col-sm-6">
-                        <label class="col-form-label">Correo electrónico</label>
-                        <input class="form-control" type="email" name="email" value="{{ old('email', $userData->email) }}">
-                        <span class="text-danger">
-                            @error('email')
-                                {{ $message }}
-                            @enderror
-                        </span>
-                    </div>
-
-                    <div class="col-sm-6">
-                        <label class="col-form-label">Contraseña</label>
-                        <input class="form-control" type="password" name="password" value="{{ old('password', $userData->password) }}">
-                        <span class="text-danger">
-                            @error('password')
-                                {{ $message }}
-                            @enderror
-                        </span>
-                    </div>
-
-                    <div class="col-sm-6">
-                        <label class="col-form-label">Mobile Number</label>
-                        <input class="form-control" type="text" name="mobile_number" value="{{ old('mobile_number', $userData->mobile_number) }}">
-                        <span class="text-danger">
-                            @error('mobile_number')
-                                {{ $message }}
-                            @enderror
-                        </span>
-                    </div>
-
-                    <div class="col-sm-6">
-                        <label class="col-form-label">Alter Mobile Number</label>
-                        <input class="form-control" type="text" name="alter_mobile_number" value="{{ old('alter_mobile_number', $userData->alter_mobile_number) }}">
-                        <span class="text-danger">
-                            @error('alter_mobile_number')
-                                {{ $message }}
-                            @enderror
-                        </span>
-                    </div>
-
-                   
- <div class="col-sm-6">
-                                                            <label class="col-form-label">Assign Category</label>
-                                                            <div class="col-sm-6">
-                                    
-                                   <select name="categories[]" multiple class="select2 form-control">
-    @php
-    $categories = \App\Models\Category::all();
-    $userDataCategories = isset($userData) && !empty($userData->categories) ? explode(',', $userData->categories) : [];
-    @endphp
-    @foreach($categories as $row)
-    <option value="{{ $row->id }}" @if (in_array($row->id, $userDataCategories)) selected @endif>{{ $row->name }}</option>
-    @endforeach
-</select>
-
                                 </div>
-                                                        </div>
-                    <div class="col-sm-6">
-                        <label class="col-form-label">Assign Price</label>
-                        <br>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" id="priceBicycle" name="price" value="price1" @if(old('price', $userData->price) == 'price1') checked @endif required>
-                            <label class="form-check-label" for="priceBicycle">Price 1</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" id="priceMotorcycle" name="price" value="price2" @if(old('price', $userData->price) == 'price2') checked @endif required>
-                            <label class="form-check-label" for="priceMotorcycle">Price 2</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" id="priceShimano" name="price" value="price3" @if(old('price', $userData->price) == 'price3') checked @endif required>
-                            <label class="form-check-label" for="priceShimano">Price 3</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" id="priceLoadline" name="price" value="price4" @if(old('price', $userData->price) == 'price4') checked @endif required>
-                            <label class="form-check-label" for="priceLoadline">Price 4</label>
-                        </div>
-                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" id="priceLoadline" name="price" value="price5" @if(old('price', $userData->price) == 'price5') checked @endif required>
-                            <label class="form-check-label" for="priceLoadline">Price 5</label>
-                        </div>
-                        <span class="text-danger">
-                            @error('price')
-                                {{ $message }}
                             @enderror
-                        </span>
+                        </div>
+
                     </div>
 
-                    <div class="col-sm-6">
-                        <label class="col-form-label">Estado</label>
+                    <div class="row mb-3">
+                        <div class="col-md-12 mb-3">
+                            <label for="email" class="form-label text-secondary">Email</label>
+                            <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" id="email" placeholder="ejemplo@gmail.com" value="{{ old('email', $userData->email) }}" aria-label="Email">
+                            @error('email')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6 mb-3">
+                            <label for="carnet" class="form-label text-secondary">Número de carnet</label>
+                            <input type="text" class="form-control @error('id_number') is-invalid @enderror" name="id_number" id="carnet" placeholder="Número" value="{{ old('id_number', $userData->id_number) }}" aria-label="Número de carnet">
+                            @error('id_number')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="fechaNacimiento" class="form-label text-secondary">Fecha de Nacimiento</label>
+                            <input type="date" name="birth_date" class="form-control @error('birth_date') is-invalid @enderror" id="fechaNacimiento" value="{{ old('birth_date', $userData->birth_date) }}" aria-label="Fecha de nacimiento">
+                            @error('birth_date')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-12 mb-3">
+                            <label for="celular" class="form-label text-secondary">Celular</label>
+                            <input type="text" class="form-control @error('mobile_number ') is-invalid @enderror" name="mobile_number " id="celular" placeholder="+591" value="{{ old('mobile_number ', $userData->mobile_number ) }}" aria-label="Celular">
+                            @error('mobile_number ')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-12 mb-3">
+                            <label for="pais" class="form-label text-secondary">País</label>
+                            <select class="form-select @error('country') is-invalid @enderror" name="country" id="pais" aria-label="País">
+                                <option value="">Seleccionar País</option>
+                                @foreach($countries as $country)
+                                    <option value="{{ $country->id }}" {{ old('country', $userData->country) == $country->id ? 'selected' : '' }}>{{ $country->name }}</option>
+                                @endforeach
+                            </select>
+                            @error('country')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6 mb-3">
+                            <label for="direccion" class="form-label text-secondary">Dirección</label>
+                            <input type="text" class="form-control @error('address') is-invalid @enderror" name="address" id="direccion" placeholder="Dirección" value="{{ old('address', $userData->address) }}" aria-label="Dirección">
+                            @error('address')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="ciudad" class="form-label text-secondary">Ciudad</label>
+                            <select class="form-select @error('city') is-invalid @enderror" name="city" id="ciudad" aria-label="Ciudad">
+                                <option value="">Seleccionar Ciudad</option>
+                                @foreach($cities as $city)
+                                    <option value="{{ $city->id }}" {{ old('city', $userData->city) == $city->id ? 'selected' : '' }}>{{ $city->name }}</option>
+                                @endforeach
+                            </select>
+                            @error('city')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6 mb-3">
+                            <label for="contrasena" class="form-label text-secondary">Contraseña</label>
+                            <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" id="contrasena" placeholder="Dejar en blanco si no quiere cambiar" aria-label="Contraseña">
+                            @error('password')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="confirmContrasena" class="form-label text-secondary">Repetir Contraseña</label>
+                            <input type="password" name="confirm_password" class="form-control @error('confirm_password') is-invalid @enderror" id="confirmContrasena" placeholder="Dejar en blanco si no quiere cambiar" aria-label="Repetir contraseña">
+                            @error('confirm_password')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mb-3">
+                        <label class="col-form-label text-secondary">Activo</label>
                         <br>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" id="statusYes" name="status" value="1" @if(old('status', $userData->status) == '1') checked @endif required>
+                            <input class="form-check-input" type="radio" id="statusYes" name="status" value="1" {{ old('status', $userData->status) == 1 ? 'checked' : '' }}>
                             <label class="form-check-label" for="statusYes">Sí</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" id="statusNo" name="status" value="0" @if(old('status', $userData->status) == '0') checked @endif required>
+                            <input class="form-check-input" type="radio" id="statusNo" name="status" value="0" {{ old('status', $userData->status) == 0 ? 'checked' : '' }}>
                             <label class="form-check-label" for="statusNo">No</label>
                         </div>
-                        <span class="text-danger">
-                            @error('status')
-                                {{ $message }}
-                            @enderror
-                        </span>
+                        @error('status')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
                     </div>
 
-                    <div class="row g-2">
-                        <div class="col-sm-4">
-                            <button class="btn btn-primary" type="submit">Submit</button>
-                        </div>
-                    </div>
-                </div>
-            </form>
-
-            <script>
-                function previewImage(input) {
-                    var preview = document.getElementById('profileImagePreview');
-                    var file = input.files[0];
-                    var reader = new FileReader();
-                    reader.onloadend = function() {
-                        preview.src = reader.result;
-                    }
-                    if (file) {
-                        reader.readAsDataURL(file);
-                    } else {
-                        preview.src = "149071.png"; // Default image when no file selected
-                    }
-                }
-            </script>
-
-            </div>
-         </div>
-      </div>
-   </div>
-
-   <!-- sign up page ends-->
-</div>
-</div>
-<!-- page-wrapper Ends-->
-<div class="modal fade" id="sendMailModal" tabindex="-1" aria-labelledby="sendMailModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="sendMailModalLabel">Send Mail to {{ $userData->email }}
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form action="{{ url('admin/sendMail', $userData->id)}}" method="POST">
-                    @csrf
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div class="mb-3">
-                                    <label class="form-label">Subject</label>
-                                    <input type="subject" name="subject" class="form-control form-control-lg" required>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="mb-3">
-                                    <label class="form-label">Reply to </label>
-                                    <input type="email" name="reply_to" class="form-control form-control-lg"
-                                        value="{{$user_session->email}}" required>
-                                </div>
-                            </div>
-                        </div>
-                        <textarea name="message" rows="10" class="ckeditor"></textarea>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary btn-lg">Send</button>
+                    <div class="d-grid mb-3">
+                        <button type="submit" class="btn btn-primary">Actualizar</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+</div>
+
+
 @endsection

@@ -41,7 +41,7 @@ class BannerController extends Controller
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-       
+
         if ($request->hasFile('image')) {
 
             // Handle new image upload
@@ -112,7 +112,7 @@ class BannerController extends Controller
             $attribute->move(public_path('uploads/' . $destination), $file_name);
             // Update image path
             $image = 'uploads/' . $destination . '/' . $file_name;
-           
+
             $banner->image = $image;
         }
 
@@ -136,4 +136,23 @@ class BannerController extends Controller
 
         return redirect()->route('admin.banners.index')->with('success', 'Banner eliminado exitosamente');
     }
+    public function bulkDestroy(Request $request)
+{
+    try {
+        $bannerIds = $request->input('banners'); // Array of banner IDs to delete
+
+        if (empty($bannerIds)) {
+            return redirect()->back()->with('fail', 'No se seleccionó ningún banner para eliminar.');
+        }
+
+        // Delete banners from the database
+        Banner::whereIn('id', $bannerIds)->delete();
+
+        return redirect()->back()->with('success', 'Banners eliminados con éxito.');
+    } catch (\Exception $e) {
+        \Log::error('Error deleting banners: ' . $e->getMessage());
+        return redirect()->back()->with('fail', 'Error al eliminar los banners.');
+    }
+}
+
 }

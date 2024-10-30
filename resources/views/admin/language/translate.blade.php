@@ -3,9 +3,10 @@
     {{ $title }}
 @endsection
 @section('content')
-    <div class="page-body">
+    <div class="page-body" style="background: #000">
         <!-- Page content area start -->
-        <div class="page-content">
+        <br>
+        <div class="card" style="background: #fff">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">

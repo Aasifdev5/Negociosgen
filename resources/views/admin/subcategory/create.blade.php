@@ -3,15 +3,15 @@
     {{ $title }}
 @endsection
 @section('content')
-    <div class="page-body">
+    <div class="page-body" style="background: #000">
         <br>
         <!-- Page content area start -->
         <div class="page-content">
             <div class="container-fluid">
-                
+
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="card form-vertical__item bg-style">
+                        <div class="card form-vertical__item bg-style" style="background: #fff">
                             <div class="card-header item-top mb-30">
                                 <h2>{{ __('Agregar subcategoría') }}</h2>
                             </div>

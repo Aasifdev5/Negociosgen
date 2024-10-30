@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 28, 2024 at 01:41 PM
+-- Generation Time: Oct 30, 2024 at 02:47 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -75,6 +75,7 @@ CREATE TABLE `banners` (
   `button` varchar(255) DEFAULT NULL,
   `link` text DEFAULT NULL,
   `image` varchar(191) NOT NULL,
+  `page_banner` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -83,10 +84,9 @@ CREATE TABLE `banners` (
 -- Dumping data for table `banners`
 --
 
-INSERT INTO `banners` (`id`, `title1`, `title2`, `title3`, `button`, `link`, `image`, `created_at`, `updated_at`) VALUES
-(7, '2024 latest collection test', 'Wheel', 'Body Parts', 's', 'https://bikebros.net/productbyCategory/7', 'uploads/banners/1723702217-mTcMknHgSd.png', '2024-08-15 06:10:17', '2024-08-15 14:09:16'),
-(8, 'shanamo', 'accessories', 'lut', NULL, NULL, 'uploads/banners/1723703009-rFhKNqEMO7.png', '2024-08-15 06:19:06', '2024-08-15 06:23:29'),
-(11, 'Colección 2024', 'Ruedas', 'en oferta', NULL, NULL, 'uploads/banners/1723727116-W9v4hOAxHb.png', '2024-08-15 13:05:16', '2024-08-15 13:05:16');
+INSERT INTO `banners` (`id`, `title1`, `title2`, `title3`, `button`, `link`, `image`, `page_banner`, `created_at`, `updated_at`) VALUES
+(7, '2024 latest collection test', 'Wheel', 'Body Parts', 's', 'https://bikebros.net/productbyCategory/7', 'uploads/banners/1723702217-mTcMknHgSd.png', NULL, '2024-08-15 06:10:17', '2024-08-15 14:09:16'),
+(11, 'Colección 2024', 'Ruedas', 'en oferta', NULL, NULL, 'uploads/banners/1723727116-W9v4hOAxHb.png', NULL, '2024-08-15 13:05:16', '2024-08-15 13:05:16');
 
 -- --------------------------------------------------------
 
@@ -222,9 +222,8 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`id`, `uuid`, `name`, `image`, `is_feature`, `slug`, `meta_title`, `meta_description`, `meta_keywords`, `og_image`, `status`, `created_at`, `updated_at`) VALUES
-(7, '90cd37ac-b804-4095-a471-3651ec40718a', 'Bicicleta', 'uploads/category/1720419591-OiolP0oVX7.svg', 'no', 'Bicicleta', 'Bicicleta', 'Bicicleta', 'Bicicleta', 'uploads/meta/1720419591-rFBebR3bND.svg', 1, '2022-12-04 17:05:33', '2024-07-08 06:19:51'),
-(14, '86008391-2012-4caa-8a23-671590e5ce89', 'SHIMANO', 'uploads/category/1725847911-KbzFNUSZ4Y.png', 'yes', 'SHIMANO', 'SHIMANO', 'SHIMANO', 'SHIMANO', 'uploads/meta/1725847911-hr65AJbAZ7.png', 1, '2024-03-31 01:43:56', '2024-09-09 02:11:51'),
-(30, 'a9cf4942-064e-4b84-8e60-f5d70badf406', 'Tienda General', 'uploads/category/1726331916-0uIksOuW3q.png', 'yes', 'tienda-general', 'Tienda General', 'Tienda General', 'Tienda General', 'uploads/meta/1726331916-f8R4j8V3Fy.png', 1, '2024-09-14 16:38:36', '2024-09-14 16:38:36');
+(30, 'a9cf4942-064e-4b84-8e60-f5d70badf406', 'Tienda General', 'uploads/category/1726331916-0uIksOuW3q.png', 'yes', 'tienda-general', 'Tienda General', 'Tienda General', 'Tienda General', 'uploads/meta/1726331916-f8R4j8V3Fy.png', 1, '2024-09-14 16:38:36', '2024-09-14 16:38:36'),
+(31, 'b7ece814-260a-4330-bdc8-e8de6e15fe48', 'Arshcfsd', NULL, 'no', 'Arshcfsd', NULL, NULL, NULL, NULL, 1, '2024-10-30 08:12:33', '2024-10-30 08:14:18');
 
 -- --------------------------------------------------------
 
@@ -549,7 +548,8 @@ CREATE TABLE `languages` (
 
 INSERT INTO `languages` (`id`, `language`, `iso_code`, `flag`, `rtl`, `status`, `default_language`, `created_at`, `updated_at`) VALUES
 (1, 'English', 'en', 'uploads/flag/1712285391-i4ttmDdVZy.jpg', 0, 1, NULL, '2024-04-03 08:07:55', '2024-04-04 21:19:51'),
-(2, 'Spanish', 'esp', 'uploads/flag/1712151497-QzC6JiBxzU.png', 0, 1, NULL, '2024-04-03 08:08:17', '2024-04-03 08:08:17');
+(2, 'Spanish', 'esp', 'uploads/flag/1712151497-QzC6JiBxzU.png', 0, 1, NULL, '2024-04-03 08:08:17', '2024-04-03 08:08:17'),
+(3, 'Portuguese', 'por', 'uploads/flag/1730284740-nCG3TXpG4B.webp', 0, 1, NULL, '2024-10-30 05:02:08', '2024-10-30 05:09:00');
 
 -- --------------------------------------------------------
 
@@ -572,9 +572,9 @@ CREATE TABLE `mail_templates` (
 --
 
 INSERT INTO `mail_templates` (`id`, `alias`, `name`, `subject`, `body`, `shortcodes`, `status`) VALUES
-(10, 'password_reset', 'Restablecer Contraseña', 'Notificación de Restablecimiento de Contraseña', '<p><strong>Reset Password Notification</strong></p><p><img src=\"../../../logo-removebg-preview.png\" alt=\"\"></p><h2><strong>Hello!</strong></h2><p>You are receiving this email because we received a password reset request for your account, please click on the link below to reset your password.</p><p><a href=\"{{link}}\">{{link}}</a></p><p>This password reset link will expire in <strong>15</strong> minutes. If you did not request a password reset, no further action is required.</p><p><strong>Best Regards</strong></p><p><strong>BIKEBROS Team</strong></p><p>&nbsp;<a href=\"https://www.instagram.com/skyforecasting/\"><img src=\"https://skyforecasting.net/help-center/media/images/ofBRYlvT1cu30VS_1700260141.png\"></a> <a href=\"https://twitter.com/skyforecasting\"><img src=\"https://skyforecasting.net/help-center/media/images/lSr0pUYldGRD46h_1700260215.png\"></a> <img src=\"https://skyforecasting.net/help-center/media/images/pk8iEq2c7f3mICO_1700260869.png\"> <img src=\"https://skyforecasting.net/help-center/media/images/krFVCzRVOornVih_1700260896.png\"></p><p>You received this email because you subscribed to our list.<br>&nbsp;<a href=\"https://skyforecasting.net/unsubscribepage/unsubscribe.html\">Unsubscribe</a> from future emails or update email preferences.<br>© 2024 BIKEBROS. All Rights Reserved.</p><p>&nbsp;</p><p><br>&nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</p><p>&nbsp;</p>', '{\n\"link\":\"Password reset link\",\n\"expiry_time\":\"Link expiry time\",\n\"website_name\":\"Your website name\"\n}', 1),
-(11, 'email_verification', 'Verificación de Correo Electrónico', 'Verificar Dirección de Correo Electrónico', '<p><strong>Verify Email Address</strong></p><p><img src=\"../../../logo-removebg-preview.png\" alt=\"\"></p><h2>Hello!</h2><p>Please click on the link below to verify your email address.</p><p><a href=\"{{link}}\">{{link}}</a></p><p>If you did not create an account, no further action is required.</p><p><br><strong>Best Regards</strong></p><p><strong>BIKEBROS&nbsp;Team</strong></p><p>&nbsp;<a href=\"https://www.instagram.com/skyforecasting/\"><img src=\"https://skyforecasting.net/help-center/media/images/ofBRYlvT1cu30VS_1700260141.png\"></a> <a href=\"https://twitter.com/skyforecasting\"><img src=\"https://skyforecasting.net/help-center/media/images/lSr0pUYldGRD46h_1700260215.png\"></a> <a href=\"https://www.facebook.com/profile.php?id=61553152322786\"><img src=\"https://skyforecasting.net/help-center/media/images/pk8iEq2c7f3mICO_1700260869.png\"></a> <a href=\"https://www.youtube.com/channel/UCscdHPJ4f79CAmiO2f9gJoA\"><img src=\"https://skyforecasting.net/help-center/media/images/krFVCzRVOornVih_1700260896.png\"></a></p><p>You received this email because you subscribed to our list.<br>&nbsp;<a href=\"https://skyforecasting.net/unsubscribepage/unsubscribe.html\">Unsubscribe</a> from future emails or update email preferences.<br>© 2024 BIKEBROS. All Rights Reserved.</p>', '{\"link\":\"Email verification link\",\"website_name\":\"Your website name\"}', 1),
-(18, 'welcome', 'Bienvenida', 'Bienvenido a BIKEBROS', '<h2><strong>Bienvenido a BikeBros</strong></h2><p><strong><img src=\"../../../logo-removebg-preview.png\" alt=\"\"></strong></p><p>Hola {{name}},&nbsp;</p><p>Welcome to &nbsp;<strong>ACELERA</strong>! We’re so excited to have you on board.</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Start Exploring</p><p>If you have any questions along the way, don’t hesitate to reach out to our customer success team. We’re always here to help.</p><p><br><strong>Best Regards</strong></p><p><strong>ACELERA&nbsp; Team</strong></p><p>&nbsp;<a href=\"https://www.instagram.com/skyforecasting/\"><img src=\"https://skyforecasting.net/help-center/media/images/ofBRYlvT1cu30VS_1700260141.png\"></a> <a href=\"https://twitter.com/skyforecasting\"><img src=\"https://skyforecasting.net/help-center/media/images/lSr0pUYldGRD46h_1700260215.png\"></a> <a href=\"https://www.facebook.com/profile.php?id=61553152322786\"><img src=\"https://skyforecasting.net/help-center/media/images/pk8iEq2c7f3mICO_1700260869.png\"></a> <a href=\"https://www.youtube.com/channel/UCscdHPJ4f79CAmiO2f9gJoA\"><img src=\"https://skyforecasting.net/help-center/media/images/krFVCzRVOornVih_1700260896.png\"></a></p><p>You received this email because you subscribed to our list.<br>&nbsp;<a href=\"https://skyforecasting.net/unsubscribepage/unsubscribe.html\">Unsubscribe</a> from future emails or update email preferences.<br>© 2024 &nbsp;ACELERA. All Rights Reserved.</p>', '{\"name\":\"name\",\"website_name\":\"Your website name\"}', 1);
+(10, 'password_reset', 'Restablecer Contraseña', 'Notificación de Restablecimiento de Contraseña', '<p><strong>Notificación de Restablecimiento de Contraseña</strong></p><p>¡Hola!</p><p>Estás recibiendo este correo electrónico porque hemos recibido una solicitud para restablecer la contraseña de tu cuenta. Por favor, haz clic en el enlace de abajo para restablecer tu contraseña.</p><p>{{link}}</p><p>Este enlace para restablecer la contraseña caducará en 15 minutos. Si no solicitaste un restablecimiento de contraseña, no es necesario que realices ninguna otra acción.</p><p>Saludos cordiales,</p><p>El equipo de Negociosgen</p><hr><p>Recibiste este correo porque te suscribiste a nuestra lista.<br>Darse de baja de futuros correos o actualizar las preferencias de correo.<br>© 2024 Negociosgen. Todos los derechos reservados.</p>', '{\n\"link\":\"Password reset link\",\n\"expiry_time\":\"Link expiry time\",\n\"website_name\":\"Your website name\"\n}', 1),
+(11, 'email_verification', 'Verificación de Correo Electrónico', 'Verificar Dirección de Correo Electrónico', '<p><strong>Verificar Dirección de Correo Electrónico</strong></p><p>¡Hola!</p><p>Por favor, haz clic en el enlace de abajo para verificar tu dirección de correo electrónico.</p><p>{{link}}</p><p>Si no creaste una cuenta, no es necesario que realices ninguna otra acción.</p><p>Saludos cordiales,</p><p>El equipo de Negociosgen</p><hr><p>Recibiste este correo porque te suscribiste a nuestra lista.<br>Darse de baja de futuros correos o actualizar las preferencias de correo.<br>© 2024 Negociosgen. Todos los derechos reservados.</p>', '{\"link\":\"Email verification link\",\"website_name\":\"Your website name\"}', 1),
+(18, 'welcome', 'Bienvenida', 'Bienvenido a Negociosgen', '<h2><p><strong>Bienvenido a Negociosgen</strong></p><p>Hola {{name}},</p><p>¡Bienvenido a Negociosgen! Estamos muy emocionados de tenerte a bordo.</p></h2><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style=\"background-color: transparent;\">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Comienza a Explorar</span></p><div><p>Si tienes alguna pregunta en el camino, no dudes en comunicarte con nuestro equipo de atención al cliente. Siempre estamos aquí para ayudarte.</p><p>Saludos cordiales,</p><p>El equipo de Negociosgen</p><hr><p>Recibiste este correo porque te suscribiste a nuestra lista.<br>Darse de baja de futuros correos o actualizar las preferencias de correo.<br>© 2024 Negociosgen. Todos los derechos reservados.</p></div>', '{\"name\":\"name\",\"website_name\":\"Your website name\"}', 1);
 
 -- --------------------------------------------------------
 
@@ -596,92 +596,7 @@ CREATE TABLE `media` (
 --
 
 INSERT INTO `media` (`id`, `title`, `url`, `thumbnail`, `created_at`, `updated_at`) VALUES
-(6, 'Lente sp216bk.png', NULL, '/product_images/1723123242.png', '2024-08-08 13:20:42', '2024-08-08 13:20:42'),
-(7, 'Lente sp216bk.png', NULL, '/product_images/1723258698.png', '2024-08-10 02:58:18', '2024-08-10 02:58:18'),
-(8, '10164.png', NULL, '/product_images/1723259082.png', '2024-08-10 03:04:42', '2024-08-10 03:04:42'),
-(9, 'sp216bl.png', NULL, '/product_images/1723259357.png', '2024-08-10 03:09:17', '2024-08-10 03:09:17'),
-(10, 'sp216az', NULL, '/product_images/1723259586.png', '2024-08-10 03:13:06', '2024-08-10 03:13:06'),
-(11, 'sp216ne', NULL, '/product_images/1723259685.png', '2024-08-10 03:14:45', '2024-08-10 03:14:45'),
-(12, 'dfsd', NULL, '/product_images/1723269252.png', '2024-08-10 05:54:12', '2024-08-10 05:54:12'),
-(25, 'blue', NULL, '/product_images/1723782797.png', '2024-08-16 04:33:17', '2024-08-16 04:33:17'),
-(26, 'black', NULL, '/product_images/1723783123.png', '2024-08-16 04:38:43', '2024-08-16 04:38:43'),
-(27, 'black', NULL, '/product_images/1723783127.png', '2024-08-16 04:38:47', '2024-08-16 04:38:47'),
-(28, 'IMAGEN MOTO', NULL, '/product_images/1723783158.png', '2024-08-16 04:39:18', '2024-08-16 04:39:18'),
-(29, 'blue', NULL, '/product_images/1723783923.png', '2024-08-16 04:52:03', '2024-08-16 04:52:03'),
-(30, 'black', NULL, '/product_images/1723784365.png', '2024-08-16 04:59:25', '2024-08-16 04:59:25'),
-(31, 'caja', NULL, '/product_images/1723787010.png', '2024-08-16 05:43:30', '2024-08-16 05:43:30'),
-(32, 'moto', NULL, '/product_images/1723787146.png', '2024-08-16 05:45:46', '2024-08-16 05:45:46'),
-(33, 'dedo medio rojo.jpeg', NULL, '/product_images/1723998018.jpeg', '2024-08-18 16:20:18', '2024-08-18 16:20:18'),
-(34, 'dedo medio negro.jpeg', NULL, '/product_images/1723998046.jpeg', '2024-08-18 16:20:46', '2024-08-18 16:20:46'),
-(35, 'azul', NULL, '/product_images/1724144284.png', '2024-08-20 08:58:04', '2024-08-20 08:58:04'),
-(36, 'azul', NULL, '/product_images/1724144285.png', '2024-08-20 08:58:05', '2024-08-20 08:58:05'),
-(37, 'azul', NULL, '/product_images/1724144334.png', '2024-08-20 08:58:54', '2024-08-20 08:58:54'),
-(38, 'azul', NULL, '/product_images/1724144335.png', '2024-08-20 08:58:55', '2024-08-20 08:58:55'),
-(39, 'klklll', NULL, '/product_images/1724144485.png', '2024-08-20 09:01:25', '2024-08-20 09:01:25'),
-(40, 'jhkhjkjhkhj', NULL, '/product_images/1724144693.png', '2024-08-20 09:04:53', '2024-08-20 09:04:53'),
-(41, 'cfgdfgrd', NULL, '/product_images/1724145313.png', '2024-08-20 09:15:13', '2024-08-20 09:15:13'),
-(42, 'solocolor', NULL, '/product_images/1725315792.png', '2024-09-02 22:23:12', '2024-09-02 22:23:12'),
-(43, 'negro1', NULL, '/product_images/1725373800.jpg', '2024-09-03 14:30:00', '2024-09-03 14:30:00'),
-(44, 'negro2', NULL, '/product_images/1725373827.jpg', '2024-09-03 14:30:27', '2024-09-03 14:30:27'),
-(45, 'negro3', NULL, '/product_images/1725374027.jpg', '2024-09-03 14:33:47', '2024-09-03 14:33:47'),
-(46, 'verde1', NULL, '/product_images/1725374048.jpeg', '2024-09-03 14:34:08', '2024-09-03 14:34:08'),
-(47, 'verde2', NULL, '/product_images/1725374069.jpeg', '2024-09-03 14:34:29', '2024-09-03 14:34:29'),
-(48, 'verde3', NULL, '/product_images/1725374089.jpg', '2024-09-03 14:34:49', '2024-09-03 14:34:49'),
-(49, 'rojo1', NULL, '/product_images/1725374111.jpeg', '2024-09-03 14:35:11', '2024-09-03 14:35:11'),
-(50, 'rojo2', NULL, '/product_images/1725374131.png', '2024-09-03 14:35:31', '2024-09-03 14:35:31'),
-(51, 'rojo3', NULL, '/product_images/1725374152.jpg', '2024-09-03 14:35:52', '2024-09-03 14:35:52'),
-(52, 'calculadoraa', NULL, '/product_images/1725374328.jpg', '2024-09-03 14:38:48', '2024-09-03 14:38:48'),
-(53, 'Boligrafo', NULL, '/product_images/1725374348.jpeg', '2024-09-03 14:39:08', '2024-09-03 14:39:08'),
-(55, 'tx2', NULL, '/product_images/1725460469.png', '2024-09-04 14:34:29', '2024-09-04 14:34:29'),
-(56, 'tx1', NULL, '/product_images/1725464417.png', '2024-09-04 15:40:17', '2024-09-04 15:40:17'),
-(57, 'p1', NULL, '/product_images/1725543350.png', '2024-09-05 13:35:50', '2024-09-05 13:35:50'),
-(58, 'Imagen prueba tienda general', NULL, '/product_images/1726332085.png', '2024-09-14 16:41:25', '2024-09-14 16:41:25'),
-(59, '1. MF-TZ500-7', NULL, '/product_images/1726606154.png', '2024-09-17 20:49:14', '2024-09-17 20:49:14'),
-(60, '2. MF-TZ500-7', NULL, '/product_images/1726606181.png', '2024-09-17 20:49:41', '2024-09-17 20:49:41'),
-(61, '3.RD-TZ500-GS', NULL, '/product_images/1726606215.png', '2024-09-17 20:50:15', '2024-09-17 20:50:15'),
-(62, '4. SL-TZ500-7R', NULL, '/product_images/1726606295.png', '2024-09-17 20:51:35', '2024-09-17 20:51:35'),
-(63, '5. FD-TY601-L6', NULL, '/product_images/1726606323.png', '2024-09-17 20:52:03', '2024-09-17 20:52:03'),
-(64, '6. RD-TY200-GS', NULL, '/product_images/1726606351.png', '2024-09-17 20:52:31', '2024-09-17 20:52:31'),
-(65, '7. RD-TY500-SGS', NULL, '/product_images/1726606383.png', '2024-09-17 20:53:03', '2024-09-17 20:53:03'),
-(66, '8. BR-TX805', NULL, '/product_images/1726606401.png', '2024-09-17 20:53:21', '2024-09-17 20:53:21'),
-(67, '9. ST-EF41-7R', NULL, '/product_images/1726606424.png', '2024-09-17 20:53:44', '2024-09-17 20:53:44'),
-(68, '10. SL-M315-8R', NULL, '/product_images/1726606467.jpeg', '2024-09-17 20:54:27', '2024-09-17 20:54:27'),
-(69, '11. RD-M3100-SGS', NULL, '/product_images/1726606561.png', '2024-09-17 20:56:01', '2024-09-17 20:56:01'),
-(70, '12. SL-M3100-L', NULL, '/product_images/1726606589.png', '2024-09-17 20:56:29', '2024-09-17 20:56:29'),
-(71, '13. SL-M3100-R', NULL, '/product_images/1726606621.png', '2024-09-17 20:57:01', '2024-09-17 20:57:01'),
-(72, '14. CS-LG300', NULL, '/product_images/1726606944.png', '2024-09-17 21:02:24', '2024-09-17 21:02:24'),
-(73, '15. FC-U4010-2', NULL, '/product_images/1726606979.png', '2024-09-17 21:02:59', '2024-09-17 21:02:59'),
-(74, '16. FC-U6000-1', NULL, '/product_images/1726607009.png', '2024-09-17 21:03:29', '2024-09-17 21:03:29'),
-(75, '17. FD-U4000-L', NULL, '/product_images/1726607044.png', '2024-09-17 21:04:04', '2024-09-17 21:04:04'),
-(76, '18. RD-U4000', NULL, '/product_images/1726607078.png', '2024-09-17 21:04:38', '2024-09-17 21:04:38'),
-(77, '19. SL-U4000-9R', NULL, '/product_images/1726610986.png', '2024-09-17 22:09:46', '2024-09-17 22:09:46'),
-(78, '20. SL-U4000-L', NULL, '/product_images/1726611022.png', '2024-09-17 22:10:22', '2024-09-17 22:10:22'),
-(79, '21. BRMT410KTBLM4100-L', NULL, '/product_images/1726611081.png', '2024-09-17 22:11:21', '2024-09-17 22:11:21'),
-(80, '22. BRMT420KTBLM4100-L', NULL, '/product_images/1726611138.png', '2024-09-17 22:12:18', '2024-09-17 22:12:18'),
-(81, '23. BRMT410KTBLM4100-L', NULL, '/product_images/1726611161.png', '2024-09-17 22:12:41', '2024-09-17 22:12:41'),
-(82, '24. BRMT420KTBLM4100-L', NULL, '/product_images/1726611183.png', '2024-09-17 22:13:03', '2024-09-17 22:13:03'),
-(83, '25. BRM6100KTBLM6100-L', NULL, '/product_images/1726611250.png', '2024-09-17 22:14:10', '2024-09-17 22:14:10'),
-(84, '26. BRM6120KTBLM6100-L', NULL, '/product_images/1726611289.png', '2024-09-17 22:14:49', '2024-09-17 22:14:49'),
-(85, '27. BRM6100KTBLM6100-L', NULL, '/product_images/1726611310.png', '2024-09-17 22:15:10', '2024-09-17 22:15:10'),
-(86, '28. BRM6120KTBLM6100-L', NULL, '/product_images/1726611329.png', '2024-09-17 22:15:29', '2024-09-17 22:15:29'),
-(87, '29. CN-M6100', NULL, '/product_images/1726611374.png', '2024-09-17 22:16:14', '2024-09-17 22:16:14'),
-(88, '30. CS-M6100-12', NULL, '/product_images/1726611399.png', '2024-09-17 22:16:39', '2024-09-17 22:16:39'),
-(89, '31. FD-M4100-M', NULL, '/product_images/1726611431.png', '2024-09-17 22:17:11', '2024-09-17 22:17:11'),
-(90, '32. FD-M5100-M', NULL, '/product_images/1726611457.png', '2024-09-17 22:17:38', '2024-09-17 22:17:38'),
-(91, '33. RD-M5100-SGS', NULL, '/product_images/1726611483.png', '2024-09-17 22:18:03', '2024-09-17 22:18:03'),
-(92, '34. RD-M6100-SGS', NULL, '/product_images/1726611553.png', '2024-09-17 22:19:13', '2024-09-17 22:19:13'),
-(93, '35. SL-M5100-L', NULL, '/product_images/1726611576.png', '2024-09-17 22:19:36', '2024-09-17 22:19:36'),
-(94, '36. BRM7100JTBLM7100-L', NULL, '/product_images/1726611640.png', '2024-09-17 22:20:40', '2024-09-17 22:20:40'),
-(95, '37. BRM7100JTBLM7100-L', NULL, '/product_images/1726611761.png', '2024-09-17 22:22:41', '2024-09-17 22:22:41'),
-(96, '38. CS-M7100-12', NULL, '/product_images/1726611780.png', '2024-09-17 22:23:00', '2024-09-17 22:23:00'),
-(97, '39. RD-M7100-SGS', NULL, '/product_images/1726611799.png', '2024-09-17 22:23:19', '2024-09-17 22:23:19'),
-(98, '40. P-SL-M7000-11-R', NULL, '/product_images/1726612421.png', '2024-09-17 22:33:41', '2024-09-17 22:33:41'),
-(99, '41. BRM8100KTBLM8100-L', NULL, '/product_images/1726612449.png', '2024-09-17 22:34:09', '2024-09-17 22:34:09'),
-(100, '42. BRM8100KTBLM8100-L', NULL, '/product_images/1726612542.png', '2024-09-17 22:35:42', '2024-09-17 22:35:42'),
-(101, '43. SM-CRM85_36T', NULL, '/product_images/1726612569.png', '2024-09-17 22:36:09', '2024-09-17 22:36:09'),
-(102, '44. CS-M8100-12', NULL, '/product_images/1726612606.png', '2024-09-17 22:36:46', '2024-09-17 22:36:46'),
-(103, '45. RD-M8100-SGS', NULL, '/product_images/1726612631.png', '2024-09-17 22:37:11', '2024-09-17 22:37:11'),
-(104, '46. P-SL-M640', NULL, '/product_images/1726612654.png', '2024-09-17 22:37:34', '2024-09-17 22:37:34');
+(105, 'adss', NULL, '/product_images/1730293850.png', '2024-10-30 07:40:50', '2024-10-30 07:43:34');
 
 -- --------------------------------------------------------
 
@@ -1172,7 +1087,9 @@ INSERT INTO `notifications` (`id`, `uuid`, `sender_id`, `user_id`, `text`, `targ
 (63, '05378e7a-79ea-4538-aa8b-4a50be59ad5a', 29, 4, 'chatting with mail notification', 'http://127.0.0.1:8000/chat', 'no', 2, '2024-04-17 03:22:59', '2024-04-17 03:22:59'),
 (64, '564bf604-08b1-4d30-aa9a-0da9388cc1e9', 4, 29, 'yeah', 'http://127.0.0.1:8000/chat', 'no', 2, '2024-04-17 03:24:36', '2024-04-17 03:24:36'),
 (65, '9b0a5d7d-8ddd-40e1-9f85-709e566db217', 1, 1, 'A new blog has posted on the platform.', 'http://127.0.0.1:8000/blog_details/T%C3%ADtulo%20del%20Blog', 'no', 2, '2024-10-28 03:50:57', '2024-10-28 03:50:57'),
-(66, '81d70b39-7df8-48e0-8b15-8c4af146004a', 1, 1, 'A new blog has posted on the platform.', 'http://127.0.0.1:8000/blog_details/T%C3%ADtulo%20del%20Blog%203', 'no', 2, '2024-10-28 03:52:57', '2024-10-28 03:52:57');
+(66, '81d70b39-7df8-48e0-8b15-8c4af146004a', 1, 1, 'A new blog has posted on the platform.', 'http://127.0.0.1:8000/blog_details/T%C3%ADtulo%20del%20Blog%203', 'no', 2, '2024-10-28 03:52:57', '2024-10-28 03:52:57'),
+(67, '7fb7a456-ec87-4831-9cb6-007aad398a97', 3, 3, 'A new user has registered on the platform.', 'http://127.0.0.1:8000/admin/users', 'no', 1, '2024-10-29 22:26:39', '2024-10-29 22:26:39'),
+(68, 'af38da33-730c-4eb3-846d-2a44a88a935b', 4, 4, 'A new user has registered on the platform.', 'http://127.0.0.1:8000/admin/users', 'no', 1, '2024-10-30 06:09:30', '2024-10-30 06:09:30');
 
 -- --------------------------------------------------------
 
@@ -1663,53 +1580,10 @@ CREATE TABLE `subcategories` (
 --
 
 INSERT INTO `subcategories` (`id`, `uuid`, `parent_category_id`, `category_id`, `name`, `slug`, `meta_title`, `meta_description`, `meta_keywords`, `og_image`, `created_at`, `updated_at`) VALUES
-(1, 'f9ec5844-335b-4b4e-b47e-cdfcec086803', 7, 0, 'Llanta', 'Llanta', 'Llanta', 'Llanta', 'Llanta', 'uploads/meta/1721184693-ZWB3mf93IJ.png', '2024-06-25 01:50:30', '2024-07-17 02:51:33'),
-(2, 'f76206e5-8d59-4cd7-bb29-1e3e022fda6a', 7, 0, 'Accesorios', 'Accesorios', 'Accesorios', 'Accesorios', 'Accesorios', 'uploads/meta/1721181017-wDnXZ9y8Fm.svg', '2024-06-25 01:51:19', '2024-07-17 01:50:17'),
-(3, 'e0fb190e-2bad-4b44-8a2b-fffb564baeef', 7, 0, 'Partes', 'Partes', 'Partes', 'Partes', 'Partes', 'uploads/meta/1721186194-0er1x931bQ.png', '2024-06-25 01:51:39', '2024-07-17 03:16:34'),
-(4, 'ecb485c6-5c94-4a35-af58-0e0e8ce78995', 7, 0, 'Bicicletas Enteras', 'Bicicletas-Enteras', 'Bicicletas Enteras', 'Bicicletas Enteras', 'Bicicletas Enteras', 'uploads/meta/1721181343-sfTU6xX6yp.svg', '2024-06-25 01:51:58', '2024-07-17 01:55:43'),
-(6, 'cb1f26c7-e929-4f96-8650-47c123b4681a', 7, 4, 'Viking X', 'Viking-X', 'Viking X', 'Viking X', 'Viking X', NULL, '2024-06-28 11:41:13', '2024-06-28 11:41:13'),
-(7, '5dda2d9c-5c5f-4985-b2fc-8f2fcddba2e6', 7, 4, 'Gary Fisher', 'Gary-Fisher', 'Gary Fisher', 'Gary Fisher', 'Gary Fisher', NULL, '2024-06-28 11:41:42', '2024-06-28 11:41:42'),
-(8, '68becc36-18ea-4f9e-a51f-b04fee0dec11', 7, 3, 'Cuadro', 'Cuadro', 'Cuadro', 'Cuadro', 'Cuadro', NULL, '2024-06-28 11:45:08', '2024-06-28 11:45:08'),
-(9, '1827d80f-f609-40a9-8ee7-4755eb2eb357', 7, 3, 'Horquilla', 'Horquilla', 'Horquilla', 'Horquilla', 'Horquilla', NULL, '2024-06-28 11:45:37', '2024-06-28 11:45:37'),
-(10, '38aa6413-082d-4452-97b5-243ec1af1731', 7, 3, 'Mazo', 'Mazo', 'Mazo', 'Mazo', 'Mazo', NULL, '2024-06-28 11:46:09', '2024-06-28 11:46:09'),
-(11, '78066c4c-31f5-4b43-9382-aab95cf50cb1', 7, 3, 'Tija', 'Tija', 'Tija', 'Tija', 'Tija', NULL, '2024-06-28 11:47:10', '2024-06-28 11:47:10'),
-(12, 'c0fc3bee-e191-4535-b259-ad1a341f33a3', 7, 3, 'Estrella', 'Estrella', 'Estrella', 'Estrella', 'Estrella', NULL, '2024-06-28 11:47:40', '2024-06-28 11:47:40'),
-(13, '86adcd54-0c7a-4734-8258-8d16cd07b07d', 7, 3, 'Chicharra', 'Chicharra', 'Chicharra', 'Chicharra', 'Chicharra', NULL, '2024-06-28 11:48:12', '2024-06-28 11:48:12'),
-(14, '88ab1f29-f894-48d6-a37a-477deb344c1f', 7, 3, 'Freno', 'Freno', 'Freno', 'Freno', 'Freno', NULL, '2024-06-28 11:48:42', '2024-06-28 11:48:42'),
-(15, '0d80346a-8cc4-4814-9f4e-eca0d69db320', 7, 3, 'Caja Trasera', 'Caja-Trasera', 'Caja Trasera', 'Caja Trasera', 'Caja Trasera', NULL, '2024-06-28 11:49:15', '2024-06-28 11:49:15'),
-(16, '8387d893-7f7b-4bac-938e-6a92373015b5', 7, 3, 'Caja de cambio', 'Caja-de-cambio', 'Caja de cambio', 'Caja de cambio', 'Caja de cambio', NULL, '2024-06-28 11:49:52', '2024-06-28 11:49:52'),
-(17, '579d09e2-e175-434b-b789-dbcfe24732bb', 7, 3, 'Descarrilador', 'Descarrilador', 'Descarrilador', 'Descarrilador', 'Descarrilador', NULL, '2024-06-28 11:50:19', '2024-06-28 11:50:19'),
-(18, '4bfde5b6-55ef-45ec-8dd1-59d0117a33d0', 7, 3, 'Cubeta Central', 'Cubeta-Central', 'Cubeta Central', 'Cubeta Central', 'Cubeta Central', NULL, '2024-06-28 11:50:45', '2024-06-28 11:50:45'),
-(19, '09ba0d55-56f9-4210-885f-c0071933c7af', 7, 3, 'Cubeta de Horquilla', 'Cubeta-de-Horquilla', 'Cubeta de Horquilla', 'Cubeta de Horquilla', 'Cubeta de Horquilla', NULL, '2024-06-28 11:51:37', '2024-06-28 11:51:37'),
-(20, 'a59da9c1-e412-4292-b6d0-469852f017ce', 7, 3, 'Manubrio', 'Manubrio', 'Manubrio', 'Manubrio', 'Manubrio', NULL, '2024-06-28 11:51:58', '2024-06-28 11:51:58'),
-(21, 'e6ee250a-38cb-4412-acbf-babe0026d7b4', 7, 3, 'Plato', 'Plato', 'Plato', 'Plato', 'Plato', NULL, '2024-06-28 11:52:41', '2024-06-28 11:52:41'),
-(22, '8c491a53-1049-46a8-a43f-ebd3d95e1807', 7, 3, 'Disco de freno', 'Disco-de-freno', 'Disco de freno', 'Disco de freno', 'Disco de freno', NULL, '2024-06-28 11:53:06', '2024-06-28 11:53:06'),
-(23, 'a06b3d2f-166b-4706-9e69-d2fd3a72165d', 7, 3, 'Pastilla', 'Pastilla', 'Pastilla', 'Pastilla', 'Pastilla', NULL, '2024-06-28 11:53:57', '2024-06-28 11:53:57'),
-(24, '22a48fd5-9dae-4a43-8da2-b13091c461c8', 7, 3, 'Cadena', 'Cadena', 'Cadena', 'Cadena', 'Cadena', NULL, '2024-06-28 11:54:25', '2024-06-28 11:54:25'),
-(25, '025e6b75-bc80-4680-980c-c4a0c1333a22', 7, 3, 'Sillin', 'Sillin', 'Sillin', 'Sillin', 'Sillin', NULL, '2024-06-28 11:54:50', '2024-06-28 11:54:50'),
-(26, '680bf08b-9d94-4488-b94f-716f6d84e2ce', 7, 3, 'Radio', 'Radio', 'Radio', 'Radio', 'Radio', NULL, '2024-06-28 11:55:13', '2024-06-28 11:55:13'),
-(27, '1c809053-44e8-4a7d-b062-11c8e1945f9d', 7, 3, 'Steam', 'Steam', 'Steam', 'Steam', 'Steam', NULL, '2024-06-28 11:55:52', '2024-06-28 11:55:52'),
-(28, 'ced8a4c9-227e-4130-8586-cb0691350221', 7, 3, 'Amortiguador', 'Amortiguador', 'Amortiguador', 'Amortiguador', 'Amortiguador', NULL, '2024-06-28 11:56:15', '2024-06-28 11:56:15'),
-(29, 'b21a0d23-e4b8-4c26-9aaa-79b79a72de05', 7, 3, 'Palanca', 'Palanca', 'Palanca', 'Palanca', 'Palanca', NULL, '2024-06-28 11:56:38', '2024-06-28 11:56:38'),
-(30, '9e38871b-3612-42c9-9239-2e6870676612', 7, 3, 'Pedal', 'Pedal', 'Pedal', 'Pedal', 'Pedal', NULL, '2024-06-28 11:57:11', '2024-06-28 11:57:11'),
-(31, '73dd2e04-303b-40af-813f-a5f359691795', 7, 2, 'Lentes', 'Lentes', 'Lentes', 'Lentes', 'Lentes', NULL, '2024-06-28 11:57:40', '2024-06-28 11:57:40'),
-(32, 'c3df8cb1-6c37-4cb7-b515-f2f024993841', 7, 2, 'Luz', 'Luz', 'Luz', 'Luz', 'Luz', NULL, '2024-06-28 11:58:12', '2024-06-28 11:58:12'),
-(33, 'd009b69f-719c-4ebb-8523-176161aabc8f', 7, 2, 'Bocina', 'Bocina', 'Bocina', 'Bocina', 'Bocina', NULL, '2024-06-28 11:58:45', '2024-06-28 11:58:45'),
-(34, 'c4690a59-2b42-436a-a9f4-8724780ed104', 7, 2, 'Inflador', 'Inflador', 'Inflador', 'Inflador', 'Inflador', NULL, '2024-06-28 11:59:27', '2024-06-28 11:59:27'),
-(35, '6665560b-8a99-42b9-8107-628eb7e323bb', 7, 2, 'Bolsas', 'Bolsas', 'Bolsas', 'Bolsas', 'Bolsas', NULL, '2024-06-28 11:59:59', '2024-06-28 11:59:59'),
-(36, '679e2925-a507-4be3-ab3c-a43988601750', 7, 2, 'Portabotellon', 'Portabotellon', 'Portabotellon', 'Portabotellon', 'Portabotellon', NULL, '2024-06-28 12:00:31', '2024-06-28 12:00:31'),
-(37, '63431cc8-0827-488e-9461-e1c995b7de98', 7, 2, 'Botellon', 'Botellon', 'Botellon', 'Botellon', 'Botellon', NULL, '2024-06-28 12:01:00', '2024-06-28 12:01:00'),
-(38, '94bee6d8-2d15-462b-9a52-1f19f7661cd2', 7, 2, 'Ciclocomputador', 'Ciclocomputador', 'Ciclocomputador', 'Ciclocomputador', 'Ciclocomputador', NULL, '2024-06-28 12:01:33', '2024-06-28 12:01:33'),
-(39, '3016d480-7a29-43a2-af64-6b7ed5bf3228', 7, 2, 'Grip', 'Grip', 'Grip', 'Grip', 'Grip', NULL, '2024-06-28 12:02:01', '2024-06-28 12:02:01'),
-(40, '5c3650c2-e548-42b4-bb5d-6a32438573f9', 7, 2, 'Cinta protectora', 'Cinta-protectora', 'Cinta protectora', 'Cinta protectora', 'Cinta protectora', NULL, '2024-06-28 12:02:33', '2024-06-28 12:02:33'),
-(41, '511612c2-23c0-4fd0-9457-7c6a42ac644c', 7, 1, 'Llanta', 'Llanta', 'Llanta', 'Llanta', 'Llanta', '', '2024-06-28 12:03:21', '2024-07-17 00:48:17'),
-(42, '92e50482-28a5-4375-bbcc-4ce0b2d0abbe', 7, 1, 'Camara', 'Camara', 'Camara', 'Camara', 'Camara', NULL, '2024-06-28 12:03:50', '2024-06-28 12:03:50'),
 (44, 'ecf4cc39-3639-49c4-99bd-9994668c41f9', 9, 3, 'freno mt200', 'freno-mt200', 'freno mt200', 'mt200', 'mt200', 'uploads/meta/1719596399-6qvFp0pEZU.jpg', '2024-06-28 17:39:59', '2024-06-28 17:50:38'),
 (53, '7de43eb4-f859-416b-b333-cfbe2bbde783', NULL, 52, 'Child preuba', 'Child-preuba', 'Child preuba', 'Child preuba', 'Child preuba', 'uploads/meta/1723257754-lPN8u3HP0x.png', '2024-08-10 02:42:34', '2024-08-10 02:42:34'),
-(57, '12cd2d03-e4da-464a-9127-1e714706e59e', 14, 55, 'Caja Trasera.', 'Caja-Trasera', 'Caja Trasera.', 'Caja Trasera.', 'Caja Trasera.', NULL, '2024-08-13 22:58:55', '2024-08-13 23:05:54'),
 (58, 'fd2d0d76-390e-437b-a41c-2f0bf99524e5', 15, 0, 'Llanta burro', 'Llanta-burro', 'Llanta burro', 'Llanta burro', 'Llanta burro', 'uploads/meta/1723590042-gFjczrYmBf.jpeg', '2024-08-13 23:00:42', '2024-08-13 23:00:42'),
 (59, '1108950a-84c7-437a-b2f9-e6732170a88d', 15, 58, 'rombo', 'rombo', 'rombo', 'rombo', 'rombo', NULL, '2024-08-13 23:01:13', '2024-08-13 23:01:13'),
-(61, '5d281134-ab5c-4435-b22e-ebcb038a6e69', 14, 55, 'Freno.', 'Freno', 'Freno.', 'Freno.', 'Freno.', 'uploads/meta/1723640551-rIkLqm5CLE.jpg', '2024-08-14 13:02:31', '2024-08-14 13:02:31'),
 (62, '9ad33cba-9a94-41be-9a22-71718f0613c1', 19, 0, '29deagosto', '29deagosto', '29deagosto', '29deagosto', '29deagosto', 'uploads/meta/1723763227-mrdb40BySs.jpeg', '2024-08-15 23:07:07', '2024-08-15 23:07:07'),
 (63, '0ffc23dc-ec92-4649-9786-19b9e18dbc03', 19, 62, '1995', '1995', '1995', '1995', '1995', 'uploads/meta/1723763268-15p211Zh18.jpeg', '2024-08-15 23:07:48', '2024-08-15 23:07:48'),
 (64, '415b25ff-d050-4aa6-891d-7d5654845181', 19, 62, '1222', '1222', NULL, NULL, NULL, NULL, '2024-08-15 23:10:39', '2024-08-15 23:10:39'),
@@ -1728,7 +1602,6 @@ INSERT INTO `subcategories` (`id`, `uuid`, `parent_category_id`, `category_id`, 
 (79, '880fa0f9-80ca-4a2c-acb1-800025cae89b', 22, 0, 'SubCateSep', 'SubCateSep', 'SubCateSep', 'SubCateSep', 'SubCateSep', 'uploads/meta/1725370686-xYsYkp1k8r.jpg', '2024-09-03 13:38:06', '2024-09-03 13:38:06'),
 (80, '10e76f81-03c1-4500-9e80-5f29fe090de1', 22, 79, 'Enero', 'Enero', 'Enero', 'Enero', 'Enero', NULL, '2024-09-03 13:39:13', '2024-09-03 13:39:13'),
 (81, '80672d94-30e6-48cf-80bf-f9a41d946055', 22, 79, 'Febrero', 'Febrero', 'Febrero', 'Febrero', 'Febrero', NULL, '2024-09-03 13:39:39', '2024-09-03 13:39:39'),
-(82, '48ba20b4-c6bb-4bcd-9945-db6f1f62c026', 7, 1, 'sdfsdfsdfsdf', 'sdfsdfsdfsdf', 'sdfsadsadsa', 'sadsadad', 'asdsada', NULL, '2024-09-04 03:30:28', '2024-09-04 03:30:28'),
 (83, 'd1f657df-8a99-474c-8864-a636655d3102', 9, 69, 'testing cheild', 'testing-cheild', 'testing cheild', 'testing cheild', 'testing cheild', NULL, '2024-09-04 04:42:32', '2024-09-04 04:42:32'),
 (86, '51abc97e-cd8e-4a09-bfa9-a39329e2374b', 9, 0, 'subcategory testasd', 'subcategory-testasd', 'subcategory test', 'subcategory test', 'subcategory test', NULL, '2024-09-04 05:18:35', '2024-09-04 05:19:04'),
 (87, '9766a727-28de-4ec9-bddf-bbb93367d9be', 9, 86, 'childcategory test final', 'childcategory-test-final', 'childcategory test', 'childcategory test', 'childcategory test', NULL, '2024-09-04 05:24:16', '2024-09-04 05:24:51'),
@@ -1738,75 +1611,8 @@ INSERT INTO `subcategories` (`id`, `uuid`, `parent_category_id`, `category_id`, 
 (91, '0c63434d-700b-4f1b-804c-9319cbb368cd', 26, 90, 'Lunes', 'Lunes', 'Lunes', 'Lunes', 'Lunes', NULL, '2024-09-04 16:06:04', '2024-09-04 16:06:04'),
 (92, 'f2da7143-9160-4f9e-ace0-d60a8d5a166a', 26, 90, 'Martes', 'Martes', 'Martes', 'Martes', 'Martes', NULL, '2024-09-04 16:06:25', '2024-09-04 16:06:25'),
 (93, 'd8328afd-5f0e-451d-8fac-1f8657d43f7b', 26, 90, 'Miercoles', 'Miercoles', 'Miercoles', 'Miercoles', 'Miercoles', NULL, '2024-09-04 16:06:45', '2024-09-04 16:06:45'),
-(95, '4fe065d0-7959-421f-97fd-17576ffbb128', 14, 0, 'Acera', 'Acera', 'Acera', 'Acera', 'Acera', 'uploads/meta/1725850772-ICPiuD6oAM.png', '2024-09-09 02:59:32', '2024-09-09 03:05:05'),
-(96, '1a918a96-e4b6-46ce-9086-17a99e478596', 14, 0, 'Alivio', 'Alivio', 'Alivio', 'Alivio', 'Alivio', 'uploads/meta/1725850821-8c5eV1NL7Z.png', '2024-09-09 03:00:21', '2024-09-09 03:05:28'),
-(97, '7dbe1a72-3cf9-40fe-a80c-68d7c0d9f9a6', 14, 0, 'Altus', 'Altus', 'Altus', 'Altus', 'Altus', 'uploads/meta/1725850846-wPYMEGuaXx.png', '2024-09-09 03:00:46', '2024-09-09 03:05:45'),
-(98, 'f97146d4-84a3-415c-a5f9-5ee1ca59534f', 14, 0, 'Claris', 'Claris', 'Claris', 'Claris', 'Claris', 'uploads/meta/1725850901-N46f2midUh.png', '2024-09-09 03:01:41', '2024-09-09 03:01:41'),
-(99, 'c5bf5d99-dcc7-4030-ae97-976688ec919e', 14, 0, 'Cues', 'Cues', 'Cues', 'Cues', 'Cues', 'uploads/meta/1725851258-u0xoNmuxhQ.png', '2024-09-09 03:07:38', '2024-09-09 03:07:38'),
-(100, '27209c92-f9bd-446d-990f-51a1f28d6874', 14, 0, 'Deore', 'Deore', 'Deore', 'Deore', 'Deore', 'uploads/meta/1725851277-SlfDWmUzW3.png', '2024-09-09 03:07:57', '2024-09-09 03:07:57'),
-(101, 'd215ac35-f13d-4586-91ff-22ba017f7612', 14, 0, 'Deore 10s', 'Deore-10s', 'Deore 10s', 'Deore 10s', 'Deore 10s', 'uploads/meta/1725851299-zDYdsuSuOO.png', '2024-09-09 03:08:19', '2024-09-09 03:08:19'),
-(102, 'e6ae9756-1abf-42e4-9d94-9d8ba77c0ab5', 14, 0, 'Deore 11s', 'Deore-11s', 'Deore 11s', 'Deore 11s', 'Deore 11s', 'uploads/meta/1725851323-Brq6M6i1kc.png', '2024-09-09 03:08:43', '2024-09-09 03:08:43'),
-(103, '9f64075c-f3c9-401f-8d9e-27c782d20822', 14, 0, 'Deore 12s', 'Deore-12s', 'Deore 12s', 'Deore 12s', 'Deore 12s', 'uploads/meta/1725851346-mJ3gMTznup.png', '2024-09-09 03:09:06', '2024-09-09 03:09:06'),
-(104, '41e71a43-ad13-4522-a55e-e945885f32df', 14, 0, 'Deore XT', 'Deore-XT', 'Deore XT', 'Deore XT', 'Deore XT', 'uploads/meta/1725851364-a3AMv76hUO.png', '2024-09-09 03:09:24', '2024-09-09 03:09:24'),
-(105, '15e3a52d-3fb9-4c8c-ba9c-f98f1494ddb8', 14, 0, 'Dura-Ace', 'Dura-Ace', 'Dura-Ace', 'Dura-Ace', 'Dura-Ace', 'uploads/meta/1725851401-fMhhMs9Tiu.png', '2024-09-09 03:10:01', '2024-09-09 03:10:01'),
-(106, '5557d478-28e7-48ab-b995-f2eca187b48b', 14, 0, 'Essa', 'Essa', 'Essa', 'Essa', 'Essa', 'uploads/meta/1725851439-cGIKyzZIPm.png', '2024-09-09 03:10:39', '2024-09-09 03:10:39'),
-(107, '0e88112c-753a-4108-91ec-cba3b2d8b40b', 14, 0, 'Saint', 'Saint', 'Saint', 'Saint', 'Saint', 'uploads/meta/1725851459-HubXVeZSvn.png', '2024-09-09 03:10:59', '2024-09-09 03:10:59'),
-(108, '0b755065-7c30-42b7-88be-dc8b76658483', 14, 0, 'Slx', 'Slx', 'Slx', 'Slx', 'Slx', 'uploads/meta/1725851480-3731J2PHsW.png', '2024-09-09 03:11:20', '2024-09-09 03:11:20'),
-(109, '3834cde1-8ec5-4230-9a46-1508b7fffbca', 14, 0, 'Sora', 'Sora', 'Sora', 'Sora', 'Sora', 'uploads/meta/1725851499-GN0CzPTZBi.png', '2024-09-09 03:11:39', '2024-09-09 03:11:39'),
-(110, 'c2f714ab-282d-4329-824b-f134019d034d', 14, 0, 'Tiagra', 'Tiagra', 'Tiagra', 'Tiagra', 'Tiagra', 'uploads/meta/1725851518-5So0HPlh4l.png', '2024-09-09 03:11:58', '2024-09-09 03:11:58'),
-(111, '1d956dc1-e2f9-4da5-994c-ae387ef5e39c', 14, 0, 'Tourney', 'Tourney', 'Tourney', 'Tourney', 'Tourney', 'uploads/meta/1725851549-bMVD7hFEDo.png', '2024-09-09 03:12:29', '2024-09-09 03:12:29'),
-(112, 'dcf1203d-b680-4fb7-ba4f-ea9f88dcc39e', 14, 0, 'Tourney TX', 'Tourney-TX', 'Tourney TX', 'Tourney TX', 'Tourney TX', 'uploads/meta/1725851571-iKmhlH8w55.png', '2024-09-09 03:12:51', '2024-09-09 03:12:51'),
-(113, 'aa65c004-a790-406f-8560-eb673dd2206b', 14, 0, 'Tourney TZ', 'Tourney-TZ', 'Tourney TZ', 'Tourney TZ', 'Tourney TZ', 'uploads/meta/1725851593-ELJQO2dxrc.png', '2024-09-09 03:13:13', '2024-09-09 03:13:13'),
-(114, '34020b0a-860d-42c7-bae2-1bd3e71d0e56', 14, 0, 'Xtr', 'Xtr', 'Xtr', 'Xtr', 'Xtr', 'uploads/meta/1725851614-Ja2RIIO5aE.png', '2024-09-09 03:13:34', '2024-09-09 03:13:34'),
-(115, 'c65a1866-94e2-43ff-8b5c-7582ff8699f7', 14, 0, 'Ultegra', 'Ultegra', 'Ultegra', 'Ultegra', 'Ultegra', 'uploads/meta/1725851639-8rOUCTlJGe.png', '2024-09-09 03:13:59', '2024-09-09 03:13:59'),
-(116, 'e0a31f65-3b38-43ad-9de7-f23eb8a294fe', 14, 0, 'Zee', 'Zee', 'Zee', 'Zee', 'Zee', 'uploads/meta/1725851661-N0JYvKCSpB.png', '2024-09-09 03:14:21', '2024-09-09 03:14:21'),
-(117, 'fe696d27-ac06-4f45-a449-a751a1a61417', 14, 0, '105', '105', '105', '105', '105', 'uploads/meta/1725851679-1IajTa0aPb.png', '2024-09-09 03:14:39', '2024-09-09 03:14:39'),
-(118, 'd6c78762-5259-4c64-9d26-f0233371a59f', 14, 99, 'Bielas', 'Bielas', 'Bielas', 'Bielas', 'Bielas', NULL, '2024-09-09 03:17:21', '2024-09-09 03:17:21'),
-(119, '88151b1a-8071-45e5-88b2-723b3d74ec1d', 14, 111, 'Bottom', 'Bottom', 'Bottom', 'Bottom', 'Bottom', NULL, '2024-09-09 03:19:19', '2024-09-09 03:19:19'),
-(120, '96a2bf01-0b47-4891-88ef-990b3509aead', 14, 102, 'Bottom', 'Bottom', 'Bottom', 'Bottom', 'Bottom', NULL, '2024-09-09 03:19:37', '2024-09-09 03:19:37'),
-(121, '5bcacfdb-4039-40ed-aef0-c2a14779a0fe', 14, 103, 'Cadena', 'Cadena', 'Cadena', 'Cadena', 'Cadena', NULL, '2024-09-09 03:20:06', '2024-09-09 03:20:06'),
-(122, '1721aeae-72d9-4759-aa4b-68c20c911a9a', 14, 100, 'Cadena', 'Cadena', 'Cadena', 'Cadena', 'Cadena', NULL, '2024-09-09 03:20:28', '2024-09-09 03:20:28'),
-(123, '8b33669b-fb60-4d27-afc8-d210f0794adc', 14, 117, 'Cadena', 'Cadena', 'Cadena', 'Cadena', 'Cadena', NULL, '2024-09-09 03:20:44', '2024-09-09 03:20:44'),
-(124, 'f07fe00a-a9cf-421d-a680-2c69095b7a49', 14, 108, 'Cadena', 'Cadena', 'Cadena', 'Cadena', 'Cadena', NULL, '2024-09-09 03:21:45', '2024-09-09 03:21:45'),
-(125, 'af4527a9-d37e-46b3-9653-ced0d5d53812', 14, 99, 'Cadena', 'Cadena', 'Cadena', 'Cadena', 'Cadena', NULL, '2024-09-09 03:22:01', '2024-09-09 03:22:01'),
-(126, '3f3b2aff-7591-4773-8781-14d7d434334d', 14, 113, 'Caja Trasera', 'Caja-Trasera', 'Caja Trasera', 'Caja Trasera', 'Caja Trasera', NULL, '2024-09-09 03:22:31', '2024-09-09 03:22:31'),
-(127, '6fb1b961-358c-4db0-8128-c6767350ad45', 14, 111, 'Caja Trasera', 'Caja-Trasera', 'Caja Trasera', 'Caja Trasera', 'Caja Trasera', NULL, '2024-09-09 03:22:48', '2024-09-09 03:22:48'),
-(128, '729b0ded-1ee3-4b7e-b507-1b0b0629f59b', 14, 96, 'Caja Trasera', 'Caja-Trasera', 'Caja Trasera', 'Caja Trasera', 'Caja Trasera', NULL, '2024-09-09 03:23:08', '2024-09-09 03:23:08'),
-(129, '09e84941-a652-4031-896c-d73733a142e8', 14, 100, 'Caja Trasera', 'Caja-Trasera', 'Caja Trasera', 'Caja Trasera', 'Caja Trasera', NULL, '2024-09-09 03:23:40', '2024-09-09 03:23:40'),
-(130, 'ccaf40ec-6668-4d14-8d56-e5010c335514', 14, 108, 'Caja Trasera', 'Caja-Trasera', 'Caja Trasera', 'Caja Trasera', 'Caja Trasera', NULL, '2024-09-09 03:23:56', '2024-09-09 03:23:56'),
-(131, '6a859046-2550-47f9-b565-3affd66f47d4', 14, 104, 'Caja Trasera', 'Caja-Trasera', 'Caja Trasera', 'Caja Trasera', 'Caja Trasera', NULL, '2024-09-09 03:24:13', '2024-09-09 03:24:13'),
-(132, '4a7af059-c7d9-4a0e-b1bb-13ef958a08ec', 14, 112, 'Caliper', 'Caliper', 'Caliper', 'Caliper', 'Caliper', NULL, '2024-09-09 03:24:41', '2024-09-09 03:24:41'),
-(133, 'cb34697c-6f20-4b6a-a2b1-5c220a1feaf3', 14, 113, 'Chicharra', 'Chicharra', 'Chicharra', 'Chicharra', 'Chicharra', NULL, '2024-09-09 03:25:07', '2024-09-09 03:25:07'),
-(134, 'ca8cffb2-4b1f-4140-baba-938e0142774a', 14, 99, 'Chicharra', 'Chicharra', 'Chicharra', 'Chicharra', 'Chicharra', NULL, '2024-09-09 03:25:28', '2024-09-09 03:25:28'),
-(135, 'ac35540a-fb1b-42ad-b34f-4a26c472ac8b', 14, 100, 'Chicharra', 'Chicharra', 'Chicharra', 'Chicharra', 'Chicharra', NULL, '2024-09-09 03:26:40', '2024-09-09 03:26:40'),
-(136, '733f8de7-9e72-47de-a1ff-5f335a3ced28', 14, 108, 'Chicharra', 'Chicharra', 'Chicharra', 'Chicharra', 'Chicharra', NULL, '2024-09-09 03:26:59', '2024-09-09 03:26:59'),
-(137, '89929cf6-1d04-4cf3-9e4e-3c21ba05f542', 14, 104, 'Chicharra', 'Chicharra', 'Chicharra', 'Chicharra', 'Chicharra', NULL, '2024-09-09 03:27:26', '2024-09-09 03:27:26'),
-(138, '03743e4c-6a73-4613-88d3-f480e5203ebd', 14, 117, 'Chicharra', 'Chicharra', 'Chicharra', 'Chicharra', 'Chicharra', NULL, '2024-09-09 03:27:41', '2024-09-09 03:27:41'),
-(139, 'fea68273-dbe0-49f9-8da3-7e2c0589f11b', 14, 111, 'Descarrilador', 'Descarrilador', 'Descarrilador', 'Descarrilador', 'Descarrilador', NULL, '2024-09-09 03:28:16', '2024-09-09 03:28:16'),
-(140, 'a538c021-fd02-49ef-80d7-6ae525425fdf', 14, 99, 'Descarrilador', 'Descarrilador', 'Descarrilador', 'Descarrilador', 'Descarrilador', NULL, '2024-09-09 03:28:33', '2024-09-09 03:28:33'),
-(141, '24745557-39ee-47ae-99de-315a95f0bce4', 14, 100, 'Descarrilador', 'Descarrilador', 'Descarrilador', 'Descarrilador', 'Descarrilador', NULL, '2024-09-09 03:28:54', '2024-09-09 03:28:54'),
-(142, '3296a360-7eb8-4d5b-9379-9070d01bef75', 14, 109, 'Descarrilador', 'Descarrilador', 'Descarrilador', 'Descarrilador', 'Descarrilador', NULL, '2024-09-09 03:29:13', '2024-09-09 03:29:13'),
-(143, '03cb6e38-2217-481f-bbfa-13b0278787fd', 14, 110, 'Descarrilador', 'Descarrilador', 'Descarrilador', 'Descarrilador', 'Descarrilador', NULL, '2024-09-09 03:29:32', '2024-09-09 03:29:32'),
-(144, 'c22c2ff5-3f49-4e91-8445-5d9d6851c453', 14, 96, 'Disco de Freno', 'Disco-de-Freno', 'Disco de Freno', 'Disco de Freno', 'Disco de Freno', NULL, '2024-09-09 03:29:59', '2024-09-09 03:29:59'),
-(145, '542aafe5-2331-4a22-9d14-96a32862e4a9', 14, 100, 'Frenos', 'Frenos', 'Frenos', 'Frenos', 'Frenos', NULL, '2024-09-09 03:30:31', '2024-09-09 03:30:31'),
-(146, 'c525bdc9-20ee-4765-8216-0a6bfed98e74', 14, 108, 'Frenos', 'Frenos', 'Frenos', 'Frenos', 'Frenos', NULL, '2024-09-09 03:30:55', '2024-09-09 03:30:55'),
-(147, 'f6134bae-bf16-4d86-87dc-1bb8309410b2', 14, 104, 'Frenos', 'Frenos', 'Frenos', 'Frenos', 'Frenos', NULL, '2024-09-09 03:31:13', '2024-09-09 03:31:13'),
-(148, '224f8d14-fc50-4131-bf6a-8abdfde214fd', 14, 109, 'Frenos', 'Frenos', 'Frenos', 'Frenos', 'Frenos', NULL, '2024-09-09 03:31:32', '2024-09-09 03:31:32'),
-(149, 'c85626e8-e89a-49f9-8248-6dca2f705876', 14, 106, 'Cadena', 'Cadena', 'Cadena', 'Cadena', 'Cadena', NULL, '2024-09-09 03:32:50', '2024-09-09 03:32:50'),
-(150, 'f1f4fd6e-7f80-424c-a35b-6044b9f37a86', 14, 104, 'Plato', 'Plato', 'Plato', 'Plato', 'Plato', NULL, '2024-09-09 03:33:23', '2024-09-09 03:33:23'),
-(151, '6295bdc5-3535-4e46-826e-ffe8f926fd64', 14, 115, 'Roldanas', 'Roldanas', 'Roldanas', 'Roldanas', 'Roldanas', NULL, '2024-09-09 03:33:45', '2024-09-09 03:33:45'),
-(152, '13f4cb6e-d3df-4893-a730-9f38f571f477', 14, 113, 'Shifter', 'Shifter', 'Shifter', 'Shifter', 'Shifter', NULL, '2024-09-09 03:34:07', '2024-09-09 03:34:07'),
-(153, '5c9c2ae6-b59c-4382-b640-d106146fe3fe', 14, 111, 'Shifter', 'Shifter', 'Shifter', 'Shifter', 'Shifter', NULL, '2024-09-09 03:34:25', '2024-09-09 03:34:25'),
-(154, 'f657b71b-cb83-4a7b-8522-f411f161cb2b', 14, 97, 'Shifter', 'Shifter', 'Shifter', 'Shifter', 'Shifter', NULL, '2024-09-09 03:34:41', '2024-09-09 03:34:41'),
-(155, '30fe2da3-1ce5-4abb-b050-fcf68c1537cc', 14, 96, 'Shifter', 'Shifter', 'Shifter', 'Shifter', 'Shifter', NULL, '2024-09-09 03:34:56', '2024-09-09 03:34:56'),
-(156, '4cad675b-5991-4acd-8c6d-384b9bfed952', 14, 99, 'Shifter', 'Shifter', 'Shifter', 'Shifter', 'Shifter', NULL, '2024-09-09 03:35:16', '2024-09-09 03:35:16'),
-(157, '34671d9d-ab2f-41d7-a5f7-e4c8e7d3913f', 14, 102, 'Shifter', 'Shifter', 'Shifter', 'Shifter', 'Shifter', NULL, '2024-09-09 03:35:30', '2024-09-09 03:35:30'),
-(158, 'a7911c7e-2450-42c7-a132-801551fe39a2', 14, 108, 'Shifter', 'Shifter', 'Shifter', 'Shifter', 'Shifter', NULL, '2024-09-09 03:35:46', '2024-09-09 03:35:46'),
-(159, 'd729c683-65bc-40cc-a5fb-a17400932879', 14, 116, 'Shifter', 'Shifter', 'Shifter', 'Shifter', 'Shifter', NULL, '2024-09-09 03:36:01', '2024-09-09 03:36:01'),
-(160, 'd0916ebd-4720-4730-9ee4-47e6ab111994', 14, 0, 'B2', 'B2', NULL, NULL, NULL, 'uploads/meta/1725892864-f9VulAZE1l.png', '2024-09-09 14:40:22', '2024-09-09 14:41:04'),
-(161, '48465c50-7487-4282-951e-4a31bb59f5cc', 30, 0, 'Rio Seco', 'Rio-Seco', 'Rio Seco', 'Rio Seco', 'Rio Seco', 'uploads/meta/1726332197-c0c1DZlmry.jpg', '2024-09-14 16:43:17', '2024-09-14 16:43:17'),
-(162, '52a42c6d-0964-496a-b7ca-f7a9c0b3623f', 30, 161, 'Sucursal 1', 'Sucursal-1', 'Sucursal 1', 'Sucursal 1', 'Sucursal 1', NULL, '2024-09-14 16:43:32', '2024-09-14 16:43:32'),
-(163, '368e9bc2-83a4-40fe-bfe7-1255df3a57c4', 14, 112, 'Shifter', 'Shifter', 'Shifter', 'Shifter', 'Shifter', NULL, '2024-09-17 22:45:07', '2024-09-17 22:45:07');
+(164, '0e738fca-a05a-45d2-97c7-9a43d6bcaf17', 7, 0, 'Arshfdfrt', 'Arshfdfrt', NULL, NULL, NULL, NULL, '2024-10-30 08:00:02', '2024-10-30 08:03:08'),
+(165, 'cdd6cdf7-c206-411a-9d4f-f8e8b7aed740', 14, 0, 'fgsdfsa', 'fgsdfsa', NULL, NULL, NULL, NULL, '2024-10-30 08:01:05', '2024-10-30 08:01:05');
 
 -- --------------------------------------------------------
 
@@ -2989,7 +2795,10 @@ INSERT INTO `time_logs` (`id`, `user_id`, `start_time`, `end_time`, `created_at`
 
 CREATE TABLE `users` (
   `id` int(10) UNSIGNED NOT NULL,
+  `username` varchar(255) DEFAULT NULL,
+  `profile_photo` varchar(255) DEFAULT NULL,
   `account_type` varchar(255) DEFAULT NULL,
+  `is_online` tinyint(4) DEFAULT 0,
   `last_seen` timestamp NULL DEFAULT NULL,
   `birth_date` date DEFAULT NULL,
   `role` int(11) DEFAULT 2,
@@ -3000,25 +2809,22 @@ CREATE TABLE `users` (
   `password` varchar(191) NOT NULL,
   `custom_password` varchar(255) DEFAULT NULL,
   `mobile_number` varchar(191) DEFAULT NULL,
+  `about` text DEFAULT NULL,
   `city` varchar(255) DEFAULT NULL,
-  `categories` varchar(255) DEFAULT NULL,
-  `alter_mobile_number` varchar(255) DEFAULT NULL,
-  `location` varchar(255) DEFAULT NULL,
-  `department` varchar(255) DEFAULT NULL,
-  `store` varchar(255) DEFAULT NULL,
-  `is_online` tinyint(4) DEFAULT 0,
+  `facebook` varchar(255) DEFAULT NULL,
+  `instagram` varchar(255) DEFAULT NULL,
+  `linkedin` varchar(255) DEFAULT NULL,
+  `twitter` varchar(255) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
   `is_active` tinyint(4) DEFAULT 1,
   `status` int(11) DEFAULT 1,
-  `about` text DEFAULT NULL,
-  `photo_url` varchar(191) DEFAULT NULL,
-  `profile_photo` varchar(255) DEFAULT NULL,
   `remember_token` varchar(100) DEFAULT NULL,
   `ip_address` varchar(255) DEFAULT NULL,
   `balance` varchar(255) DEFAULT NULL,
   `is_system` tinyint(4) DEFAULT 0,
   `is_subscribed` tinyint(1) DEFAULT NULL,
-  `privacy` int(11) NOT NULL DEFAULT 1,
-  `gender` int(11) DEFAULT NULL,
+  `id_number` varchar(255) NOT NULL,
+  `country` varchar(255) DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `language` varchar(191) NOT NULL DEFAULT '''en''',
@@ -3031,9 +2837,10 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `account_type`, `last_seen`, `birth_date`, `role`, `permissions`, `name`, `email`, `email_verified_at`, `password`, `custom_password`, `mobile_number`, `city`, `categories`, `alter_mobile_number`, `location`, `department`, `store`, `is_online`, `is_active`, `status`, `about`, `photo_url`, `profile_photo`, `remember_token`, `ip_address`, `balance`, `is_system`, `is_subscribed`, `privacy`, `gender`, `created_by`, `deleted_at`, `language`, `is_super_admin`, `created_at`, `updated_at`) VALUES
-(1, 'admin', '2024-10-28 02:44:45', NULL, 1, NULL, 'SUPER ADMINISTRADOR', 'negociosgen@gmail.com', '2023-03-23 07:45:02', '$2y$10$xzAHnPbXnMT3Egv9hhG.BeekGkMElECUCv/.SYVuKmLI7nn69m9e.', NULL, '8878326802', 'bolivia', NULL, NULL, NULL, NULL, NULL, 1, 1, 1, NULL, NULL, '149071.png', NULL, NULL, NULL, 1, 0, 1, 1, NULL, NULL, 'es', 1, '2023-03-23 07:45:02', '2024-10-28 02:44:45'),
-(2, 'affiliate', NULL, '2024-10-04', 2, NULL, 'arsh aasif', 'aasifdev5@gmail.com', NULL, '$2y$10$SrPch6fIaF4ffuJzdKrZeuRx5jhObs6.2/tz8iXbfqJbHxZN6BhYS', NULL, '59109876543215', NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 1, NULL, NULL, NULL, NULL, '127.0.0.1', NULL, 0, NULL, 1, NULL, NULL, NULL, '\'en\'', 0, '2024-10-28 06:21:23', '2024-10-28 06:21:23');
+INSERT INTO `users` (`id`, `username`, `profile_photo`, `account_type`, `is_online`, `last_seen`, `birth_date`, `role`, `permissions`, `name`, `email`, `email_verified_at`, `password`, `custom_password`, `mobile_number`, `about`, `city`, `facebook`, `instagram`, `linkedin`, `twitter`, `address`, `is_active`, `status`, `remember_token`, `ip_address`, `balance`, `is_system`, `is_subscribed`, `id_number`, `country`, `created_by`, `deleted_at`, `language`, `is_super_admin`, `created_at`, `updated_at`) VALUES
+(1, NULL, '149071.png', 'admin', 1, '2024-10-30 04:28:10', NULL, 1, NULL, 'SUPER ADMINISTRADOR', 'gen@negociosgen.com', '2023-03-23 07:45:02', '$2y$10$xzAHnPbXnMT3Egv9hhG.BeekGkMElECUCv/.SYVuKmLI7nn69m9e.', NULL, '8878326802', NULL, 'bolivia', NULL, NULL, NULL, NULL, 'sdfafa', 1, 1, NULL, '127.0.0.1', NULL, 1, 0, '1', '1', NULL, NULL, 'es', 1, '2023-03-23 07:45:02', '2024-10-30 05:39:50'),
+(3, NULL, NULL, 'affiliate', 0, '2024-10-29 18:29:10', '2024-10-16', 2, NULL, 'Aasif Ahmed', 'arstech2a@gmail.com', NULL, '$2y$10$yfNz3sJ2P3d31JhNkPve8.L.rVsISl81scG5DGvgB8pcfQUZd9l.e', NULL, '5915915456121545', 'df', NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, '127.0.0.1', NULL, 0, NULL, '1', NULL, NULL, NULL, '\'en\'', 0, '2024-10-29 22:26:33', '2024-10-30 05:49:03'),
+(4, NULL, NULL, 'affiliate', 0, NULL, '2024-10-15', 2, NULL, 'Aasif Ahmed', 'hrnatrajinfotech@gmail.com', NULL, '$2y$10$UsU.HYDXWE5CTPdFKr4dMOheFYpUbYYkBN02LSIrmogdUXVfvxlBe', NULL, '591216454', NULL, '12', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, NULL, NULL, 0, NULL, '1', NULL, NULL, NULL, '\'en\'', 0, '2024-10-30 06:09:24', '2024-10-30 06:09:24');
 
 --
 -- Indexes for dumped tables
@@ -3355,7 +3162,7 @@ ALTER TABLE `blog_tags`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `chats`
@@ -3403,7 +3210,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `languages`
 --
 ALTER TABLE `languages`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `mail_templates`
@@ -3415,7 +3222,7 @@ ALTER TABLE `mail_templates`
 -- AUTO_INCREMENT for table `media`
 --
 ALTER TABLE `media`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=105;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
 
 --
 -- AUTO_INCREMENT for table `media_options`
@@ -3439,7 +3246,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
 -- AUTO_INCREMENT for table `pages`
@@ -3487,7 +3294,7 @@ ALTER TABLE `states`
 -- AUTO_INCREMENT for table `subcategories`
 --
 ALTER TABLE `subcategories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=164;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=166;
 
 --
 -- AUTO_INCREMENT for table `support_ticket_questions`
@@ -3547,7 +3354,7 @@ ALTER TABLE `time_logs`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables

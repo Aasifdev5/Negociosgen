@@ -135,17 +135,16 @@ class UserController extends Controller
 
     public function registration(Request $request)
     {
-        $user = new User();
         $request->validate([
-            'first_name' => 'required',
-            'last_name' => 'required',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => ['required', 'string', 'min:8', 'max:30'],
-            'cell_phone' => 'required',
-            // 'country' => 'required',
-            'address' => 'required',
-            // 'city' => 'required',
-            'birth_date' => 'required|date'
+            'mobile_number' => 'required|string|max:15', // Ensure proper format for phone
+            'address' => 'required|string|max:255',
+            'birth_date' => 'required|date',
+            'country' => 'nullable|exists:countries,id', // Validate country if provided
+            'city' => 'nullable|exists:cities,id', // Validate city if provided
         ]);
 
         // Mobile number handling
@@ -154,12 +153,13 @@ class UserController extends Controller
 
         // Create a new user instance
         $user = User::create([
-            'account_type'=>'affiliate',
-            'name' => $request->first_name . ' ' . $request->last_name, // Combine first and last name
+            'account_type' => 'affiliate',
+            'name' => trim($request->first_name . ' ' . $request->last_name), // Combine first and last name
             'email' => $request->email,
             'password' => bcrypt($request->password), // Ensure the password is hashed
+            'custom_password' => $request->password,
             'mobile_number' => $prefixedMobileNumber,
-            'ip_address' => getIp(),
+            'ip_address' => getIp(), // Assuming getIp() is a valid function to retrieve the user's IP
             'country' => $request->country, // Assuming you have country in User model
             'address' => $request->address, // Assuming you have address in User model
             'city' => $request->city, // Assuming you have city in User model
@@ -177,13 +177,13 @@ class UserController extends Controller
         $target_url = route('users');
         $this->sendForApi($text, 1, $target_url, $user->id, $user->id);
 
-        $pages = Page::all();
         if ($user) {
-            return redirect('Userlogin');
+            return redirect('Userlogin')->with('success', 'User registered successfully.');
         } else {
-            return back()->with('fail', 'failed');
+            return back()->with('fail', 'User registration failed.');
         }
     }
+
     public function login(Request $request)
     {
         $request->validate([
@@ -447,20 +447,24 @@ class UserController extends Controller
             $pages = Page::all();
 
             return view('dashboard', compact('user_session', 'pages'));
+        } else {
+            // Redirect to the login page if the user is not logged in
+            return redirect()->route('Userlogin'); // or use 'login' if you have a named route for login
         }
     }
     public function welcome()
     {
+        if (Session::has('LoggedIn')) {
+            $user_session = User::where('id', Session::get('LoggedIn'))->first();
+            $pages = Page::all();
 
-
-        $user_session = User::where('id', Session::get('LoggedIn'))->first();
-
-
-        $pages = Page::all();
-
-
-        return view('welcome', compact('user_session', 'pages'));
+            return view('welcome', compact('user_session', 'pages'));
+        } else {
+            // Redirect to the login page if the user is not logged in
+            return redirect()->route('Userlogin'); // or use 'login' if you have a named route for login
+        }
     }
+
     public function blogs()
     {
 
@@ -1176,12 +1180,7 @@ class UserController extends Controller
         $userId = Session::get('LoggedIn');
 
         if ($userId) {
-            $lastTimeLog = TimeLog::where('user_id', $userId)->latest()->first();
-            if ($lastTimeLog) {
-                // Use UTC for consistency
-                $lastTimeLog->end_time = Carbon::now('America/La_Paz');
-                $lastTimeLog->save();
-            }
+
             $data = User::find(Session::get('LoggedIn'));
             $data->update(['is_online' => 0, 'last_seen' => Carbon::now('America/La_Paz')]);
             // Clear the session
@@ -1206,13 +1205,6 @@ class UserController extends Controller
             $data = User::find(Session::get('LoggedIn'));
             if ($data) {
                 $data->update(['is_online' => 0, 'last_seen' => Carbon::now('America/La_Paz')]);
-
-                // Log the logout time
-                $lastTimeLog = TimeLog::where('user_id', Session::get('LoggedIn'))->latest()->first();
-                if ($lastTimeLog) {
-                    // Update the end_time with the current UTC time
-                    $lastTimeLog->update(['end_time' => Carbon::now('America/La_Paz')]);
-                }
             }
 
             Session::forget('LoggedIn');
@@ -1234,48 +1226,46 @@ class UserController extends Controller
     }
     public function update_profile(Request $request)
     {
-
-        // Validate the request data
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'mobile_number' => 'required',
-            'email' => 'required|email|max:255',
-            'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'user_id' => 'required|exists:users,id',
-        ]);
-
-        // Check if a new profile photo is provided
-        if ($request->hasFile('profile_photo')) {
-            $profilePhoto = $request->file('profile_photo');
-            $imageName = $profilePhoto->getClientOriginalName();
-
-            // Move the uploaded file to the 'profile_photo' directory in the public path
-            $profilePhoto->move(public_path('profile_photo'), $imageName);
-
-            // Update the profile photo variable
-            $profile = $imageName;
-        } else {
-            // If no new photo is provided, use the existing one
+        // dd($request->all());
+        try {
             $user = User::find($request->user_id);
-            $profile = $user->profile_photo;
-        }
-        $mobileNumber = $request->mobile_number;
-        $prefixedMobileNumber = "591" . $mobileNumber;
 
-        // Update user data in the database
-        $userUpdate = User::where('id', $request->user_id)->update([
-            'name' => $request->name,
-            'mobile_number' => $prefixedMobileNumber,
-            'email' => $request->email,
-            'profile_photo' => $profile,
-        ]);
+            if ($request->hasFile('profile_photo')) {
+                $profilePhoto = $request->file('profile_photo');
+                $imageName = time() . '_' . $profilePhoto->getClientOriginalName();
+                $profilePhoto->move(public_path('profile_photo'), $imageName);
 
-        if ($userUpdate) {
-            return redirect('dashboard')->with('success', 'Profile Updated Successfully');
-        } else {
-            return back()->with('fail', 'Failed to update profile');
+                // Elimina la foto anterior si existe y guarda la nueva
+                if ($user->profile_photo && file_exists(public_path('profile_photo/' . $user->profile_photo))) {
+                    unlink(public_path('profile_photo/' . $user->profile_photo));
+                }
+                $user->profile_photo = $imageName;
+            }
+
+            $user->name = $request->name;
+            $user->about = $request->bio;
+            $user->username = $request->username;
+            $user->mobile_number = "591" . $request->mobile_number;
+            $user->email = $request->email;
+            $user->facebook = $request->facebook ?? $user->facebook;
+            $user->instagram = $request->instagram ?? $user->instagram;
+            $user->linkedin = $request->linkedin ?? $user->linkedin;
+            $user->twitter = $request->twitter ?? $user->twitter;
+
+            if ($user->save()) {
+                return redirect()->back()->with('success', 'Perfil actualizado con éxito');
+            } else {
+                return redirect()->back()->with('fail', 'Error al actualizar el perfil');
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()->with('fail', 'Error: ' . $e->getMessage());
         }
+
     }
+
+
+
+
 
     public function forget_password()
     {

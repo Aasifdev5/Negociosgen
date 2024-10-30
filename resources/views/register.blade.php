@@ -78,8 +78,8 @@
                     <div class="row mb-3">
                         <div class="col-md-12 mb-3">
                             <label for="celular" class="form-label text-light">Celular</label>
-                            <input type="text" class="form-control @error('cell_phone') is-invalid @enderror" name="cell_phone" id="celular" placeholder="+591" value="{{ old('cell_phone') }}">
-                            @error('cell_phone')
+                            <input type="text" class="form-control @error('mobile_number') is-invalid @enderror" name="mobile_number" id="celular" placeholder="+591" value="{{ old('mobile_number') }}">
+                            @error('mobile_number')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
