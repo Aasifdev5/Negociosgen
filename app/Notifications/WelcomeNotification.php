@@ -56,7 +56,7 @@ class WelcomeNotification extends Notification
                 'body' => $template->body,
                 'short_codes' => [
                     '{{name}}' => $user->name,
-                    '{{website_name}}' => 'skyforecasting',
+                    '{{website_name}}' => 'Negociosgen',
                 ],
             ]);
     }

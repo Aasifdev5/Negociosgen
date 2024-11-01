@@ -1,8 +1,9 @@
 @component('mail::message')
-    # {{ $subject }}
+# {{ $title }}
 
-    {!! $content !!}
+{!! $body !!}
 
-    Thanks,
-    {{ $name }}
+@component('mail::footer')
+© {{ date('Y') }} Negociosgen. Todos los derechos reservados.
+@endcomponent
 @endcomponent

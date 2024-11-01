@@ -2,10 +2,6 @@
 
 use App\Models\Language;
 
-
-
-
-
 if (! function_exists('__')) {
     function __($key = null, $replace = [], $locale = null)
     {

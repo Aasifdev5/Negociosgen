@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
 <html lang="en">
+
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,8 +11,7 @@
     @endphp
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <!-- Include necessary libraries -->
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+
 
     <link rel="icon" href="<?php echo '/' . $general_setting['app_fav_icon'] ?? ''; ?>" type="image/x-icon">
     <link rel="shortcut icon" href="<?php echo '/' . $general_setting['app_fav_icon'] ?? ''; ?>" type="image/x-icon">
@@ -317,7 +317,7 @@
 
                             </li>
                             <li><a class="sidebar-header" href="{{ url('admin/earn') }}"><i
-                                data-feather="calendar"></i><span> {{ __('Eventos') }}</span></a></li>
+                                        data-feather="calendar"></i><span> {{ __('Eventos') }}</span></a></li>
 
 
 
@@ -466,13 +466,13 @@
                                             <span>{{ __('Subcategoría') }}</span>
                                         </a>
                                     </li>
-                                    <li>
+                                    {{-- <li>
 
                                         <a href="{{ url('admin\childcategory') }}">
                                             <i class="fa fa-circle"></i>
                                             <span>{{ __('Childcategoría') }}</span>
                                         </a>
-                                    </li>
+                                    </li> --}}
 
                                     <li>
                                         <a href="{{ route('gallery.index') }}">
@@ -486,10 +486,10 @@
                                 </ul>
                             </li>
 
-                            <li><a class="sidebar-header" href="{{ url('admin/transactions_report') }}"><i
+                            {{-- <li><a class="sidebar-header" href="{{ url('admin/transactions_report') }}"><i
                                         data-feather="dollar-sign"></i><span>{{ __('Solicitudes de pedido') }}
                                     </span></a>
-                            </li>
+                            </li> --}}
 
 
                         </ul>
@@ -538,46 +538,33 @@
     <script src="{{ asset('admin/js/feather-icon.js') }}"></script>
     <!-- Sidebar jquery-->
     <script src="{{ asset('admin/js/sidebar-menu.js') }}"></script>
-    <script src="{{ asset('admin/js/config.js') }}"></script>
+
     <!-- Plugins JS start-->
     <script src="{{ asset('admin/js/raphael.js') }}"></script>
-    <script src="{{ asset('admin/js/morris.js') }}"></script>
+
     <script src="{{ asset('admin/js/prettify.min.js') }}"></script>
     <script src="{{ asset('admin/js/chart.min.js') }}"></script>
     <script src="{{ asset('admin/js/knob.min.js') }}"></script>
     <script src="{{ asset('admin/js/knob-chart.js') }}"></script>
     <script src="{{ asset('admin/js/prism.min.js') }}"></script>
-    <script src="{{ asset('admin/js/clipboard.min.js') }}"></script>
+
     <script src="{{ asset('admin/js/jquery.waypoints.min.js') }}"></script>
     <script src="{{ asset('admin/js/jquery.counterup.min.js') }}"></script>
     <script src="{{ asset('admin/js/counter-custom.js') }}"></script>
     <script src="{{ asset('admin/js/custom-card.js') }}"></script>
     <script src="{{ asset('admin/js/owl.carousel2.js') }}"></script>
     <script src="{{ asset('admin/js/chart.custom.js') }}"></script>
-    <script src="{{ asset('admin/js/morris-script.js') }}"></script>
+    <script src="{{ asset('admin/js/clipboard.js') }}"></script>
     <script src="{{ asset('admin/js/owl-carousel.js') }}"></script>
     <script src="{{ asset('admin/js/handlebars.js') }}"></script>
-    <script src="{{ asset('admin/js/typeahead.bundle.js') }}"></script>
-    <script src="{{ asset('admin/js/typeahead.custom.js') }}"></script>
-    <script src="{{ asset('admin/js/typeahead.custom2.js') }}"></script>
+
     <script src="{{ asset('admin/js/chat-menu.js') }}"></script>
     <script src="{{ asset('admin/js/height-equal.js') }}"></script>
-    <script src="{{ asset('admin/js/tooltip-init.js') }}"></script>
-    <script src="{{ asset('admin/js/handlebars.js') }}"></script>
-    <script src="{{ asset('admin/js/typeahead-custom.js') }}"></script>
 
-    <script src="{{ asset('admin/ckeditor/ckeditor.js') }}"></script>
-    <script src="{{ asset('admin/ckeditor/styles.js') }}"></script>
-    <script src="{{ asset('admin/ckeditor/adapters/jquery.js') }}"></script>
-    <script src="{{ asset('admin/ckeditor/typeahead-custom.js') }}"></script>
-    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.0/classic/ckeditor.js"></script>
-    <script>
-        ClassicEditor
-            .create(document.querySelector('#editor'))
-            .catch(error => {
-                console.error(error);
-            });
-    </script>
+    <script src="{{ asset('admin/js/handlebars.js') }}"></script>
+
+
+
 
     <script
         src="{{ asset('admin/js/laravel.pixelstrap.com_endless_assets_js_datatable_datatables_datatable.custom.js') }}">
@@ -591,7 +578,6 @@
     <!-- Theme js-->
     <script src="{{ asset('admin/js/script.js') }}"></script>
 
-    <script src="{{ asset('admin/js/email-app.js') }}"></script>
 
     <!-- Plugin used-->
 
@@ -614,15 +600,12 @@
             $('.summernote').summernote({
                 placeholder: 'Start typing here...',
                 tabsize: 2,
-                height: 300, // Set editor height
-                toolbar: [
-                    ['style', ['style']],
-                    ['font', ['bold', 'italic', 'underline', 'clear']],
-                    ['fontname', ['fontname']],
-                    ['color', ['color']],
+                height: 400, // Set editor height
+                toolbar: [ // customize toolbar options
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['font', ['strikethrough', 'superscript', 'subscript']],
                     ['para', ['ul', 'ol', 'paragraph']],
-                    ['table', ['table']],
-                    ['insert', ['link', 'picture', 'video']],
+                    ['insert', ['link', 'picture', 'table', 'hr']],
                     ['view', ['fullscreen', 'codeview', 'help']]
                 ]
             });
@@ -651,16 +634,7 @@
     <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
     <script src="{{ asset('admin/js/custom/image-preview.js') }}"></script>
-    <script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            ClassicEditor
-                .create(document.querySelector('.editor'))
-                .catch(error => {
-                    console.error(error);
-                });
-        });
-    </script>
+
 
     <script>
         $(document).ready(function() {

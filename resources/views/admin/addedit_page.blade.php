@@ -1,13 +1,11 @@
-@extends("admin.Master")
-@section('title')
-Edit Page
-@endsection
-@section("content")
+@extends('admin.Master')
+@section('title', isset($page_info) ? 'Edit Page' : 'Add Page')
+@section('content')
 
-<style type="text/css">
+<style>
   .iframe-container {
     overflow: hidden;
-    padding-top: 56.25% !important;
+    padding-top: 56.25%;
     position: relative;
   }
 
@@ -20,116 +18,90 @@ Edit Page
     width: 100%;
   }
 </style>
-<div class="page-body">
-  <div class="container-fluid">
-    <div class="page-header">
-      <div class="row">
-        <div class="col">
-          <div class="page-header-left">
 
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="https://laravel.pixelstrap.com/endless" data-bs-original-title="" title=""><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home">
-                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                  </svg></a></li>
-              <li class="breadcrumb-item">Pages</li>
-              <li class="breadcrumb-item">Page Edit</li>
-
-            </ol>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-  <!-- Container-fluid starts-->
-  <!-- Container-fluid starts-->
-  <div class="container-fluid">
+<div class="page-body" style="background: #000">
+  <div class="container-fluid py-4">
     <div class="row">
       <div class="col-sm-12">
-        <div class="card">
+        <div class="card " style="background: #fff">
           <div class="card-header">
-            <h5>Page Edit </h5>
-
-            </a>
+            <h5 class="mb-0">{{ isset($page_info) ? 'Edit Page' : 'Add Page' }}</h5>
           </div>
           <div class="card-body">
-            <div class="content-page">
-              <div class="content">
-                <div class="container-fluid">
-                  <div class="row">
-                    <div class="col-12">
+            <form action="{{ url('admin/pages/add_edit') }}" method="post">
+              @csrf
+              <!-- Hidden ID field for editing -->
+              @if(isset($page_info))
+                <input type="hidden" name="id" value="{{ $page_info->id }}">
+              @endif
 
-
-                      <form action="{{url('admin/pages/add_edit')}}" method="post">
-                        @csrf
-                        <input type="hidden" name="id" value="{{ isset($page_info->id) ? $page_info->id : null }}">
-
-
-                        <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Page Title</label>
-                          <div class="col-sm-8">
-                            <input type="text" name="page_title" value="{{ isset($page_info->page_title) ? stripslashes($page_info->page_title) : null }}" class="form-control">
-                          </div>
-                        </div>
-                        <br>
-
-                        <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Page Description</label>
-                          <div class="col-sm-8">
-                            <textarea id="" name="page_content" class="editor form-control">{{ isset($page_info->page_content) ? stripslashes($page_info->page_content) : null }}</textarea>
-
-                          </div>
-                        </div>
-                        <br>
-
-                        <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Page Order</label>
-                          <div class="col-sm-8">
-                            <input type="number" name="page_order" value="{{ isset($page_info->page_order) ? stripslashes($page_info->page_order) : null }}" class="form-control" min="0">
-                          </div>
-                        </div>
-                        <br>
-                        <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Status</label>
-                          <div class="col-sm-8">
-                            <select class="form-control" name="status">
-                              <option value="1" @if(isset($page_info->status) AND $page_info->status==1)
-                                selected
-                                @endif>Active</option>
-                              <option value="0" @if(isset($page_info->status) AND $page_info->status==0)
-                                selected
-                                @endif>Inactive</option>
-                            </select>
-                          </div>
-                        </div>
-                        <br>
-                        <div class="form-group">
-                          <div class="offset-sm-3 col-sm-9 pl-1">
-                            <button type="submit" class="btn btn-primary waves-effect waves-light">
-                              Save</button>
-                          </div>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
+              <!-- Page Title -->
+              <div class="form-group row">
+                <label for="pageTitle" class="col-sm-3 col-form-label">Page Title</label>
+                <div class="col-sm-8">
+                  <input type="text" name="page_title" id="pageTitle"
+                         class="form-control @error('page_title') is-invalid @enderror"
+                         value="{{ old('page_title', $page_info->page_title ?? '') }}">
+                  @error('page_title')
+                    <span class="invalid-feedback">{{ $message }}</span>
+                  @enderror
                 </div>
               </div>
 
-            </div>
+              <!-- Page Description -->
+              <div class="form-group row mt-3">
+                <label for="pageContent" class="col-sm-3 col-form-label">Page Description</label>
+                <div class="col-sm-8">
+                  <textarea name="page_content" id="pageContent"
+                            class="summernote form-control @error('page_content') is-invalid @enderror">{{ old('page_content', $page_info->page_content ?? '') }}</textarea>
+                  @error('page_content')
+                    <span class="invalid-feedback">{{ $message }}</span>
+                  @enderror
+                </div>
+              </div>
 
+              <!-- Page Order -->
+              <div class="form-group row mt-3">
+                <label for="pageOrder" class="col-sm-3 col-form-label">Page Order</label>
+                <div class="col-sm-8">
+                  <input type="number" name="page_order" id="pageOrder"
+                         class="form-control @error('page_order') is-invalid @enderror"
+                         value="{{ old('page_order', $page_info->page_order ?? '') }}"
+                         min="0">
+                  @error('page_order')
+                    <span class="invalid-feedback">{{ $message }}</span>
+                  @enderror
+                </div>
+              </div>
+
+              <!-- Status -->
+              <div class="form-group row mt-3">
+                <label for="status" class="col-sm-3 col-form-label">Status</label>
+                <div class="col-sm-8">
+                  <select class="form-control @error('status') is-invalid @enderror" name="status" id="status">
+                    <option value="1" {{ old('status', $page_info->status ?? '') == 1 ? 'selected' : '' }}>Active</option>
+                    <option value="0" {{ old('status', $page_info->status ?? '') == 0 ? 'selected' : '' }}>Inactive</option>
+                  </select>
+                  @error('status')
+                    <span class="invalid-feedback">{{ $message }}</span>
+                  @enderror
+                </div>
+              </div>
+
+              <!-- Submit Button -->
+              <div class="form-group mt-4">
+                <div class="offset-sm-3 col-sm-8">
+                  <button type="submit" class="btn btn-primary">
+                    {{ isset($page_info) ? 'Update Page' : 'Add Page' }}
+                  </button>
+                </div>
+              </div>
+            </form>
           </div>
         </div>
       </div>
     </div>
-    <!-- DOM / jQuery  Ends-->
-
-
   </div>
 </div>
-<!-- Container-fluid Ends-->
-<!-- Container-fluid Ends-->
-</div>
-
 
 @endsection

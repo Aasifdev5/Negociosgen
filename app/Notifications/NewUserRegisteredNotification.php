@@ -17,7 +17,8 @@ class NewUserRegisteredNotification extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            'message' => 'A new user has registered.',
+            'message' => 'Un nuevo usuario se ha registrado.',
         ];
+
     }
 }

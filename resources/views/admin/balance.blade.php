@@ -3,65 +3,7 @@
     Pedido
 @endsection
 @section('content')
-<style>
-    .table {
-    width: 100%;
-    max-width: 100%;
-    margin-bottom: 1rem;
-    background-color: #fff;
-    border-collapse: collapse;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
 
-.table th,
-.table td {
-    padding: 0.75rem;
-    vertical-align: top;
-    border-top: 1px solid #dee2e6;
-}
-
-.table thead th {
-    vertical-align: bottom;
-    border-bottom: 2px solid #dee2e6;
-    background-color: #343a40;
-    color: #fff;
-}
-
-.table tbody tr:hover {
-    background-color: #f8f9fa;
-}
-
-.table-striped tbody tr:nth-of-type(odd) {
-    background-color: rgba(0, 0, 0, 0.05);
-}
-
-.table-striped tbody tr:nth-of-type(even) {
-    background-color: rgba(0, 0, 0, 0.03);
-}
-
-.table-bordered {
-    border: 1px solid #dee2e6;
-}
-
-.table-bordered th,
-.table-bordered td {
-    border: 1px solid #dee2e6;
-}
-
-.table-hover tbody tr:hover {
-    background-color: #e9ecef;
-}
-
-.table-hover tbody tr:hover td {
-    color: #0056b3;
-}
-
-.table-hover tbody tr:hover a {
-    color: #0056b3;
-    text-decoration: none;
-}
-
-</style>
     <div class="page-body">
 <br>
         <!-- Container-fluid starts-->
@@ -138,7 +80,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="orderModalLabel">Detalles del Pedido</h5>
-                
+
             </div>
             <div class="modal-body">
                 <table class="table table-striped">
@@ -160,7 +102,7 @@
             </div>
             <div class="modal-footer">
                 <a href="#" id="invoiceDownloadLink" class="btn btn-primary">Descargar factura</a>
-                
+
             </div>
         </div>
     </div>

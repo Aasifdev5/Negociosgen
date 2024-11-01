@@ -74,7 +74,7 @@ class ResetPasswordNotification extends Notification
                 'short_codes' => [
                     '{{link}}' => $url,
                     '{{expiry_time}}' => $expire,
-                    '{{website_name}}' => 'Sky Forecasting',
+                    '{{website_name}}' => 'Negociosgen',
                 ],
             ]);
     }

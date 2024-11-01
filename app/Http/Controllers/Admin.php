@@ -495,7 +495,7 @@ protected function calculateYearlyData()
             'email' => 'required|email|unique:users,email',
             'password' => ['required', 'string', 'min:8', 'max:30'],
             'confirm_password' => 'required|same:password', // Ensure password confirmation matches
-            'cell_phone' => 'required|string|max:15', // Adjusted to match the expected format
+            'mobile_number' => 'required|string|max:15', // Adjusted to match the expected format
             'id_number' => 'required|string|max:20', // Validation for ID number
             'address' => 'required|string|max:255',
             'birth_date' => 'required|date',
@@ -506,7 +506,7 @@ protected function calculateYearlyData()
 
         try {
             // Mobile number handling
-            $mobileNumber = $request->cell_phone; // Updated to match your form field
+            $mobileNumber = $request->mobile_number; // Updated to match your form field
             $prefixedMobileNumber = "591" . $mobileNumber;
 
             // Create a new user instance
@@ -657,64 +657,49 @@ public function delete_shopkeeper($id)
     }
 
     public function update_user(Request $request)
-    {
-        try {
-            // Validate incoming request data
-            $request->validate([
-                'user_id' => 'required|exists:users,id',
-                'first_name' => 'required|string|max:255', // Assuming you split name into first and last
-                'last_name' => 'required|string|max:255',
-                'username' => 'required|string|max:255',
-                'mobile_number' => 'required|string|max:15',
-                'email' => 'required|email|max:255',
-                'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust max size as needed
-                'bio' => 'nullable|string', // Assuming there's a bio field
-                'id_number' => 'nullable|string|max:20', // Validation for ID number
-                'country' => 'nullable|exists:countries,id', // Ensure country exists in the database
-                'city' => 'nullable|exists:cities,id', // Ensure city exists in the database
-                'status' => 'required|boolean', // Ensure status is provided
-            ]);
+{
+    try {
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'first_name' => 'required|string|max:255',
+            'mobile_number' => 'required|string|max:15',
+            'email' => 'required|email|max:255',
+            'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'id_number' => 'nullable|string|max:20',
+            'country' => 'nullable|exists:countries,id',
+            'city' => 'nullable|exists:cities,id',
+            'status' => 'required|boolean',
+        ]);
 
-            $user = User::findOrFail($request->user_id);
+        $user = User::findOrFail($request->user_id);
 
-            // Update user attributes
-            $user->name = trim($request->first_name . ' ' . $request->last_name); // Combine first and last name
-            $user->username = $request->username;
-            $user->mobile_number = "591" . $request->mobile_number; // Ensure this format is correct
-            $user->email = $request->email;
-            $user->about = $request->bio ?? $user->about; // Use existing value if not provided
-            $user->status = $request->status; // Update status if provided
+        $user->name = trim($request->first_name);
+        $user->mobile_number = "591" . $request->mobile_number;
+        $user->email = $request->email;
+        $user->status = $request->status;
 
-            if ($request->hasFile('profile_photo')) {
-                $profilePhoto = $request->file('profile_photo');
-                $imageName = time() . '_' . $profilePhoto->getClientOriginalName();
-                $profilePhoto->move(public_path('profile_photo'), $imageName);
+        if ($request->hasFile('profile_photo')) {
+            $profilePhoto = $request->file('profile_photo');
+            $imageName = time() . '_' . $profilePhoto->getClientOriginalName();
+            $profilePhoto->move(public_path('profile_photo'), $imageName);
 
-                // Eliminate previous photo if it exists
-                if ($user->profile_photo && file_exists(public_path('profile_photo/' . $user->profile_photo))) {
-                    unlink(public_path('profile_photo/' . $user->profile_photo));
-                }
-                $user->profile_photo = $imageName;
+            if ($user->profile_photo && file_exists(public_path('profile_photo/' . $user->profile_photo))) {
+                unlink(public_path('profile_photo/' . $user->profile_photo));
             }
-
-            // Optionally update other fields like social media links
-            $user->facebook = $request->facebook ?? $user->facebook;
-            $user->instagram = $request->instagram ?? $user->instagram;
-            $user->linkedin = $request->linkedin ?? $user->linkedin;
-            $user->twitter = $request->twitter ?? $user->twitter;
-
-            // Save changes and redirect with success message
-            if ($user->save()) {
-                return redirect('admin/users')->with('success', 'Usuario actualizado con éxito');
-            } else {
-                return redirect()->back()->with('fail', 'Error al actualizar el perfil');
-            }
-        } catch (\Exception $e) {
-            // Log the error for further inspection (optional)
-            \Log::error('Error updating user: ' . $e->getMessage());
-            return redirect()->back()->with('fail', 'Error: ' . $e->getMessage());
+            $user->profile_photo = $imageName;
         }
+
+        if ($user->save()) {
+            return redirect('admin/users')->with('success', 'Usuario actualizado con éxito');
+        } else {
+            return redirect()->back()->with('fail', 'Error al actualizar el perfil');
+        }
+    } catch (\Exception $e) {
+        \Log::error('Error updating user: ' . $e->getMessage());
+        return redirect()->back()->with('fail', 'Error: ' . $e->getMessage());
     }
+}
+
 
 
 

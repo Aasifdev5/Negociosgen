@@ -572,8 +572,8 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('add', [Pages::class, 'add'])->middleware('AdminIsLoggedIn');
         Route::get('edit/{id}', [Pages::class, 'edit'])->middleware('AdminIsLoggedIn');
         Route::post('pages/add_edit', [Pages::class, 'addnew'])->middleware('AdminIsLoggedIn');
-        Route::get('pages/delete/{id}', [Pages::class, 'delete'])->middleware('AdminIsLoggedIn');
-
+        Route::delete('pages/delete/{id}', [Pages::class, 'delete'])->middleware('AdminIsLoggedIn');
+        Route::post('pages/bulk_delete', [Pages::class, 'bulkDelete'])->middleware('AdminIsLoggedIn');
 
 
         Route::get('users', [Admin::class, 'users'])->name('users')->middleware('AdminIsLoggedIn');
@@ -601,6 +601,7 @@ Route::group(['prefix' => 'admin'], function () {
             Route::post('save', [MailTemplateController::class, 'save'])->name('save');
             Route::get('edit/{id}', [MailTemplateController::class, 'edit'])->name('edit')->middleware('AdminIsLoggedIn');
             Route::post('update/{id}', [MailTemplateController::class, 'update'])->name('update');
+            Route::post('bulk-delete', [MailTemplateController::class, 'bulkDelete'])->middleware('AdminIsLoggedIn');
         });
         Route::get('email-application', [EmailAppController::class, 'index'])->name('index')->middleware('AdminIsLoggedIn');
         Route::post('sendMessage', [EmailAppController::class, 'sendMessage'])->name('sendMessage');

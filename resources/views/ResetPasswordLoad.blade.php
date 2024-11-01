@@ -1,397 +1,140 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <title>Reset Password</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  @php
+      $general_setting = \App\Models\Setting::pluck('option_value', 'option_key')->toArray();
+  @endphp
+  <link rel="icon" href="<?php echo '/' . $general_setting['app_fav_icon'] ?? ''; ?>" type="image/x-icon">
+  <link rel="shortcut icon" href="<?php echo '/' . $general_setting['app_fav_icon'] ?? ''; ?>" type="image/x-icon">
+  <title>{{ $general_setting['app_name'] ?? '' }} || Reset Password</title>
 
-  <!-- MATERIAL DESIGN ICONIC FONT -->
-  <link rel="stylesheet" href="fonts/material-design-iconic-font/css/material-design-iconic-font.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-  
-    integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <!-- STYLE CSS -->
-  <link rel="stylesheet" href="assets/css/style10.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Work+Sans:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400,500,600,700,800,900" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" type="text/css" href="{{ asset('admin/css/fontawesome.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ asset('admin/css/icofont.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ asset('admin/css/flag-icon.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ asset('admin/css/feather-icon.css') }}">
+
+  <!-- Bootstrap and Custom CSS -->
+  <link rel="stylesheet" type="text/css" href="{{ asset('admin/css/bootstrap.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ asset('admin/css/style.css') }}">
+  <link rel="stylesheet" href="{{ asset('admin/css/color-1.css') }}" media="screen">
+  <link rel="stylesheet" type="text/css" href="{{ asset('admin/css/responsive.css') }}">
+
   <style>
-    * {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: sans-serif;
-  color: #333;
-  font-size: 13px;
-  margin: 0;
-}
-
-input,
-textarea,
-select,
-button {
-  color: #333;
-  font-size: 13px;
-}
-
-p,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-ul {
-  margin: 0;
-}
-
-img {
-  max-width: 100%;
-}
-
-ul {
-  padding-left: 0;
-  margin-bottom: 0;
-}
-
-a:hover {
-  text-decoration: none;
-}
-
-:focus {
-  outline: none;
-}
-
-.wrapper {
-
-  height: 100vh;
-  background-size: cover;
-  background-repeat: no-repeat;
-  display: flex;
-  align-items: center;
-}
-
-.inner {
-  padding: 20px;
-  background: #fff;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.6);
-  border-radius: 5px;
-  width: 800px;
-  margin: auto;
-  display: flex;
-}
-
-.inner .image-holder {
-  width: 50%;
-}
-
-.inner form {
-  width: 50%;
-  padding-top: 15px;
-  padding-left: 25px;
-  padding-right: 25px;
-}
-
-.image {
-  width: 100%;
-  margin: 0 auto;
-  height: 55%;
-  border-radius: 50%;
-  display: flex;
-  margin-bottom: 15px;
-}
-
-.inner h3 {
-  font-size: 25px;
-
-  text-align: center;
-  margin-bottom: 5px;
-}
-
-.para {
-  text-align: center;
-  margin-bottom: 25px;
-
-}
-
-.form-group {
-  display: flex;
-}
-
-.form-group input {
-  width: 100%;
-}
-
-.form-group input:first-child {
-  margin-right: 25px;
-}
-
-.form-wrapper {
-  position: relative;
-}
-
-/* 
-.form-wrapper img {
-  position: absolute;
-  bottom: 15px;
-  right: 0;
-  padding-right: 5px;
-} */
-
-.form-control {
-  background-color: #fff;
-  border-radius: 7px;
-  display: block;
-  border: 1px solid black;
-  width: 100%;
-  height: 40px;
-  padding: 5px;
-  margin-bottom: 12px;
-}
-
-.form-control::-webkit-input-placeholder {
-  font-size: 13px;
-  color: #333;
-}
-
-.form-control::-moz-placeholder {
-  font-size: 13px;
-  color: #333;
-}
-
-.form-control:-ms-input-placeholder {
-  font-size: 13px;
-  color: #333;
-}
-
-.form-control:-moz-placeholder {
-  font-size: 13px;
-  color: #333;
-}
-
-a {
-  text-decoration: none;
-
-}
-
-.forget {
-  color: rgb(218, 35, 35);
-}
-
-.btn {
-  border: none;
-  width: 100%;
-  height: 40px;
-  margin: auto;
-  margin-top: 15px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  background: royalblue;
-  font-size: 15px;
-  color: #fff;
-  vertical-align: middle;
-  -webkit-transform: perspective(1px) translateZ(0);
-  transform: perspective(1px) translateZ(0);
-  -webkit-transition-duration: 0.3s;
-  transition-duration: 0.3s;
-  border-radius: 5px;
-}
-
-.button {
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
-}
-
-.btn .google {
-  width: 26px;
-  height: 26px;
-  margin-right: 10px;
-}
-
-.btn .facebook {
-  width: 30px;
-  height: 30px;
-  margin-right: 10px;
-}
-
-.flex {
-  display: flex;
-  justify-content: space-between;
-}
-
-.check {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-}
-
-.change {
-  margin-top: 15px;
-  text-align: center;
-}
-
-.sign {
-  color: royalblue;
-}
-
-@-webkit-keyframes hvr-icon-wobble-horizontal {
-  16.65% {
-    -webkit-transform: translateX(6px);
-    transform: translateX(6px);
-  }
-
-  33.3% {
-    -webkit-transform: translateX(-5px);
-    transform: translateX(-5px);
-  }
-
-  49.95% {
-    -webkit-transform: translateX(4px);
-    transform: translateX(4px);
-  }
-
-  66.6% {
-    -webkit-transform: translateX(-2px);
-    transform: translateX(-2px);
-  }
-
-  83.25% {
-    -webkit-transform: translateX(1px);
-    transform: translateX(1px);
-  }
-
-  100% {
-    -webkit-transform: translateX(0);
-    transform: translateX(0);
-  }
-}
-
-@keyframes hvr-icon-wobble-horizontal {
-  16.65% {
-    -webkit-transform: translateX(6px);
-    transform: translateX(6px);
-  }
-
-  33.3% {
-    -webkit-transform: translateX(-5px);
-    transform: translateX(-5px);
-  }
-
-  49.95% {
-    -webkit-transform: translateX(4px);
-    transform: translateX(4px);
-  }
-
-  66.6% {
-    -webkit-transform: translateX(-2px);
-    transform: translateX(-2px);
-  }
-
-  83.25% {
-    -webkit-transform: translateX(1px);
-    transform: translateX(1px);
-  }
-
-  100% {
-    -webkit-transform: translateX(0);
-    transform: translateX(0);
-  }
-}
-
-@media (max-width: 1199px) {
-  .wrapper {
-    background-position: right center;
-  }
-}
-
-@media (max-width: 991px) {
-  .inner form {
-    padding-top: 10px;
-    padding-left: 30px;
-    padding-right: 30px;
-  }
-}
-
-@media (max-width: 767px) {
-  .inner {
-    display: block;
-  }
-
-  .inner .image-holder {
-    width: 98%;
-  }
-
-  .inner form {
-    width: 100%;
-    padding: 15px 0 20px;
-  }
-
-  button {
-    margin-top: 15px;
-  }
-}
-
-/*# sourceMappingURL=style.css.map */
+    body {
+      background-color: #0A0A0A;
+      color: #EDEDED;
+    }
+    .auth-bg-video {
+      background: #0A0A0A;
+    }
+    .authentication-box {
+      background: #000;
+      padding: 20px;
+      border: 1px solid #000;
+      border-radius: 16px;
+    }
+    .card {
+      background-color: #000;
+    }
+    .form-control {
+      background-color: #222;
+      color: #EDEDED;
+      border: 1px solid #444;
+    }
+    .form-control::placeholder {
+      color: #888;
+    }
+    .btn-primary {
+      background-color: #007bff;
+      border: none;
+    }
+    .btn-primary:hover {
+      background-color: #0056b3;
+    }
+    .text-danger {
+      color: red !important;
+    }
+    .alert {
+      color: #FFF;
+      text-align: center;
+      padding: 10px;
+      border-radius: 5px;
+    }
+    .alert-success {
+      background-color: green;
+    }
+    .alert-danger {
+      background-color: red;
+    }
   </style>
 </head>
 
 <body>
+  <div class="page-wrapper">
+    <div class="container-fluid p-0">
+      <div class="auth-bg-video">
+        <div class="authentication-box">
+            <div class="text-center">
+              <h1 style="font-weight: 100;">
+                <a href="{{ url('/') }}"><img src="<?php echo '/' . $general_setting['app_footer_payment_image'] ?? ''; ?>" width="200" height="200" alt="Logo de la App"></a>
+              </h1>
+            </div>
+            <div class="card mt-4">
+              <div class="card-body">
+                <div class="text-center">
+                  <h4 style="color: #EDEDED;">Restablecer Contraseña</h4>
+                  <h6>Ingresa tu nueva contraseña a continuación</h6>
+                </div>
+                <form class="theme-form" action="{{ url('ResetPassword') }}" method="post">
+                  @if(Session::has('success'))
+                    <div class="alert alert-success">{{ session::get('success') }}</div>
+                  @endif
+                  @if(Session::has('fail'))
+                    <div class="alert alert-danger">{{ session::get('fail') }}</div>
+                  @endif
+                  @csrf
+                  <input type="hidden" name="email" value="{{$email}}">
+                  <div class="mb-3">
+                    <label class="col-form-label">Nueva Contraseña</label>
+                    <input type="password" class="form-control" name="new_password" placeholder="Ingresa nueva contraseña">
+                    <p class="text-danger">@error('new_password'){{ $message }}@enderror</p>
+                  </div>
+                  <div class="mb-3">
+                    <label class="col-form-label">Confirmar Nueva Contraseña</label>
+                    <input type="password" class="form-control" name="confirm_password" placeholder="Confirma nueva contraseña">
+                    <p class="text-danger">@error('confirm_password'){{ $message }}@enderror</p>
+                  </div>
+                  <div class="form-row mt-3">
+                    <button class="btn btn-primary w-100" type="submit">Restablecer Contraseña</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
 
-  <div class="wrapper">
-    <div class="inner">
-
-      <form action="{{url('ResetPassword')}}" method="post">
-      @if(Session::has('success'))
-                            <div class="alert alert-success" style="background-color: green;">
-                            <p style="color: #fff;">{{session::get('success')}}</p>
-                            </div>
-                            @endif
-                            @if(Session::has('fail'))
-                            <div class="alert alert-danger" style="background-color: red;">
-                                <p style="color: #fff;">{{session::get('fail')}}</p>
-                            </div>
-                            @endif
-                        @csrf    
-                        <?php
-                        // print_r($email);
-                              // $user = json_decode(json_encode($customer), true);
-                              // $user = array_column($user, 'id', '0')
-                              ?>
-                              <input type="hidden" name="email" value="{{$email}}">
-        <img class="image" src="{{asset('images/login/logo.jpg')}}" alt="">
-        <h3>Reset Password</h3>
-        
-       
-        <div class="form-wrapper">
-        <input type="password" id="input2" name="new_password" class="form-control" placeholder="New Password">
-          <span class="text-danger" style="color:red;">@error('new_password'){{$message}}@enderror</span>
-        </div>
-        <br>
-        <div class="form-wrapper">
-        <input type="password" id="input2" name="confirm_password" class="form-control" placeholder="Confirm New Password">
-          <span class="text-danger" style="color:red;">@error ('confirm_password'){{$message}}@enderror</span>
-         
-        </div>
-       
-       
-        <button class="btn" type="submit">Reset Password</button>
-       
-      </form>
-      <div class="image-holder">
-        <img src="{{asset('images/login/side1.jpg')}}" alt="" style="height: 100%;">
-        <div>
-
-        </div>
       </div>
     </div>
   </div>
 
+  <!-- Scripts -->
+  <script src="{{ asset('admin/js/jquery-3.2.1.min.js') }}"></script>
+  <script src="{{ asset('admin/js/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ asset('admin/js/feather.min.js') }}"></script>
+  <script src="{{ asset('admin/js/feather-icon.js') }}"></script>
+  <script src="{{ asset('admin/js/sidebar-menu.js') }}"></script>
+  <script src="{{ asset('admin/js/config.js') }}"></script>
+  <script src="{{ asset('admin/js/script.js') }}"></script>
 </body>
 
 </html>

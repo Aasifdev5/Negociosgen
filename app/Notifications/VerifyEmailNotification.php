@@ -77,7 +77,7 @@ class VerifyEmailNotification extends Notification
                 'body' => $template->body,
                 'short_codes' => [
                     '{{link}}' => $url,
-                    '{{website_name}}' => 'Sky Forecasting',
+                    '{{website_name}}' => 'Negociosgen',
                 ],
             ]);
     }

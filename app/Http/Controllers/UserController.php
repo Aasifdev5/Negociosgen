@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\UserRegistered;
 use App\Mail\ComposeMail;
-use App\Models\TimeLog;
+use App\Mail\MarkdownMail;
 use App\Mail\SendMailreset;
 use App\Models\BankDetails;
 use App\Models\BillingDetail;
@@ -12,13 +12,13 @@ use App\Models\Blog;
 use App\Models\BlogCategory;
 use App\Models\BlogComment;
 use App\Models\Campaign;
-use App\Models\ProductVariations;
 use App\Models\Cart;
 use App\Models\Category;
 use App\Models\City;
 use App\Models\Country;
 use App\Models\GeneralSetting;
 use App\Models\Like;
+use App\Models\MailTemplate;
 use App\Models\Notification;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -26,8 +26,10 @@ use App\Models\Page;
 use App\Models\PasswordReset;
 use App\Models\Payment;
 use App\Models\Product;
+use App\Models\ProductVariations;
 use App\Models\Related_product;
 use App\Models\Role;
+use App\Models\TimeLog;
 use App\Models\User;
 use App\Models\Wishlist;
 use App\Notifications\NewUserRegisteredNotification;
@@ -43,6 +45,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
+
 
 
 function getIp()
@@ -129,7 +132,9 @@ class UserController extends Controller
     public function signup()
     {
         $pages = Page::all();
-        return view('register', compact('pages'));
+        $countries = Country::all();
+        $cities = City::all();
+        return view('register', compact('pages', 'countries', 'cities'));
     }
 
 
@@ -148,7 +153,7 @@ class UserController extends Controller
         ]);
 
         // Mobile number handling
-        $mobileNumber = $request->cell_phone; // Updated to match your form field
+        $mobileNumber = $request->mobile_number; // Updated to match your form field
         $prefixedMobileNumber = "591" . $mobileNumber;
 
         // Create a new user instance
@@ -408,6 +413,7 @@ class UserController extends Controller
         $pages = Page::all();
         return view('ayuda', compact('user_session', 'pages'));
     }
+
     public function sendResetPasswordLink(Request $request)
     {
         $request->validate([
@@ -436,8 +442,9 @@ class UserController extends Controller
         // Send the password reset notification
         $user->notify(new ResetPasswordNotification($token));
 
-        return back()->with('success', 'Password reset link sent successfully.');
+        return back()->with('success', 'Enlace para restablecer la contraseña enviado correctamente.');
     }
+
 
     public function dashboard()
     {
@@ -1260,7 +1267,6 @@ class UserController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()->with('fail', 'Error: ' . $e->getMessage());
         }
-
     }
 
 
@@ -1333,22 +1339,33 @@ class UserController extends Controller
 
     public function ResetPassword(Request $request)
     {
-
+        // Validate the input
         $request->validate([
-
-            'email' => 'required',
-            'password' => ['required', 'string', 'min:8', 'max:30'],
+            'new_password' => ['required', 'string', 'min:8', 'max:30'],
+            'confirm_password' => ['required', 'same:new_password'],
         ]);
 
+        // Retrieve the user by email
         $data = User::where('email', $request->email)->first();
 
-        $data->password = $request->password;
-        $data->custom_password = $request->password;
+        // Check if user exists
+        if (!$data) {
+            return redirect()->back()->with('fail', 'User not found.');
+        }
+
+        // Hash and save the new password
+        $data->password = bcrypt($request->new_password);
+        $data->custom_password = $request->new_password; // If you need plain text storage
         $data->update();
 
+        // Delete the password reset entry
         PasswordReset::where('email', $data->email)->delete();
-
-        echo "<h1>Successfully Reset Password</h1>";
-        return redirect('Userlogin');
+        if ($data->is_super_admin == 1) {
+            // Redirigir a la página de inicio de sesión del administrador
+            return redirect()->to('admin/login'); // O usar 'http://127.0.0.1:8000/admin/login' si es necesario
+        } else {
+            // Redirigir a la página de inicio de sesión del usuario con un mensaje de éxito
+            return redirect('Userlogin')->with('success', 'Contraseña restablecida con éxito.');
+        }
     }
 }

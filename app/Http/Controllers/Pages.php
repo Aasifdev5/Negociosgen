@@ -30,7 +30,7 @@ class Pages extends Controller
     {
         if (Session::has('LoggedIn')) {
 
-            $page_title = trans('words.add_page');
+            $page_title = trans('add_page');
             $user_session = User::where('id', Session::get('LoggedIn'))->first();
 
             return view('admin.addedit_page', compact('user_session', 'page_title'));
@@ -136,11 +136,11 @@ class Pages extends Controller
 
     public function delete($page_id)
     {
-
         $page_obj = Page::findOrFail($page_id);
         $page_obj->delete();
-        return back()->with('success', 'Deleted Successfully');
+        return response()->json(['success' => true, 'message' => 'Deleted Successfully']);
     }
+
 
     public function page_details($page_slug, $page_id)
     {
@@ -153,4 +153,16 @@ class Pages extends Controller
 
         return view('page_details', compact('page_title', 'page_info'));
     }
+    public function bulkDelete(Request $request)
+{
+    $ids = $request->input('ids');
+
+    if ($ids && count($ids) > 0) {
+        Page::whereIn('id', $ids)->delete();
+        return response()->json(['success' => true, 'message' => 'Páginas eliminadas exitosamente.']);
+    } else {
+        return response()->json(['success' => false, 'message' => 'No se seleccionaron registros para eliminar.']);
+    }
+}
+
 }

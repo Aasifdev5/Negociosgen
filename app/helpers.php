@@ -18,15 +18,6 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 
 
-
-
-
-
-
-
-
-
-
 /**
  * @return HigherOrderBuilderProxy|mixed
  */

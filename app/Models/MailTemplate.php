@@ -16,20 +16,20 @@ class MailTemplate extends Model
         'email_verification',
     ];
 
-    public function isDefault()
-    {
-        return in_array($this->alias, self::DEFAULT_TEMPLATES);
-    }
-
     protected $fillable = [
         'alias',
         'name',
         'subject',
         'body',
         'status',
+        'shortcodes', // Ensure this is included for mass assignment
     ];
 
-    protected $casts = [
-        'shortcodes' => 'object',
-    ];
+
+    public function isDefault()
+    {
+        return in_array($this->alias, self::DEFAULT_TEMPLATES);
+    }
+
+
 }

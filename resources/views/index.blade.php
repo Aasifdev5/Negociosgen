@@ -3,14 +3,84 @@
     Inicio
 @endsection
 @section('content')
-<div class="container-fluid custom-bg w-100 p-0">
-    <div class="position-relative" style="overflow: hidden;">
-        <!-- Responsive video with autoplay, loop, muted, and playsinline for reliable autoplay across devices -->
-        <video class="img-fluid w-100 h-100" autoplay loop  playsinline style="object-fit: cover; width: 100%;margin-top: 60px;">
-            <source src="{{ asset('assets/VIDEO GEN PÁGINA WEB.MP4') }}" type="video/mp4">
-        </video>
+    <div class="container-fluid custom-bg w-100">
+        <div class="container my-5">
+            <div class="row">
+                <!-- Text Column -->
+                <div class="col-lg-6 col-md-12 order-2 order-md-1">
+                    <!-- Pill -->
+                    <div class="mb-3 d-flex justify-content-md-start justify-content-center order-1 mt-md-0 mt-3">
+                        <div class="badge text-dark rounded-pill d-inline-flex align-items-center p-2"
+                            style="font-size: 10px; font-family: 'Inter', sans-serif; font-weight: 600;background-color: #0ac7b4;">
+                            Próximo lanzamiento
+                        </div>
+                    </div>
+
+
+
+                    <!-- Heading -->
+                    <h2 class="text-center text-lg-start">
+                        <span
+                            style="color: #0090FF; font-size: 33px; letter-spacing: -0.02em; display: inline-block; font-family: 'Space Grotesk', sans-serif; font-weight: 700;">
+                            Libertad financiera y <br> crecimiento personal <br>
+                        </span>
+                        <span
+                            style="color: #fff; font-size: 33px; letter-spacing: -0.02em; display: inline-block; font-family: 'Space Grotesk', sans-serif; font-weight: 700;">
+                            a solo un clic
+                        </span>
+                    </h2>
+
+
+
+                    <!-- Paragraph -->
+                    <p class="text-center text-md-start"
+                        style="
+                    font-family: 'Space Grotesk', sans-serif;
+                    font-weight: 400;
+                    line-height: 28px;
+                    color: #A1A1A1;">
+                        Únete a nuestro equipo de afiliados, toma nuestros cursos de desarrollo personal y genera ingresos
+                        promoviendo conocimiento y transformación.
+                    </p>
+
+                    <!-- Button -->
+                    <div class="text-center text-lg-start mb-3">
+                        <button class="btn btn-sm btn-primary"
+                            style="
+    padding: 16px 24px;
+    border-radius: 6px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+    letter-spacing: -0.02em;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    color: white;
+    text-transform: uppercase;">
+                            ¡Únete ahora!
+                        </button>
+                    </div>
+
+
+                </div>
+
+                <!-- Image Column -->
+                <div class="col-lg-6 col-md-12 order-1 order-md-2">
+                    <div class="position-relative" style="overflow: hidden;">
+                        <!-- Responsive video with autoplay, loop, muted, and playsinline for reliable autoplay across devices -->
+                        <video class="img-fluid w-100 h-100" autoplay loop playsinline
+                            style="object-fit: cover; width: 100%;margin-top: 60px;">
+                            <source src="{{ asset('assets/VIDEO GEN PÁGINA WEB.MP4') }}" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
     </div>
-</div>
     <div class="container-fluid" style="background: #000000; position: relative; padding: 30px 0;margin-top: -10px;">
         <div class="container">
             <div class="row justify-content-center">
@@ -40,7 +110,8 @@
                         <div class="col-6 col-md-3 text-center mb-4">
                             <div class="rounded"
                                 style="background: #000000; border: 1px solid #2e2e2e; border-radius: 16px; padding: 20px; position: relative;">
-                                <img class="mb-2" style="width: 80px; height: 80px;" src="{{ asset('assets/b3.png') }}" alt="Crecimiento" />
+                                <img class="mb-2" style="width: 80px; height: 80px;" src="{{ asset('assets/b3.png') }}"
+                                    alt="Crecimiento" />
                                 <p class="text-light"
                                     style="font-size: 16px; font-family: 'Space Grotesk', sans-serif; line-height: 24px;">
                                     Crecimiento</p>
@@ -50,7 +121,8 @@
                         <div class="col-6 col-md-3 text-center mb-4">
                             <div class="rounded"
                                 style="background: #000000; border: 1px solid #2e2e2e; border-radius: 16px; padding: 20px; position: relative;">
-                                <img class="mb-2" style="width: 80px; height: 80px;" src="{{ asset('assets/b3.png') }}" alt="Motivación" />
+                                <img class="mb-2" style="width: 80px; height: 80px;" src="{{ asset('assets/b3.png') }}"
+                                    alt="Motivación" />
                                 <p class="text-light"
                                     style="font-size: 16px; font-family: 'Space Grotesk', sans-serif; line-height: 24px;">
                                     Motivación</p>
@@ -85,7 +157,8 @@
                         <span class="play-button"><img src="{{ asset('assets/Play (1).svg') }}" alt="Play Button" /></span>
                         <div class="embed-responsive" style="display: none;">
                             <video class="embed-responsive-item" controls>
-                                <source src="{{ asset('assets/Affiliate Marketing Whiteboard Video.mp4') }}" type="video/mp4">
+                                <source src="{{ asset('assets/Affiliate Marketing Whiteboard Video.mp4') }}"
+                                    type="video/mp4">
                                 Your browser does not support the video tag.
                             </video>
                         </div>
@@ -126,10 +199,12 @@
                     <div class="video-container">
                         <div class="gradient-overlay"></div>
                         <img src="{{ asset('assets/v1.png') }}" class="thumbnail" alt="Video Thumbnail" />
-                        <span class="play-button"><img src="{{ asset('assets/Play (1).svg') }}" alt="Play Button" /></span>
+                        <span class="play-button"><img src="{{ asset('assets/Play (1).svg') }}"
+                                alt="Play Button" /></span>
                         <div class="embed-responsive" style="display: none;">
                             <video class="embed-responsive-item" controls>
-                                <source src="{{ asset('assets/Affiliate Marketing Whiteboard Video.mp4') }}" type="video/mp4">
+                                <source src="{{ asset('assets/Affiliate Marketing Whiteboard Video.mp4') }}"
+                                    type="video/mp4">
                                 Your browser does not support the video tag.
                             </video>
                         </div>
@@ -141,10 +216,12 @@
                     <div class="video-container">
                         <div class="gradient-overlay"></div>
                         <img src="{{ asset('assets/v2.png') }}" class="thumbnail" alt="Video Thumbnail" />
-                        <span class="play-button"><img src="{{ asset('assets/Play (1).svg') }}" alt="Play Button" /></span>
+                        <span class="play-button"><img src="{{ asset('assets/Play (1).svg') }}"
+                                alt="Play Button" /></span>
                         <div class="embed-responsive" style="display: none;">
                             <video class="embed-responsive-item" controls>
-                                <source src="{{ asset('assets/Affiliate Marketing Whiteboard Video.mp4') }}" type="video/mp4">
+                                <source src="{{ asset('assets/Affiliate Marketing Whiteboard Video.mp4') }}"
+                                    type="video/mp4">
                                 Your browser does not support the video tag.
                             </video>
                         </div>
@@ -156,10 +233,12 @@
                     <div class="video-container">
                         <div class="gradient-overlay"></div>
                         <img src="{{ asset('assets/v3.png') }}" class="thumbnail" alt="Video Thumbnail" />
-                        <span class="play-button"><img src="{{ asset('assets/Play (1).svg') }}" alt="Play Button" /></span>
+                        <span class="play-button"><img src="{{ asset('assets/Play (1).svg') }}"
+                                alt="Play Button" /></span>
                         <div class="embed-responsive" style="display: none;">
                             <video class="embed-responsive-item" controls>
-                                <source src="{{ asset('assets/Affiliate Marketing Whiteboard Video.mp4') }}" type="video/mp4">
+                                <source src="{{ asset('assets/Affiliate Marketing Whiteboard Video.mp4') }}"
+                                    type="video/mp4">
                                 Your browser does not support the video tag.
                             </video>
                         </div>
@@ -171,10 +250,12 @@
                     <div class="video-container">
                         <div class="gradient-overlay"></div>
                         <img src="{{ asset('assets/v4.png') }}" class="thumbnail" alt="Video Thumbnail" />
-                        <span class="play-button"><img src="{{ asset('assets/Play (1).svg') }}" alt="Play Button" /></span>
+                        <span class="play-button"><img src="{{ asset('assets/Play (1).svg') }}"
+                                alt="Play Button" /></span>
                         <div class="embed-responsive" style="display: none;">
                             <video class="embed-responsive-item" controls>
-                                <source src="{{ asset('assets/Affiliate Marketing Whiteboard Video.mp4') }}" type="video/mp4">
+                                <source src="{{ asset('assets/Affiliate Marketing Whiteboard Video.mp4') }}"
+                                    type="video/mp4">
                                 Your browser does not support the video tag.
                             </video>
                         </div>
@@ -210,10 +291,12 @@
                     <div class="video-container">
                         <div class="gradient-overlay"></div>
                         <img src="{{ asset('assets/ap.png') }}" class="thumbnail" alt="Video Thumbnail" />
-                        <span class="play-button"><img src="{{ asset('assets/Play (1).svg') }}" alt="Play Button" /></span>
+                        <span class="play-button"><img src="{{ asset('assets/Play (1).svg') }}"
+                                alt="Play Button" /></span>
                         <div class="embed-responsive" style="display: none;">
                             <video class="embed-responsive-item" controls>
-                                <source src="{{ asset('assets/Affiliate Marketing Whiteboard Video.mp4') }}" type="video/mp4">
+                                <source src="{{ asset('assets/Affiliate Marketing Whiteboard Video.mp4') }}"
+                                    type="video/mp4">
                                 Your browser does not support the video tag.
                             </video>
                         </div>
@@ -230,10 +313,12 @@
                     <div class="video-container">
                         <div class="gradient-overlay"></div>
                         <img src="{{ asset('assets/ap1.png') }}" class="thumbnail" alt="Video Thumbnail" />
-                        <span class="play-button"><img src="{{ asset('assets/Play (1).svg') }}" alt="Play Button" /></span>
+                        <span class="play-button"><img src="{{ asset('assets/Play (1).svg') }}"
+                                alt="Play Button" /></span>
                         <div class="embed-responsive">
                             <video class="embed-responsive-item" controls>
-                                <source src="{{ asset('assets/Affiliate Marketing Whiteboard Video.mp4') }}" type="video/mp4">
+                                <source src="{{ asset('assets/Affiliate Marketing Whiteboard Video.mp4') }}"
+                                    type="video/mp4">
                                 Tu navegador no soporta el elemento de video.
                             </video>
                         </div>
@@ -246,10 +331,12 @@
                     <div class="video-container">
                         <div class="gradient-overlay"></div>
                         <img src="{{ asset('assets/ap2.png') }}" class="thumbnail" alt="Video Thumbnail" />
-                        <span class="play-button"><img src="{{ asset('assets/Play (1).svg') }}" alt="Play Button" /></span>
+                        <span class="play-button"><img src="{{ asset('assets/Play (1).svg') }}"
+                                alt="Play Button" /></span>
                         <div class="embed-responsive">
                             <video class="embed-responsive-item" controls>
-                                <source src="{{ asset('assets/Affiliate Marketing Whiteboard Video.mp4') }}" type="video/mp4">
+                                <source src="{{ asset('assets/Affiliate Marketing Whiteboard Video.mp4') }}"
+                                    type="video/mp4">
                                 Tu navegador no soporta el elemento de video.
                             </video>
                         </div>
@@ -262,10 +349,12 @@
                     <div class="video-container">
                         <div class="gradient-overlay"></div>
                         <img src="{{ asset('assets/ap3.png') }}" class="thumbnail" alt="Video Thumbnail" />
-                        <span class="play-button"><img src="{{ asset('assets/Play (1).svg') }}" alt="Play Button" /></span>
+                        <span class="play-button"><img src="{{ asset('assets/Play (1).svg') }}"
+                                alt="Play Button" /></span>
                         <div class="embed-responsive">
                             <video class="embed-responsive-item" controls>
-                                <source src="{{ asset('assets/Affiliate Marketing Whiteboard Video.mp4') }}" type="video/mp4">
+                                <source src="{{ asset('assets/Affiliate Marketing Whiteboard Video.mp4') }}"
+                                    type="video/mp4">
                                 Tu navegador no soporta el elemento de video.
                             </video>
                         </div>
@@ -278,10 +367,12 @@
                     <div class="video-container">
                         <div class="gradient-overlay"></div>
                         <img src="{{ asset('assets/ap4.png') }}" class="thumbnail" alt="Video Thumbnail" />
-                        <span class="play-button"><img src="{{ asset('assets/Play (1).svg') }}" alt="Play Button" /></span>
+                        <span class="play-button"><img src="{{ asset('assets/Play (1).svg') }}"
+                                alt="Play Button" /></span>
                         <div class="embed-responsive">
                             <video class="embed-responsive-item" controls>
-                                <source src="{{ asset('assets/Affiliate Marketing Whiteboard Video.mp4') }}" type="video/mp4">
+                                <source src="{{ asset('assets/Affiliate Marketing Whiteboard Video.mp4') }}"
+                                    type="video/mp4">
                                 Tu navegador no soporta el elemento de video.
                             </video>
                         </div>
@@ -622,16 +713,16 @@
                         <div class="col-md-6 mb-3">
                             <div class="list-item d-flex align-items-center"
                                 style="border: 1px solid #2e2e2e; border-radius: 8px; padding: 16px; color: #ededed; font-family: 'Space Grotesk';">
-                                <img class="envelopesimple-icon" alt="Email Icon" src="{{ asset('assets/EnvelopeSimple.svg') }}"
-                                    style="width: 24px; height: 24px;">
+                                <img class="envelopesimple-icon" alt="Email Icon"
+                                    src="{{ asset('assets/EnvelopeSimple.svg') }}" style="width: 24px; height: 24px;">
                                 <div class="correogmailcom ms-2">Correo@gmail.com</div>
                             </div>
                         </div>
                         <div class="col-md-6 mb-3">
                             <div class="list-item d-flex align-items-center"
                                 style="border: 1px solid #2e2e2e; border-radius: 8px; padding: 16px; color: #ededed; font-family: 'Space Grotesk';">
-                                <img class="envelopesimple-icon" alt="WhatsApp Icon" src="{{ asset('assets/WhatsappLogo.svg') }}"
-                                    style="width: 24px; height: 24px;">
+                                <img class="envelopesimple-icon" alt="WhatsApp Icon"
+                                    src="{{ asset('assets/WhatsappLogo.svg') }}" style="width: 24px; height: 24px;">
                                 <div class="correogmailcom ms-2">+591 986 874 365</div>
                             </div>
                         </div>
@@ -641,16 +732,16 @@
                         <div class="col-md-6 mb-3">
                             <div class="list-item d-flex align-items-center"
                                 style="border: 1px solid #2e2e2e; border-radius: 8px; padding: 16px; color: #ededed; font-family: 'Space Grotesk';">
-                                <img class="envelopesimple-icon" alt="Facebook Icon" src="{{ asset('assets/FacebookLogo.svg') }}"
-                                    style="width: 24px; height: 24px;">
+                                <img class="envelopesimple-icon" alt="Facebook Icon"
+                                    src="{{ asset('assets/FacebookLogo.svg') }}" style="width: 24px; height: 24px;">
                                 <div class="correogmailcom ms-2">Facebook</div>
                             </div>
                         </div>
                         <div class="col-md-6 mb-3">
                             <div class="list-item d-flex align-items-center"
                                 style="border: 1px solid #2e2e2e; border-radius: 8px; padding: 16px; color: #ededed; font-family: 'Space Grotesk';">
-                                <img class="atomiconredes" alt="Instagram Icon" src="{{ asset('assets/Instagram.svg') }}"
-                                    style="width: 24px; height: 24px;">
+                                <img class="atomiconredes" alt="Instagram Icon"
+                                    src="{{ asset('assets/Instagram.svg') }}" style="width: 24px; height: 24px;">
                                 <div class="correogmailcom ms-2">Instagram</div>
                             </div>
                         </div>
@@ -668,8 +759,8 @@
                         <div class="col-md-6 mb-3">
                             <div class="list-item d-flex align-items-center"
                                 style="border: 1px solid #2e2e2e; border-radius: 8px; padding: 16px; color: #ededed; font-family: 'Space Grotesk';">
-                                <img class="envelopesimple-icon" alt="Twitter Icon" src="{{ asset('assets/XLogo.svg') }}"
-                                    style="width: 24px; height: 24px;">
+                                <img class="envelopesimple-icon" alt="Twitter Icon"
+                                    src="{{ asset('assets/XLogo.svg') }}" style="width: 24px; height: 24px;">
                                 <div class="correogmailcom ms-2">Twitter</div>
                             </div>
                         </div>

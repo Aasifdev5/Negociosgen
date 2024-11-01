@@ -21,6 +21,6 @@ class SendOtpMail extends Mailable
     {
         return $this->view('emails.sendOtp')
                 ->with(['otp' => $this->otp])
-                ->subject('Su código OTP'); // Set subject in Spanish
+                ->subject('Tu código de verificación'); // Set subject in Spanish
     }
 }

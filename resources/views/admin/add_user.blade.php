@@ -92,10 +92,10 @@
                     <div class="row mb-3 ps-3">
                         <div class="col-md-12 mb-3">
                             <label for="pais" class="form-label text-secondary">País</label>
-                            <select class="form-select @error('country') is-invalid @enderror" name="country" id="pais" aria-label="País">
+                            <select class="form-select text-dark @error('country') is-invalid @enderror" name="country" id="pais" aria-label="País">
                                 <option value="">Seleccionar País</option>
                                 @foreach($countries as $country)
-                                    <option value="{{ $country->id }}" {{ old('country') == $country->id ? 'selected' : '' }}>{{ $country->name }}</option>
+                                    <option value="{{ $country->id }}" {{ old('country') == $country->id ? 'selected' : '' }}>{{ $country->country_name }}</option>
                                 @endforeach
                             </select>
                             @error('country')

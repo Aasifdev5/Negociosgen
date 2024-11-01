@@ -92,7 +92,9 @@
                             <label for="pais" class="form-label text-light">País</label>
                             <select class="form-select @error('country') is-invalid @enderror" name="country" id="pais">
                                 <option value="">Seleccionar País</option>
-                                <!-- Populate countries here -->
+                                @foreach($countries as $country)
+                                <option value="{{ $country->id }}" {{ old('country') == $country->id ? 'selected' : '' }}>{{ $country->country_name }}</option>
+                            @endforeach
                             </select>
                             @error('country')
                                 <div class="invalid-feedback">
@@ -116,7 +118,9 @@
                             <label for="ciudad" class="form-label text-light">Ciudad</label>
                             <select class="form-select @error('city') is-invalid @enderror" name="city" id="ciudad">
                                 <option value="">Seleccionar Ciudad</option>
-                                <!-- Populate cities here -->
+                                @foreach($cities as $city)
+                                    <option value="{{ $city->id }}" {{ old('city') == $city->id ? 'selected' : '' }}>{{ $city->name }}</option>
+                                @endforeach
                             </select>
                             @error('city')
                                 <div class="invalid-feedback">

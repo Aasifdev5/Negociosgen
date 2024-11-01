@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Facade;
 
 return [
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'Negociosgen'), // Replace {auth} with "Negociosgen"'),
 
     'env' => env('APP_ENV', 'production'),
 
