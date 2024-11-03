@@ -13,11 +13,13 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\ContactUsController;
 use App\Http\Controllers\Admin\CurrencyController;
+use App\Http\Controllers\Admin\CursoController;
 use App\Http\Controllers\Admin\HomeSettingController;
 use App\Http\Controllers\Admin\LanguageController;
 use App\Http\Controllers\Admin\LocationController;
 use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\RoleController;
+
 use App\Http\Controllers\Admin\SettingController;
 
 use App\Http\Controllers\Admin\SizeController;
@@ -29,15 +31,14 @@ use App\Http\Controllers\Admin\SupportTicketController;
 use App\Http\Controllers\Admin\TagController;
 
 use App\Http\Controllers\Auth\OTPController;
-
 use App\Http\Controllers\Backend\ProductsController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\EmailAppController;
 use App\Http\Controllers\FacebookSocialiteController;
 use App\Http\Controllers\FundController;
 use App\Http\Controllers\GoogleController;
-use App\Http\Controllers\InvoiceController;
 
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\MailTemplateController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Pages;
@@ -53,6 +54,7 @@ use App\Models\Language;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 use Maatwebsite\Excel\Facades\Excel;
+
 
 
 /*
@@ -396,6 +398,15 @@ Route::group(['prefix' => 'admin'], function () {
             Route::post('update/{uuid}', [CategoryController::class, 'update'])->name('category.update');
             Route::get('delete/{uuid}', [CategoryController::class, 'delete'])->name('category.delete');
             Route::post('bulk-delete', [CategoryController::class, 'bulkDelete'])->name('category.bulk.delete');
+        });
+        Route::prefix('curso')->group(function () {
+            Route::get('/', [CursoController::class, 'index'])->name('curso.index')->middleware('AdminIsLoggedIn');
+            Route::get('create', [CursoController::class, 'create'])->name('curso.create')->middleware('AdminIsLoggedIn');
+            Route::post('store', [CursoController::class, 'store'])->name('curso.store');
+            Route::get('edit/{uuid}', [CursoController::class, 'edit'])->name('curso.edit')->middleware('AdminIsLoggedIn');
+            Route::post('update/{uuid}', [CursoController::class, 'update'])->name('curso.update');
+            Route::get('delete/{uuid}', [CursoController::class, 'delete'])->name('curso.delete');
+            Route::post('bulk-delete', [CursoController::class, 'bulkDelete'])->name('curso.bulk.delete');
         });
         Route::prefix('subcategory')->group(function () {
             Route::get('/', [SubcategoryController::class, 'index'])->name('subcategory.index');

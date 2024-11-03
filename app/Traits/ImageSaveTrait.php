@@ -14,24 +14,31 @@ use Intervention\Image\Facades\Image;
 
 trait ImageSaveTrait
 {
-    private function saveImage($destination, $attribute): ?string
+    private function saveImage($file, $destination): ?string
     {
         // Ensure the directory exists
         if (!File::isDirectory(public_path('uploads/' . $destination))) {
             File::makeDirectory(public_path('uploads/' . $destination), 0755, true, true); // Use more restrictive permissions
         }
 
+        // Check if $file is a valid instance of UploadedFile
+        if (!$file instanceof \Illuminate\Http\UploadedFile) {
+            Log::error('Invalid file uploaded.');
+            return null; // Handle this case as per your needs
+        }
+
         // Generate unique filename
-        $file_name = time() . '-' . Str::random(10) . '.' . $attribute->getClientOriginalExtension();
+        $file_name = time() . '-' . Str::random(10) . '.' . $file->getClientOriginalExtension();
 
         // Move uploaded file to the destination directory
-        $attribute->move(public_path('uploads/' . $destination), $file_name);
+        $file->move(public_path('uploads/' . $destination), $file_name);
 
         // Update image path
         $image = 'uploads/' . $destination . '/' . $file_name;
 
         return $image;
     }
+
 
 
 

@@ -466,6 +466,12 @@
                                             <span>{{ __('Subcategoría') }}</span>
                                         </a>
                                     </li>
+                                    <li>
+                                        <a href="{{ route('curso.index') }}">
+                                            <i class="fa fa-circle"></i>
+                                            <span>{{ __('Cursos') }}</span>
+                                        </a>
+                                    </li>
                                     {{-- <li>
 
                                         <a href="{{ url('admin\childcategory') }}">
