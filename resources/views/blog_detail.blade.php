@@ -10,9 +10,11 @@
             border: 1px solid rgba(46, 46, 46, 0.5);
             /* Optional: Semi-transparent border */
         }
-        a{
-    text-decoration: none;
-}
+
+        a {
+            text-decoration: none;
+        }
+
         .transparent-card .card-body,
         .transparent-card .card-footer {
             background-color: transparent;
@@ -82,11 +84,12 @@
               box-sizing: border-box;">
                                 <div class="heart-parent">
                                     <img class="heart-icon" src="{{ asset('assets/heart.svg') }}" alt="Likes" />
-                                    <span class="div">12</span>
+                                    <span class="div">{{ $blog_detail->like_count }}</span>
                                 </div>
                                 <div class="heart-parent">
                                     <img class="heart-icon" src="{{ asset('assets/Message square.svg') }}" alt="Comments" />
-                                    <span class="div">4</span>
+                                    <span class="div">{{ $commentCount }}
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -146,24 +149,183 @@
                         {!! $blog_detail->details !!}
 
                         <div class="badges mt-4 d-flex align-items-center">
-                            <img class="heart-icon me-2" alt="Me gusta" src="{{ asset('assets/heart.svg') }}">
-                            <div class="badges1">Me gusta</div>
+                            <img class="heart-icon me-2" alt="Me gusta" src="{{ asset('assets/heart.svg') }}"
+                                data-blog-id="{{ $blog_detail->id }}" style="cursor: pointer;">
+                            <div class="badges1">Me gusta</div>&nbsp;
+                            <span id="likeCount">{{ $blog_detail->like_count }}</span>
                         </div>
+                        <br>
+                        @php
+                            // Check if $user_session exists and has an id
+                            $userId = !empty($user_session) ? $user_session->id : null;
+                        @endphp
+                        @if (!@empty($user_session))
+                            <!-- Input for a new comment -->
 
-                        <div class="textarea mt-4">
-                            <label class="label text-white">Nuevo comentario</label>
-                            <div class="content mt-2">
-                                <textarea class="form-control" rows="5" placeholder="Escribe tu comentario" style="padding: 10px;"></textarea>
-                            </div>
-                        </div>
+                            <form id="commentForm" class="comment-one__form contact-form-validated">
+                                @csrf
+                                <input type="hidden" class="blog_id" name="blog_id" value="{{ $blog_detail->id }}">
+                                @if ($userId)
+                                    <input type="hidden" name="user_id" class="user_id" value="{{ $userId }}">
+                                @endif
+                                <div class="textarea mt-4">
+                                    <label class="label text-white">Nuevo comentario</label>
+                                    <div class="content mt-2">
+                                        <textarea class="form-control" name="comment" rows="5" placeholder="Escribe tu comentario" style="padding: 10px;"></textarea>
+                                    </div>
+                                </div>
 
-                        <div class="content1 mt-4 d-flex align-items-start">
-                            <img class="frame-inner me-2" alt="Usuario 2" src="{{ asset('assets/Ellipse 1.svg') }}"
-                                class="img-fluid" style="width: 40px; height: 40px;">
-                            <div class="write-a-message p-2 rounded bg-light text-dark">
-                                Muy bueno el contenido del blog
-                            </div>
-                        </div>
+                                <br>
+
+                                <div class="col-sm-12">
+
+                                    <div class="comment-form__btn-box">
+                                        <button type="submit"
+                                            class="btn btn-sm btn-outline-primary btn-sm d-flex align-items-center justify-content-center pull-right comment-form__btn">{{ __('Submit
+                                                                                                                                                                                                                                                                            Comment') }}</button>
+                                    </div>
+                                </div>
+
+                            </form>
+                            <br>
+                            <!-- Display comments and replies -->
+                            @foreach ($blogComments as $blogComment)
+                                @if ($blogComment->blog_id == $blog_detail->id)
+                                    <!-- Main Comment -->
+                                    <div class="main-comment mb-4">
+                                        <div class="blog-comment-item d-flex align-items-start">
+                                            <!-- Comment Author Image -->
+                                            <div class="comment-author-img radius-50 overflow-hidden me-3">
+                                                @if (!empty($blogComment->user->image_path))
+                                                    <img src="{{ getImageFile($blogComment->user->image_path) }}"
+                                                        alt="avatar" style="width: 50px; height: 50px;">
+                                                @else
+                                                    <img src="{{ asset('149071.png') }}" alt="dummy-avatar"
+                                                        style="width: 50px; height: 50px;">
+                                                @endif
+                                            </div>
+
+                                            <div class="author-details d-flex flex-grow-1 justify-content-between">
+                                                <div>
+                                                    <h6 class="author-name font-16">{{ $blogComment->user->name }}</h6>
+                                                    <p class="mb-0">{{ $blogComment->comment }}</p>
+
+                                                    @guest
+                                                        <div class="mt-2">
+                                                            <button
+                                                                class="replyBtn blog-reply-btn btn btn-sm btn-outline-primary font-medium"
+                                                                data-bs-toggle="modal" data-bs-target="#commentReplyModal"
+                                                                data-parent_id="{{ $blogComment->id }}">
+                                                                {{ __('Reply') }} <span class="iconify"
+                                                                    data-icon="la:angle-right"></span>
+                                                            </button>
+                                                        </div>
+                                                    @endguest
+                                                </div>
+
+                                                <div class="comment-date-time text-muted font-12 mb-2 align-self-start">
+                                                    {{ $blogComment->created_at->format('j M, Y') }} {{ __('AT') }}
+                                                    {{ $blogComment->created_at->format('h:i A') }}
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                @endif
+
+
+                                <!-- Replies for Main Comment -->
+                                @foreach ($blogComment->blogCommentReplies as $reply)
+                                    <div class="reply-comment mb-4 ms-5">
+                                        <div class="blog-comment-item d-flex align-items-start">
+                                            <!-- Reply Author Image -->
+                                            <div class="comment-author-img radius-50 overflow-hidden me-3">
+                                                @if (!empty($reply->user->image_path))
+                                                    <img src="{{ getImageFile($reply->user->image_path) }}" alt="avatar"
+                                                        style="width: 50px; height: 50px;">
+                                                @else
+                                                    <img src="{{ asset('149071.png') }}" alt="dummy-avatar"
+                                                        style="width: 50px; height: 50px;">
+                                                @endif
+                                            </div>
+
+                                            <!-- Reply Details -->
+                                            <div class="author-details flex-grow-1">
+                                                <h6 class="author-name font-16">{{ $reply->user->name }}</h6>
+                                                <div class="comment-date-time color-gray font-12 mb-2">
+                                                    {{ $reply->created_at->format('j M, Y') }} {{ __('AT') }}
+                                                    {{ $reply->created_at->format('h:i A') }}
+                                                </div>
+                                                <p class="mb-0">{{ $reply->comment }}</p>
+
+                                                @guest
+                                                    <button
+                                                        class="replyBtn blog-reply-btn btn btn-sm btn-outline-primary font-medium reply-btn mt-2"
+                                                        data-bs-toggle="modal" data-bs-target="#commentReplyModal"
+                                                        data-parent_id="{{ $blogComment->id }}">
+                                                        {{ __('Reply') }} <span class="iconify"
+                                                            data-icon="la:angle-right"></span>
+                                                    </button>
+                                                @endguest
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @endforeach
+                        @else
+                            <!-- Display comments and replies -->
+                            @foreach ($blogComments as $blogComment)
+                                @if ($blogComment->blog_id == $blog_detail->id)
+                                    <!-- Main Comment -->
+                                    <div class="main-comment mb-4">
+                                        <div class="blog-comment-item d-flex align-items-start">
+                                            <!-- Comment Author Image -->
+                                            <div class="comment-author-img radius-50 overflow-hidden me-3">
+                                                @if (!empty($blogComment->user->image_path))
+                                                    <img src="{{ getImageFile($blogComment->user->image_path) }}"
+                                                        alt="avatar" style="width: 50px; height: 50px;">
+                                                @else
+                                                    <img src="{{ asset('149071.png') }}" alt="dummy-avatar"
+                                                        style="width: 50px; height: 50px;">
+                                                @endif
+                                            </div>
+
+                                            <div class="author-details d-flex flex-grow-1 justify-content-between">
+                                                <div>
+                                                    <h6 class="author-name font-16">{{ $blogComment->user->name }}</h6>
+                                                    <p class="mb-0">{{ $blogComment->comment }}</p>
+
+                                                    @guest
+                                                        <div class="mt-2">
+                                                            <button
+                                                                class="replyBtn blog-reply-btn btn btn-sm btn-outline-primary font-medium"
+                                                                data-bs-toggle="modal" data-bs-target="#commentReplyModal"
+                                                                data-parent_id="{{ $blogComment->id }}">
+                                                                {{ __('Reply') }} <span class="iconify"
+                                                                    data-icon="la:angle-right"></span>
+                                                            </button>
+                                                        </div>
+                                                    @endguest
+                                                </div>
+
+                                                <div class="comment-date-time text-muted font-12 mb-2 align-self-start">
+                                                    {{ $blogComment->created_at->format('j M, Y') }} {{ __('AT') }}
+                                                    {{ $blogComment->created_at->format('h:i A') }}
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                @endif
+                            @endforeach
+                            <a class="btn btn-outline-primary btn-sm d-flex align-items-center justify-content-center"
+                                href="{{ url('Userlogin') }}">
+                                Iniciar Sesión
+                            </a>
+                        @endif
+
                     </div>
                 </div>
 
@@ -186,13 +348,21 @@
                                     </a>
                                     <div class="card-footer bg-transparent frame-parent">
                                         <div class="heart-parent">
-                                            <img class="heart-icon" src="{{ asset('assets/heart.svg') }}" alt="Likes">
-                                            <span class="div">12</span>
+                                            <img class="heart-icon" src="{{ asset('assets/heart.svg') }}"
+                                                alt="Likes">
+                                            <span class="div">{{ $item->like_count }}</span>
                                         </div>
                                         <div class="heart-parent">
                                             <img class="heart-icon" src="{{ asset('assets/Message square.svg') }}"
                                                 alt="Comments">
-                                            <span class="div">4</span>
+                                            <span class="div">
+                                                @php
+                                                    $commentCount = \App\Models\BlogComment::where('blog_id', $item->id)
+                                                        ->where('status', '1')
+                                                        ->count();
+                                                @endphp
+                                                {{ $commentCount }}
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -218,7 +388,8 @@
                         <div class="col-lg-4 col-12 mb-4">
                             <div class="card image-parent h-100 transparent-card">
                                 <a href="{{ url('blog_detail/' . $item->slug) }}" class=" text-white"><img
-                                        src="{{ asset($item->image) }}" class="image-icon card-img-top" alt="Blog Image">
+                                        src="{{ asset($item->image) }}" class="image-icon card-img-top"
+                                        alt="Blog Image">
                                     <div class="card-body stack">
                                         <h5 class="card-title fw-bold ttulo-del-blog">{{ $item->title }}</h5>
                                         <p class="card-text estamos-dedicados-a">{!! $item->short_description !!}</p>
@@ -227,12 +398,19 @@
                                 <div class="card-footer bg-transparent frame-parent">
                                     <div class="heart-parent">
                                         <img class="heart-icon" src="{{ asset('assets/heart.svg') }}" alt="Likes">
-                                        <span class="div">12</span>
+                                        <span class="div">{{ $item->like_count }}</span>
                                     </div>
                                     <div class="heart-parent">
                                         <img class="heart-icon" src="{{ asset('assets/Message square.svg') }}"
                                             alt="Comments">
-                                        <span class="div">4</span>
+                                        <span class="div">
+                                            @php
+                                                $commentCount = \App\Models\BlogComment::where('blog_id', $item->id)
+                                                    ->where('status', '1')
+                                                    ->count();
+                                            @endphp
+                                            {{ $commentCount }}
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -250,4 +428,149 @@
 
         </div>
     </section>
+    <!-- Reply Modal -->
+    @if ($userId)
+        <div class="modal fade" id="commentReplyModal" tabindex="-1" aria-labelledby="commentReplyModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="commentReplyModalLabel">{{ __('Reply to Comment') }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form id="ReplycommentForm" class="reply-comment-form">
+                        @csrf
+                        <input type="hidden" name="blog_id" value="{{ $blog_detail->id }}">
+                        <input type="hidden" name="user_id" value="{{ $user_session->id }}">
+                        <input type="hidden" name="parent_id" id="modalParentId">
+
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <textarea class="form-control" name="reply_comment" rows="4" placeholder="Escribe tu respuesta"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">{{ __('Close') }}</button>
+                            <button type="submit" class="btn btn-primary">{{ __('Submit Reply') }}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endif
+
+    <!-- Include Toastr and jQuery -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Like button click event
+            $('.heart-icon').on('click', function() {
+                const blogId = $(this).data('blog-id');
+
+                $.ajax({
+                    type: 'POST',
+                    url: `/blog/${blogId}/like`,
+                    data: {
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            $('#likeCount').text(response.like_count);
+                        } else {
+                            alert('Could not process your request.');
+                        }
+                    },
+                    error: function() {
+                        alert('An error occurred. Please try again.');
+                    }
+                });
+            });
+            // Toastr settings
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true,
+                "positionClass": "toast-top-right",
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000"
+            };
+
+            // Handle reply button click
+            $(document).on('click', '.replyBtn', function() {
+                $('#modalParentId').val($(this).data('parent_id'));
+            });
+
+            // Submit main comment
+            $('#commentForm').submit(function(e) {
+                e.preventDefault();
+                let formData = $(this).serialize();
+
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('blog-comment.store') }}",
+                    data: formData,
+                    dataType: "json",
+                    success: function(response) {
+                        if (response.success) {
+                            $('#commentForm')[0].reset();
+                            $('.appendCommentList').prepend(response.html);
+                            toastr.success("Comment successfully added.", "", {
+                                onHidden: function() {
+                                    location.reload();
+                                }
+                            });
+                        } else {
+                            toastr.error("Failed to store comment.");
+                        }
+                    },
+                    error: function(xhr) {
+                        console.error(xhr.responseText);
+                        toastr.error("Failed to store comment. Please try again later.");
+                    }
+                });
+            });
+
+            // Submit reply comment
+            $('#ReplycommentForm').submit(function(e) {
+                e.preventDefault();
+                let formData = $(this).serialize();
+                let user_id = $('.user_id').val();
+
+                if (!user_id) {
+                    toastr.warning("You need to login first!");
+                    return;
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('blog-comment-reply.store') }}",
+                    data: formData,
+                    dataType: "json",
+                    success: function(response) {
+                        if (response.success) {
+                            $('#ReplycommentForm')[0].reset();
+                            $('.appendCommentList').prepend(response.html);
+                            toastr.success(response.message, "", {
+                                onHidden: function() {
+                                    location.reload();
+                                }
+                            });
+                        } else {
+                            toastr.error(response.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        console.error(xhr.responseText);
+                        toastr.error("Failed to store reply. Please try again later.");
+                    }
+                });
+            });
+        });
+    </script>
+
 @endsection

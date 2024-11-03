@@ -356,14 +356,21 @@ class UserController extends Controller
     public function blog_detail(Request $request)
     {
 
-        $blog_detail = Blog::where('slug', $request->id)->first();
+        $blog_detail = Blog::where('slug', $request->slug)->first();
+        // dd($blog_detail);
         $data['blogComments'] = BlogComment::active();
         $blogComments = $data['blogComments']->whereNull('parent_id')->get();
+        // Fetch blog with count of active comments
+        $commentCount = BlogComment::where('blog_id', $blog_detail->id)
+
+            ->where('status', '1') // If you have a status for active comments
+            ->count();
+
         $pages = Page::all();
         $latest_posts = Blog::orderBy('id', 'DESC')->paginate(3);
         $user_session = User::where('id', Session::get('LoggedIn'))->first();
         // dd($request->id);
-        return view('blog_detail', compact('blogComments', 'user_session', 'blog_detail', 'pages', 'latest_posts'));
+        return view('blog_detail', compact('blogComments', 'user_session', 'blog_detail', 'pages', 'latest_posts', 'commentCount'));
     }
     public function storeLikes(Request $request)
     {
@@ -534,13 +541,13 @@ class UserController extends Controller
 
     public function blogCommentReplyStore(Request $request)
     {
-        if ($request->user_id && $request->comment) {
+        // dd($request->all());
+        if ($request->user_id && $request->reply_comment) {
             $comment = new BlogComment();
             $comment->blog_id = $request->blog_id;
             $comment->user_id = $request->user_id;
-            $comment->name = $request->name;
-            $comment->email = $request->email;
-            $comment->comment = $request->comment;
+
+            $comment->comment = $request->reply_comment;
             $comment->status = 1;
             $comment->parent_id = $request->parent_id;
             $comment->save();

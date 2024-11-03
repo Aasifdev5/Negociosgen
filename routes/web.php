@@ -133,7 +133,7 @@ Route::group(['middleware' => ['prevent-back-history', SetLocale::class]], funct
     Route::post('pay_credit/{id}', [UserController::class, 'pay_credit'])->name('pay_credit')->middleware('isLoggedIn');
     Route::get('page/{slug}', [Pages::class, 'get_page'])->middleware('isLoggedIn');
     Route::post('contact_send', [Pages::class, 'contact_send']);
-    Route::get('/blog_detail/{id}', [UserController::class, 'blog_detail'])->name('blog_detail');
+    Route::get('/blog_detail/{slug}', [UserController::class, 'blog_detail'])->name('blog_detail');
     Route::get('/addpaymentmethod', [UserController::class, 'addpaymentmethod'])->name('addpaymentmethod')->middleware('isLoggedIn');
     Route::get('/ayuda', [UserController::class, 'ayuda'])->name('ayuda');
     Route::get('/welcome', [UserController::class, 'welcome'])->name('welcome')->middleware('isLoggedIn');
@@ -162,6 +162,7 @@ Route::get('/logout', [UserController::class, 'logout'])->name('logout');
 Route::get('/blog_details/{id}', [UserController::class, 'blog_details'])->name('blog_details');
 
 Route::get('/ganancias', [UserController::class, 'ganancias'])->name('ganancias');
+Route::post('/blog/{id}/like', [BlogController::class, 'incrementLike'])->name('blog.like');
 Route::post('blog-comment', [UserController::class, 'blogCommentStore'])->name('blog-comment.store');
 Route::post('blog-comment-reply', [UserController::class, 'blogCommentReplyStore'])->name('blog-comment-reply.store');
 Route::get('search-blog-list', [UserController::class, 'searchBlogList'])->name('search-blog.list');

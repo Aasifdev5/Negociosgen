@@ -69,24 +69,46 @@ Contáctanos
             <div class="col-lg-6 col-md-12">
                 <div class="p-4" style="background-color: #000000; border: 1px solid #2E2E2E; border-radius: 10px;">
                     <h4 class="text-light mb-3">Contacta con nosotros</h4>
-                    <form>
+                     @if (Session::has('flash_message'))
+                            <div class="alert alert-success">
+                                {{ Session::get('flash_message') }}
+                            </div>
+                        @endif
+                        @if (Session::has('error_flash_message'))
+                            <div class="alert alert-danger">
+                                {{ Session::get('error_flash_message') }}
+                            </div>
+                        @endif
+                        {!! Form::open(['url' => 'contact_send', 'class' => 'row', 'id' => 'contact_form', 'role' => 'form']) !!}
                         <div class="mb-3">
                             <label for="nombre" class="form-label text-light">Nombre</label>
-                            <input type="text" class="form-control" id="nombre" placeholder="Título">
+                            <input type="text" name="name" class="form-control" id="nombre"
+                                placeholder="Título">
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label text-light">Email</label>
-                            <input type="email" class="form-control" id="email" placeholder="ejemplo@gmail.com">
+                            <input type="email" class="form-control" name="email" id="email"
+                                placeholder="ejemplo@gmail.com">
                         </div>
                         <div class="mb-3">
                             <label for="telefono" class="form-label text-light">Número de celular</label>
-                            <input type="tel" class="form-control" id="telefono" placeholder="+591">
+                            <input type="tel" class="form-control" name="phone" id="telefono"
+                                placeholder="+591">
                         </div>
+
+                        <div class=" mb-3">
+                            <label class="text-light">Asunto</label>
+                            <input type="text" name="subject" id="subject" class="form-control"
+                                placeholder="Asunto">
+                        </div>
+
                         <div class="mb-3">
                             <label for="descripcion" class="form-label text-light">Descripción</label>
-                            <textarea class="form-control" id="descripcion" rows="3" placeholder="Escribe la descripción opcional"></textarea>
+                            <textarea class="form-control" name="message" id="descripcion" rows="3"
+                                placeholder="Escribe la descripción opcional"></textarea>
                         </div>
-                        <button type="submit" class="btn btn-sm" style="width: 100%;
+                        <button type="submit" class="btn btn-sm"
+                            style="width: 100%;
                             position: relative;
                             border-radius: 6px;
                             background-color: #0090ff;
@@ -100,7 +122,7 @@ Contáctanos
                             transition: background-color 0.3s;">
                             Enviar
                         </button>
-                    </form>
+                        {!! Form::close() !!}
                 </div>
             </div>
         </div>

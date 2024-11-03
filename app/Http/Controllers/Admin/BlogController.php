@@ -29,6 +29,23 @@ class BlogController extends Controller
     {
         $this->model = new Crud($blog);
     }
+    public function incrementLike($id)
+    {
+        // Find the blog by ID
+        $blog = Blog::find($id);
+
+        if ($blog) {
+            // Increment the like count
+            $blog->increment('like_count');
+
+            return response()->json([
+                'success' => true,
+                'like_count' => $blog->like_count
+            ]);
+        }
+
+        return response()->json(['success' => false], 404);
+    }
 
     public function index()
     {

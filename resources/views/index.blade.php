@@ -67,13 +67,18 @@
 
                 <!-- Image Column -->
                 <div class="col-lg-6 col-md-12 order-1 order-md-2">
-                    <div class="position-relative" style="overflow: hidden;">
-                        <!-- Responsive video with autoplay, loop, muted, and playsinline for reliable autoplay across devices -->
-                        <video class="img-fluid w-100 h-100" autoplay loop playsinline
-                            style="object-fit: cover; width: 100%;margin-top: 60px;">
-                            <source src="{{ asset('assets/VIDEO GEN PÁGINA WEB.MP4') }}" type="video/mp4">
-                        </video>
+                    <div class="video-container">
+                        <div class="gradient-overlay"></div>
+                        <img src="{{ asset('assets/h.png') }}" class="thumbnail" alt="Video Thumbnail" />
+                        <span class="play-button"><img src="{{ asset('assets/Play (1).svg') }}" alt="Play Button" /></span>
+                        <div class="embed-responsive" style="display: none;">
+                            <video class="embed-responsive-item" controls>
+                                <source src="{{ asset('assets/VIDEO GEN PÁGINA WEB.MP4') }}" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
                     </div>
+
                 </div>
 
             </div>
@@ -680,7 +685,7 @@
                         </p>
                     </div>
                     <div class="col-12 col-md-4 text-end d-flex align-items-center justify-content-end">
-                        <a href="#" class="btn btn-primary btn-lg">Regístrate Aquí</a>
+                        <a href="{{ url('signup') }}" class="btn btn-primary btn-lg">Regístrate Aquí</a>
                     </div>
                 </div>
             </div>
@@ -772,26 +777,46 @@
                     <div class="p-4"
                         style="background-color: #000000; border: 1px solid #2E2E2E; border-radius: 10px;">
                         <h4 class="text-light mb-3">Contacta con nosotros</h4>
-                        <form>
-                            <div class="mb-3">
-                                <label for="nombre" class="form-label text-light">Nombre</label>
-                                <input type="text" class="form-control" id="nombre" placeholder="Título">
+                        @if (Session::has('flash_message'))
+                            <div class="alert alert-success">
+                                {{ Session::get('flash_message') }}
                             </div>
-                            <div class="mb-3">
-                                <label for="email" class="form-label text-light">Email</label>
-                                <input type="email" class="form-control" id="email"
-                                    placeholder="ejemplo@gmail.com">
+                        @endif
+                        @if (Session::has('error_flash_message'))
+                            <div class="alert alert-danger">
+                                {{ Session::get('error_flash_message') }}
                             </div>
-                            <div class="mb-3">
-                                <label for="telefono" class="form-label text-light">Número de celular</label>
-                                <input type="tel" class="form-control" id="telefono" placeholder="+591">
-                            </div>
-                            <div class="mb-3">
-                                <label for="descripcion" class="form-label text-light">Descripción</label>
-                                <textarea class="form-control" id="descripcion" rows="3" placeholder="Escribe la descripción opcional"></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-sm"
-                                style="width: 100%;
+                        @endif
+                        {!! Form::open(['url' => 'contact_send', 'class' => 'row', 'id' => 'contact_form', 'role' => 'form']) !!}
+                        <div class="mb-3">
+                            <label for="nombre" class="form-label text-light">Nombre</label>
+                            <input type="text" name="name" class="form-control" id="nombre"
+                                placeholder="Título">
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label text-light">Email</label>
+                            <input type="email" class="form-control" name="email" id="email"
+                                placeholder="ejemplo@gmail.com">
+                        </div>
+                        <div class="mb-3">
+                            <label for="telefono" class="form-label text-light">Número de celular</label>
+                            <input type="tel" class="form-control" name="phone" id="telefono"
+                                placeholder="+591">
+                        </div>
+
+                        <div class=" mb-3">
+                            <label class="text-light">Asunto</label>
+                            <input type="text" name="subject" id="subject" class="form-control"
+                                placeholder="Asunto">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="descripcion" class="form-label text-light">Descripción</label>
+                            <textarea class="form-control" name="message" id="descripcion" rows="3"
+                                placeholder="Escribe la descripción opcional"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-sm"
+                            style="width: 100%;
                             position: relative;
                             border-radius: 6px;
                             background-color: #0090ff;
@@ -803,9 +828,9 @@
                             font-family: 'Space Grotesk';
                             border: none;
                             transition: background-color 0.3s;">
-                                Enviar
-                            </button>
-                        </form>
+                            Enviar
+                        </button>
+                        {!! Form::close() !!}
                     </div>
                 </div>
             </div>

@@ -67,6 +67,7 @@ class Pages extends Controller
 
     public function contact_send(Request $request)
 {
+    // dd($request->phone);
     // Validate input fields
     $validatedData = $request->validate([
         'name' => 'required|string',
@@ -83,12 +84,15 @@ class Pages extends Controller
     $data = [
         'name' => $name,
         'email' => $email,
+        'phone'=>$request->phone,
+        'subject'=>$request->subject,
         'message_content' => $message_content,
+
     ];
 
     try {
         // Send email using the ContactFormSubmitted Mailable
-        Mail::to('admin@bikebros.net')->send(new ContactFormSubmitted($data));
+        Mail::to('gen@negociosgen.com')->send(new ContactFormSubmitted($data));
 
         // Flash success message and redirect back
         \Session::flash('flash_message', 'Gracias. Su mensaje ha sido enviado.');

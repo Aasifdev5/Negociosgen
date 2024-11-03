@@ -154,13 +154,18 @@ a{
                                 <div class="card-footer bg-transparent frame-parent">
                                     <div class="heart-parent">
                                         <img class="heart-icon" src="{{ asset('assets/heart.svg') }}" alt="Likes">
-                                        <span class="div">{{ $row->likes_count ?? 0 }}</span>
+                                        <span class="div text-light">{{ $row->like_count ?? 0 }}</span>
                                         <!-- Assuming you have a 'likes_count' field -->
                                     </div>
                                     <div class="heart-parent">
                                         <img class="heart-icon" src="{{ asset('assets/Message square.svg') }}"
                                             alt="Comments">
-                                        <span class="div">{{ $row->comments_count ?? 0 }}</span>
+                                        <span class="div text-light">@php
+                                            $commentCount = \App\Models\BlogComment::where('blog_id', $row->id)
+                                                ->where('status', '1')
+                                                ->count();
+                                        @endphp
+                                        {{ $commentCount ?? 0 }}</span>
                                         <!-- Assuming you have a 'comments_count' field -->
                                     </div>
                                 </div>
