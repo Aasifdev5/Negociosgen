@@ -55,7 +55,7 @@ class BlogController extends Controller
             $data['user_session'] = User::where('id', Session::get('LoggedIn'))->first();
 
             $data['title'] = 'Manage Blog';
-            $data['blogs'] = $this->model->getOrderById('DESC', 25);
+            $data['blogs'] = Blog::all();
             return view('admin.blog.index', $data);
         }
     }

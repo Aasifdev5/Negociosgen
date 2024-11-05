@@ -14,10 +14,12 @@ use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\ContactUsController;
 use App\Http\Controllers\Admin\CurrencyController;
 use App\Http\Controllers\Admin\CursoController;
+use App\Http\Controllers\Admin\EventsController;
 use App\Http\Controllers\Admin\HomeSettingController;
 use App\Http\Controllers\Admin\LanguageController;
 use App\Http\Controllers\Admin\LocationController;
 use App\Http\Controllers\Admin\MediaController;
+
 use App\Http\Controllers\Admin\RoleController;
 
 use App\Http\Controllers\Admin\SettingController;
@@ -29,15 +31,14 @@ use App\Http\Controllers\Admin\SubcategoryController;
 use App\Http\Controllers\Admin\SupportTicketController;
 
 use App\Http\Controllers\Admin\TagController;
-
 use App\Http\Controllers\Auth\OTPController;
 use App\Http\Controllers\Backend\ProductsController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\EmailAppController;
 use App\Http\Controllers\FacebookSocialiteController;
 use App\Http\Controllers\FundController;
-use App\Http\Controllers\GoogleController;
 
+use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\MailTemplateController;
 use App\Http\Controllers\OrderController;
@@ -54,6 +55,7 @@ use App\Models\Language;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 use Maatwebsite\Excel\Facades\Excel;
+
 
 
 
@@ -208,7 +210,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::put('permissions/{id}', [Admin::class, 'Pupdate'])->name('permissions.update');
         Route::delete('/permission/{id}', [Admin::class, 'pdestroy'])->name('permissions.delete');
         Route::get('/earn', [Admin::class, 'earn'])->name('earn');
-        Route::get('showAllUsersTimeSpent', action: [ScreenTimeController::class, 'showAllUsersTimeSpent'])->name('showAllUsersTimeSpent');
+
         Route::get('/qrcode', [QRCodeController::class, 'index'])->name('qrcode.index')->middleware('AdminIsLoggedIn');
         Route::get('/destroy_qrcode/{id}', [QRCodeController::class, 'destroy'])->name('destroy');
         Route::post('/qrcode/generate', [QRCodeController::class, 'generateQrCode'])->name('qrcode.generate');
@@ -399,6 +401,15 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('delete/{uuid}', [CategoryController::class, 'delete'])->name('category.delete');
             Route::post('bulk-delete', [CategoryController::class, 'bulkDelete'])->name('category.bulk.delete');
         });
+        Route::prefix('events')->group(function () {
+            Route::get('/', [EventsController::class, 'index'])->name('events.index')->middleware('AdminIsLoggedIn');
+            Route::get('create', [EventsController::class, 'create'])->name('events.create')->middleware('AdminIsLoggedIn');
+            Route::post('store', [EventsController::class, 'store'])->name('events.store');
+            Route::get('edit/{uuid}', [EventsController::class, 'edit'])->name('events.edit')->middleware('AdminIsLoggedIn');
+            Route::post('update/{uuid}', [EventsController::class, 'update'])->name('events.update');
+            Route::get('delete/{uuid}', [EventsController::class, 'delete'])->name('events.delete');
+            Route::post('bulk-delete', [EventsController::class, 'bulkDelete'])->name('events.bulk.delete');
+        });
         Route::prefix('curso')->group(function () {
             Route::get('/', [CursoController::class, 'index'])->name('curso.index')->middleware('AdminIsLoggedIn');
             Route::get('create', [CursoController::class, 'create'])->name('curso.create')->middleware('AdminIsLoggedIn');
@@ -425,22 +436,7 @@ Route::group(['prefix' => 'admin'], function () {
             Route::post('update/{uuid}', [BrandController::class, 'update'])->name('brands.update');
             Route::get('delete/{uuid}', [BrandController::class, 'delete'])->name('brands.delete');
         });
-        Route::prefix('colors')->group(function () {
-            Route::get('/', [ColorController::class, 'index'])->name('colors.index')->middleware('AdminIsLoggedIn');
-            Route::get('create', [ColorController::class, 'create'])->name('colors.create')->middleware('AdminIsLoggedIn');
-            Route::post('store', [ColorController::class, 'store'])->name('colors.store');
-            Route::get('edit/{uuid}', [ColorController::class, 'edit'])->name('colors.edit')->middleware('AdminIsLoggedIn');
-            Route::post('update/{uuid}', [ColorController::class, 'update'])->name('colors.update');
-            Route::get('delete/{uuid}', [ColorController::class, 'delete'])->name('colors.delete');
-        });
-        Route::prefix('size')->group(function () {
-            Route::get('/', [SizeController::class, 'index'])->name('size.index')->middleware('AdminIsLoggedIn');
-            Route::get('create', [SizeController::class, 'create'])->name('size.create')->middleware('AdminIsLoggedIn');
-            Route::post('store', [SizeController::class, 'store'])->name('size.store');
-            Route::get('edit/{uuid}', [SizeController::class, 'edit'])->name('size.edit')->middleware('AdminIsLoggedIn');
-            Route::post('update/{uuid}', [SizeController::class, 'update'])->name('size.update');
-            Route::get('delete/{uuid}', [SizeController::class, 'delete'])->name('size.delete');
-        });
+
         Route::get('childcategory', [SubcategoryController::class, 'childcategory'])->name('childcategory')->middleware('AdminIsLoggedIn');
         Route::prefix('gallery')->group(function () {
             Route::get('/', [MediaController::class, 'index'])->name('gallery.index')->middleware('AdminIsLoggedIn');
@@ -452,75 +448,6 @@ Route::group(['prefix' => 'admin'], function () {
             Route::post('bulk-delete', [MediaController::class, 'bulkDelete'])->name('gallery.bulk.delete');
 
         });
-        //Products
-        Route::get('/products', [ProductsController::class, 'getProductsPageLoad'])->name('backend.products')->middleware('AdminIsLoggedIn');
-        Route::get('/get-size-details', [ProductsController::class, 'getSizeDetails']);
-        Route::get('/get-color-details', [ProductsController::class, 'getColorDetails']);
-
-        Route::get('/getProductsTableData', [ProductsController::class, 'getProductsTableData'])->name('backend.getProductsTableData')->middleware('AdminIsLoggedIn');
-        Route::post('saveProductsData', [ProductsController::class, 'saveProductsData'])->name('saveProductsData');
-        Route::delete('/deleteProducts/{id}', [ProductsController::class, 'deleteProducts'])->name('backend.deleteProducts');
-        Route::get('/get-subcategories/{categoryId}', [ProductsController::class, 'getSubcategories']);
-        Route::get('/get-childcategories/{categoryId}/{subcategoryId}', [ProductsController::class, 'getChildcategories']);
-
-
-        Route::post('/hasProductSlug', [ProductsController::class, 'hasProductSlug'])->name('backend.hasProductSlug');
-        //Update
-        Route::get('/product/{id}', [ProductsController::class, 'getProductPageData'])->name('backend.product')->middleware('AdminIsLoggedIn');
-        Route::post('/updateProductsData', [ProductsController::class, 'updateProductsData'])->name('backend.updateProductsData');
-
-        //Import
-        Route::get('/import', [ProductsController::class, 'showImportForm'])->name('import');
-        Route::post('/import', [ProductsController::class, 'import'])->name('products.import');
-
-        //Download Sample
-        Route::get('/download-sample-file', function () {
-            $file = public_path('products.xlsx');
-            $headers = [
-                'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-            ];
-            $fileName = 'products.xlsx';
-
-            return response()->download($file, $fileName, $headers);
-        })->name('download.sample.file');
-
-        Route::post('track-time', [ScreenTimeController::class, 'trackTime'])->name('track.time')->middleware('AdminIsLoggedIn');
-
-        //Export
-        Route::get('/export-products', function () {
-            return Excel::download(new ProductsExport, 'products.xlsx');
-        })->name('export.products');
-
-
-
-        //Price
-        Route::get('/price/{id}', [ProductsController::class, 'getPricePageData'])->name('backend.price')->middleware('AdminIsLoggedIn');
-        Route::post('/savePriceData', [ProductsController::class, 'savePriceData'])->name('backend.savePriceData');
-
-        //Inventory
-        Route::get('/inventory/{id}', [ProductsController::class, 'getInventoryPageData'])->name('backend.inventory')->middleware('AdminIsLoggedIn');
-        Route::post('/saveInventoryData', [ProductsController::class, 'saveInventoryData'])->name('backend.saveInventoryData');
-
-        //Product Images
-        Route::get('/product-images/{id}', [ProductsController::class, 'getProductImagesPageData'])->name('backend.product-images')->middleware('AdminIsLoggedIn');
-        Route::get('/getProductImagesTableData', [ProductsController::class, 'getProductImagesTableData'])->name('backend.getProductImagesTableData')->middleware('AdminIsLoggedIn');
-        Route::post('/saveProductImagesData', [ProductsController::class, 'saveProductImagesData'])->name('backend.saveProductImagesData');
-        Route::post('/deleteProductImages', [ProductsController::class, 'deleteProductImages'])->name('backend.deleteProductImages');
-
-        //Variations
-        Route::get('/variations/{id}', [ProductsController::class, 'getVariationsPageData'])->name('backend.variations')->middleware('AdminIsLoggedIn');
-        Route::post('/saveVariationsData', [ProductsController::class, 'saveVariationsData'])->name('backend.saveVariationsData');
-
-        //Product SEO
-        Route::get('/product-seo/{id}', [ProductsController::class, 'getProductSEOPageData'])->name('backend.product-seo')->middleware('AdminIsLoggedIn');
-        Route::post('/saveProductSEOData', [ProductsController::class, 'saveProductSEOData'])->name('backend.saveProductSEOData');
-
-        //Related Products
-        Route::get('/related-products/{id}', [ProductsController::class, 'getRelatedProductsPageData'])->name('backend.related-products')->middleware('AdminIsLoggedIn');
-        Route::get('/getProductListForRelatedTableData', [ProductsController::class, 'getProductListForRelatedTableData'])->name('backend.getProductListForRelatedTableData')->middleware('AdminIsLoggedIn');
-        Route::get('/getRelatedProductTableData', [ProductsController::class, 'getRelatedProductTableData'])->name('backend.getRelatedProductTableData');
-        Route::post('/saveRelatedProductsData', [ProductsController::class, 'saveRelatedProductsData'])->name('backend.saveRelatedProductsData');
-        Route::post('/deleteRelatedProduct', [ProductsController::class, 'deleteRelatedProduct'])->name('backend.deleteRelatedProduct');
 
         Route::group(['prefix' => 'blog', 'as' => 'blog.'], function () {
             Route::get('/', [BlogController::class, 'index'])->name('index')->middleware('AdminIsLoggedIn');

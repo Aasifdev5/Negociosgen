@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 03, 2024 at 01:56 PM
+-- Generation Time: Nov 05, 2024 at 07:52 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -543,6 +543,26 @@ INSERT INTO `currencies` (`id`, `currency_code`, `symbol`, `currency_placement`,
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `events`
+--
+
+CREATE TABLE `events` (
+  `uuid` char(36) NOT NULL,
+  `title` varchar(191) NOT NULL,
+  `description` text DEFAULT NULL,
+  `date` date NOT NULL,
+  `time` time NOT NULL,
+  `link` varchar(191) NOT NULL,
+  `image` varchar(191) DEFAULT NULL,
+  `slug` varchar(191) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `failed_jobs`
 --
 
@@ -1031,7 +1051,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (31, '2024_06_24_084835_create_product_variations_table', 19),
 (32, '2024_11_03_091345_create_courses_table', 20),
 (33, '2024_11_03_095819_add_uuid_to_courses_table', 21),
-(34, '2024_11_03_100251_add_video_thumbnail_to_courses_table', 22);
+(34, '2024_11_03_100251_add_video_thumbnail_to_courses_table', 22),
+(35, '2024_11_05_055606_create_events_table', 23);
 
 -- --------------------------------------------------------
 
@@ -1870,7 +1891,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `profile_photo`, `account_type`, `is_online`, `last_seen`, `birth_date`, `role`, `permissions`, `name`, `email`, `email_verified_at`, `password`, `custom_password`, `mobile_number`, `about`, `city`, `facebook`, `instagram`, `linkedin`, `twitter`, `address`, `is_active`, `status`, `remember_token`, `ip_address`, `balance`, `is_system`, `is_subscribed`, `id_number`, `country`, `created_by`, `deleted_at`, `language`, `is_super_admin`, `created_at`, `updated_at`) VALUES
-(1, NULL, '149071.png', 'admin', 1, '2024-11-03 05:02:21', NULL, 1, NULL, 'SUPER ADMINISTRADOR', 'gen@negociosgen.com', '2023-03-23 07:45:02', '$2y$10$2Xg3cj6N2RMrVNhMvzL6hu5vkvjZ.zOMsFrTICTE40rT1paV6CtP6', '987654321', '8878326802', NULL, 'bolivia', NULL, NULL, NULL, NULL, 'sdfafa', 1, 1, NULL, '127.0.0.1', NULL, 1, 0, '1', '1', NULL, NULL, 'es', 1, '2023-03-23 07:45:02', '2024-11-03 05:02:21'),
+(1, NULL, '149071.png', 'admin', 1, '2024-11-05 00:04:08', NULL, 1, NULL, 'SUPER ADMINISTRADOR', 'gen@negociosgen.com', '2023-03-23 07:45:02', '$2y$10$2Xg3cj6N2RMrVNhMvzL6hu5vkvjZ.zOMsFrTICTE40rT1paV6CtP6', '987654321', '8878326802', NULL, 'bolivia', NULL, NULL, NULL, NULL, 'sdfafa', 1, 1, NULL, '127.0.0.1', NULL, 1, 0, '1', '1', NULL, NULL, 'es', 1, '2023-03-23 07:45:02', '2024-11-05 00:04:08'),
 (3, NULL, NULL, 'affiliate', 0, '2024-11-01 22:39:43', '2024-10-16', 2, NULL, 'Aasif Ahmeds', 'arstech2a@gmail.com', NULL, '$2y$10$yfNz3sJ2P3d31JhNkPve8.L.rVsISl81scG5DGvgB8pcfQUZd9l.e', NULL, '591591591', 'df', NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, '127.0.0.1', NULL, 0, NULL, '1', NULL, NULL, NULL, '\'en\'', 0, '2024-10-29 22:26:33', '2024-11-02 02:39:43'),
 (5, NULL, NULL, 'affiliate', 1, '2024-11-02 02:54:54', '2024-10-03', 2, NULL, 'muskan bano', 'aasifdev5@gmail.com', NULL, '$2y$10$5WrZoZLUyhoaTA31IeC6O.0TcQbGbll6WxK6oA/foGEt8vxGjvV/a', NULL, '591', NULL, '14', NULL, NULL, NULL, NULL, '722 azad nagar indore', 1, 1, NULL, NULL, NULL, 0, NULL, '45', '1', NULL, NULL, '\'en\'', 0, '2024-10-31 01:23:24', '2024-11-02 02:54:54');
 
@@ -1971,6 +1992,13 @@ ALTER TABLE `courses`
 --
 ALTER TABLE `currencies`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `events`
+--
+ALTER TABLE `events`
+  ADD PRIMARY KEY (`uuid`),
+  ADD UNIQUE KEY `events_slug_unique` (`slug`);
 
 --
 -- Indexes for table `failed_jobs`
@@ -2279,7 +2307,7 @@ ALTER TABLE `metas`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `notifications`

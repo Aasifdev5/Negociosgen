@@ -35,7 +35,7 @@ class LanguageController extends Controller
 
             $data['user_session'] = User::where('id', Session::get('LoggedIn'))->first();
             $data['title'] = 'Manage Language';
-            $data['languages'] = $this->model->getOrderById('DESC', 25);
+            $data['languages'] = Language::all();
             return view('admin.language.index', $data);
         }
     }

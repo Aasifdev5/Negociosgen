@@ -34,7 +34,7 @@ class SubcategoryController extends Controller
 
             $data['user_session'] = User::where('id', Session::get('LoggedIn'))->first();
             $data['title'] = 'Manage Subcategory';
-            $data['subcategories'] = $this->model->getOrderById('DESC', 250);
+            $data['subcategories'] = Subcategory::all();
             return view('admin.subcategory.index', $data);
         }
     }

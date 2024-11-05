@@ -316,7 +316,7 @@
                                         data-feather="dollar-sign"></i><span> {{ __('Gestión Ganancias') }}</span></a>
 
                             </li>
-                            <li><a class="sidebar-header" href="{{ url('admin/earn') }}"><i
+                            <li><a class="sidebar-header" href="{{ route('events.index') }}"><i
                                         data-feather="calendar"></i><span> {{ __('Eventos') }}</span></a></li>
 
 
@@ -459,13 +459,13 @@
                                             <span>{{ __('Categoría') }}</span>
                                         </a>
                                     </li>
-                                    <li>
+                                    {{-- <li>
 
                                         <a href="{{ route('subcategory.index') }}">
                                             <i class="fa fa-circle"></i>
                                             <span>{{ __('Subcategoría') }}</span>
                                         </a>
-                                    </li>
+                                    </li> --}}
                                     <li>
                                         <a href="{{ route('curso.index') }}">
                                             <i class="fa fa-circle"></i>

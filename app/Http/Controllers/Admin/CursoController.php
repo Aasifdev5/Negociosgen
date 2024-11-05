@@ -30,7 +30,7 @@ class CursoController extends Controller
         if (Session::has('LoggedIn')) {
             $data['user_session'] = User::where('id', Session::get('LoggedIn'))->first();
             $data['title'] = 'Gestionar Cursos';
-            $data['courses'] = $this->model->getOrderById('DESC', 25);
+            $data['courses'] = Course::all();
             return view('admin.curso.index', $data);
         }
     }

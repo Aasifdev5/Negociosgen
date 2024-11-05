@@ -133,7 +133,7 @@
         </ul>
     </div>
 
-    <div class="sidebar__item">
+    {{-- <div class="sidebar__item">
         <ul class="sidebar__mail__nav">
             <h2>{{ __('About Us') }}</h2>
 
@@ -184,7 +184,7 @@
             </li>
 
         </ul>
-    </div>
+    </div> --}}
 
 
 </div>

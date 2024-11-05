@@ -24,7 +24,7 @@ class LocationController extends Controller
             $data['navApplicationSettingParentActiveClass'] = 'mm-active';
             $data['subNavLocationSettingsActiveClass'] = 'mm-active';
             $data['subNavCountryActiveClass'] = 'active';
-            $data['countries'] = Country::paginate(25);
+            $data['countries'] = Country::all();
 
             return view('admin.application_settings.location.country', $data);
         }

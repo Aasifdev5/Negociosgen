@@ -42,7 +42,7 @@ class SupportTicketController extends Controller
         $data['title'] = 'Support Ticket List';
         $data['navSupportTicketParentActiveClass'] = 'mm-active';
         $data['subNavSupportTicketIndexActiveClass'] = 'mm-active';
-        $data['tickets'] = $this->modalTicket->getOrderById('DESC', 25);
+        $data['tickets'] = Ticket::all();
 
         return view('admin.support_ticket.index', $data);
         }

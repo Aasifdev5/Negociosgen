@@ -31,7 +31,7 @@ class CategoryController extends Controller
             $data['user_session'] = User::where('id', Session::get('LoggedIn'))->first();
 
             $data['title'] = 'Manage Category';
-            $data['categories'] = $this->model->getOrderById('DESC', 25);
+            $data['categories'] = Category::all();
             return view('admin.category.index', $data);
         }
     }

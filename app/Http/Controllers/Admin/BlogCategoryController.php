@@ -32,7 +32,7 @@ class BlogCategoryController extends Controller
             $data['title'] = 'Manage Blog Category';
             $data['navBlogActiveClass'] = "mm-active";
             $data['subNavBlogCategoryIndexActiveClass'] = "mm-active";
-            $data['blogCategories'] = $this->model->getOrderById('DESC', 25);
+            $data['blogCategories'] = BlogCategory::all();
             return view('admin.blog.category-index', $data);
         }
     }
