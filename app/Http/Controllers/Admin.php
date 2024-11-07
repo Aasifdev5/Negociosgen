@@ -216,133 +216,133 @@ class Admin extends Controller
     {
         if (Session::has('LoggedIn')) {
 
-            $usersData = DB::table("users")->where('is_super_admin', '0')->orderby('id', 'desc')->limit('5')->get();
+            $usersData = DB::table("users")->where('is_super_admin', '0')->orderby('id', 'desc')->get();
             $total_users = User::where('is_super_admin', 0)
                 ->whereNot('account_type', 'admin')
                 ->get();
 
             $user_session = User::where('id', Session::get('LoggedIn'))->first();
- $labels2 = [];
-$data2 = [];
+            $labels2 = [];
+            $data2 = [];
 
-// Get the start and end of the current week
-$startDate = Carbon::now()->startOfWeek();
-$endDate = Carbon::now()->endOfWeek();
+            // Get the start and end of the current week
+            $startDate = Carbon::now()->startOfWeek();
+            $endDate = Carbon::now()->endOfWeek();
 
-// Generate labels and fetch data for each day of the current week
-for ($date = $startDate; $date <= $endDate; $date->addDay()) {
-    // Append day to labels array
-    $labels2[] = $date->format('D, M j');
+            // Generate labels and fetch data for each day of the current week
+            for ($date = $startDate; $date <= $endDate; $date->addDay()) {
+                // Append day to labels array
+                $labels2[] = $date->format('D, M j');
 
-    // Fetch payments for the current day with 'accepted' = 1
-    $totalSale = DB::table('payments')
+                // Fetch payments for the current day with 'accepted' = 1
+                $totalSale = DB::table('payments')
 
-        ->whereDate('created_at', $date->format('Y-m-d'))
-        ->sum('amount');
+                    ->whereDate('created_at', $date->format('Y-m-d'))
+                    ->sum('amount');
 
-    // Append total sale to data array
-    $data2[] = $totalSale;
-}
+                // Append total sale to data array
+                $data2[] = $totalSale;
+            }
 
-$chartData2 = [
-    'labels2' => $labels2, // Labels in order from start to end of week
-    'data2' => $data2, // Data matches the order of labels
-];
+            $chartData2 = [
+                'labels2' => $labels2, // Labels in order from start to end of week
+                'data2' => $data2, // Data matches the order of labels
+            ];
 
 
-            return view('admin.dashboard', compact('user_session', 'total_users', 'usersData','chartData2'));
+            return view('admin.dashboard', compact('user_session', 'total_users', 'usersData', 'chartData2'));
         }
     }
-public function getPaymentData(Request $request)
-{
-    $type = $request->input('type', 'week'); // Default to week if not provided
-    $data = [];
+    public function getPaymentData(Request $request)
+    {
+        $type = $request->input('type', 'week'); // Default to week if not provided
+        $data = [];
 
-    switch ($type) {
-        case 'week':
-            $data = $this->calculateWeeklyData();
-            break;
-        case 'month':
-            $data = $this->calculateMonthlyData();
-            break;
-        case 'year':
-            $data = $this->calculateYearlyData();
-            break;
-        default:
-            return response()->json(['error' => 'Invalid type provided'], 400);
+        switch ($type) {
+            case 'week':
+                $data = $this->calculateWeeklyData();
+                break;
+            case 'month':
+                $data = $this->calculateMonthlyData();
+                break;
+            case 'year':
+                $data = $this->calculateYearlyData();
+                break;
+            default:
+                return response()->json(['error' => 'Invalid type provided'], 400);
+        }
+
+        return response()->json($data);
     }
 
-    return response()->json($data);
-}
+    protected function calculateWeeklyData()
+    {
+        Carbon::setLocale('es'); // Set locale to Spanish
 
-protected function calculateWeeklyData()
-{
-    Carbon::setLocale('es'); // Set locale to Spanish
+        $startDate = Carbon::now()->startOfWeek();
+        $endDate = Carbon::now()->endOfWeek();
 
-    $startDate = Carbon::now()->startOfWeek();
-    $endDate = Carbon::now()->endOfWeek();
+        $labels2 = [];
+        $data2 = [];
 
-    $labels2 = [];
-    $data2 = [];
+        for ($date = $startDate; $date <= $endDate; $date->addDay()) {
+            $labels2[] = $date->isoFormat('ddd, D MMM'); // Format as 'Day, Date Month' in Spanish
+            $totalSale = DB::table('payments')
 
-    for ($date = $startDate; $date <= $endDate; $date->addDay()) {
-        $labels2[] = $date->isoFormat('ddd, D MMM'); // Format as 'Day, Date Month' in Spanish
-        $totalSale = DB::table('payments')
+                ->whereDate('created_at', $date->format('Y-m-d'))
+                ->sum('amount');
+            $data2[] = $totalSale;
+        }
 
-            ->whereDate('created_at', $date->format('Y-m-d'))
-            ->sum('amount');
-        $data2[] = $totalSale;
+        return ['labels2' => $labels2, 'data2' => $data2];
     }
 
-    return ['labels2' => $labels2, 'data2' => $data2];
-}
+    protected function calculateMonthlyData()
+    {
+        Carbon::setLocale('es'); // Set locale to Spanish
 
-protected function calculateMonthlyData()
-{
-    Carbon::setLocale('es'); // Set locale to Spanish
+        $labels2 = [];
+        $data2 = [];
 
-    $labels2 = [];
-    $data2 = [];
+        $currentMonth = date('m');
+        $currentYear = date('Y');
+        $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $currentMonth, $currentYear);
 
-    $currentMonth = date('m');
-    $currentYear = date('Y');
-    $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $currentMonth, $currentYear);
+        for ($day = 1; $day <= $daysInMonth; $day++) {
+            $date = sprintf('%04d-%02d-%02d', $currentYear, $currentMonth, $day);
+            $labels2[] = Carbon::parse($date)->isoFormat('D MMM'); // Format as 'Date Month' in Spanish
+            $totalSale = DB::table('payments')
 
-    for ($day = 1; $day <= $daysInMonth; $day++) {
-        $date = sprintf('%04d-%02d-%02d', $currentYear, $currentMonth, $day);
-        $labels2[] = Carbon::parse($date)->isoFormat('D MMM'); // Format as 'Date Month' in Spanish
-        $totalSale = DB::table('payments')
+                ->whereDate('created_at', $date)
+                ->sum('amount');
+            $data2[] = $totalSale;
+        }
 
-            ->whereDate('created_at', $date)
-            ->sum('amount');
-        $data2[] = $totalSale;
+        return ['labels2' => $labels2, 'data2' => $data2];
     }
 
-    return ['labels2' => $labels2, 'data2' => $data2];
-}
+    protected function calculateYearlyData()
+    {
+        Carbon::setLocale('es'); // Set locale to Spanish
 
-protected function calculateYearlyData()
-{
-    Carbon::setLocale('es'); // Set locale to Spanish
+        $labels2 = [];
+        $data2 = [];
 
-    $labels2 = [];
-    $data2 = [];
+        $currentYear = date('Y');
 
-    $currentYear = date('Y');
+        for ($month = 1; $month <= 12; $month++) {
+            $monthStart = sprintf('%04d-%02d-01', $currentYear, $month);
+            $monthEnd = date('Y-m-t', strtotime($monthStart));
+            $labels2[] = Carbon::parse($monthStart)->isoFormat('MMMM'); // Format as 'Month' in Spanish
+            $totalSale = DB::table('payments')
 
-    for ($month = 1; $month <= 12; $month++) {
-        $monthStart = sprintf('%04d-%02d-01', $currentYear, $month);
-        $monthEnd = date('Y-m-t', strtotime($monthStart));
-        $labels2[] = Carbon::parse($monthStart)->isoFormat('MMMM'); // Format as 'Month' in Spanish
-        $totalSale = DB::table('payments')
+                ->whereBetween('created_at', [$monthStart, $monthEnd])
+                ->sum('amount');
+            $data2[] = $totalSale;
+        }
 
-            ->whereBetween('created_at', [$monthStart, $monthEnd])
-            ->sum('amount');
-        $data2[] = $totalSale;
+        return ['labels2' => $labels2, 'data2' => $data2];
     }
-
-    return ['labels2' => $labels2, 'data2' => $data2];
-}
 
 
     public function users(Request $request)
@@ -354,7 +354,7 @@ protected function calculateYearlyData()
             return view('admin/users', compact('user_session', 'usersData'));
         }
     }
-     public function shopkeepers(Request $request)
+    public function shopkeepers(Request $request)
     {
         if (Session::has('LoggedIn')) {
             $usersData = DB::table("users")->where('is_super_admin', '0')->get();
@@ -388,10 +388,10 @@ protected function calculateYearlyData()
             $user_session = User::where('id', Session::get('LoggedIn'))->first();
             $countries = Country::all();
             $cities = City::all();
-            return view('admin/edit_user', compact('user_session', 'userData','countries','cities'));
+            return view('admin/edit_user', compact('user_session', 'userData', 'countries', 'cities'));
         }
     }
-     public function edit_shopkeeper(Request $request, $id)
+    public function edit_shopkeeper(Request $request, $id)
     {
         if (Session::has('LoggedIn')) {
             $userData = DB::table("users")->where('id', $id)->where('is_super_admin', '0')->first();
@@ -473,7 +473,7 @@ protected function calculateYearlyData()
             $cities = City::all();
             $user_session = User::where('id', Session::get('LoggedIn'))->first();
 
-            return view('admin.add_user', compact('user_session','countries','cities'));
+            return view('admin.add_user', compact('user_session', 'countries', 'cities'));
         }
     }
     public function add_shopkeeper()
@@ -544,7 +544,7 @@ protected function calculateYearlyData()
         }
     }
 
-     public function save_shopkeeper(Request $request)
+    public function save_shopkeeper(Request $request)
     {
 
         $user = new User();
@@ -559,7 +559,7 @@ protected function calculateYearlyData()
             $image = $request->file('profile_photo')->getClientOriginalName();
             $final =  $request->profile_photo->move(public_path('profile_photo'), $image);
             $profile = $_FILES['profile_photo']['name'];
-        }else{
+        } else {
             $profile = '';
         }
 
@@ -569,7 +569,7 @@ protected function calculateYearlyData()
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'email_verified_at'=>date('Y-m-d H:i:s'),
+            'email_verified_at' => date('Y-m-d H:i:s'),
             'password' => $request->password,
             'custom_password' =>  $request->password,
             'account_type' =>  'shopkeeper',
@@ -600,7 +600,7 @@ protected function calculateYearlyData()
             return back()->with('error', 'User not found');
         }
     }
-public function delete_shopkeeper($id)
+    public function delete_shopkeeper($id)
     {
 
         $user = User::where('id', '=', $id)->first();
@@ -657,48 +657,48 @@ public function delete_shopkeeper($id)
     }
 
     public function update_user(Request $request)
-{
-    try {
-        $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'first_name' => 'required|string|max:255',
-            'mobile_number' => 'required|string|max:15',
-            'email' => 'required|email|max:255',
-            'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'id_number' => 'nullable|string|max:20',
-            'country' => 'nullable|exists:countries,id',
-            'city' => 'nullable|exists:cities,id',
-            'status' => 'required|boolean',
-        ]);
+    {
+        try {
+            $request->validate([
+                'user_id' => 'required|exists:users,id',
+                'first_name' => 'required|string|max:255',
+                'mobile_number' => 'required|string|max:15',
+                'email' => 'required|email|max:255',
+                'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'id_number' => 'nullable|string|max:20',
+                'country' => 'nullable|exists:countries,id',
+                'city' => 'nullable|exists:cities,id',
+                'status' => 'required|boolean',
+            ]);
 
-        $user = User::findOrFail($request->user_id);
+            $user = User::findOrFail($request->user_id);
 
-        $user->name = trim($request->first_name);
-        $user->mobile_number = "591" . $request->mobile_number;
-        $user->email = $request->email;
-        $user->status = $request->status;
+            $user->name = trim($request->first_name);
+            $user->mobile_number = "591" . $request->mobile_number;
+            $user->email = $request->email;
+            $user->status = $request->status;
 
-        if ($request->hasFile('profile_photo')) {
-            $profilePhoto = $request->file('profile_photo');
-            $imageName = time() . '_' . $profilePhoto->getClientOriginalName();
-            $profilePhoto->move(public_path('profile_photo'), $imageName);
+            if ($request->hasFile('profile_photo')) {
+                $profilePhoto = $request->file('profile_photo');
+                $imageName = time() . '_' . $profilePhoto->getClientOriginalName();
+                $profilePhoto->move(public_path('profile_photo'), $imageName);
 
-            if ($user->profile_photo && file_exists(public_path('profile_photo/' . $user->profile_photo))) {
-                unlink(public_path('profile_photo/' . $user->profile_photo));
+                if ($user->profile_photo && file_exists(public_path('profile_photo/' . $user->profile_photo))) {
+                    unlink(public_path('profile_photo/' . $user->profile_photo));
+                }
+                $user->profile_photo = $imageName;
             }
-            $user->profile_photo = $imageName;
-        }
 
-        if ($user->save()) {
-            return redirect('admin/users')->with('success', 'Usuario actualizado con éxito');
-        } else {
-            return redirect()->back()->with('fail', 'Error al actualizar el perfil');
+            if ($user->save()) {
+                return redirect('admin/users')->with('success', 'Usuario actualizado con éxito');
+            } else {
+                return redirect()->back()->with('fail', 'Error al actualizar el perfil');
+            }
+        } catch (\Exception $e) {
+            \Log::error('Error updating user: ' . $e->getMessage());
+            return redirect()->back()->with('fail', 'Error: ' . $e->getMessage());
         }
-    } catch (\Exception $e) {
-        \Log::error('Error updating user: ' . $e->getMessage());
-        return redirect()->back()->with('fail', 'Error: ' . $e->getMessage());
     }
-}
 
 
 
@@ -738,12 +738,12 @@ public function delete_shopkeeper($id)
         }
         $data = User::find(Session::get('LoggedIn'));
         $data = User::where('id', '=', $request->user_id)->update([
-           'name' => $request->name,
+            'name' => $request->name,
             'email' => $request->email,
             'password' => $request->password,
 
             'custom_password' =>  $request->password,
-           'account_type' =>  'shopkeeper',
+            'account_type' =>  'shopkeeper',
             'status' => $request->status,
             'ip_address' => request()->ip(),
             'profile_photo' => $profile,
@@ -1009,122 +1009,122 @@ public function delete_shopkeeper($id)
         if (Session::has('LoggedIn')) {
 
             // Fetch all transactions ordered by ID in descending order
-    $transaction = Payment::orderBy('id', 'desc')->get();
+            $transaction = Payment::orderBy('id', 'desc')->get();
             $user_session = User::where('id', Session::get('LoggedIn'))->first();
 
             return view('admin.balance', compact('user_session', 'transaction'));
         }
     }
- public function getOrderDetails($orderId)
-{
-    // Fetch order details from your database
-    $order = Order::where('id', $orderId)->first();
+    public function getOrderDetails($orderId)
+    {
+        // Fetch order details from your database
+        $order = Order::where('id', $orderId)->first();
 
-    if (!$order) {
-        return response()->json(['error' => 'Order not found'], 404);
-    }
-
-    $transaction = Payment::where('order_id', $orderId)->first();
-
-    // Assuming `product_details` field contains JSON data of products
-    $products = json_decode($transaction->product_details, true);
-
-    // Prepare an array to store detailed product information
-    $aggregatedProducts = [];
-
-    // Aggregate quantities and prices
-    foreach ($products as $product) {
-        $productId = $product['product_id'];
-        $productSku = $product['sku'];
-
-        // Fetch product details
-        $productDetails = Product::find($productId);
-
-        // Skip if product details not found
-        if (!$productDetails) {
-            continue;
+        if (!$order) {
+            return response()->json(['error' => 'Order not found'], 404);
         }
 
-        // Fetch order item to get color and size
-        $orderItem = OrderItem::where('order_id', $orderId)
-                              ->where('product_id', $productId)
-                              ->where('size', $product['size'])  // Ensure that size is also considered
-                              ->first();
+        $transaction = Payment::where('order_id', $orderId)->first();
 
-        $productColor = $orderItem ? $orderItem->color : 'N/A';
-        $productSize = $orderItem ? $orderItem->size : 'N/A';
+        // Assuming `product_details` field contains JSON data of products
+        $products = json_decode($transaction->product_details, true);
 
-       // Fetch product variation based on SKU
-// Fetch product variation based on SKU
-$vcolor = \App\Models\ProductVariations::where('sku', $productSku)->first();
+        // Prepare an array to store detailed product information
+        $aggregatedProducts = [];
 
- // Initialize the variable
-        $productImages = null;
+        // Aggregate quantities and prices
+        foreach ($products as $product) {
+            $productId = $product['product_id'];
+            $productSku = $product['sku'];
 
-        // Count the number of images for the given product and color 'm'
-        $productImagesCount = \App\Models\Pro_image::where('product_id', $productId)
-                                                ->where('color', 'm')
-                                                ->count();
+            // Fetch product details
+            $productDetails = Product::find($productId);
 
-        // Use the count to decide how to fetch the images
-        if ($productImagesCount > 1) {
-            // If there are multiple images with color 'm', fetch one
-            $productImages = \App\Models\Pro_image::where('product_id', $productId)
-                                                  ->where('color', 'm')
-                                                  ->orderBy('id', 'asc')
-                                                  ->first();
-        } else {
-            // Otherwise, fetch the image based on the vcolor
-            $productImages = $vcolor ? \App\Models\Pro_image::where('product_id', $vcolor->product_id)
-                                                  ->where('color', $vcolor->color)
-                                                  ->orderBy('id', 'asc')
-                                                  ->first() : null;
+            // Skip if product details not found
+            if (!$productDetails) {
+                continue;
+            }
+
+            // Fetch order item to get color and size
+            $orderItem = OrderItem::where('order_id', $orderId)
+                ->where('product_id', $productId)
+                ->where('size', $product['size'])  // Ensure that size is also considered
+                ->first();
+
+            $productColor = $orderItem ? $orderItem->color : 'N/A';
+            $productSize = $orderItem ? $orderItem->size : 'N/A';
+
+            // Fetch product variation based on SKU
+            // Fetch product variation based on SKU
+            $vcolor = \App\Models\ProductVariations::where('sku', $productSku)->first();
+
+            // Initialize the variable
+            $productImages = null;
+
+            // Count the number of images for the given product and color 'm'
+            $productImagesCount = \App\Models\Pro_image::where('product_id', $productId)
+                ->where('color', 'm')
+                ->count();
+
+            // Use the count to decide how to fetch the images
+            if ($productImagesCount > 1) {
+                // If there are multiple images with color 'm', fetch one
+                $productImages = \App\Models\Pro_image::where('product_id', $productId)
+                    ->where('color', 'm')
+                    ->orderBy('id', 'asc')
+                    ->first();
+            } else {
+                // Otherwise, fetch the image based on the vcolor
+                $productImages = $vcolor ? \App\Models\Pro_image::where('product_id', $vcolor->product_id)
+                    ->where('color', $vcolor->color)
+                    ->orderBy('id', 'asc')
+                    ->first() : null;
+            }
+            // Set image URL based on availability of product images
+            $imageUrl = $productImages
+                ? asset($productImages->thumbnail)
+                : (isset($productDetails->f_thumbnail)
+                    ? asset('product_images/' . $productDetails->f_thumbnail)
+                    : 'N/A');
+
+            // Unique key based on product_id, color, and size
+            $uniqueKey = $productId . '_' . $productColor . '_' . $productSize;
+
+            // Aggregate product details by the unique key
+            if (!isset($aggregatedProducts[$uniqueKey])) {
+                $aggregatedProducts[$uniqueKey] = [
+                    'title' => $productDetails->title,
+                    'sku' => $productSku,
+                    'price' => $product['price'],
+                    'quantity' => 0,
+                    'color' => $productColor,
+                    'size' => $productSize,
+                    'image' => $imageUrl,
+                ];
+            }
+
+            // Combine quantities and calculate total price
+            $aggregatedProducts[$uniqueKey]['quantity'] += $product['quantity'];
+            $aggregatedProducts[$uniqueKey]['total'] = $aggregatedProducts[$uniqueKey]['price'] * $aggregatedProducts[$uniqueKey]['quantity'];
         }
-// Set image URL based on availability of product images
-$imageUrl = $productImages
-    ? asset($productImages->thumbnail)
-    : (isset($productDetails->f_thumbnail)
-        ? asset('product_images/' . $productDetails->f_thumbnail)
-        : 'N/A');
 
-        // Unique key based on product_id, color, and size
-        $uniqueKey = $productId . '_' . $productColor . '_' . $productSize;
+        // Convert aggregated products to a simple array
+        $detailedProducts = array_values($aggregatedProducts);
 
-        // Aggregate product details by the unique key
-        if (!isset($aggregatedProducts[$uniqueKey])) {
-            $aggregatedProducts[$uniqueKey] = [
-                'title' => $productDetails->title,
-                'sku' => $productSku,
-                'price' => $product['price'],
-                'quantity' => 0,
-                'color' => $productColor,
-                'size' => $productSize,
-                'image' => $imageUrl,
-            ];
+        // Return order details as JSON response with detailed products
+        return response()->json(['products' => $detailedProducts]);
+    }
+    public function bulkDelete(Request $request)
+    {
+        $ids = $request->input('ids');
+
+        if ($ids) {
+            User::whereIn('id', $ids)->delete();
+            return response()->json(['success' => true]);
         }
 
-        // Combine quantities and calculate total price
-        $aggregatedProducts[$uniqueKey]['quantity'] += $product['quantity'];
-        $aggregatedProducts[$uniqueKey]['total'] = $aggregatedProducts[$uniqueKey]['price'] * $aggregatedProducts[$uniqueKey]['quantity'];
+        return response()->json(['success' => false]);
     }
-
-    // Convert aggregated products to a simple array
-    $detailedProducts = array_values($aggregatedProducts);
-
-    // Return order details as JSON response with detailed products
-    return response()->json(['products' => $detailedProducts]);
-}
-public function bulkDelete(Request $request)
-{
-    $ids = $request->input('ids');
-
-    if ($ids) {
-        User::whereIn('id', $ids)->delete();
-        return response()->json(['success' => true]);
-    }
-
-    return response()->json(['success' => false]);
-}
 
 
 

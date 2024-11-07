@@ -83,9 +83,7 @@
                                             @endforeach
                                         </tbody>
                                     </table>
-                                    <div class="mt-3">
-                                        {{ $comments->links() }}
-                                    </div>
+
                                 </div>
                             </div>
                         </div>

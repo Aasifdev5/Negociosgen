@@ -3,41 +3,41 @@
 use App\Exports\ProductsExport;
 use App\Http\Controllers\Admin;
 use App\Http\Controllers\Admin\AboutUsController;
-use App\Http\Controllers\Admin\AdController;
+
 use App\Http\Controllers\Admin\BankController;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\BlogCategoryController;
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\ContactUsController;
 use App\Http\Controllers\Admin\CurrencyController;
 use App\Http\Controllers\Admin\CursoController;
 use App\Http\Controllers\Admin\EventsController;
+use App\Http\Controllers\Admin\ForumCategoryController;
 use App\Http\Controllers\Admin\HomeSettingController;
 use App\Http\Controllers\Admin\LanguageController;
 use App\Http\Controllers\Admin\LocationController;
+
 use App\Http\Controllers\Admin\MediaController;
 
 use App\Http\Controllers\Admin\RoleController;
 
 use App\Http\Controllers\Admin\SettingController;
 
-use App\Http\Controllers\Admin\SizeController;
 
 use App\Http\Controllers\Admin\SubcategoryController;
 
 use App\Http\Controllers\Admin\SupportTicketController;
-
 use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Auth\OTPController;
 use App\Http\Controllers\Backend\ProductsController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\EmailAppController;
 use App\Http\Controllers\FacebookSocialiteController;
-use App\Http\Controllers\FundController;
 
+use App\Http\Controllers\ForumController;
+use App\Http\Controllers\FundController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\MailTemplateController;
@@ -45,16 +45,16 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Pages;
 use App\Http\Controllers\QRCodeController;
 use App\Http\Controllers\ResetPasswordController;
-use App\Http\Controllers\ScreenTimeController;
-use App\Http\Controllers\SubscriptionPlanController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VerificationController;
-use App\Http\Middleware\InactivityTimeout;
+
 use App\Http\Middleware\SetLocale;
 use App\Models\Language;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 use Maatwebsite\Excel\Facades\Excel;
+
+
 
 
 
@@ -151,6 +151,18 @@ Route::group(['middleware' => ['prevent-back-history', SetLocale::class]], funct
     Route::get('/signup', [UserController::class, 'signup'])->name('signup')->middleware('alreadyLoggedIn');
     Route::get('verify-otp', [OTPController::class, 'showOtpForm'])->name('verify.otp')->middleware('alreadyLoggedIn');
     Route::get('/Userlogin', [UserController::class, 'Userlogin'])->name('Userlogin')->middleware('alreadyLoggedIn');
+    Route::group(['prefix' => 'forum', 'as' => 'forum.'], function () {
+        Route::get('/', [ForumController::class, 'index'])->name('index');
+        Route::get('ask-a-question', [ForumController::class, 'askQuestion'])->name('askQuestion');
+        Route::post('ask-a-question-store', [ForumController::class, 'questionStore'])->name('question.store');
+        Route::get('forum-post-details/{uuid}', [ForumController::class, 'forumPostDetails'])->name('forumPostDetails');
+        Route::post('forum-post-comment-store', [ForumController::class, 'forumPostCommentStore'])->name('forumPostComment.store');
+        Route::post('forum-post-comment-reply-store', [ForumController::class, 'forumPostCommentReplyStore'])->name('forumPostCommentReply.store');
+        Route::get('render-forum-category-posts', [ForumController::class, 'renderForumCategoryPosts'])->name('renderForumCategoryPosts');
+        Route::get('forum-category-posts/{uuid}', [ForumController::class, 'forumCategoryPosts'])->name('forumCategoryPosts');
+        Route::get('forum-leaderboard', [ForumController::class, 'forumLeaderboard'])->name('forumLeaderboard');
+        Route::get('search-forum-list', [ForumController::class, 'searchForumList'])->name('search-forum.list');
+    });
 });
 Route::post('/update-logout-time', [UserController::class, 'updateLogoutTime'])->name('update.logout.time');
 Route::post('/reg', [UserController::class, 'registration']);
@@ -184,7 +196,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::group(['middleware' => 'admin-prevent-back-history', SetLocale::class], function () {
         Route::resource('banners', BannerController::class)->names('admin.banners');
         Route::post('banners/bulk-destroy', [BannerController::class, 'bulkDestroy'])->name('admin.banners.bulkDestroy');
-        Route::resource('ads', AdController::class)->names('admin.ads');
+
         Route::get('/local/{ln}', function ($ln) {
             $language = Language::where('iso_code', $ln)->first();
             if (!$language) {
@@ -215,6 +227,23 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/destroy_qrcode/{id}', [QRCodeController::class, 'destroy'])->name('destroy');
         Route::post('/qrcode/generate', [QRCodeController::class, 'generateQrCode'])->name('qrcode.generate');
         Route::get('/qrcode/download/{data}', [QRCodeController::class, 'downloadQrCode'])->name('qrcode.download');
+        Route::group(['prefix' => 'support-ticket', 'as' => 'support-ticket.'], function () {
+            Route::get('index', [SupportTicketController::class, 'ticketIndex'])->name('index');
+            Route::get('open', [SupportTicketController::class, 'ticketOpen'])->name('open');
+            Route::get('show/{uuid}', [SupportTicketController::class, 'ticketShow'])->name('show');
+            Route::get('delete/{uuid}', [SupportTicketController::class, 'ticketDelete'])->name('delete');
+            Route::post('change-ticket-status', [SupportTicketController::class, 'changeTicketStatus'])->name('changeTicketStatus');
+            Route::post('message-store', [SupportTicketController::class, 'messageStore'])->name('messageStore');
+            Route::post('bulk-delete', [SupportTicketController::class, 'bulkDelete'])->name('bulkDelete');
+        });
+
+
+        Route::group(['prefix' => 'forum', 'as' => 'forum.'], function () {
+            Route::get('category-index', [ForumCategoryController::class, 'index'])->name('category.index');
+            Route::post('category-store', [ForumCategoryController::class, 'store'])->name('category.store');
+            Route::patch('category-update/{uuid}', [ForumCategoryController::class, 'update'])->name('category.update');
+            Route::get('category-delete/{uuid}', [ForumCategoryController::class, 'delete'])->name('category.delete');
+        });
         Route::group(['prefix' => 'settings', 'as' => 'settings.'], function () {
             //Start:: General Settings
             Route::get('general-settings', [SettingController::class, 'GeneralSetting'])->name('general_setting');
@@ -283,6 +312,8 @@ Route::group(['prefix' => 'admin'], function () {
             Route::post('faq-question-settings', [SettingController::class, 'faqQuestionUpdate'])->name('faq.question.update');
             //End:: FAQ Question & Answer
 
+
+
             //Start:: Support Ticket
             Route::group(['prefix' => 'support-ticket', 'as' => 'support-ticket.'], function () {
                 Route::get('/', [SettingController::class, 'supportTicketCMS'])->name('cms');
@@ -320,26 +351,7 @@ Route::group(['prefix' => 'admin'], function () {
                 Route::delete('delete/{id}', [BankController::class, 'delete'])->name('bank.delete');
             });
 
-            // Start:: About Us
-            Route::group(['prefix' => 'about', 'as' => 'about.'], function () {
-                Route::get('about-us-gallery-area', [AboutUsController::class, 'galleryArea'])->name('gallery-area');
-                Route::post('about-us-gallery-area', [AboutUsController::class, 'galleryAreaUpdate'])->name('gallery-area.update');
 
-                Route::get('about-us-our-history', [AboutUsController::class, 'ourHistory'])->name('our-history');
-                Route::post('about-us-our-history', [AboutUsController::class, 'ourHistoryUpdate'])->name('our-history.update');
-                Route::post('historyDelete', [AboutUsController::class, 'historyDelete'])->name('historyDelete');
-
-                Route::get('about-us-upgrade-skill', [AboutUsController::class, 'upgradeSkill'])->name('upgrade-skill');
-                Route::post('about-us-upgrade-skill', [AboutUsController::class, 'upgradeSkillUpdate'])->name('upgrade-skill.update');
-
-                Route::get('about-us-team-member', [AboutUsController::class, 'teamMember'])->name('team-member');
-                Route::post('about-us-team-member', [AboutUsController::class, 'teamMemberUpdate'])->name('team-member.update');
-                Route::post('memberDelete', [AboutUsController::class, 'memberDelete'])->name('memberDelete');
-
-                Route::get('about-us-client', [AboutUsController::class, 'client'])->name('client');
-                Route::post('about-us-client', [AboutUsController::class, 'clientUpdate'])->name('client.update');
-                Route::post('clientDelete', [AboutUsController::class, 'clientDelete'])->name('clientDelete');
-            });
             // End:: About Us
             Route::group(['prefix' => 'locations', 'as' => 'location.'], function () {
                 Route::get('country', [LocationController::class, 'countryIndex'])->name('country.index');
@@ -428,14 +440,7 @@ Route::group(['prefix' => 'admin'], function () {
             Route::delete('delete/{uuid}', [SubcategoryController::class, 'delete'])->name('subcategory.delete');
             Route::post('bulk-delete', [SubcategoryController::class, 'bulkDelete'])->name('subcategory.bulk.delete');
         });
-        Route::prefix('brands')->group(function () {
-            Route::get('/', [BrandController::class, 'index'])->name('brands.index')->middleware('AdminIsLoggedIn');
-            Route::get('create', [BrandController::class, 'create'])->name('brands.create')->middleware('AdminIsLoggedIn');
-            Route::post('store', [BrandController::class, 'store'])->name('brands.store');
-            Route::get('edit/{uuid}', [BrandController::class, 'edit'])->name('brands.edit')->middleware('AdminIsLoggedIn');
-            Route::post('update/{uuid}', [BrandController::class, 'update'])->name('brands.update');
-            Route::get('delete/{uuid}', [BrandController::class, 'delete'])->name('brands.delete');
-        });
+
 
         Route::get('childcategory', [SubcategoryController::class, 'childcategory'])->name('childcategory')->middleware('AdminIsLoggedIn');
         Route::prefix('gallery')->group(function () {
@@ -446,7 +451,6 @@ Route::group(['prefix' => 'admin'], function () {
             Route::post('update/{id}', [MediaController::class, 'update'])->name('gallery.update');
             Route::get('delete/{id}', [MediaController::class, 'delete'])->name('gallery.delete');
             Route::post('bulk-delete', [MediaController::class, 'bulkDelete'])->name('gallery.bulk.delete');
-
         });
 
         Route::group(['prefix' => 'blog', 'as' => 'blog.'], function () {

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 05, 2024 at 07:52 AM
+-- Generation Time: Nov 07, 2024 at 01:03 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -574,6 +574,91 @@ CREATE TABLE `failed_jobs` (
   `payload` longtext NOT NULL,
   `exception` longtext NOT NULL,
   `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `faq_questions`
+--
+
+CREATE TABLE `faq_questions` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `question` text NOT NULL,
+  `answer` text DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `faq_questions`
+--
+
+INSERT INTO `faq_questions` (`id`, `question`, `answer`, `created_at`, `updated_at`) VALUES
+(1, 'which I enjoy with my whole heart am alone feel?', 'Ranquil existence, that I neglect my talents. I should be incapable of drawing a single stroke at the present moment; and yet I feel that was a  greater artist than now. When, while the lovely valley with vapour around me, and the meridian.', '2022-12-04 17:05:33', '2022-12-04 17:05:33'),
+(2, 'which I enjoy with my whole heart am alone feel?', 'Ranquil existence, that I neglect my talents. I should be incapable of drawing a single stroke at the present moment; and yet I feel that was a  greater artist than now. When, while the lovely valley with vapour around me, and the meridian.', '2022-12-04 17:05:33', '2022-12-04 17:05:33'),
+(3, 'which I enjoy with my whole heart am alone feel?', 'Ranquil existence, that I neglect my talents. I should be incapable of drawing a single stroke at the present moment; and yet I feel that was a  greater artist than now. When, while the lovely valley with vapour around me, and the meridian.', '2022-12-04 17:05:33', '2022-12-04 17:05:33');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `forum_categories`
+--
+
+CREATE TABLE `forum_categories` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `uuid` char(36) NOT NULL,
+  `title` varchar(191) NOT NULL,
+  `subtitle` varchar(191) NOT NULL,
+  `logo` varchar(191) DEFAULT NULL,
+  `slug` varchar(191) NOT NULL,
+  `status` tinyint(4) DEFAULT 1 COMMENT '1=active, 0=disable',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `forum_categories`
+--
+
+INSERT INTO `forum_categories` (`id`, `uuid`, `title`, `subtitle`, `logo`, `slug`, `status`, `created_at`, `updated_at`) VALUES
+(8, '76ac56d7-5987-463c-819c-24353f23acc2', 'sd', 'sdsad', NULL, 'sd', 1, '2024-11-07 05:58:26', '2024-11-07 05:58:26');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `forum_posts`
+--
+
+CREATE TABLE `forum_posts` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `uuid` char(36) NOT NULL,
+  `user_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `title` text NOT NULL,
+  `forum_category_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `description` longtext NOT NULL,
+  `status` tinyint(4) DEFAULT 1 COMMENT '1=active, 0=disable',
+  `total_seen` bigint(20) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `forum_post_comments`
+--
+
+CREATE TABLE `forum_post_comments` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `uuid` char(36) NOT NULL,
+  `forum_post_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `user_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `comment` longtext NOT NULL,
+  `parent_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `status` tinyint(4) DEFAULT 1 COMMENT '1=active, 0=disable',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -1688,14 +1773,11 @@ CREATE TABLE `support_ticket_questions` (
 --
 
 INSERT INTO `support_ticket_questions` (`id`, `question`, `answer`, `created_at`, `updated_at`) VALUES
-(1, 'Where can I see the status of my refund?', 'In the Refund Status column you can see the date your refund request was submitted or when it was processed.', '2022-12-04 17:05:33', '2024-06-09 01:10:31'),
-(2, 'When will I receive my refund?', 'Refund requests are submitted immediately to your payment processor or financial institution after Udemy has received and processed your request. It may take  5 to 10 business days or longer to post the funds in your account, depending on your financial institution or location.', '2022-12-04 17:05:33', '2024-06-09 01:10:31'),
-(3, 'Why was my refund request denied?', 'All eligible courses purchased on Udemy can be refunded within 30 days, provided the request meets the guidelines in our refund policy.', '2022-12-04 17:05:33', '2024-06-09 01:10:31'),
-(4, 'What is a “credit refund”?', 'In cases where a transaction is not eligible for a refund to your original payment method, the refund will be granted using LMSZAI Credit', '2022-12-04 17:05:33', '2024-06-09 01:10:31'),
-(5, 'Where can I see the status of my refund?', 'In the Refund Status column you can see the date your refund request was submitted or when it was processed.', '2022-12-04 17:05:33', '2024-06-09 01:10:31'),
-(6, 'When will I receive my refund?', 'Refund requests are submitted immediately to your payment processor or financial institution after Udemy has received and processed your request. It may take  5 to 10 business days or longer to post the funds in your account, depending on your financial institution or location.', '2022-12-04 17:05:33', '2024-06-09 01:10:31'),
-(7, 'Why was my refund request denied?', 'All eligible courses purchased on Udemy can be refunded within 30 days, provided the request meets the guidelines in our refund policy.', '2022-12-04 17:05:33', '2024-06-09 01:10:31'),
-(8, 'What is a “credit refund”?', 'In cases where a transaction is not eligible for a refund to your original payment method, the refund will be granted using LMSZAI Credit', '2022-12-04 17:05:33', '2024-06-09 01:10:31');
+(1, '¿Cómo me registro en la plataforma?', 'Para registrarte, simplemente haz clic en el botón \"Registrarse\" en la parte superior de la página. Completa los campos con tu información personal y sigue los pasos para activar tu cuenta.', '2022-12-04 17:05:33', '2024-11-07 02:08:40'),
+(2, '¿Qué beneficios obtengo al ser miembro?', 'Como miembro, tendrás acceso ilimitado a todos nuestros cursos de desarrollo personal, coaching, entrenamientos y seminarios. Además, podrás generar ingresos extra a través de nuestro sistema de afiliados multinivel y disfrutar de descuentos en diversas empresas asociadas.', '2022-12-04 17:05:33', '2024-11-07 02:08:40'),
+(3, '¿Cómo puedo acceder a los cursos y coaching?', 'Una vez que te hayas registrado y activado tu membresía, podrás acceder a todos los cursos y sesiones de coaching directamente desde tu panel de usuario. Los videos estarán disponibles para ver en cualquier momento.', '2022-12-04 17:05:33', '2024-11-07 02:08:40'),
+(4, '¿Qué es el sistema de afiliados multinivel?', 'Nuestro sistema de afiliados multinivel te permite ganar comisiones recomendando nuestra plataforma a otras personas. A medida que tus referidos se registran y compran membresías, podrás recibir ganancias en varios niveles de profundidad.', '2022-12-04 17:05:33', '2024-11-07 02:08:40'),
+(5, '¿Cómo puedo generar ingresos extra?', 'Puedes generar ingresos extra recomendando la plataforma a otros a través del sistema de marketing multinivel. Además, tendrás acceso a herramientas exclusivas que te ayudarán a promover nuestro contenido y crecer tu red de contactos.', '2022-12-04 17:05:33', '2024-11-07 02:08:40');
 
 -- --------------------------------------------------------
 
@@ -1787,6 +1869,13 @@ CREATE TABLE `ticket_departments` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `ticket_departments`
+--
+
+INSERT INTO `ticket_departments` (`id`, `uuid`, `name`, `created_at`, `updated_at`) VALUES
+(2, '0697c6e0-dfca-45df-aead-3500fe1cbfe3', 'it', '2024-11-07 02:10:04', '2024-11-07 02:10:04');
+
 -- --------------------------------------------------------
 
 --
@@ -1824,7 +1913,8 @@ CREATE TABLE `ticket_priorities` (
 
 INSERT INTO `ticket_priorities` (`id`, `uuid`, `name`, `created_at`, `updated_at`) VALUES
 (1, '69cbc017-10dd-4d8e-823b-ce097a2dc092', 'Important', '2024-06-07 07:38:48', '2024-06-07 07:38:48'),
-(2, '3531867a-fcda-4185-bf5d-8fda554cc86e', 'Important', '2024-06-07 07:39:04', '2024-06-07 07:39:04');
+(2, '3531867a-fcda-4185-bf5d-8fda554cc86e', 'Important', '2024-06-07 07:39:04', '2024-06-07 07:39:04'),
+(3, 'b1ccffbc-01f7-4fbd-bd81-bedb258e3b3f', 'very important', '2024-11-07 02:09:48', '2024-11-07 02:09:48');
 
 -- --------------------------------------------------------
 
@@ -1839,6 +1929,13 @@ CREATE TABLE `ticket_related_services` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `ticket_related_services`
+--
+
+INSERT INTO `ticket_related_services` (`id`, `uuid`, `name`, `created_at`, `updated_at`) VALUES
+(4, '80e3aa9f-69d7-48d3-a39e-8ca644321269', 'sad', '2024-11-07 02:09:27', '2024-11-07 02:09:27');
 
 -- --------------------------------------------------------
 
@@ -1891,7 +1988,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `profile_photo`, `account_type`, `is_online`, `last_seen`, `birth_date`, `role`, `permissions`, `name`, `email`, `email_verified_at`, `password`, `custom_password`, `mobile_number`, `about`, `city`, `facebook`, `instagram`, `linkedin`, `twitter`, `address`, `is_active`, `status`, `remember_token`, `ip_address`, `balance`, `is_system`, `is_subscribed`, `id_number`, `country`, `created_by`, `deleted_at`, `language`, `is_super_admin`, `created_at`, `updated_at`) VALUES
-(1, NULL, '149071.png', 'admin', 1, '2024-11-05 00:04:08', NULL, 1, NULL, 'SUPER ADMINISTRADOR', 'gen@negociosgen.com', '2023-03-23 07:45:02', '$2y$10$2Xg3cj6N2RMrVNhMvzL6hu5vkvjZ.zOMsFrTICTE40rT1paV6CtP6', '987654321', '8878326802', NULL, 'bolivia', NULL, NULL, NULL, NULL, 'sdfafa', 1, 1, NULL, '127.0.0.1', NULL, 1, 0, '1', '1', NULL, NULL, 'es', 1, '2023-03-23 07:45:02', '2024-11-05 00:04:08'),
+(1, NULL, '149071.png', 'admin', 1, '2024-11-07 04:14:17', NULL, 1, NULL, 'SUPER ADMINISTRADOR', 'gen@negociosgen.com', '2023-03-23 07:45:02', '$2y$10$2Xg3cj6N2RMrVNhMvzL6hu5vkvjZ.zOMsFrTICTE40rT1paV6CtP6', '987654321', '8878326802', NULL, 'bolivia', NULL, NULL, NULL, NULL, 'sdfafa', 1, 1, NULL, '127.0.0.1', NULL, 1, 0, '1', '1', NULL, NULL, 'es', 1, '2023-03-23 07:45:02', '2024-11-07 04:14:17'),
 (3, NULL, NULL, 'affiliate', 0, '2024-11-01 22:39:43', '2024-10-16', 2, NULL, 'Aasif Ahmeds', 'arstech2a@gmail.com', NULL, '$2y$10$yfNz3sJ2P3d31JhNkPve8.L.rVsISl81scG5DGvgB8pcfQUZd9l.e', NULL, '591591591', 'df', NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, '127.0.0.1', NULL, 0, NULL, '1', NULL, NULL, NULL, '\'en\'', 0, '2024-10-29 22:26:33', '2024-11-02 02:39:43'),
 (5, NULL, NULL, 'affiliate', 1, '2024-11-02 02:54:54', '2024-10-03', 2, NULL, 'muskan bano', 'aasifdev5@gmail.com', NULL, '$2y$10$5WrZoZLUyhoaTA31IeC6O.0TcQbGbll6WxK6oA/foGEt8vxGjvV/a', NULL, '591', NULL, '14', NULL, NULL, NULL, NULL, '722 azad nagar indore', 1, 1, NULL, NULL, NULL, 0, NULL, '45', '1', NULL, NULL, '\'en\'', 0, '2024-10-31 01:23:24', '2024-11-02 02:54:54');
 
@@ -2006,6 +2103,33 @@ ALTER TABLE `events`
 ALTER TABLE `failed_jobs`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
+
+--
+-- Indexes for table `faq_questions`
+--
+ALTER TABLE `faq_questions`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `forum_categories`
+--
+ALTER TABLE `forum_categories`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `forum_categories_uuid_unique` (`uuid`);
+
+--
+-- Indexes for table `forum_posts`
+--
+ALTER TABLE `forum_posts`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `forum_posts_uuid_unique` (`uuid`);
+
+--
+-- Indexes for table `forum_post_comments`
+--
+ALTER TABLE `forum_post_comments`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `forum_post_comments_uuid_unique` (`uuid`);
 
 --
 -- Indexes for table `languages`
@@ -2274,6 +2398,30 @@ ALTER TABLE `failed_jobs`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `faq_questions`
+--
+ALTER TABLE `faq_questions`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `forum_categories`
+--
+ALTER TABLE `forum_categories`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `forum_posts`
+--
+ALTER TABLE `forum_posts`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `forum_post_comments`
+--
+ALTER TABLE `forum_post_comments`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `languages`
 --
 ALTER TABLE `languages`
@@ -2391,7 +2539,7 @@ ALTER TABLE `tickets`
 -- AUTO_INCREMENT for table `ticket_departments`
 --
 ALTER TABLE `ticket_departments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `ticket_messages`
@@ -2403,13 +2551,13 @@ ALTER TABLE `ticket_messages`
 -- AUTO_INCREMENT for table `ticket_priorities`
 --
 ALTER TABLE `ticket_priorities`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `ticket_related_services`
 --
 ALTER TABLE `ticket_related_services`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `users`

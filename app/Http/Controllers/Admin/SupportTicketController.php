@@ -25,7 +25,7 @@ class SupportTicketController extends Controller
 
     protected $modalTicket, $modelTicketDepartment, $modelTicketPriority, $modelTicketService;
 
-    public function __construct(Ticket $modalTicket,TicketDepartment $modelTicketDepartment, TicketPriority $modelTicketPriority, TicketRelatedService $modelTicketService)
+    public function __construct(Ticket $modalTicket, TicketDepartment $modelTicketDepartment, TicketPriority $modelTicketPriority, TicketRelatedService $modelTicketService)
     {
         $this->modalTicket = new CRUD($modalTicket);
         $this->modelTicketDepartment = new CRUD($modelTicketDepartment);
@@ -39,12 +39,12 @@ class SupportTicketController extends Controller
         if (Session::has('LoggedIn')) {
             $data['user_session'] = User::where('id', Session::get('LoggedIn'))->first();
 
-        $data['title'] = 'Support Ticket List';
-        $data['navSupportTicketParentActiveClass'] = 'mm-active';
-        $data['subNavSupportTicketIndexActiveClass'] = 'mm-active';
-        $data['tickets'] = Ticket::all();
+            $data['title'] = 'Support Ticket List';
+            $data['navSupportTicketParentActiveClass'] = 'mm-active';
+            $data['subNavSupportTicketIndexActiveClass'] = 'mm-active';
+            $data['tickets'] = Ticket::all();
 
-        return view('admin.support_ticket.index', $data);
+            return view('admin.support_ticket.index', $data);
         }
     }
 
@@ -53,12 +53,12 @@ class SupportTicketController extends Controller
         if (Session::has('LoggedIn')) {
             $data['user_session'] = User::where('id', Session::get('LoggedIn'))->first();
 
-        $data['title'] = 'Support Ticket List';
-        $data['navSupportTicketParentActiveClass'] = 'mm-active';
-        $data['subNavSupportTicketOpenActiveClass'] = 'mm-active';
-        $data['tickets'] = Ticket::where('status', 1)->paginate(25);
+            $data['title'] = 'Support Open Ticket List';
+            $data['navSupportTicketParentActiveClass'] = 'mm-active';
+            $data['subNavSupportTicketOpenActiveClass'] = 'mm-active';
+            $data['tickets'] = Ticket::where('status', 1)->paginate(25);
 
-        return view('admin.support_ticket.open', $data);
+            return view('admin.support_ticket.open', $data);
         }
     }
 
@@ -67,14 +67,14 @@ class SupportTicketController extends Controller
         if (Session::has('LoggedIn')) {
             $data['user_session'] = User::where('id', Session::get('LoggedIn'))->first();
 
-        $data['title'] = 'Support Ticket Replies';
-        $data['navSupportTicketParentActiveClass'] = 'mm-active';
-        $data['subNavSupportTicketIndexActiveClass'] = 'mm-active';
-        $data['ticket'] = $this->modalTicket->getRecordByUuid($uuid);
-        $data['ticketMessages'] = TicketMessages::where('ticket_id', $data['ticket']->id)->get();
-        $data['last_message'] = TicketMessages::where('ticket_id', $data['ticket']->id)->whereNotNull('sender_user_id')->latest()->first();
+            $data['title'] = 'Support Ticket Replies';
+            $data['navSupportTicketParentActiveClass'] = 'mm-active';
+            $data['subNavSupportTicketIndexActiveClass'] = 'mm-active';
+            $data['ticket'] = $this->modalTicket->getRecordByUuid($uuid);
+            $data['ticketMessages'] = TicketMessages::where('ticket_id', $data['ticket']->id)->get();
+            $data['last_message'] = TicketMessages::where('ticket_id', $data['ticket']->id)->whereNotNull('sender_user_id')->latest()->first();
 
-        return view('admin.support_ticket.details', $data);
+            return view('admin.support_ticket.details', $data);
         }
     }
 
@@ -135,13 +135,13 @@ class SupportTicketController extends Controller
         if (Session::has('LoggedIn')) {
             $data['user_session'] = User::where('id', Session::get('LoggedIn'))->first();
 
-        $data['title'] = 'Support Ticket Department Field';
-        $data['navApplicationSettingParentActiveClass'] = 'mm-active';
-        $data['subNavSupportSettingsActiveClass'] = 'mm-active';
-        $data['supportDepartmentActiveClass'] = 'active';
-        $data['departments'] = TicketDepartment::all();
+            $data['title'] = 'Support Ticket Department Field';
+            $data['navApplicationSettingParentActiveClass'] = 'mm-active';
+            $data['subNavSupportSettingsActiveClass'] = 'mm-active';
+            $data['supportDepartmentActiveClass'] = 'active';
+            $data['departments'] = TicketDepartment::all();
 
-        return view('admin.application_settings.support_ticket.ticket-department-list', $data);
+            return view('admin.application_settings.support_ticket.ticket-department-list', $data);
         }
     }
 
@@ -159,7 +159,6 @@ class SupportTicketController extends Controller
                 $item = new TicketDepartment();
                 $msg = 'Created Successful';
             }
-
         } else {
             $item = new TicketDepartment();
             $msg = 'Created Successful';
@@ -178,7 +177,6 @@ class SupportTicketController extends Controller
         $this->modelTicketDepartment->deleteByUuid($uuid);
 
         return response()->json(['success' => true, 'message' => __('Deleted Successfully')]);
-
     }
 
     public function Priority()
@@ -186,13 +184,13 @@ class SupportTicketController extends Controller
         if (Session::has('LoggedIn')) {
             $data['user_session'] = User::where('id', Session::get('LoggedIn'))->first();
 
-        $data['title'] = 'Support Ticket Priority Field';
-        $data['navApplicationSettingParentActiveClass'] = 'mm-active';
-        $data['subNavSupportSettingsActiveClass'] = 'mm-active';
-        $data['supportPriorityActiveClass'] = 'active';
-        $data['priorities'] = TicketPriority::all();
+            $data['title'] = 'Support Ticket Priority Field';
+            $data['navApplicationSettingParentActiveClass'] = 'mm-active';
+            $data['subNavSupportSettingsActiveClass'] = 'mm-active';
+            $data['supportPriorityActiveClass'] = 'active';
+            $data['priorities'] = TicketPriority::all();
 
-        return view('admin.application_settings.support_ticket.ticket-priority-list', $data);
+            return view('admin.application_settings.support_ticket.ticket-priority-list', $data);
         }
     }
 
@@ -211,7 +209,6 @@ class SupportTicketController extends Controller
                 $item = new TicketPriority();
                 $msg = 'Created Successful';
             }
-
         } else {
             $item = new TicketPriority();
             $msg = 'Created Successful';
@@ -239,13 +236,13 @@ class SupportTicketController extends Controller
         if (Session::has('LoggedIn')) {
             $data['user_session'] = User::where('id', Session::get('LoggedIn'))->first();
 
-        $data['title'] = 'Support Ticket Related Service Field';
-        $data['navApplicationSettingParentActiveClass'] = 'mm-active';
-        $data['subNavSupportSettingsActiveClass'] = 'mm-active';
-        $data['supportRelatedActiveClass'] = 'active';
-        $data['services'] = TicketRelatedService::all();
+            $data['title'] = 'Support Ticket Related Service Field';
+            $data['navApplicationSettingParentActiveClass'] = 'mm-active';
+            $data['subNavSupportSettingsActiveClass'] = 'mm-active';
+            $data['supportRelatedActiveClass'] = 'active';
+            $data['services'] = TicketRelatedService::all();
 
-        return view('admin.application_settings.support_ticket.ticket-related-service-list', $data);
+            return view('admin.application_settings.support_ticket.ticket-related-service-list', $data);
         }
     }
 
@@ -264,7 +261,6 @@ class SupportTicketController extends Controller
                 $item = new TicketRelatedService();
                 $msg = 'Created Successful';
             }
-
         } else {
             $item = new TicketRelatedService();
             $msg = 'Created Successful';
@@ -282,6 +278,25 @@ class SupportTicketController extends Controller
 
         $this->modelTicketService->deleteByUuid($uuid);
         return response()->json(['success' => true, 'message' => 'Successfully deleted']);
+    }
+    public function bulkDelete(Request $request)
+    {
+        // Validate the incoming request
+        $request->validate([
+            'ids' => 'required|array|min:1',
+            'ids.*' => 'exists:tickets,id',  // Ensures each id is valid and exists in the 'tickets' table
+        ]);
 
+        // Get the ids from the request
+        $ids = $request->input('ids');
+
+        // Attempt to delete the tickets
+        $deleted = Ticket::whereIn('id', $ids)->delete();
+
+        if ($deleted) {
+            return response()->json(['message' => __('Tickets have been deleted.')]);
+        } else {
+            return response()->json(['message' => __('No tickets found or error occurred during deletion.')], 400);
+        }
     }
 }

@@ -448,6 +448,40 @@
                             <li><a class="sidebar-header" href="{{ url('admin/users') }}"><i
                                         data-feather="users"></i><span>{{ __('Gestión de Usuarios') }} </span></a>
                             </li>
+                            <li>
+                                <a class="sidebar-header" href="#">
+                                    <span class="iconify" data-icon="carbon:forum"></span>
+                                    <span>{{ __('Manage Forum') }} <i class="fa fa-angle-right pull-right"></i></span>
+                                </a>
+                                <ul class="sidebar-submenu">
+                                    <li>
+                                        <a class="sidebar-header" href="{{route('forum.category.index')}}">
+                                            <i class="fa fa-circle"></i>
+                                            <span>{{ __('Forum Category') }}</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li >
+                                <a class="sidebar-header" href="#">
+                                    <span class="iconify" data-icon="ic:twotone-support-agent"></span>
+                                    <span>{{ __('Support Ticket') }} <i class="fa fa-angle-right pull-right"></i></span>
+                                </a>
+                                <ul class="sidebar-submenu">
+                                    <li>
+                                        <a class="sidebar-header" href="{{ route('support-ticket.index') }}">
+                                            <i class="fa fa-circle"></i>
+                                            <span>{{ __('All Tickets') }}</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="sidebar-header" href="{{ route('support-ticket.open') }}">
+                                            <i class="fa fa-circle"></i>
+                                            <span>{{ __('Open Ticket') }}</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
 
                             <li><a class="sidebar-header" href="#"><i data-feather="layers"></i><span>
                                         {{ __('Gestión de cursos') }} </span><i
@@ -535,6 +569,7 @@
     <!-- latest jquery-->
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.iconify.design/2/2.0.3/iconify.min.js"></script>
 
     <!-- Bootstrap js-->
     <script src="{{ asset('admin/js/popper.min.js') }}"></script>
