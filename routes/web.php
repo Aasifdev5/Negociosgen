@@ -185,7 +185,8 @@ Route::get('search-blog-list', [UserController::class, 'searchBlogList'])->name(
 Route::get('/fondo', [UserController::class, 'fondo'])->name('fondo');
 Route::get('/verify-email/{id}/{hash}', [VerificationController::class, 'verifyEmail'])->name('verification.verify');
 
-
+Route::get('create', [SupportTicketController::class, 'create'])->name('tickets.create');
+Route::post('store', [SupportTicketController::class, 'store'])->name('tickets.store');
 Route::get('/SkugenerateInvoice/{id}', [InvoiceController::class, 'SkugenerateInvoice'])->name('SkugenerateInvoice');
 Route::get('/get-states', [UserController::class, 'getStates'])->name('get-states');
 Route::get('/get-cities', [UserController::class, 'getCities'])->name('get-cities');
@@ -230,7 +231,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::group(['prefix' => 'support-ticket', 'as' => 'support-ticket.'], function () {
             Route::get('index', [SupportTicketController::class, 'ticketIndex'])->name('index');
             Route::get('open', [SupportTicketController::class, 'ticketOpen'])->name('open');
-            Route::get('show/{uuid}', [SupportTicketController::class, 'ticketShow'])->name('show');
+            Route::get('show/{uuid}', [SupportTicketController::class, 'ticketShow'])->name('show')->middleware('AdminIsLoggedIn');
             Route::get('delete/{uuid}', [SupportTicketController::class, 'ticketDelete'])->name('delete');
             Route::post('change-ticket-status', [SupportTicketController::class, 'changeTicketStatus'])->name('changeTicketStatus');
             Route::post('message-store', [SupportTicketController::class, 'messageStore'])->name('messageStore');

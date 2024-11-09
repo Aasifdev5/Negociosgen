@@ -1,4 +1,4 @@
-@extends('frontend.layouts.app')
+@extends('master')
 @section('meta')
     @php
         $metaData = getMeta('forum');
@@ -25,33 +25,7 @@
 @section('content')
     <div class="">
 
-        <!-- Forum Page Header Start -->
-        <header class="page-banner-header blank-page-banner-header gradient-bg position-relative">
-            <div class="section-overlay">
-                <div class="blank-page-banner-wrap banner-less-header-wrap">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-12 col-sm-12 col-md-12">
-                                <div class="page-banner-content">
 
-                                    <!-- Breadcrumb Start-->
-                                    <nav aria-label="breadcrumb">
-                                        <ol class="breadcrumb">
-                                            <li class="breadcrumb-item font-14"><a href="{{ route('main.index') }}"><span class="iconify" data-icon="bx:home-alt"></span> {{ __('Home') }}</a>
-                                            </li>
-                                            <li class="breadcrumb-item font-14" aria-current="page"><a href="{{ route('forum.index') }}">{{ __('Forum') }}</a></li>
-                                            <li class="breadcrumb-item font-14 active" aria-current="page">{{ __($forumCategory->title) }}</li>
-                                        </ol>
-                                    </nav>
-                                    <!-- Breadcrumb End-->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </header>
-        <!-- Forum Page Header End -->
 
         <!-- Ask a question area start -->
         <section class="forum-categories-area section-b-space">
@@ -177,10 +151,6 @@
         @endif
     </div>
     <input type="hidden" class="renderForumCategoryPostsRoute" value="{{ route('forum.renderForumCategoryPosts') }}">
-@endsection
-
-@push('script')
-
     <script>
         'use strict'
 
@@ -205,4 +175,5 @@
             });
         });
     </script>
-@endpush
+@endsection
+

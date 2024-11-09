@@ -66,7 +66,10 @@ class User extends Authenticatable
 
         return $userinfo;
     }
-
+    public function forumPostComments()
+    {
+        return $this->hasMany(ForumPostComment::class, 'user_id', 'id');
+    }
 
     public static function getUserFullname($id)
     {

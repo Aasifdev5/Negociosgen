@@ -1,4 +1,4 @@
-@extends('frontend.layouts.app')
+@extends('master')
 @section('meta')
     @php
         $metaData = getMeta('forum');
@@ -24,34 +24,7 @@
 @endsection
 @section('content')
     <div class="">
-        <!-- Forum Page Header Start -->
-        <header class="page-banner-header blank-page-banner-header gradient-bg position-relative">
-            <div class="section-overlay">
-                <div class="blank-page-banner-wrap banner-less-header-wrap">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-12 col-sm-12 col-md-12">
-                                <div class="page-banner-content">
 
-                                    <!-- Breadcrumb Start-->
-                                    <nav aria-label="breadcrumb">
-                                        <ol class="breadcrumb">
-                                            <li class="breadcrumb-item font-14"><a href="{{ route('main.index') }}"><span
-                                                        class="iconify" data-icon="bx:home-alt"></span> {{ __('Home') }}</a>
-                                            </li>
-                                            <li class="breadcrumb-item font-14" aria-current="page"><a href="{{ route('forum.index') }}">{{ __('Forum') }}</a></li>
-                                            <li class="breadcrumb-item font-14 active" aria-current="page">{{ __('Forum Details') }}</li>
-                                        </ol>
-                                    </nav>
-                                    <!-- Breadcrumb End-->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </header>
-        <!-- Forum Page Header End -->
 
         <!-- Forum Details Start -->
         <section class="forum-categories-area forum-details-page-area section-b-space">
@@ -76,12 +49,7 @@
                                                 @if(@$forumPost->user->role == 1)
                                                     <h6>{{ $forumPost->user->name }}</h6>
                                                     <p class="font-medium">Admin</p>
-                                                @elseif(@$forumPost->user->role == 2)
-                                                    <h6>{{ $forumPost->user->instructor->name }}</h6>
-                                                    <p class="font-medium">Instructor</p>
-                                                @elseif(@$forumPost->user->role == 3)
-                                                    <h6>{{ $forumPost->user->student->name }}</h6>
-                                                    <p class="font-medium">Student</p>
+
                                                 @else
                                                     <h6>Unknown</h6>
                                                 @endif
@@ -90,7 +58,7 @@
                                     </div>
                                     <div class="forum-details-top-right">
                                         <ul class="forum-category-single-item-bottom-right d-flex align-items-center">
-                                            <li><span class="iconify" data-icon="ant-design:star-outlined"></span>{{ countUserReplies($forumPost->user_id) }}</li>
+                                            <li><span class="iconify" data-icon="ant-design:star-outlined"></span></li>
                                             <li><span class="iconify" data-icon="bi:eye"></span>{{ $forumPost->total_seen }}</li>
                                             <li><span class="iconify" data-icon="fluent:comment-24-regular"></span>{{ $forumPost->forumPostComments->count() }}</li>
                                         </ul>
@@ -376,17 +344,17 @@
                                 <div class="blog-item">
 
                                     <div class="blog-item-img-wrap overflow-hidden position-relative">
-                                        <a href="{{ route('blog-details', $blog->slug) }}"><img src="{{ getImageFile($blog->image) }}" alt="img" class="img-fluid"></a>
+                                        <a href="{{ route('blog_detail', $blog->slug) }}"><img src="{{ getImageFile($blog->image) }}" alt="img" class="img-fluid"></a>
                                         <div class="blog-item-tag position-absolute font-12 font-semi-bold text-white bg-hover radius-3">{{ @$blog->category->name }}</div>
                                     </div>
 
                                     <div class="blog-item-bottom-part">
-                                        <h3 class="card-title blog-title"><a href="{{ route('blog-details', $blog->slug) }}">{{ Str::limit($blog->title, 50) }}</a></h3>
+                                        <h3 class="card-title blog-title"><a href="{{ route('blog_detail', $blog->slug) }}">{{ Str::limit($blog->title, 50) }}</a></h3>
                                         <p class="blog-author-name-publish-date font-13 font-medium color-gray">{{ $blog->user->name }} / {{ @$blog->created_at->format(' j  M, Y')  }}</p>
                                         <p class="card-text blog-content">{!!  Str::limit($blog->details, 200) !!}</p>
 
                                         <div class="blog-read-more-btn">
-                                            <a href="{{ route('blog-details', $blog->slug) }}" class="theme-btn font-15 ps-0 font-medium color-hover">{{ __('Read More') }} <i data-feather="arrow-right"></i></a>
+                                            <a href="{{ route('blog_detail', $blog->slug) }}" class="theme-btn font-15 ps-0 font-medium color-hover">{{ __('Read More') }} <i data-feather="arrow-right"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -438,31 +406,6 @@
         </div>
     </div>
     <!-- Comment Reply Modal End -->
-@endsection
-
-@push('style')
-    <!-- Summernote CSS - CDN Link -->
-    <link href="{{ asset('common/css/summernote/summernote.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('common/css/summernote/summernote-lite.min.css') }}" rel="stylesheet">
-    <!-- //Summernote CSS - CDN Link -->
-@endpush
-
-@push('script')
-    <!-- Summernote JS - CDN Link -->
-    <script src="{{ asset('common/js/summernote/summernote-lite.min.js') }}"></script>
-    <script>
-        $(document).ready(function() {
-            $("#summernote").summernote({dialogsInBody: true});
-            $('.dropdown-toggle').dropdown();
-        });
-
-        $(document).ready(function() {
-            $("#summernote2").summernote({dialogsInBody: true});
-            $('.dropdown-toggle').dropdown();
-        });
-    </script>
-    <!-- //Summernote JS - CDN Link -->
-
     <script>
         'use strict'
 
@@ -472,4 +415,5 @@
         });
 
     </script>
-@endpush
+@endsection
+

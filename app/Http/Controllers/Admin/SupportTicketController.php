@@ -3,25 +3,25 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Assignment;
-use App\Models\AssignmentSubmit;
-use App\Models\Course;
+
 use App\Models\Ticket;
 use App\Models\TicketDepartment;
 use App\Models\TicketMessages;
 use App\Models\TicketPriority;
 use App\Models\TicketRelatedService;
 use App\Models\User;
+use App\Notifications\TicketCreated;
 use App\Tools\Repositories\Crud;
 use App\Traits\General;
 use App\Traits\ImageSaveTrait;
 use Auth;
+use App\Traits\SendNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
 class SupportTicketController extends Controller
 {
-    use General, ImageSaveTrait;
+    use General, ImageSaveTrait, SendNotification;
 
     protected $modalTicket, $modelTicketDepartment, $modelTicketPriority, $modelTicketService;
 
@@ -33,6 +33,58 @@ class SupportTicketController extends Controller
         $this->modelTicketService = new CRUD($modelTicketService);
     }
 
+    // Show form for creating a new ticket
+    public function create()
+    {
+        if (Session::has('LoggedIn')) {
+            $data['departments'] = TicketDepartment::all(); // Retrieve all departments
+            $data['relatedServices'] = TicketRelatedService::all(); // Retrieve all related services
+            $data['priorities'] = TicketPriority::all(); // Retrieve all priorities
+            $data['user_session'] = User::where('id', Session::get('LoggedIn'))->first();
+            return view('tickets.create', $data);
+        }
+    }
+
+    // Store new ticket in the database
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'subject' => 'required|string|max:255',
+            'status' => 'nullable|in:1,2',
+            'department_id' => 'nullable|exists:ticket_departments,id',
+            'related_service_id' => 'nullable|exists:ticket_related_services,id',
+            'priority_id' => 'nullable|exists:ticket_priorities,id',
+        ]);
+
+        $ticket = Ticket::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'subject' => $request->subject,
+            'status' => $request->status ?? 1,
+            'user_id' => Session::get('LoggedIn'),
+            'department_id' => $request->department_id,
+            'related_service_id' => $request->related_service_id,
+            'priority_id' => $request->priority_id,
+        ]);
+
+        // Send notification to the ticket creator
+        $ticket->notify(new TicketCreated($ticket));
+
+        // Ensure admin gets the notification as well
+        $adminUser = User::where('email', 'gen@negociosgen.com')->first();
+        if ($adminUser) {
+            $adminUser->notify(new TicketCreated($ticket));
+        }
+
+        // Notification for registration
+        $text = 'Un nuevo ticket ha sido creado con el siguiente asunto';
+        $target_url = route('support-ticket.index');
+        $this->sendForApi($text, 1, $target_url, $ticket->user_id, 1);
+
+        return back()->with('success', 'Ticket creado con éxito!');
+    }
 
     public function ticketIndex()
     {
@@ -116,7 +168,7 @@ class SupportTicketController extends Controller
 
         $message = new TicketMessages();
         $message->ticket_id = $request->ticket_id;
-        $message->reply_admin_user_id = auth()->id();
+        $message->reply_admin_user_id = Session::get('LoggedIn');
         $message->message = $request->message;
 
         if ($request->hasFile('file')) {

@@ -240,6 +240,7 @@ margin-right: 20px;
                             <li class="list-item mb-2" style="margin-bottom: 0.5rem;">Política de privacidad</li>
                             <li class="list-item" style="margin-bottom: 0;"><a href="{{ url('term') }}"
                                     style="text-decoration: none;color:#fff;">Términos de uso</a></li>
+                            <li class="list-item" style="margin-bottom: 0;"><a href="{{ route('tickets.create') }}" style="text-decoration: none;color:#fff;">Support</a></li>
                         </ul>
                     </div>
                 </div>
