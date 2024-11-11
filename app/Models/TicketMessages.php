@@ -19,4 +19,6 @@ class TicketMessages extends Model
         return $this->belongsTo(User::class, 'reply_admin_user_id', 'id');
     }
 
+
+
 }

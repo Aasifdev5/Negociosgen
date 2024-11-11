@@ -1,20 +1,18 @@
-@extends('admin.Master')
+@extends('master')
 
 @section('title')
-    {{ $title }}
+   Ticket Details
 @endsection
 
 @section('content')
     <!-- Page content area start -->
-    <div class="page-body" style="background: #000">
+    <div class="page-body" style="background: #000;padding:50px">
         <br>
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
                     <div class="card mb-4 border-light shadow-sm bg-light">
-                        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-                            <h3 class="mb-0">{{ __($title) }}</h3>
-                        </div>
+
                         <div class="card-body">
 
                             <!-- Ticket Details Start -->
@@ -89,10 +87,10 @@
                                             <div class="ticket-info bg-light p-4 rounded shadow-sm">
                                                 <h5 class="mb-3 text-dark">{{ __('Ticket Info') }}</h5>
                                                 <p class="text-dark"><strong >{{ __('Status') }}:</strong>
-                                                    <span
-                                                        class="badge {{ $ticket->status == 1 ? 'badge-success' : 'badge-danger' }}">
+                                                    <span class="badge badge-pill {{ $ticket->status == 1 ? 'badge-success' : 'badge-danger' }}">
                                                         {{ $ticket->status == 1 ? __('Open') : __('Closed') }}
                                                     </span>
+
                                                 </p>
                                                 <p class="text-dark"><strong >{{ __('Subject') }}:</strong>
                                                     #{{ $ticket->ticket_number }} - {{ $ticket->subject }}</p>

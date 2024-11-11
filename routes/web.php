@@ -151,6 +151,7 @@ Route::group(['middleware' => ['prevent-back-history', SetLocale::class]], funct
     Route::get('/signup', [UserController::class, 'signup'])->name('signup')->middleware('alreadyLoggedIn');
     Route::get('verify-otp', [OTPController::class, 'showOtpForm'])->name('verify.otp')->middleware('alreadyLoggedIn');
     Route::get('/Userlogin', [UserController::class, 'Userlogin'])->name('Userlogin')->middleware('alreadyLoggedIn');
+    Route::get('show/{uuid}', [SupportTicketController::class, 'ticketUserShow'])->name('show')->middleware('isLoggedIn');
     Route::group(['prefix' => 'forum', 'as' => 'forum.'], function () {
         Route::get('/', [ForumController::class, 'index'])->name('index');
         Route::get('ask-a-question', [ForumController::class, 'askQuestion'])->name('askQuestion');

@@ -51,4 +51,8 @@ class Ticket extends Model
     {
         return $this->belongsTo(TicketPriority::class);
     }
+    public function latestMessage()
+    {
+        return $this->hasOne(TicketMessages::class)->latestOfMany();
+    }
 }

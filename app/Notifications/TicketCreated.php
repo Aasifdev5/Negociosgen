@@ -66,7 +66,7 @@ class TicketCreated extends Notification
             ->greeting('Hola ' . $this->ticket->name . ',')
             ->line('Gracias por crear un nuevo ticket. El asunto de tu ticket es: ' . $this->ticket->subject)
             ->line('Puedes ver el progreso de tu ticket haciendo clic en el siguiente enlace:')
-            ->action('Ver Ticket', url('/support-ticket/show/' . $this->ticket->uuid))
+            ->action('Ver Ticket', url('/show/' . $this->ticket->uuid))
             ->line('Gracias por usar nuestra aplicación!');
     }
 

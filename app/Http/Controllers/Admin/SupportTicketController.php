@@ -40,6 +40,11 @@ class SupportTicketController extends Controller
             $data['departments'] = TicketDepartment::all(); // Retrieve all departments
             $data['relatedServices'] = TicketRelatedService::all(); // Retrieve all related services
             $data['priorities'] = TicketPriority::all(); // Retrieve all priorities
+            $data['tickets'] = Ticket::where('user_id', Session::get('LoggedIn'))
+                ->with(['latestMessage.sendUser', 'priority', 'department', 'relatedService'])
+                ->get();
+
+
             $data['user_session'] = User::where('id', Session::get('LoggedIn'))->first();
             return view('tickets.create', $data);
         }
@@ -130,7 +135,21 @@ class SupportTicketController extends Controller
         }
     }
 
+    public function ticketUserShow($uuid)
+    {
+        if (Session::has('LoggedIn')) {
+            $data['user_session'] = User::where('id', Session::get('LoggedIn'))->first();
 
+            $data['title'] = 'Support Ticket Replies';
+            $data['navSupportTicketParentActiveClass'] = 'mm-active';
+            $data['subNavSupportTicketIndexActiveClass'] = 'mm-active';
+            $data['ticket'] = $this->modalTicket->getRecordByUuid($uuid);
+            $data['ticketMessages'] = TicketMessages::where('ticket_id', $data['ticket']->id)->get();
+            $data['last_message'] = TicketMessages::where('ticket_id', $data['ticket']->id)->whereNotNull('sender_user_id')->latest()->first();
+
+            return view('tickets.details', $data);
+        }
+    }
     public function ticketDelete($uuid)
     {
 
