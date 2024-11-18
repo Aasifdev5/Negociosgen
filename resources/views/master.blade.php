@@ -57,22 +57,22 @@
                     <!-- Navbar Links -->
                     <li
                         class="nav-item nav-item-custom-padding {{ Request::is('index') || Request::is('/') ? 'active' : '' }}">
-                        <a class="nav-link text-light" href="{{ url('index') }}">Inicio</a>
+                        <a class="nav-link text-light" href="{{ url('index') }}">{{ __('Inicio') }}</a>
                     </li>
                     <li class="nav-item nav-item-custom-padding {{ Request::is('nosotros') ? 'active' : '' }}">
-                        <a class="nav-link text-light" href="{{ url('nosotros') }}">Nosotros</a>
+                        <a class="nav-link text-light" href="{{ url('nosotros') }}">{{ __('Nosotros') }}</a>
                     </li>
                     <li class="nav-item nav-item-custom-padding {{ Request::is('course') ? 'active' : '' }}">
-                        <a class="nav-link text-light" href="{{ url('course') }}">Cursos</a>
+                        <a class="nav-link text-light" href="{{ url('course') }}"> {{ __('Cursos') }}</a>
                     </li>
                     <li class="nav-item nav-item-custom-padding {{ Request::is('blog') ? 'active' : '' }}">
-                        <a class="nav-link text-light" href="{{ url('blog') }}">Blog</a>
+                        <a class="nav-link text-light" href="{{ url('blog') }}"> {{ __('Blog') }}</a>
                     </li>
                     <li class="nav-item nav-item-custom-padding {{ Request::is('contact') ? 'active' : '' }}">
-                        <a class="nav-link text-light" href="{{ url('contact') }}">Contáctanos</a>
+                        <a class="nav-link text-light" href="{{ url('contact') }}"> {{ __('Contáctanos') }}</a>
                     </li>
                     <li class="nav-item nav-item-custom-padding {{ Request::is('ayuda') ? 'active' : '' }}">
-                        <a class="nav-link text-light" href="{{ url('ayuda') }}">¿Necesitas ayuda?</a>
+                        <a class="nav-link text-light" href="{{ url('ayuda') }}"> {{ __('¿Necesitas ayuda?') }}</a>
                     </li>
 
                     <!-- Conditional Links -->
@@ -83,8 +83,8 @@
                         <li class="nav-item nav-item-custom-padding {{ Request::is('ganancias') ? 'active' : '' }}">
                             <a class="nav-link text-light" href="{{ url('ganancias') }}">Ganancias</a>
                         </li>
-                        <li class="nav-item nav-item-custom-padding {{ Request::is('resource') ? 'active' : '' }}">
-                            <a class="nav-link text-light" href="{{ url('resource') }}">Recursos</a>
+                        <li class="nav-item nav-item-custom-padding {{ Request::is('recursos') ? 'active' : '' }}">
+                            <a class="nav-link text-light" href="{{ url('recursos') }}">Recursos</a>
                         </li>
 
 
@@ -236,6 +236,25 @@ margin-right: 20px;
                         <b class="informacin-de-contacto" style="display: block;">Legales & Derechos Reservados</b>
                         <ul class="content-list-redes list-unstyled"
                             style="margin-top: 13px; display: flex; flex-direction: column;">
+                            <li>
+                                <a href="#" class="btn btn-dropdown site-language" id="dropdownLanguage"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img src="{{ asset(selectedLanguage(session()->get('local'))->flag) }}"
+                                        width="50" height="30" alt="Language Icon">
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownLanguage" style="background: #000">
+                                    @foreach (appLanguages() as $app_lang)
+                                        <li>
+                                            <a class="dropdown-item"
+                                                href="{{ url('admin/local/' . $app_lang->iso_code) }}">
+                                                <img src="{{ asset($app_lang->flag) }}" width="50" height="30"
+                                                    alt="icon">
+                                                <span>{{ $app_lang->language }}</span>
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </li>
                             <li class="list-item mb-2" style="margin-bottom: 0.5rem;">Mapa del sitio web</li>
                             <li class="list-item mb-2" style="margin-bottom: 0.5rem;">Política de privacidad</li>
                             <li class="list-item" style="margin-bottom: 0;"><a href="{{ url('term') }}"

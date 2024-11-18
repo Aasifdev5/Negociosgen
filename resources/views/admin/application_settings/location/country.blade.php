@@ -90,9 +90,7 @@
                                             @endforeach
                                         </tbody>
                                     </table>
-                                    <div class="mt-3">
-                                        {{ $countries->links() }}
-                                    </div>
+
                                 </div>
                             </div>
 

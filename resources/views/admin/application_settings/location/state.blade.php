@@ -80,9 +80,7 @@
                                         @endforeach
                                         </tbody>
                                     </table>
-                                    <div class="mt-3">
-                                        {{$states->links()}}
-                                    </div>
+
                                 </div>
                             </div>
 

@@ -58,9 +58,7 @@
                                             @endforeach
                                         </tbody>
                                     </table>
-                                    <div class="mt-3">
-                                        {{ $languages->links() }}
-                                    </div>
+
                                 </div>
                             </div>
 

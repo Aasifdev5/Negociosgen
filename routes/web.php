@@ -148,6 +148,8 @@ Route::group(['middleware' => ['prevent-back-history', SetLocale::class]], funct
     Route::get('/productbySubCategory/{category}/{subcategory}', [UserController::class, 'productbySubCategory'])->name('productbySubCategory')->middleware('isLoggedIn');
     Route::get('/productbyChildCategory/{category}/{subcategory}/{childcategory}', [UserController::class, 'productbyChildCategory'])->name('productbyChildCategory')->middleware('isLoggedIn');
     Route::get('/transferencia', [UserController::class, 'transferencia'])->name('transferencia')->middleware('isLoggedIn');
+    Route::get('/recursos', [UserController::class, 'recursos'])->name('recursos')->middleware('alreadyLoggedIn');
+
     Route::get('/signup', [UserController::class, 'signup'])->name('signup')->middleware('alreadyLoggedIn');
     Route::get('verify-otp', [OTPController::class, 'showOtpForm'])->name('verify.otp')->middleware('alreadyLoggedIn');
     Route::get('/Userlogin', [UserController::class, 'Userlogin'])->name('Userlogin')->middleware('alreadyLoggedIn');

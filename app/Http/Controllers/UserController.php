@@ -171,8 +171,6 @@ class UserController extends Controller
             'birth_date' => $request->birth_date // Assuming you have birth_date in User model
         ]);
 
-        // Send email verification notification
-        $user->notify(new VerifyEmailNotification($user));
 
         // Fire the UserRegistered event (if needed)
         // event(new UserRegistered($user));
@@ -287,6 +285,18 @@ class UserController extends Controller
             $carts = Cart::where('user_id', Session::get('LoggedIn'))->get();
 
             return view('checkout', compact('user_session',   'pages', 'carts', 'qrcode'));
+        } else {
+            return Redirect()->with('fail', 'Tienes que iniciar sesión primero');
+        }
+    }
+    public function recursos()
+    {
+        if (Session::has('LoggedIn')) {
+
+            $pages = Page::all();
+            $user_session = User::where('id', Session::get('LoggedIn'))->first();
+
+            return view('recursos', compact('user_session',   'pages'));
         } else {
             return Redirect()->with('fail', 'Tienes que iniciar sesión primero');
         }
