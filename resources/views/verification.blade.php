@@ -10,7 +10,16 @@
                 <h3 class="text-light">Revisa tu correo electrónico para obtener un código</h3>
                 <p class="text-light">Por favor ingresa el código que enviamos a <strong>{{ Session::get('email') }}</strong> para ayudarnos a proteger tu cuenta.</p>
             </div>
-
+            @if(Session::has('success'))
+            <div class="alert alert-success">
+                <p>{{ session::get('success') }}</p>
+            </div>
+            @endif
+            @if(Session::has('fail'))
+            <div class="alert alert-danger">
+                <p>{{ session::get('fail') }}</p>
+            </div>
+            @endif
             <form action="{{ route('verify.otp.submit') }}" method="POST" class="text-center">
                 @csrf
                 <div class="d-flex justify-content-center mb-4">

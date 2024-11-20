@@ -77,15 +77,7 @@
 
                     <!-- Conditional Links -->
                     @if (!empty($user_session))
-                        <li class="nav-item nav-item-custom-padding {{ Request::is('geanologìa') ? 'active' : '' }}">
-                            <a class="nav-link text-light" href="{{ url('geanologìa') }}">Genealogía</a>
-                        </li>
-                        <li class="nav-item nav-item-custom-padding {{ Request::is('ganancias') ? 'active' : '' }}">
-                            <a class="nav-link text-light" href="{{ url('ganancias') }}">Ganancias</a>
-                        </li>
-                        <li class="nav-item nav-item-custom-padding {{ Request::is('recursos') ? 'active' : '' }}">
-                            <a class="nav-link text-light" href="{{ url('recursos') }}">Recursos</a>
-                        </li>
+
 
 
                         <!-- Search Form -->

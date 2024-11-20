@@ -29,6 +29,7 @@ class User extends Authenticatable
         'last_seen',
         'is_online',
         'about',
+        'refer',
         'username',
         'facebook',
         'instagram',
@@ -70,6 +71,18 @@ class User extends Authenticatable
     {
         return $this->hasMany(ForumPostComment::class, 'user_id', 'id');
     }
+// In the User model
+// User model
+public function children()
+{
+    return $this->hasMany(User::class, 'refer');  // 'refer' is the foreign key
+}
+
+public function parent()
+{
+    return $this->belongsTo(User::class, 'refer');  // Refers back to the parent user (the user who referred them)
+}
+
 
     public static function getUserFullname($id)
     {

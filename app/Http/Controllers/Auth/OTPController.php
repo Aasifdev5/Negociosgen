@@ -79,15 +79,33 @@ class OTPController extends Controller
 
     // Verify the OTP
     if ($sessionOtp && $otp === $sessionOtp) {
-        // Successful verification
-        Session::forget('otp'); // Clear the OTP from the session
+        // Limpiar el OTP de la sesión
+        Session::forget('otp');
+
+        // Recuperar el usuario basado en el correo electrónico de la sesión
         $user = User::where('email', Session::get('email'))->first();
-        $user->update(['is_online' => 1, 'last_seen' => Carbon::now('UTC')]);
+
+        // Verificar si el usuario está suscrito
+        if ($user->is_subscribed !== 1) {
+            return back()->with('fail', 'Tu cuenta no está suscrita. Por favor, suscríbete para continuar.');
+        }
+
+        // Actualizar detalles del usuario después de una verificación exitosa
+        $user->update([
+            'is_online' => 1,
+            'last_seen' => Carbon::now('UTC')
+        ]);
+
+        // Establecer la sesión para el usuario conectado
         $request->session()->put('LoggedIn', $user->id);
-        return redirect('welcome')->with('success', 'OTP verified successfully.');
+
+        // Redirigir a la página de bienvenida
+        return redirect('welcome')->with('success', 'OTP verificado con éxito.');
     } else {
-        return back()->with('fail', 'Invalid OTP. Please try again.'); // Invalid OTP
+        // OTP inválido
+        return back()->with('fail', 'OTP inválido. Por favor, inténtalo de nuevo.');
     }
+
 }
 
 

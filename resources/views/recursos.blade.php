@@ -47,19 +47,52 @@ Recursos
                 <img src="{{ asset('assets/banner(9).png') }}" class="img-fluid" alt="Banner 4" data-bs-toggle="modal" data-bs-target="#bannerModal" onclick="setModalContent('banner(9).png')">
             </div>
         </div>
-
-        <!-- Referrals Section -->
-        <div class="container mt-4 d-flex justify-content-between align-items-start"
+  <div class="container mt-4 d-flex justify-content-between align-items-start"
              style="background: #2E2E2E; border: 1px solid #2E2E2E; border-radius: 16px; padding: 16px;">
             <div class="col-sm-8 me-3">
                 <h3 class="text-light">Enlace para referidos</h3>
-                <input type="text" class="form-control bg-dark text-white" value="https://www.google.com/search" readonly>
-                <button class="btn btn-outline-primary mt-2">Copiar enlace</button>
+                <input type="text" id="referralLink" class="form-control bg-dark text-white"
+               value="https://prueba.negociosgen.com/signup?{{ $user_session->id }}" readonly>
+        <button id="copyButton" class="btn btn-outline-primary mt-2"
+                data-bs-toggle="tooltip" data-bs-placement="top" title="Copiado!">
+            Copiar enlace
+        </button>
             </div>
             <div class="col-sm-4 mt-3">
-                <img src="barimage 24.png" class="img-fluid" alt="QR Code">
+                <img src="{{ asset('assets/barimage 24.png') }}" class="img-fluid" alt="QR Code">
             </div>
         </div>
+       <!-- Referrals Section -->
+
+<!-- Include Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+
+<script>
+    // Initialize Bootstrap tooltip
+    const tooltipTrigger = document.querySelector('#copyButton');
+    const tooltip = new bootstrap.Tooltip(tooltipTrigger);
+
+    function copyToClipboard() {
+        const referralLink = document.querySelector('#referralLink');
+        if (referralLink) {
+            navigator.clipboard.writeText(referralLink.value)
+                .then(() => {
+                    // Show the tooltip manually
+                    tooltip.show();
+
+                    // Hide the tooltip after 2 seconds
+                    setTimeout(() => {
+                        tooltip.hide();
+                    }, 2000);
+                })
+                .catch(err => console.error("Error al copiar el enlace", err));
+        }
+    }
+
+    // Attach the copy function to the button
+    tooltipTrigger.addEventListener('click', copyToClipboard);
+</script>
 
         <!-- Post Section (Working Carousel) -->
         <div class="resource-section mt-4">

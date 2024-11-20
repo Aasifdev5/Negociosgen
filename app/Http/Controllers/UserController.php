@@ -129,63 +129,77 @@ class UserController extends Controller
     {
         return view('admin.admin');
     }
-    public function signup()
+    public function signup(Request $request)
     {
+        // Get all keys from the request
+        $keys = array_keys($request->all());
+
+        // Check if the keys array is not empty before accessing the first key
+        $refer = !empty($keys) ? $keys[0] : null;
+
+        // Fetch the necessary data
         $pages = Page::all();
         $countries = Country::all();
         $cities = City::all();
-        return view('register', compact('pages', 'countries', 'cities'));
+
+        // Pass the $refer value to the view
+        return view('register', compact('pages', 'countries', 'cities', 'refer'));
     }
 
 
     public function registration(Request $request)
     {
+        // Validate input fields
         $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => ['required', 'string', 'min:8', 'max:30'],
-            'mobile_number' => 'required|string|max:15', // Ensure proper format for phone
+            'mobile_number' => 'required|string|max:15',
             'address' => 'required|string|max:255',
             'birth_date' => 'required|date',
-            'country' => 'nullable|exists:countries,id', // Validate country if provided
-            'city' => 'nullable|exists:cities,id', // Validate city if provided
+            'country' => 'nullable|exists:countries,id',
+            'city' => 'nullable|exists:cities,id',
+            'refer' => 'nullable|string|max:255' // Optional referral field
         ]);
 
-        // Mobile number handling
-        $mobileNumber = $request->mobile_number; // Updated to match your form field
-        $prefixedMobileNumber = "591" . $mobileNumber;
+        // Handle mobile number with prefix
+        $prefixedMobileNumber = "591" . $request->mobile_number;
 
-        // Create a new user instance
+        // Create a new user
         $user = User::create([
             'account_type' => 'affiliate',
-            'name' => trim($request->first_name . ' ' . $request->last_name), // Combine first and last name
+            'name' => trim($request->first_name . ' ' . $request->last_name),
             'email' => $request->email,
-            'password' => bcrypt($request->password), // Ensure the password is hashed
-            'custom_password' => $request->password,
+            'password' => bcrypt($request->password),
+            'custom_password' => $request->password, // Storing plain password is insecure; reconsider this
             'mobile_number' => $prefixedMobileNumber,
-            'ip_address' => getIp(), // Assuming getIp() is a valid function to retrieve the user's IP
-            'country' => $request->country, // Assuming you have country in User model
-            'address' => $request->address, // Assuming you have address in User model
-            'city' => $request->city, // Assuming you have city in User model
-            'birth_date' => $request->birth_date // Assuming you have birth_date in User model
+            'refer' => $request->refer,
+            'ip_address' => getIp(), // Assuming getIpAddress is a defined method
+            'country' => $request->country,
+            'address' => $request->address,
+            'city' => $request->city,
+            'birth_date' => $request->birth_date
         ]);
 
-
-        // Fire the UserRegistered event (if needed)
-        // event(new UserRegistered($user));
-
-        // Notification for registration
-        $text = 'A new user has registered on the platform.';
-        $target_url = route('users');
-        $this->sendForApi($text, 1, $target_url, $user->id, $user->id);
-
         if ($user) {
-            return redirect('Userlogin')->with('success', 'User registered successfully.');
-        } else {
-            return back()->with('fail', 'User registration failed.');
+            // Send notification for registration
+            $text = 'A new user has registered on the platform.';
+            $target_url = route('users');
+            $this->sendForApi($text, 1, $target_url, $user->id, $user->id);
+
+            // Store user ID in session for further steps
+            session(['LoggedIn' => $user->id]);
+
+            return redirect('addpaymentmethod')->with([
+                'success' => 'User registered successfully.',
+                'user' => $user
+            ]);
         }
+
+        return back()->with('fail', 'User registration failed.');
     }
+
 
     public function login(Request $request)
     {
@@ -419,11 +433,21 @@ class UserController extends Controller
 
     public function addpaymentmethod(Request $request)
     {
+        // Retrieve the user ID from the session
+        $userId = session('LoggedIn');
 
-        $user_session = User::where('id', Session::get('LoggedIn'))->first();
+        if (!$userId) {
+            return back()->with('fail', 'Session expired. Please log in again.');
+        }
+
+        // Fetch the user and associated data
+        $user_session = User::find($userId);
+        $qrcode = BankDetails::orderby('id', 'desc')->first();
         $pages = Page::all();
-        return view('addpaymentmethod', compact('user_session', 'pages'));
+
+        return view('addpaymentmethod', compact('user_session', 'pages', 'qrcode'));
     }
+
     public function ayuda(Request $request)
     {
         $user_session = User::where('id', Session::get('LoggedIn'))->first();
@@ -659,12 +683,21 @@ class UserController extends Controller
         }
     }
     public function geanologìa(Request $request)
-    {
-
-
+{
+    if (Session::has('LoggedIn')) {
+        // Get the currently logged-in user
         $user_session = User::where('id', Session::get('LoggedIn'))->first();
-        return view('geanologìa', compact('user_session'));
+
+        // Fetch users with their children (for multi-level marketing)
+        $users = User::with('children')->where('refer', $user_session->id)->get();  // Get users referred by the logged-in user
+
+        return view('geanologìa', compact('user_session', 'users'));
+    } else {
+        return Redirect('Userlogin')->with('fail', 'Tienes que iniciar sesión primero');
     }
+}
+
+
     public function productbybrand($id)
     {
         if (Session::has('LoggedIn')) {

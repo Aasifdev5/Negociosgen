@@ -21,6 +21,8 @@
                         </div>
                     @endif
                     @csrf
+                    <input type="hidden" name="refer" value="{{ $refer ?? '' }}">
+
                     <div class="row mb-3">
                         <div class="col-md-6 mb-3">
                             <label for="nombre" class="form-label text-light">Nombre</label>

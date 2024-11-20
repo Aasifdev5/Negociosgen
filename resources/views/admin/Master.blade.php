@@ -388,7 +388,9 @@
                             <li><a class="sidebar-header" href="{{ url('admin/banners') }}"><i
                                         data-feather="monitor"></i><span>{{ __('Bandera') }}
                                     </span></a></li>
-
+                            <li><a class="sidebar-header" href="{{ url('admin/qrcode') }}"><i
+                                        class="fa fa-empire"></i> CÓDIGO QR </a></li>
+                            <li>
                             <li class="">
                                 <a class="has-arrow sidebar-header" href="#">
                                     <i class="icofont icofont-social-blogger"></i>
@@ -423,7 +425,9 @@
                                 </ul>
                             </li>
 
-
+                            <li><a class="sidebar-header" href="{{ url('admin/transactions_report') }}"><i
+                                        data-feather="dollar-sign"></i><span>{{ __('Recibir Fondos') }} </span></a>
+                            </li>
                             <li><a class="sidebar-header" href="{{ url('admin/pages') }}"><i
                                         data-feather="book"></i><span>{{ __('Pages') }} </span></a> </li>
                             <li>
@@ -448,24 +452,25 @@
                             <li><a class="sidebar-header" href="{{ url('admin/users') }}"><i
                                         data-feather="users"></i><span>{{ __('Gestión de Usuarios') }} </span></a>
                             </li>
-                            <li>
+                            {{-- <li>
                                 <a class="sidebar-header" href="#">
                                     <span class="iconify" data-icon="carbon:forum"></span>
                                     <span>{{ __('Manage Forum') }} <i class="fa fa-angle-right pull-right"></i></span>
                                 </a>
                                 <ul class="sidebar-submenu">
                                     <li>
-                                        <a class="sidebar-header" href="{{route('forum.category.index')}}">
+                                        <a class="sidebar-header" href="{{ route('forum.category.index') }}">
                                             <i class="fa fa-circle"></i>
                                             <span>{{ __('Forum Category') }}</span>
                                         </a>
                                     </li>
                                 </ul>
-                            </li>
-                            <li >
+                            </li> --}}
+                            <li>
                                 <a class="sidebar-header" href="#">
                                     <span class="iconify" data-icon="ic:twotone-support-agent"></span>
-                                    <span>{{ __('Support Ticket') }} <i class="fa fa-angle-right pull-right"></i></span>
+                                    <span>{{ __('Support Ticket') }} <i
+                                            class="fa fa-angle-right pull-right"></i></span>
                                 </a>
                                 <ul class="sidebar-submenu">
                                     <li>

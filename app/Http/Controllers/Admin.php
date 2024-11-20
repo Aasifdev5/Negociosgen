@@ -5,8 +5,7 @@ namespace App\Http\Controllers;
 use App\Exports\TransactionsExport;
 use App\Http\helper;
 use App\Mail\SendMailreset;
-use App\Models\OrderItem;
-use App\Models\Product;
+use App\Models\Balance;
 use App\Models\Category;
 use App\Models\City;
 use App\Models\Country;
@@ -16,12 +15,14 @@ use App\Models\CreditReload;
 use App\Models\GeneralSetting;
 use App\Models\Notification;
 use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\PaidTopAd;
 use App\Models\PasswordReset;
 use App\Models\Payment;
 use App\Models\PaymentGateway;
 use App\Models\Permissions;
 use App\Models\PostingAds;
+use App\Models\Product;
 use App\Models\Settings;
 use App\Models\Task;
 use App\Models\Transactions;
@@ -1012,7 +1013,7 @@ class Admin extends Controller
             $transaction = Payment::orderBy('id', 'desc')->get();
             $user_session = User::where('id', Session::get('LoggedIn'))->first();
 
-            return view('admin.balance', compact('user_session', 'transaction'));
+            return view('admin.pages.transactions_list', compact('user_session', 'transaction'));
         }
     }
     public function getOrderDetails($orderId)
@@ -1126,17 +1127,47 @@ class Admin extends Controller
         return response()->json(['success' => false]);
     }
 
-
-
     public function accept($id)
     {
-        // Accept credit reload request
-        $Payment = Payment::findOrFail($id);
-        $Payment->accepted = true;
-        $Payment->save();
+        DB::beginTransaction(); // Start transaction
+        try {
+            // Buscar el pago y marcarlo como aceptado
+            $payment = Payment::findOrFail($id);
+            $payment->accepted = true;
+            $payment->save();
 
-        // Implement any additional logic such as crediting the user's account
+            // Obtener el usuario relacionado con el pago
+            $user = User::findOrFail($payment->user_id);
 
-        return back()->with('success', 'Fund  accepted');
+            // Actualizar el estado de suscripción del usuario
+            $user->update([
+                'is_subscribed' => 1,
+            ]);
+
+            // Verificar si existe un usuario referenciado
+            $referUser = User::find($user->refer);
+
+            if ($referUser) {
+                // Actualizar el saldo del usuario referenciado
+                $montoBono = 300;
+                $referUser->balance += $montoBono;
+                $referUser->save();
+
+                // Actualizar o crear el registro en la tabla Balance
+                Balance::updateOrCreate(
+                    ['user_id' => $referUser->id], // Condición para buscar el registro existente
+                    ['amount' => $referUser->balance] // Valores a actualizar o insertar
+                );
+            }
+
+            DB::commit(); // Commit transaction
+            return back()->with('success', 'Pago aceptado, el usuario está suscrito y el bono se acreditó al referenciado.');
+        } catch (\Exception $e) {
+            DB::rollBack(); // Rollback transaction on error
+            \Log::error('Error al aceptar el pago para Payment ID ' . $id . ': ' . $e->getMessage());
+
+            return back()->with('fail', 'Ocurrió un error al procesar el pago.');
+        }
     }
+
 }
