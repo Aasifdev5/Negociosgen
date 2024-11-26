@@ -5,25 +5,7 @@ Withdraw Requests
 @section("content")
 
 <div class="page-body">
-    <div class="container-fluid">
-        <div class="page-header">
-            <div class="row">
-                <div class="col">
-                    <div class="page-header-left">
-                        <h3>Sky Forecasting</h3>
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="dashboard"><i data-feather="home"></i></a></li>
-                            <li class="breadcrumb-item">Withdraw Requests </li>
 
-
-                        </ol>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    <!-- Container-fluid starts-->
     <!-- Container-fluid starts-->
     <div class="container-fluid">
         <div class="row">
@@ -41,7 +23,7 @@ Withdraw Requests
                     @endif
                     <div class="card-header">
                         <h5> Withdraw Requests List</h5>
-                    
+
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">

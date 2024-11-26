@@ -5,7 +5,7 @@
 
 @section('content')
     <!-- Page content area start -->
-    <div class="page-wrapper" style="background: #000; margin-top: 80px;">
+    <div class="page-body" style="background: #000; margin-top: 80px;">
         <div class="container">
             <div class="card mt-4 p-4" style="background: #fff;">
                 <div class="text-center">
@@ -55,7 +55,7 @@
                                     <!-- Course Title -->
                                     <div class="mb-3">
                                         <label for="courseTitle" class="form-label">Título del curso</label>
-                                        <input type="text" class="form-control" id="courseTitle" name="title" placeholder="Título" value="{{ old('title', $course->title) }}" required>
+                                        <input type="text" class="form-control" id="courseTitle" name="title" placeholder="Título" value="{{ old('title', $course->title) }}" >
                                         <span class="text-danger" id="titleError"></span>
                                     </div>
 
@@ -69,14 +69,14 @@
                                     <!-- Course Price -->
                                     <div class="mb-3">
                                         <label for="coursePrice" class="form-label">Precio</label>
-                                        <input type="number" class="form-control" id="coursePrice" name="price" placeholder="$0.00" value="{{ old('price', $course->price) }}" required>
+                                        <input type="number" class="form-control" id="coursePrice" name="price" placeholder="$0.00" value="{{ old('price', $course->price) }}" >
                                         <span class="text-danger" id="priceError"></span>
                                     </div>
 
                                     <!-- Course Category -->
                                     <div class="mb-3">
                                         <label for="courseCategory" class="form-label">Categoría</label>
-                                        <select class="form-select" id="courseCategory" name="category" required>
+                                        <select class="form-select" id="courseCategory" name="category" >
                                             <option value="">Seleccione una categoría</option>
                                             @foreach ($categories as $row)
                                                 <option value="{{ $row->id }}" {{ old('category', $course->category) == $row->id ? 'selected' : '' }}>
@@ -90,7 +90,7 @@
                                     <!-- Video Link -->
                                     <div class="mb-3">
                                         <label for="videoLink" class="form-label">Enlace de video</label>
-                                        <input type="url" class="form-control" id="videoLink" name="video_link" placeholder="youtube.com" value="{{ old('video_link', $course->video_link) }}" required>
+                                        <input type="url" class="form-control" id="videoLink" name="video_link" placeholder="youtube.com" value="{{ old('video_link', $course->video_link) }}" >
                                         <span class="text-danger" id="videoLinkError"></span>
                                     </div>
 

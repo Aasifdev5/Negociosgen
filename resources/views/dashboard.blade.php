@@ -53,7 +53,7 @@
                 </h4>
               </div>
               <div class="col-12 col-md-4 text-end d-flex align-items-center justify-content-end">
-                <a href="resource.html" class="btn btn-primary btn-lg text-light">Ver Recursos</a>
+                <a href="{{ url('recursos') }}" class="btn btn-primary btn-lg text-light">Ver Recursos</a>
               </div>
             </div>
           </div>

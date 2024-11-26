@@ -107,12 +107,16 @@ Genealogía
                                    data-member-name="{{ $user_session->name }}"
                                    data-sales="{{ $user_session->balance }}"
                                    data-referrals="{{ \App\Models\User::where('refer', $user_session->id)->count() }}"
-                                   class="p-3">
+                                   data-level="{{ $user_session->level }}" class="p-3">
                                    @if (!empty($user_session->profile_photo))
                                    <img src="{{ asset('profile_photo/') }}<?php echo '/' . $user_session->profile_photo; ?>" class="rounded-circle img-fluid" alt="{{ $user_session->name }}">
+                                   <br>
+                                   <span class="badge bg-secondary">Nivel {{ $user_session->level }}</span> <!-- Display Level -->
                                @else
                                <img src="{{ asset('149071.png') }}" alt="Profile Image"
                                style="width: 30px; height: 30px;" />
+                               <br>
+                               <span class="badge bg-secondary">Nivel {{ $user_session->level }}</span> <!-- Display Level -->
                                @endif
 
                                     <h5 class="card-title">{{ $user_session->name }}</h5>
@@ -120,6 +124,7 @@ Genealogía
                                         <span class="me-3">Referidos: {{ \App\Models\User::where('refer', $user_session->id)->count() }}</span>
 
                                         <span>Ventas: ${{ $user_session->balance }}</span>
+
                                     </p>
                                 </a>
 
@@ -132,18 +137,23 @@ Genealogía
                                                    data-member-name="{{ $child->name }}"
                                                    data-sales="{{ $child->balance }}"
                                                    data-referrals="{{ \App\Models\User::where('refer', $child->id)->count() }}"
-                                                   class="p-3">
+                                                   data-level="{{ $child->level }}" class="p-3">
                                                    @if (!empty($child->profile_photo))
                                                    <img src="{{ asset('profile_photo/') }}<?php echo '/' . $child->profile_photo; ?>" class="rounded-circle img-fluid" alt="{{ $child->name }}">
+                                                   <br>
+                                                   <span class="badge bg-secondary">Nivel {{ $child->level }}</span> <!-- Display Level -->
                                                @else
                                                <img src="{{ asset('149071.png') }}" alt="Profile Image"
                                                style="width: 30px; height: 30px;" />
+                                               <br>
+                                               <span class="badge bg-secondary">Nivel {{ $child->level }}</span> <!-- Display Level -->
                                                @endif
 
                                                     <h5 class="card-title">{{ $child->name }}</h5>
                                                     <p class="card-text d-flex justify-content-between">
                                                         <span class="me-3">Referidos: {{ \App\Models\User::where('refer', $child->id)->count() }}</span>
                                                         <span>Ventas: ${{ $child->balance }}</span>
+
                                                     </p>
                                                 </a>
 
@@ -156,18 +166,23 @@ Genealogía
                                                                    data-member-name="{{ $grandchild->name }}"
                                                                    data-sales="{{ $grandchild->balance }}"
                                                                    data-referrals="{{ \App\Models\User::where('refer', $grandchild->id)->count() }}"
-                                                                   class="p-3">
+                                                                   data-level="{{ $grandchild->level }}" class="p-3">
                                                                    @if (!empty($grandchild->profile_photo))
                                                                    <img src="{{ asset('profile_photo/') }}<?php echo '/' . $grandchild->profile_photo; ?>" class="rounded-circle img-fluid" alt="{{ $grandchild->name }}">
+                                                                   <br>
+                                                               <span class="badge bg-secondary">Nivel {{ $grandchild->level }}</span> <!-- Display Level -->
                                                                @else
                                                                <img src="{{ asset('149071.png') }}" alt="Profile Image"
                                                                style="width: 30px; height: 30px;" />
+                                                               <br>
+                                                               <span class="badge bg-secondary">Nivel {{ $grandchild->level }}</span> <!-- Display Level -->
                                                                @endif
 
                                                                     <h5 class="card-title">{{ $grandchild->name }}</h5>
                                                                     <p class="card-text d-flex justify-content-between">
                                                                         <span class="me-3">Referidos: {{ \App\Models\User::where('refer', $grandchild->id)->count() }}</span>
                                                                         <span>Ventas: ${{ $grandchild->balance }}</span>
+
                                                                     </p>
                                                                 </a>
 
@@ -180,18 +195,23 @@ Genealogía
                                                                                    data-member-name="{{ $greatGrandchild->name }}"
                                                                                    data-sales="{{ $greatGrandchild->balance }}"
                                                                                    data-referrals="{{ \App\Models\User::where('refer', $greatGrandchild->id)->count() }}"
-                                                                                   class="p-3">
+                                                                                   data-level="{{ $greatGrandchild->level }}" class="p-3">
                                                                                    @if (!empty($greatGrandchild->profile_photo))
                                                                                    <img src="{{ asset('profile_photo/') }}<?php echo '/' . $greatGrandchild->profile_photo; ?>" class="rounded-circle img-fluid" alt="{{ $greatGrandchild->name }}">
+                                                                                   <br>
+                                                                               <span class="badge bg-secondary">Nivel {{ $greatGrandchild->level }}</span> <!-- Display Level -->
                                                                                @else
                                                                                <img src="{{ asset('149071.png') }}" alt="Profile Image"
                                                                                style="width: 30px; height: 30px;" />
+                                                                               <br>
+                                                                               <span class="badge bg-secondary">Nivel {{ $greatGrandchild->level }}</span> <!-- Display Level -->
                                                                                @endif
 
                                                                                     <h5 class="card-title">{{ $greatGrandchild->name }}</h5>
                                                                                     <p class="card-text d-flex justify-content-between">
                                                                                         <span class="me-3">Referidos: {{ \App\Models\User::where('refer', $greatGrandchild->id)->count() }}</span>
                                                                                         <span>Ventas: ${{ $greatGrandchild->balance }}</span>
+
                                                                                     </p>
                                                                                 </a>
                                                                             </li>
@@ -213,60 +233,56 @@ Genealogía
             </div>
         </div>
     </div>
+</section>
 
-    <!-- Modal -->
-    <div class="modal fade" id="modalPerson" tabindex="-1" aria-labelledby="modalPersonLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content bg-dark text-light">
-                <div class="modal-header border-bottom border-secondary">
-                    <h5 class="modal-title" id="modalPersonLabel">Detalles de Miembro</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="d-flex flex-column align-items-center mb-4">
-                        <img class="rounded-circle mt-3" src="Ellipse 1 (1).svg" alt="Member Photo" style="width: 80px; height: 80px;">
-                        <div class="text-center">
-                            <div class="badge bg-primary text-white">Nivel 1</div>
-                            <b class="d-block mt-1" id="memberName">Luis Martínez</b>
-                        </div>
-                    </div>
-                    <div class="row text-center mb-3">
-                        <div class="col">
-                            <b id="totalSales">$500</b>
-                            <div>Ventas Totales</div>
-                        </div>
-                        <div class="col">
-                            <b id="referralsActive">50</b>
-                            <div>Referidos Activos</div>
-                        </div>
-                    </div>
-                    <h5 class="mt-4">Últimas ventas</h5>
-                    <div class="table-responsive">
-                        <table class="table table-dark">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Fecha de Venta</th>
-                                    <th scope="col">Producto</th>
-                                    <th scope="col">Cantidad Vendida</th>
-                                    <th scope="col">Precio Unitario</th>
-                                    <th scope="col">Total de Venta</th>
-                                    <th scope="col">Comisión Generada</th>
-                                </tr>
-                            </thead>
-                            <tbody id="salesDetails">
-                                <!-- Dynamic sales data will go here -->
-                            </tbody>
-                        </table>
+<!-- Modal -->
+<div class="modal fade" id="modalPerson" tabindex="-1" aria-labelledby="modalPersonLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalPersonLabel">Perfil del Miembro</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="d-flex flex-column align-items-center mb-4">
+                    <img class="rounded-circle mt-3" src="Ellipse 1 (1).svg" alt="Member Photo" style="width: 80px; height: 80px;">
+                    <div class="text-center">
+                        <div class="badge bg-primary text-white" id="memberLevel">Nivel 1</div> <!-- Display Level here -->
+                        <b class="d-block mt-1" id="memberName">Luis Martínez</b>
                     </div>
                 </div>
-
-                <div class="modal-footer border-top border-secondary justify-content-center">
-                    <button class="btn btn-primary">Enviar mensaje</button>
+                <div class="row text-center mb-3">
+                    <div class="col">
+                        <b id="totalSales">$500</b>
+                        <div>Ventas Totales</div>
+                    </div>
+                    <div class="col">
+                        <b id="referralsActive">50</b>
+                        <div>Referidos Activos</div>
+                    </div>
+                </div>
+                <h5 class="mt-4">Últimas ventas</h5>
+                <div class="table-responsive">
+                    <table class="table table-dark">
+                        <thead>
+                            <tr>
+                                <th scope="col">Fecha de Venta</th>
+                                <th scope="col">Producto</th>
+                                <th scope="col">Cantidad Vendida</th>
+                                <th scope="col">Precio Unitario</th>
+                                <th scope="col">Total de Venta</th>
+                                <th scope="col">Comisión Generada</th>
+                            </tr>
+                        </thead>
+                        <tbody id="salesDetails">
+                            <!-- Dynamic sales data will go here -->
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
-</section>
+</div>
 
 <script>
     $(document).ready(function () {
@@ -274,10 +290,12 @@ Genealogía
             var memberName = $(this).data('member-name');
             var memberSales = $(this).data('sales');
             var memberReferrals = $(this).data('referrals');
+            var memberLevel = $(this).data('level'); // Get the level of the clicked user
 
             $('#memberName').text(memberName);
             $('#totalSales').text('$' + memberSales);
             $('#referralsActive').text(memberReferrals);
+            $('#memberLevel').text('Nivel ' + memberLevel); // Display the level in the modal
 
             // You can also dynamically load the sales details from a database if needed
             var salesDetails = '<tr><td>15/09/24</td><td>Curso de Marketing</td><td>1</td><td>$50.00</td><td>$50.00</td><td>$10.00</td></tr>';

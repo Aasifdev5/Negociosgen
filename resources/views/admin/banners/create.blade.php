@@ -4,7 +4,7 @@
 @endsection
 @section('content')
     <!-- page-wrapper Start-->
-    <div class="page-wrapper" style="background: #000; padding: 120px 0;">
+    <div class="page-body" style="background: #000; padding: 120px 0;">
         <div class="container">
             <div class="card" style="background: #fff; margin-top: 50px;">
                 <div class="card-header text-center">

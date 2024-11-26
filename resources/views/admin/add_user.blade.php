@@ -3,7 +3,7 @@
     Agregar Usuario
 @endsection
 @section('content')
-<div class="page-wrapper" style="background: #000;">
+<div class="page-body" style="background: #000;">
     <br>
     <br>
     <br>

@@ -57,7 +57,7 @@
 
           <!-- Button -->
           <div class="text-center text-lg-start mb-3">
-            <button
+            <a href="{{ url('signup') }}"
               class="btn btn-sm btn-primary"
               style="
                 padding: 16px 24px;
@@ -74,7 +74,7 @@
               "
             >
               ¡Únete a GEN y comienza hoy!
-            </button>
+            </a>
           </div>
         </div>
 
@@ -591,7 +591,7 @@
           </div>
           <!-- Button -->
           <div class="text-center text-lg-start mb-3">
-            <button
+            <a href="{{ url('signup') }}"
               class="btn btn-sm btn-primary"
               style="
                 padding: 16px 24px;
@@ -608,7 +608,7 @@
               "
             >
               ¡Únete a GEN y comienza hoy!
-            </button>
+            </a>
           </div>
         </div>
 
@@ -996,7 +996,7 @@
 
               <!-- Button -->
               <div class="text-center text-lg-left mt-4">
-                <a href="#" class="btn btn-primary btn-lg"
+                <a href="{{ url('signup') }}" class="btn btn-primary btn-lg"
                   >¡Únete a GEN y comienza hoy!</a
                 >
               </div>
@@ -1090,7 +1090,7 @@
           <!-- Button -->
           <div class="row justify-content-center mt-3">
               <div class="col-auto">
-                  <button class="btn btn-sm btn-primary">Inscríbete</button>
+                  <a href="{{ url('signup') }}" class="btn btn-sm btn-primary">Inscríbete</a>
               </div>
           </div>
       </div>

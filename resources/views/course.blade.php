@@ -60,117 +60,9 @@
             </div>
         </div>
     </div>
-    <section style="padding: 20px 0; background-color: #0A0A0A;">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6 col-md-12 order-2 order-md-1" style="padding-bottom: 10px;">
-                    <div class="video-container">
-                        <div class="gradient-overlay"></div>
-                        <img src="{{asset('assets/image (6).png')}}" class="thumbnail" alt="Video Thumbnail" />
-                        <span class="play-button"><img src="{{asset('assets/Play (1).svg')}}" alt="Play Button" /></span>
-                        <div class="embed-responsive" style="display: none;">
-                            <video class="embed-responsive-item" controls>
-                                <source src="{{ asset('assets/Affiliate Marketing Whiteboard Video.mp4') }}" type="video/mp4">
-                                Your browser does not support the video tag.
-                            </video>
-                        </div>
-                    </div>
-                    <h1
-                        style="width: 100%; color: #EDEDED; font-size: 16px; font-family: Space Grotesk; font-weight: 700; word-wrap: break-word;padding-top: 5px;">
-                        Transformación Personal para Emprendedores
-                    </h1>
-                </div>
-
-                <div class="col-lg-6 col-md-12 order-1 order-md-2" style="padding-bottom: 10px;">
-
-                    <h1 class="text-center text-md-start"
-                        style="width: 100%; color: #EDEDED; font-size: 32px; font-family: Space Grotesk; font-weight: 700; word-wrap: break-word;">
-                        Desarrolla Tus Habilidades: Coaching y Formación para Emprendedores
-                    </h1>
-
-                    <p class="text-center text-md-start"
-                        style="width: 100%; color: #A1A1A1; font-size: 16px; font-family: 'Space Grotesk', sans-serif; font-weight: 400; line-height: 24px; word-wrap: break-word;">
-                        Nuestra sección de Coaching y Cursos está diseñada para empoderar a emprendedores a través de
-                        programas prácticos de formación. Aprende de expertos en marketing, desarrollo personal e
-                        inteligencia emocional, y transforma tus conocimientos en oportunidades de éxito. Únete a nuestra
-                        comunidad y comienza tu viaje hacia el crecimiento hoy mismo.
-                    </p>
-                </div>
 
 
-
-            </div>
-        </div>
-    </section>
-
-
-    <section style="padding: 20px 0; background-color: #0A0A0A;">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3 col-md-6 col-6" style="padding-bottom: 10px;">
-                    <div class="video-container">
-                        <div class="gradient-overlay"></div>
-                        <img src="{{asset('assets/v1.png')}}" class="thumbnail" alt="Video Thumbnail" />
-                        <span class="play-button"><img src="{{asset('assets/Play (1).svg')}}" alt="Play Button" /></span>
-                        <div class="embed-responsive" style="display: none;">
-                            <video class="embed-responsive-item" controls>
-                                <source src="{{ asset('assets/Affiliate Marketing Whiteboard Video.mp4') }}" type="video/mp4">
-                                Your browser does not support the video tag.
-                            </video>
-                        </div>
-                    </div>
-                    <h4 style="color: #EDEDED;">Inteligencia Emocional en el Liderazgo</h4>
-                </div>
-
-                <div class="col-lg-3 col-md-6 col-6" style="padding-bottom: 10px;">
-                    <div class="video-container">
-                        <div class="gradient-overlay"></div>
-                        <img src="{{asset('assets/v2.png')}}" class="thumbnail" alt="Video Thumbnail" />
-                        <span class="play-button"><img src="{{asset('assets/Play (1).svg')}}" alt="Play Button" /></span>
-                        <div class="embed-responsive" style="display: none;">
-                            <video class="embed-responsive-item" controls>
-                                <source src="{{ asset('assets/Affiliate Marketing Whiteboard Video.mp4') }}" type="video/mp4">
-                                Your browser does not support the video tag.
-                            </video>
-                        </div>
-                    </div>
-                    <h4 style="color: #EDEDED;">Inteligencia Emocional en el Liderazgo</h4>
-                </div>
-
-                <div class="col-lg-3 col-md-6 col-6" style="padding-bottom: 10px;">
-                    <div class="video-container">
-                        <div class="gradient-overlay"></div>
-                        <img src="{{asset('assets/v3.png')}}" class="thumbnail" alt="Video Thumbnail" />
-                        <span class="play-button"><img src="{{asset('assets/Play (1).svg')}}" alt="Play Button" /></span>
-                        <div class="embed-responsive" style="display: none;">
-                            <video class="embed-responsive-item" controls>
-                                <source src="{{ asset('assets/Affiliate Marketing Whiteboard Video.mp4') }}" type="video/mp4">
-                                Your browser does not support the video tag.
-                            </video>
-                        </div>
-                    </div>
-                    <h4 style="color: #EDEDED;">Negocios Multinivel: Claves para el Éxito</h4>
-                </div>
-
-                <div class="col-lg-3 col-md-6 col-6" style="padding-bottom: 10px;">
-                    <div class="video-container">
-                        <div class="gradient-overlay"></div>
-                        <img src="{{asset('assets/v4.png')}}" class="thumbnail" alt="Video Thumbnail" />
-                        <span class="play-button"><img src="{{asset('assets/Play (1).svg')}}" alt="Play Button" /></span>
-                        <div class="embed-responsive" style="display: none;">
-                            <video class="embed-responsive-item" controls>
-                                <source src="{{ asset('assets/Affiliate Marketing Whiteboard Video.mp4') }}" type="video/mp4">
-                                Your browser does not support the video tag.
-                            </video>
-                        </div>
-                    </div>
-                    <h4 style="color: #EDEDED;">Finanzas para Emprendedores</h4>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section style="padding: 20px 0; background: #1A1A1A;">
+    <section style="padding: 20px 0; background: #000;">
         <div class="container">
             <div class="row">
 
@@ -211,71 +103,31 @@
             </div>
 
             <div class="row g-4 mt-4">
-                <div class="col-lg-3 col-md-6 col-6">
-                    <div class="video-container">
-                        <div class="gradient-overlay"></div>
-                        <img src="{{asset('assets/ap1.png')}}" class="thumbnail" alt="Video Thumbnail" />
-                        <span class="play-button"><img src="{{asset('assets/Play (1).svg')}}" alt="Play Button" /></span>
-                        <div class="embed-responsive">
-                            <video class="embed-responsive-item" controls>
-                                <source src="{{ asset('assets/Affiliate Marketing Whiteboard Video.mp4') }}" type="video/mp4">
-                                Tu navegador no soporta el elemento de video.
-                            </video>
-                        </div>
-                    </div>
-                    <h4 style="color: #EDEDED; font-family: Space Grotesk; font-weight: 700;">La Importancia de Definir tu
-                        Propósito</h4>
-                </div>
+                @foreach ($course as $row)
+                    <div class="col-lg-3 col-md-6 col-6" style="padding-bottom: 10px;">
+                        <div class="video-container">
+                            <div class="gradient-overlay"></div>
+                            <img src="{{ asset($row->video_thumbnail) }}" class="thumbnail" alt="Video Thumbnail" />
+                            @if (!empty($user_session))
+                            <span class="play-button"><img src="{{ asset('assets/Play (1).svg') }}" alt="Play Button" /></span>
+                            @else
+                                <a href="{{ url('Userlogin') }}"><span class="play-button"><img src="{{ asset('assets/Play (1).svg') }}" alt="Play Button" /></span></a>
+                            @endif
 
-                <div class="col-lg-3 col-md-6 col-6">
-                    <div class="video-container">
-                        <div class="gradient-overlay"></div>
-                        <img src="{{asset('assets/ap2.png')}}" class="thumbnail" alt="Video Thumbnail" />
-                        <span class="play-button"><img src="{{asset('assets/Play (1).svg')}}" alt="Play Button" /></span>
-                        <div class="embed-responsive">
-                            <video class="embed-responsive-item" controls>
-                                <source src="{{ asset('assets/Affiliate Marketing Whiteboard Video.mp4') }}" type="video/mp4">
-                                Tu navegador no soporta el elemento de video.
-                            </video>
+                            <div class="embed-responsive" style="display: none;">
+                                <iframe class="embed-responsive-item" src="{{ $row->getEmbedUrl($row->video_link) }}"
+                                    frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
+                                </iframe>
+                            </div>
                         </div>
+                        <h4 style="color: #EDEDED;">{{ $row->title }}</h4>
                     </div>
-                    <h4 style="color: #EDEDED; font-family: Space Grotesk; font-weight: 700;">Adaptabilidad: Clave para el
-                        Éxito</h4>
-                </div>
-
-                <div class="col-lg-3 col-md-6 col-6">
-                    <div class="video-container">
-                        <div class="gradient-overlay"></div>
-                        <img src="{{asset('assets/ap3.png')}}" class="thumbnail" alt="Video Thumbnail" />
-                        <span class="play-button"><img src="{{asset('assets/Play (1).svg')}}" alt="Play Button" /></span>
-                        <div class="embed-responsive">
-                            <video class="embed-responsive-item" controls>
-                                <source src="{{ asset('assets/Affiliate Marketing Whiteboard Video.mp4') }}" type="video/mp4">
-                                Tu navegador no soporta el elemento de video.
-                            </video>
-                        </div>
-                    </div>
-                    <h4 style="color: #EDEDED; font-family: Space Grotesk; font-weight: 700;">Construye una Red de
-                        Contactos Sólida</h4>
-                </div>
-
-                <div class="col-lg-3 col-md-6 col-6">
-                    <div class="video-container">
-                        <div class="gradient-overlay"></div>
-                        <img src="{{asset('assets/ap4.png')}}" class="thumbnail" alt="Video Thumbnail" />
-                        <span class="play-button"><img src="{{asset('assets/Play (1).svg')}}" alt="Play Button" /></span>
-                        <div class="embed-responsive">
-                            <video class="embed-responsive-item" controls>
-                                <source src="{{ asset('assets/Affiliate Marketing Whiteboard Video.mp4') }}" type="video/mp4">
-                                Tu navegador no soporta el elemento de video.
-                            </video>
-                        </div>
-                    </div>
-                    <h4 style="color: #EDEDED; font-family: Space Grotesk; font-weight: 700;">La Perseverancia es
-                        Fundamental</h4>
-                </div>
+                @endforeach
             </div>
+            <nav class="pagination justify-content-center">
 
+                @include('admin.pagination', ['paginator' => $course])
+            </nav>
         </div>
     </section>
 @endsection

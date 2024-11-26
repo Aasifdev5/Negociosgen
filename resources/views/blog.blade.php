@@ -145,11 +145,11 @@ a{
                                     <img src="{{ asset($row->image) }}" class="image-icon card-img-top" alt="Blog Image">
                                 </a>
 
-                                <div class="card-body stack">
+                                <div class="card-body text-white stack">
                                     <a href="{{ url('blog_detail/' . $row->slug) }}">
                                         <h5 class="card-title fw-bold ttulo-del-blog text-white">{{ $row->title }}</h5>
                                     </a>
-                                    <p class="card-text estamos-dedicados-a">{!! $row->short_description !!}</p>
+                                    <p class="card-text text-white estamos-dedicados-a">{!! $row->short_description !!}</p>
                                 </div>
                                 <div class="card-footer bg-transparent frame-parent">
                                     <div class="heart-parent">
@@ -182,8 +182,9 @@ a{
                 </div>
 
                 <!-- Pagination -->
-                <nav aria-label="Page navigation example">
-                    {{ $blogs->links('pagination::bootstrap-4') }} <!-- Laravel pagination links -->
+                <nav class="pagination justify-content-center">
+
+                    @include('admin.pagination', ['paginator' => $blogs])
                 </nav>
             </div>
         </div>

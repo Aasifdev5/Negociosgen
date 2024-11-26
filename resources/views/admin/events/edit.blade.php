@@ -5,7 +5,7 @@
 
 @section('content')
     <!-- Page content area start -->
-    <div class="page-wrapper" style="background: #000; margin-top: 80px;">
+    <div class="page-body" style="background: #000; margin-top: 80px;">
         <div class="container">
             <div class="card mt-4 p-4" style="background: #fff;">
                 <div class="card-body">

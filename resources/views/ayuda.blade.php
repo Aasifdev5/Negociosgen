@@ -110,7 +110,7 @@
                     </p>
                 </div>
                 <div class="col-12 col-md-4 text-end d-flex align-items-center justify-content-end">
-                    <a href="uregister.html" class="btn btn-primary btn-lg">Regístrate Aquí</a>
+                    <a href="{{ url('signup') }}" class="btn btn-primary btn-lg">Regístrate Aquí</a>
                 </div>
             </div>
         </div>

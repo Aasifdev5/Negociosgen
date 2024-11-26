@@ -3,7 +3,7 @@
     {{ __('Editar Tu Perfil') }}
 @endsection
 @section('content')
-    <div class="page-wrapper" style="background: #000;">
+    <div class="page-body" style="background: #000;">
         <div class="container" style="margin-top: 100px">
             <div class="card" style="background: #fff;">
                 <div class="card-body">

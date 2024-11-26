@@ -6,6 +6,7 @@ use App\Events\UserRegistered;
 use App\Mail\ComposeMail;
 use App\Mail\MarkdownMail;
 use App\Mail\SendMailreset;
+use App\Models\Audiobook;
 use App\Models\BankDetails;
 use App\Models\BillingDetail;
 use App\Models\Blog;
@@ -16,6 +17,7 @@ use App\Models\Cart;
 use App\Models\Category;
 use App\Models\City;
 use App\Models\Country;
+use App\Models\Course;
 use App\Models\GeneralSetting;
 use App\Models\Like;
 use App\Models\MailTemplate;
@@ -77,10 +79,12 @@ class UserController extends Controller
     {
 
         $user_session = User::where('id', Session::get('LoggedIn'))->first();
+        $course = Course::orderBy('created_at', 'desc')->take(4)->get();  // Fetch 4 most recent courses
+        $audiobook = Audiobook::orderBy('created_at', 'desc')->take(6)->get();  // Fetch 6 most recent audiobooks
 
         $pages = Page::all();
 
-        return view('index', compact('user_session',   'pages'));
+        return view('index', compact('user_session',   'pages', 'course', 'audiobook'));
     }
 
     public function ganancias()
@@ -184,7 +188,7 @@ class UserController extends Controller
 
         if ($user) {
             // Send notification for registration
-            $text = 'A new user has registered on the platform.';
+            $text = 'A new member has registered on the platform.';
             $target_url = route('users');
             $this->sendForApi($text, 1, $target_url, $user->id, $user->id);
 
@@ -192,7 +196,7 @@ class UserController extends Controller
             session(['LoggedIn' => $user->id]);
 
             return redirect('addpaymentmethod')->with([
-                'success' => 'User registered successfully.',
+
                 'user' => $user
             ]);
         }
@@ -321,7 +325,7 @@ class UserController extends Controller
         $pages = Page::all();
         $user_session = User::where('id', Session::get('LoggedIn'))->first();
 
-        $general_setting = GeneralSetting::find(1);
+
 
         // Pass the order ID to the success view for triggering the PDF download
         return view('term', compact('user_session',  'pages'));
@@ -683,19 +687,19 @@ class UserController extends Controller
         }
     }
     public function geanologìa(Request $request)
-{
-    if (Session::has('LoggedIn')) {
-        // Get the currently logged-in user
-        $user_session = User::where('id', Session::get('LoggedIn'))->first();
+    {
+        if (Session::has('LoggedIn')) {
+            // Get the currently logged-in user
+            $user_session = User::where('id', Session::get('LoggedIn'))->first();
 
-        // Fetch users with their children (for multi-level marketing)
-        $users = User::with('children')->where('refer', $user_session->id)->get();  // Get users referred by the logged-in user
+            // Fetch users with their children (for multi-level marketing)
+            $users = User::with('children')->where('refer', $user_session->id)->get();  // Get users referred by the logged-in user
 
-        return view('geanologìa', compact('user_session', 'users'));
-    } else {
-        return Redirect('Userlogin')->with('fail', 'Tienes que iniciar sesión primero');
+            return view('geanologìa', compact('user_session', 'users'));
+        } else {
+            return Redirect('Userlogin')->with('fail', 'Tienes que iniciar sesión primero');
+        }
     }
-}
 
 
     public function productbybrand($id)
@@ -1128,9 +1132,13 @@ class UserController extends Controller
     }
     public function course()
     {
+        if (!Session::has('LoggedIn')) {
+            return redirect()->route('Userlogin')->with('error', 'Por favor, inicie sesión primero.');
+        }
+        $course = Course::orderByDesc('id')->paginate(12);
         $user_session = User::where('id', Session::get('LoggedIn'))->first();
         $pages = Page::all();
-        return view('course', compact('pages', 'user_session'));
+        return view('course', compact('pages', 'user_session','course'));
     }
     public function storeBack(Request $request)
     {

@@ -3,7 +3,7 @@
     Editar categoria
 @endsection
 @section('content')
-    <div class="page-wrapper" style="background: #000;margin-top:80px">
+    <div class="page-body" style="background: #000;margin-top:80px">
         <div class="container">
 
 

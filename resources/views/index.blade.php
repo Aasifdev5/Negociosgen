@@ -45,7 +45,7 @@
 
                     <!-- Button -->
                     <div class="text-center text-lg-start mb-3">
-                        <button class="btn btn-sm btn-primary"
+                        <a href="{{ url('signup') }}" class="btn btn-sm btn-primary"
                             style="
     padding: 16px 24px;
     border-radius: 6px;
@@ -59,7 +59,7 @@
     color: white;
     text-transform: uppercase;">
                             ¡Únete ahora!
-                        </button>
+                        </a>
                     </div>
 
 
@@ -197,291 +197,64 @@
     </section>
 
 
-    <section style="padding: 20px 0; background-color: #0A0A0A;">
+    <section style="padding: 20px 0; background-color: #0A0A0A; position: relative;">
         <div class="container">
+            <!-- View All Button -->
+            <div class="view-all-btn" style="position: absolute; top: 10px; right: 20px;">
+                <a href="{{ url('course') }}" class="btn btn-primary">{{ __('Ver Todos') }}</a>
+            </div>
+
             <div class="row">
-                <div class="col-lg-3 col-md-6 col-6" style="padding-bottom: 10px;">
-                    <div class="video-container">
-                        <div class="gradient-overlay"></div>
-                        <img src="{{ asset('assets/v1.png') }}" class="thumbnail" alt="Video Thumbnail" />
-                        <span class="play-button"><img src="{{ asset('assets/Play (1).svg') }}"
-                                alt="Play Button" /></span>
-                        <div class="embed-responsive" style="display: none;">
-                            <video class="embed-responsive-item" controls>
-                                <source src="{{ asset('assets/Affiliate Marketing Whiteboard Video.mp4') }}"
-                                    type="video/mp4">
-                                Your browser does not support the video tag.
-                            </video>
-                        </div>
-                    </div>
-                    <h4 style="color: #EDEDED;">Inteligencia Emocional en el Liderazgo</h4>
-                </div>
+                @foreach ($course as $row)
+                    <div class="col-lg-3 col-md-6 col-6" style="padding-bottom: 10px;">
+                        <div class="video-container">
+                            <div class="gradient-overlay"></div>
+                            <img src="{{ asset($row->video_thumbnail) }}" class="thumbnail" alt="Video Thumbnail" />
+                            @if (!empty($user_session))
+                            <span class="play-button"><img src="{{ asset('assets/Play (1).svg') }}" alt="Play Button" /></span>
+                            @else
+                                <a href="{{ url('Userlogin') }}"><span class="play-button"><img src="{{ asset('assets/Play (1).svg') }}" alt="Play Button" /></span></a>
+                            @endif
 
-                <div class="col-lg-3 col-md-6 col-6" style="padding-bottom: 10px;">
-                    <div class="video-container">
-                        <div class="gradient-overlay"></div>
-                        <img src="{{ asset('assets/v2.png') }}" class="thumbnail" alt="Video Thumbnail" />
-                        <span class="play-button"><img src="{{ asset('assets/Play (1).svg') }}"
-                                alt="Play Button" /></span>
-                        <div class="embed-responsive" style="display: none;">
-                            <video class="embed-responsive-item" controls>
-                                <source src="{{ asset('assets/Affiliate Marketing Whiteboard Video.mp4') }}"
-                                    type="video/mp4">
-                                Your browser does not support the video tag.
-                            </video>
+                            <div class="embed-responsive" style="display: none;">
+                                <iframe class="embed-responsive-item" src="{{ $row->getEmbedUrl($row->video_link) }}"
+                                    frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
+                                </iframe>
+                            </div>
                         </div>
+                        <h4 style="color: #EDEDED;">{{ $row->title }}</h4>
                     </div>
-                    <h4 style="color: #EDEDED;">Inteligencia Emocional en el Liderazgo</h4>
-                </div>
-
-                <div class="col-lg-3 col-md-6 col-6" style="padding-bottom: 10px;">
-                    <div class="video-container">
-                        <div class="gradient-overlay"></div>
-                        <img src="{{ asset('assets/v3.png') }}" class="thumbnail" alt="Video Thumbnail" />
-                        <span class="play-button"><img src="{{ asset('assets/Play (1).svg') }}"
-                                alt="Play Button" /></span>
-                        <div class="embed-responsive" style="display: none;">
-                            <video class="embed-responsive-item" controls>
-                                <source src="{{ asset('assets/Affiliate Marketing Whiteboard Video.mp4') }}"
-                                    type="video/mp4">
-                                Your browser does not support the video tag.
-                            </video>
-                        </div>
-                    </div>
-                    <h4 style="color: #EDEDED;">Negocios Multinivel: Claves para el Éxito</h4>
-                </div>
-
-                <div class="col-lg-3 col-md-6 col-6" style="padding-bottom: 10px;">
-                    <div class="video-container">
-                        <div class="gradient-overlay"></div>
-                        <img src="{{ asset('assets/v4.png') }}" class="thumbnail" alt="Video Thumbnail" />
-                        <span class="play-button"><img src="{{ asset('assets/Play (1).svg') }}"
-                                alt="Play Button" /></span>
-                        <div class="embed-responsive" style="display: none;">
-                            <video class="embed-responsive-item" controls>
-                                <source src="{{ asset('assets/Affiliate Marketing Whiteboard Video.mp4') }}"
-                                    type="video/mp4">
-                                Your browser does not support the video tag.
-                            </video>
-                        </div>
-                    </div>
-                    <h4 style="color: #EDEDED;">Finanzas para Emprendedores</h4>
-                </div>
+                @endforeach
             </div>
         </div>
     </section>
 
-    <section style="padding: 20px 0; background: #1A1A1A;">
+    <section style="padding: 20px 0; background: #000000; position: relative;">
         <div class="container">
-            <div class="row">
-
-                <div class="col-lg-6 col-md-12 text-center text-md-start" style="padding-bottom: 10px;">
-                    <h2 class="mb-4" style="color: #EDEDED; font-family: Space Grotesk; font-weight: 700;">
-                        Consejos de Éxito: Sabiduría de Empresarios y Emprendedores
-                    </h2>
-                    <p
-                        style="color: #A1A1A1; font-size: 16px; font-family: Space Grotesk; font-weight: 400; line-height: 24px;">
-                        En esta sección, recopilamos valiosos consejos y experiencias de empresarios y emprendedores
-                        exitosos que han recorrido el camino del emprendimiento. Aprende de sus triunfos y fracasos para
-                        aplicarlos en tu propio viaje, y descubre las claves para superar desafíos, fomentar la innovación y
-                        alcanzar el éxito en tu negocio.
-                    </p>
-                </div>
-
-
-
-
-                <!-- Repeat for other columns -->
-                <div class="col-lg-6 col-md-12" style="padding-bottom: 10px;">
-                    <div class="video-container">
-                        <div class="gradient-overlay"></div>
-                        <img src="{{ asset('assets/ap.png') }}" class="thumbnail" alt="Video Thumbnail" />
-                        <span class="play-button"><img src="{{ asset('assets/Play (1).svg') }}"
-                                alt="Play Button" /></span>
-                        <div class="embed-responsive" style="display: none;">
-                            <video class="embed-responsive-item" controls>
-                                <source src="{{ asset('assets/Affiliate Marketing Whiteboard Video.mp4') }}"
-                                    type="video/mp4">
-                                Your browser does not support the video tag.
-                            </video>
-                        </div>
-                    </div>
-                    <h1
-                        style="width: 100%; color: #EDEDED; font-size: 20px; font-family: Space Grotesk; font-weight: 700; word-wrap: break-word;">
-                        Aprende a Gestionar tu Tiempo
-                    </h1>
-                </div>
+            <!-- View All Button -->
+            <div class="view-all-btn" style="position: absolute; top: 10px; right: 20px;">
+                <a href="{{ route('audiobook') }}" class="btn btn-primary">{{ __('Ver Todos') }}</a>
             </div>
 
-            <div class="row g-4 mt-4">
-                <div class="col-lg-3 col-md-6 col-6">
-                    <div class="video-container">
-                        <div class="gradient-overlay"></div>
-                        <img src="{{ asset('assets/ap1.png') }}" class="thumbnail" alt="Video Thumbnail" />
-                        <span class="play-button"><img src="{{ asset('assets/Play (1).svg') }}"
-                                alt="Play Button" /></span>
-                        <div class="embed-responsive">
-                            <video class="embed-responsive-item" controls>
-                                <source src="{{ asset('assets/Affiliate Marketing Whiteboard Video.mp4') }}"
-                                    type="video/mp4">
-                                Tu navegador no soporta el elemento de video.
-                            </video>
-                        </div>
-                    </div>
-                    <h4 style="color: #EDEDED; font-family: Space Grotesk; font-weight: 700;">La Importancia de Definir tu
-                        Propósito</h4>
-                </div>
-
-                <div class="col-lg-3 col-md-6 col-6">
-                    <div class="video-container">
-                        <div class="gradient-overlay"></div>
-                        <img src="{{ asset('assets/ap2.png') }}" class="thumbnail" alt="Video Thumbnail" />
-                        <span class="play-button"><img src="{{ asset('assets/Play (1).svg') }}"
-                                alt="Play Button" /></span>
-                        <div class="embed-responsive">
-                            <video class="embed-responsive-item" controls>
-                                <source src="{{ asset('assets/Affiliate Marketing Whiteboard Video.mp4') }}"
-                                    type="video/mp4">
-                                Tu navegador no soporta el elemento de video.
-                            </video>
-                        </div>
-                    </div>
-                    <h4 style="color: #EDEDED; font-family: Space Grotesk; font-weight: 700;">Adaptabilidad: Clave para el
-                        Éxito</h4>
-                </div>
-
-                <div class="col-lg-3 col-md-6 col-6">
-                    <div class="video-container">
-                        <div class="gradient-overlay"></div>
-                        <img src="{{ asset('assets/ap3.png') }}" class="thumbnail" alt="Video Thumbnail" />
-                        <span class="play-button"><img src="{{ asset('assets/Play (1).svg') }}"
-                                alt="Play Button" /></span>
-                        <div class="embed-responsive">
-                            <video class="embed-responsive-item" controls>
-                                <source src="{{ asset('assets/Affiliate Marketing Whiteboard Video.mp4') }}"
-                                    type="video/mp4">
-                                Tu navegador no soporta el elemento de video.
-                            </video>
-                        </div>
-                    </div>
-                    <h4 style="color: #EDEDED; font-family: Space Grotesk; font-weight: 700;">Construye una Red de
-                        Contactos Sólida</h4>
-                </div>
-
-                <div class="col-lg-3 col-md-6 col-6">
-                    <div class="video-container">
-                        <div class="gradient-overlay"></div>
-                        <img src="{{ asset('assets/ap4.png') }}" class="thumbnail" alt="Video Thumbnail" />
-                        <span class="play-button"><img src="{{ asset('assets/Play (1).svg') }}"
-                                alt="Play Button" /></span>
-                        <div class="embed-responsive">
-                            <video class="embed-responsive-item" controls>
-                                <source src="{{ asset('assets/Affiliate Marketing Whiteboard Video.mp4') }}"
-                                    type="video/mp4">
-                                Tu navegador no soporta el elemento de video.
-                            </video>
-                        </div>
-                    </div>
-                    <h4 style="color: #EDEDED; font-family: Space Grotesk; font-weight: 700;">La Perseverancia es
-                        Fundamental</h4>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-
-
-
-    <section style="padding: 20px 0; background: #000000;">
-        <div class="container">
             <h1 style="padding-top: 5px; color: white;">Libros Recomendados</h1>
 
             <div class="row">
-                <div class="col-lg-2 col-md-3 col-6 mb-4">
-                    <img class="img-fluid"
-                        style="height: auto; background: #1a1a1a; border: 1px solid #2e2e2e; padding: 10px; border-radius: 12px;"
-                        src="{{ asset('assets/ab1.png') }}" alt="Placeholder Image" />
-                </div>
-
-                <div class="col-lg-2 col-md-3 col-6 mb-4">
-                    <img class="img-fluid"
-                        style="height: auto; background: #1a1a1a; border: 1px solid #2e2e2e; padding: 10px; border-radius: 12px;"
-                        src="{{ asset('assets/ab2.png') }}" alt="Placeholder Image" />
-                </div>
-
-                <div class="col-lg-2 col-md-3 col-6 mb-4">
-                    <img class="img-fluid"
-                        style="height: auto; background: #1a1a1a; border: 1px solid #2e2e2e; padding: 10px; border-radius: 12px;"
-                        src="{{ asset('assets/ab3.png') }}" alt="Placeholder Image" />
-                </div>
-
-                <div class="col-lg-2 col-md-3 col-6 mb-4">
-                    <img class="img-fluid"
-                        style="height: auto; background: #1a1a1a; border: 1px solid #2e2e2e; padding: 10px; border-radius: 12px;"
-                        src="{{ asset('assets/ab4.png') }}" alt="Placeholder Image" />
-                </div>
-
-                <div class="col-lg-2 col-md-3 col-6 mb-4">
-                    <img class="img-fluid"
-                        style="height: auto; background: #1a1a1a; border: 1px solid #2e2e2e; padding: 10px; border-radius: 12px;"
-                        src="{{ asset('assets/ab5.png') }}" alt="Placeholder Image" />
-                </div>
-
-                <div class="col-lg-2 col-md-3 col-6 mb-4">
-                    <img class="img-fluid"
-                        style="height: auto; background: #1a1a1a; border: 1px solid #2e2e2e; padding: 10px; border-radius: 12px;"
-                        src="{{ asset('assets/ab6.png') }}" alt="Placeholder Image" />
-                </div>
-            </div>
-
-
-        </div>
-    </section>
-
-
-    <section style="padding: 20px 0;background: #000000;">
-        <div class="container">
-            <h1 style="padding-top: 5px;color: #ffff;">Audio Books</h1>
-            <div class="row">
-                <div class="col-lg-2 col-md-3 col-6 mb-4">
-                    <img class="img-fluid"
-                        style="height: auto; background: #1a1a1a; border: 1px solid #2e2e2e; padding: 10px; border-radius: 12px;"
-                        src="{{ asset('assets/ab1.png') }}" alt="Placeholder Image" />
-                </div>
-
-                <div class="col-lg-2 col-md-3 col-6 mb-4">
-                    <img class="img-fluid"
-                        style="height: auto; background: #1a1a1a; border: 1px solid #2e2e2e; padding: 10px; border-radius: 12px;"
-                        src="{{ asset('assets/ab2.png') }}" alt="Placeholder Image" />
-                </div>
-
-                <div class="col-lg-2 col-md-3 col-6 mb-4">
-                    <img class="img-fluid"
-                        style="height: auto; background: #1a1a1a; border: 1px solid #2e2e2e; padding: 10px; border-radius: 12px;"
-                        src="{{ asset('assets/ab3.png') }}" alt="Placeholder Image" />
-                </div>
-
-                <div class="col-lg-2 col-md-3 col-6 mb-4">
-                    <img class="img-fluid"
-                        style="height: auto; background: #1a1a1a; border: 1px solid #2e2e2e; padding: 10px; border-radius: 12px;"
-                        src="{{ asset('assets/ab4.png') }}" alt="Placeholder Image" />
-                </div>
-
-                <div class="col-lg-2 col-md-3 col-6 mb-4">
-                    <img class="img-fluid"
-                        style="height: auto; background: #1a1a1a; border: 1px solid #2e2e2e; padding: 10px; border-radius: 12px;"
-                        src="{{ asset('assets/ab5.png') }}" alt="Placeholder Image" />
-                </div>
-
-                <div class="col-lg-2 col-md-3 col-6 mb-4">
-                    <img class="img-fluid"
-                        style="height: auto; background: #1a1a1a; border: 1px solid #2e2e2e; padding: 10px; border-radius: 12px;"
-                        src="{{ asset('assets/ab6.png') }}" alt="Placeholder Image" />
-                </div>
+                @foreach ($audiobook as $row)
+                    <div class="col-lg-2 col-md-3 col-6 mb-4">
+                        <a href="{{ route('showAudiobookDetails', $row->id) }}">
+                            <img class="img-fluid"
+                                style="height: auto; background: #1a1a1a; border: 1px solid #2e2e2e; padding: 10px; border-radius: 12px;"
+                                src="{{ asset($row->thumbnail) }}" alt="Audio Thumbnail" />
+                        </a>
+                    </div>
+                @endforeach
             </div>
         </div>
     </section>
+
+
+
+
     <section style="padding: 20px 0; background: #1A1A1A;">
         <div class="container">
             <div class="row">
@@ -519,7 +292,7 @@
 
                     <!-- Join Button -->
                     <div>
-                        <a href="#" class="btn btn-primary btn-lg fw-bold">¡Únete ahora!</a>
+                        <a href="{{ url('signup') }}" class="btn btn-primary btn-lg fw-bold">¡Únete ahora!</a>
                     </div>
                 </div>
 

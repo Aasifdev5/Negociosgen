@@ -4,9 +4,9 @@ Change Password
 @endsection
 @section('content')
 <!-- page-wrapper Start-->
-<div class="page-wrapper">
+<div class="page-body">
    <div class="container-fluid">
-     
+
       <div class="auth-bg-video">
       <video id="bgvid" poster="{{asset('admin/images/coming-soon-bg.jpg')}}" playsinline="" autoplay="" muted="" loop="">
                <source src="{{asset('admin/video/auth-bg.mp4')}}" type="video/mp4">
@@ -30,7 +30,7 @@ Change Password
                   @csrf
                   <input type="hidden" name="id" value="{{$user_session->id}}">
                   <div class="row g-1">
-                    
+
                      <div class="col-md-6">
                         <div class="mb-3">
                            <label class="col-form-label">Old Password</label>
@@ -70,7 +70,7 @@ Change Password
       </div>
    </div>
 
-   
+
 </div>
 </div>
 <!-- page-wrapper Ends-->

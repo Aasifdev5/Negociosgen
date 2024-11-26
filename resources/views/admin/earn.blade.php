@@ -3,8 +3,8 @@
     Gestión Ganancias
 @endsection
 @section('content')
-
-<section style="padding: 160px 0; background: #1a1a1a;">
+<div class="page-body">
+<section style="padding: 60px 0; background: #1a1a1a;">
     <div class="container my-4">
         <!-- Dashboard Title -->
         <h1 style="color: #ededed;">
@@ -131,4 +131,5 @@
         });
     });
 </script>
+</div>
 @endsection

@@ -45,43 +45,76 @@ class CursoController extends Controller
         }
     }
 
+
     public function store(Request $request)
-{
-    $request->validate([
-        'title' => 'required|string|max:255',
-        'description' => 'nullable|string',
-        'price' => 'required|numeric|min:0',
-        'category' => 'required|string|max:255',
-        'video_link' => 'required|url',
-        'video_thumbnail' => 'nullable|image|mimes:png,jpg,jpeg', // Validate video thumbnail
-    ]);
-// dd($request->all());
-    $data = [
-        'title' => $request->title,
-        'description' => $request->description,
-        'price' => $request->price,
-        'category' => $request->category,
-        'video_link' => $request->video_link,
-        'slug' => Str::slug($request->title),
-    ];
+    {
+        $validator = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'price' => 'required|numeric|min:0',
+            'category' => 'required|string|max:255',
+            'video_link' => [
+                'required',
+                'url',
+                function ($attribute, $value, $fail) {
+                    // Regular expressions to match YouTube, Vimeo, and Dailymotion
+                    if (!preg_match('/^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be|vimeo\.com|dailymotion\.com)\//', $value)) {
+                        $fail('The :attribute must be a valid video URL from YouTube, Vimeo, or Dailymotion.');
+                    }
+                }
+            ],
+            'video_thumbnail' => 'nullable|image|mimes:png,jpg,jpeg', // Optional: limit to 2MB
+        ]);
 
-    // Handle video thumbnail upload
-    if ($request->hasFile('video_thumbnail')) {
-        $attribute = $request->file('video_thumbnail');
-        $destination = 'video_thumbnail';
-        $file_name = time() . '-' . Str::random(10) . '.' . $attribute->getClientOriginalExtension();
-        $attribute->move(public_path('uploads/' . $destination), $file_name);
-        $data['video_thumbnail'] = 'uploads/' . $destination . '/' . $file_name; // Add this line
+
+
+        // Prepare the data for storage
+        $data = [
+            'title' => $request->title,
+            'description' => $request->description,
+            'price' => $request->price,
+            'category' => $request->category,
+            'video_link' => $request->video_link,
+            'slug' => Str::slug($request->title),
+        ];
+
+        // Handle video thumbnail upload if provided
+        if ($request->hasFile('video_thumbnail')) {
+            $data['video_thumbnail'] = $this->uploadThumbnail($request->file('video_thumbnail'));
+        }
+
+        // Save the data to the database
+        try {
+            $this->model->create($data);
+            return response()->json(['success' => true, 'message' => 'Course created successfully!']);
+        } catch (\Exception $e) {
+            Log::error('Error creating course: ' . $e->getMessage());
+            return response()->json(['success' => false, 'message' => 'An unexpected error occurred. Please try again later.'], 500);
+        }
     }
 
-    try {
-        $this->model->create($data);
-        return response()->json(['success' => true]);
-    } catch (\Exception $e) {
-        Log::error('Error al crear el Curso: ' . $e->getMessage());
-        return response()->json(['success' => false, 'message' => 'Error al crear el Curso.'], 500);
+    /**
+     * Handles the video thumbnail upload.
+     *
+     * @param  \Illuminate\Http\UploadedFile  $file
+     * @return string
+     */
+    public function uploadThumbnail($file)
+    {
+        // Generate a unique file name
+        $fileName = time() . '-' . Str::random(10) . '.' . $file->getClientOriginalExtension();
+
+        // Define the upload path (e.g., 'uploads/video_thumbnails')
+        $destinationPath = public_path('uploads/video_thumbnails');
+
+        // Move the uploaded file to the destination folder
+        $file->move($destinationPath, $fileName);
+
+        // Return the file path (relative to the public directory)
+        return 'uploads/video_thumbnails/' . $fileName;
     }
-}
+
+
 
     public function edit($uuid)
     {

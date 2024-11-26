@@ -64,9 +64,6 @@ Recursos
         </div>
        <!-- Referrals Section -->
 
-<!-- Include Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
 
 <script>
     // Initialize Bootstrap tooltip
@@ -215,7 +212,7 @@ Recursos
                   <div class="col-lg-3 col-md-6 col-6" style="padding-bottom: 10px;">
                       <div class="video-container">
                           <div class="gradient-overlay"></div>
-                          <img src="v1.png" class="thumbnail" alt="Video Thumbnail" />
+                          <img src="{{ asset('assets/v1.png') }}" class="thumbnail" alt="Video Thumbnail" />
                           <span class="play-button"><img src="{{ asset('assets/Play (1).svg') }}" alt="Play Button" /></span>
                           <div class="embed-responsive" style="display: none;">
                               <video class="embed-responsive-item" controls>
@@ -230,8 +227,8 @@ Recursos
                   <div class="col-lg-3 col-md-6 col-6" style="padding-bottom: 10px;">
                       <div class="video-container">
                           <div class="gradient-overlay"></div>
-                          <img src="v2.png" class="thumbnail" alt="Video Thumbnail" />
-                          <span class="play-button"><img src="{{ asset('assets/') }}Play (1).svg" alt="Play Button" /></span>
+                          <img src="{{ asset('assets/v2.png') }}" class="thumbnail" alt="Video Thumbnail" />
+                          <span class="play-button"><img src="{{ asset('assets/Play (1).svg') }}" alt="Play Button" /></span>
                           <div class="embed-responsive" style="display: none;">
                               <video class="embed-responsive-item" controls>
                                   <source src="{{ asset('assets/Affiliate Marketing Whiteboard Video.mp4') }}" type="video/mp4">
@@ -245,8 +242,8 @@ Recursos
                   <div class="col-lg-3 col-md-6 col-6" style="padding-bottom: 10px;">
                       <div class="video-container">
                           <div class="gradient-overlay"></div>
-                          <img src="v3.png" class="thumbnail" alt="Video Thumbnail" />
-                          <span class="play-button"><img src="{{ asset('assets/') }}Play (1).svg" alt="Play Button" /></span>
+                          <img src="{{ asset('assets/v3.png') }}" class="thumbnail" alt="Video Thumbnail" />
+                          <span class="play-button"><img src="{{ asset('assets/Play (1).svg') }}" alt="Play Button" /></span>
                           <div class="embed-responsive" style="display: none;">
                               <video class="embed-responsive-item" controls>
                                   <source src="{{ asset('assets/Affiliate Marketing Whiteboard Video.mp4') }}" type="video/mp4">
@@ -260,7 +257,7 @@ Recursos
                   <div class="col-lg-3 col-md-6 col-6" style="padding-bottom: 10px;">
                       <div class="video-container">
                           <div class="gradient-overlay"></div>
-                          <img src="v4.png" class="thumbnail" alt="Video Thumbnail" />
+                          <img src="{{ asset('assets/v4.png') }}" class="thumbnail" alt="Video Thumbnail" />
                           <span class="play-button"><img src="{{ asset('assets/Play (1).svg') }}" alt="Play Button" /></span>
                           <div class="embed-responsive" style="display: none;">
                               <video class="embed-responsive-item" controls>

@@ -62,9 +62,11 @@
                     <li class="nav-item nav-item-custom-padding {{ Request::is('nosotros') ? 'active' : '' }}">
                         <a class="nav-link text-light" href="{{ url('nosotros') }}">{{ __('Nosotros') }}</a>
                     </li>
-                    <li class="nav-item nav-item-custom-padding {{ Request::is('course') ? 'active' : '' }}">
-                        <a class="nav-link text-light" href="{{ url('course') }}"> {{ __('Cursos') }}</a>
-                    </li>
+                    @if (!empty($user_session) && $user_session->is_subscribed == 1)
+                        <li class="nav-item nav-item-custom-padding {{ Request::is('course') ? 'active' : '' }}">
+                            <a class="nav-link text-light" href="{{ url('course') }}"> {{ __('Cursos') }}</a>
+                        </li>
+                    @endif
                     <li class="nav-item nav-item-custom-padding {{ Request::is('blog') ? 'active' : '' }}">
                         <a class="nav-link text-light" href="{{ url('blog') }}"> {{ __('Blog') }}</a>
                     </li>
@@ -98,12 +100,12 @@
                         <li class="nav-item dropdown" style="margin-right:90px;">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
                                 @if (!empty($user_session->profile_photo))
-                                <img src="{{ asset('profile_photo/') }}<?php echo '/' . $user_session->profile_photo; ?>" class="personal-avatar"
-                                    alt="avatar" style="width: 30px; height: 30px;">
-                            @else
-                            <img src="{{ asset('149071.png') }}" alt="Profile Image"
-                            style="width: 30px; height: 30px;" />
-                            @endif
+                                    <img src="{{ asset('profile_photo/') }}<?php echo '/' . $user_session->profile_photo; ?>" class="personal-avatar"
+                                        alt="avatar" style="width: 30px; height: 30px;">
+                                @else
+                                    <img src="{{ asset('149071.png') }}" alt="Profile Image"
+                                        style="width: 30px; height: 30px;" />
+                                @endif
 
                             </a>
                             <ul class="dropdown-menu">
@@ -234,13 +236,14 @@ margin-right: 20px;
                                     <img src="{{ asset(selectedLanguage(session()->get('local'))->flag) }}"
                                         width="50" height="30" alt="Language Icon">
                                 </a>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownLanguage" style="background: #000">
+                                <ul class="dropdown-menu" aria-labelledby="dropdownLanguage"
+                                    style="background: #000">
                                     @foreach (appLanguages() as $app_lang)
                                         <li>
                                             <a class="dropdown-item"
                                                 href="{{ url('admin/local/' . $app_lang->iso_code) }}">
-                                                <img src="{{ asset($app_lang->flag) }}" width="50" height="30"
-                                                    alt="icon">
+                                                <img src="{{ asset($app_lang->flag) }}" width="50"
+                                                    height="30" alt="icon">
                                                 <span>{{ $app_lang->language }}</span>
                                             </a>
                                         </li>
@@ -251,11 +254,14 @@ margin-right: 20px;
                             <li class="list-item mb-2" style="margin-bottom: 0.5rem;">Política de privacidad</li>
                             <li class="list-item" style="margin-bottom: 0;"><a href="{{ url('term') }}"
                                     style="text-decoration: none;color:#fff;">Términos de uso</a></li>
-                                    @if (!empty($user_session))
-                                    <li class="list-item" style="margin-bottom: 0;"><a href="{{ route('tickets.create') }}" style="text-decoration: none;color:#fff;">Support</a></li>
-                                    @else
-                                    <li class="list-item" style="margin-bottom: 0;"><a href="{{ url('Userlogin') }}" style="text-decoration: none;color:#fff;">Support</a></li>
-                                    @endif
+                            @if (!empty($user_session))
+                                <li class="list-item" style="margin-bottom: 0;"><a
+                                        href="{{ route('tickets.create') }}"
+                                        style="text-decoration: none;color:#fff;">Support</a></li>
+                            @else
+                                <li class="list-item" style="margin-bottom: 0;"><a href="{{ url('Userlogin') }}"
+                                        style="text-decoration: none;color:#fff;">Support</a></li>
+                            @endif
 
                         </ul>
                     </div>

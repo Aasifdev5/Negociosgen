@@ -1131,37 +1131,68 @@ class Admin extends Controller
     {
         DB::beginTransaction(); // Start transaction
         try {
-            // Buscar el pago y marcarlo como aceptado
+            // Fetch the payment and mark it as accepted
             $payment = Payment::findOrFail($id);
             $payment->accepted = true;
             $payment->save();
 
-            // Obtener el usuario relacionado con el pago
+            // Fetch the user associated with the payment
             $user = User::findOrFail($payment->user_id);
 
-            // Actualizar el estado de suscripción del usuario
+            // Update the user's subscription status
             $user->update([
                 'is_subscribed' => 1,
             ]);
 
-            // Verificar si existe un usuario referenciado
-            $referUser = User::find($user->refer);
+            // Membership cost and percentage distribution across levels
+            $membershipCost = 1000; // Adjust as per your needs
+            $levelPercentages = [
+                1 => 0.30, // Level 1: 30%
+                2 => 0.03, // Level 2: 3%
+                3 => 0.02, // Level 3: 2%
+                4 => 0.02, // Level 4: 2%
+                5 => 0.01, // Level 5: 1%
+                6 => 0.01, // Level 6: 1%
+                7 => 0.01, // Level 7: 1%
+            ];
 
-            if ($referUser) {
-                // Actualizar el saldo del usuario referenciado
-                $montoBono = 300;
-                $referUser->balance += $montoBono;
-                $referUser->save();
+            // Start with the immediate referrer
+            $currentReferrer = $user->refer;
+            $level = 1;
 
-                // Actualizar o crear el registro en la tabla Balance
-                Balance::updateOrCreate(
-                    ['user_id' => $referUser->id], // Condición para buscar el registro existente
-                    ['amount' => $referUser->balance] // Valores a actualizar o insertar
-                );
+            // Distribute commissions up to 7 levels and update user levels
+            while ($currentReferrer && $level <= 7) {
+                $referrer = User::find($currentReferrer);
+
+                if ($referrer) {
+                    // Calculate the earnings for the current level
+                    $earnings = $membershipCost * $levelPercentages[$level];
+
+                    // Update the referrer's balance
+                    $referrer->balance += $earnings;
+                    $referrer->save();
+
+                    // Update or create an entry in the Balance table
+                    Balance::updateOrCreate(
+                        ['user_id' => $referrer->id], // Condition for existing entry
+                        ['amount' => $referrer->balance] // Values to update or insert
+                    );
+
+                    // Update the referrer's level
+                    $referrer->level = $level;  // Update the level to reflect the commission tier
+                    $referrer->save();
+
+                    // Move to the next referrer
+                    $currentReferrer = $referrer->refer;
+                } else {
+                    break; // Stop if no valid referrer exists
+                }
+
+                $level++;
             }
 
             DB::commit(); // Commit transaction
-            return back()->with('success', 'Pago aceptado, el usuario está suscrito y el bono se acreditó al referenciado.');
+            return back()->with('success', 'Pago aceptado, el usuario está suscrito y las ganancias se distribuyeron correctamente a los referenciados.');
         } catch (\Exception $e) {
             DB::rollBack(); // Rollback transaction on error
             \Log::error('Error al aceptar el pago para Payment ID ' . $id . ': ' . $e->getMessage());
@@ -1169,5 +1200,6 @@ class Admin extends Controller
             return back()->with('fail', 'Ocurrió un error al procesar el pago.');
         }
     }
+
 
 }

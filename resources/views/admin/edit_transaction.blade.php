@@ -4,7 +4,7 @@ Edit Transaction
 @endsection
 @section('content')
 <!-- page-wrapper Start-->
-<div class="page-wrapper">
+<div class="page-body">
     <div class="container-fluid">
         <!-- sign up page start-->
         <div class="auth-bg-video">

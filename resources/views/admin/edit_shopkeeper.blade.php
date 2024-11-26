@@ -4,7 +4,7 @@ Editar tendero
 @endsection
 @section('content')
 <!-- page-wrapper Start-->
-<div class="page-wrapper">
+<div class="page-body">
    <div class="container-fluid">
       <!-- sign up page start-->
       <div class="auth-bg-video">
@@ -35,7 +35,7 @@ Editar tendero
                             <div class="personal-image">
                                 <label class="label">
                                     <input type="file" name="profile_photo" id="profilePhotoInput" onchange="previewImage(this)" />
-                                    
+
                                      @if (!empty($userData->profile_photo))
                                                         <img src="{{ asset('profile_photo/') }}<?php echo '/' . $userData->profile_photo; ?>"
                                                             class="personal-avatar rounded-circle" width="100px" height="100px"
@@ -65,9 +65,9 @@ Editar tendero
                         </span>
                     </div>
 
-                   
 
-                  
+
+
 
                     <div class="col-sm-6">
                         <label class="col-form-label">Correo electrónico</label>
@@ -89,8 +89,8 @@ Editar tendero
                         </span>
                     </div>
 
-                    
-                   
+
+
 
                     <div class="col-sm-6">
                         <label class="col-form-label">Estado</label>

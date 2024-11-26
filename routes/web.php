@@ -30,12 +30,13 @@ use App\Http\Controllers\Admin\SubcategoryController;
 
 use App\Http\Controllers\Admin\SupportTicketController;
 use App\Http\Controllers\Admin\TagController;
+use App\Http\Controllers\AudiobookController;
 use App\Http\Controllers\Auth\OTPController;
 use App\Http\Controllers\Backend\ProductsController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\EmailAppController;
-use App\Http\Controllers\FacebookSocialiteController;
 
+use App\Http\Controllers\FacebookSocialiteController;
 use App\Http\Controllers\ForumController;
 use App\Http\Controllers\FundController;
 use App\Http\Controllers\GoogleController;
@@ -46,13 +47,14 @@ use App\Http\Controllers\Pages;
 use App\Http\Controllers\QRCodeController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\VerificationController;
 
+use App\Http\Controllers\VerificationController;
 use App\Http\Middleware\SetLocale;
 use App\Models\Language;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 use Maatwebsite\Excel\Facades\Excel;
+
 
 
 
@@ -169,6 +171,8 @@ Route::group(['middleware' => ['prevent-back-history', SetLocale::class]], funct
 });
 Route::post('/update-logout-time', [UserController::class, 'updateLogoutTime'])->name('update.logout.time');
 Route::post('/reg', [UserController::class, 'registration']);
+Route::get('/audiobooks', [AudiobookController::class, 'audiobook'])->name('audiobook');
+Route::get('/audiobook/{id}', [AudiobookController::class, 'showAudiobookDetails'])->name('showAudiobookDetails');
 
 Route::post('/log', [UserController::class, 'login'])->name('login');
 
@@ -248,6 +252,18 @@ Route::group(['prefix' => 'admin'], function () {
             Route::patch('category-update/{uuid}', [ForumCategoryController::class, 'update'])->name('category.update');
             Route::get('category-delete/{uuid}', [ForumCategoryController::class, 'delete'])->name('category.delete');
         });
+        Route::group(['prefix' => 'audiolibros', 'as' => 'audiolibros.'], function () {
+            Route::get('', [AudiobookController::class, 'index'])->name('index');
+            Route::get('crear', [AudiobookController::class, 'create'])->name('crear'); // This matches 'audiolibros.crear'
+            Route::post('crear', [AudiobookController::class, 'store'])->name('store');
+            Route::get('editar/{id}', [AudiobookController::class, 'edit'])->name('edit'); // This matches 'audiolibros.edit'
+            Route::post('actualizar/{id}', [AudiobookController::class, 'update'])->name('update');
+            Route::delete('/eliminar/{audiobook}', [AudiobookController::class, 'destroy'])->name('destroy');
+
+            Route::post('/eliminar-multiple', [AudiobookController::class, 'bulkDelete'])->name('bulk-delete');
+        });
+
+
         Route::group(['prefix' => 'settings', 'as' => 'settings.'], function () {
             //Start:: General Settings
             Route::get('general-settings', [SettingController::class, 'GeneralSetting'])->name('general_setting');
@@ -282,6 +298,7 @@ Route::group(['prefix' => 'admin'], function () {
                 Route::patch('update/{id}', [CurrencyController::class, 'update'])->name('update');
                 Route::get('delete/{id}', [CurrencyController::class, 'delete'])->name('delete');
             });
+
 
             //Start:: Home Settings
             Route::get('theme-settings', [HomeSettingController::class, 'themeSettings'])->name('theme-setting');

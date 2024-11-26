@@ -4,7 +4,7 @@
 @endsection
 @section('content')
     <!-- page-wrapper Start-->
-    <div class="page-wrapper">
+    <div class="page-body">
         <div class="container-fluid">
             <!-- sign up page start-->
             <div class="auth-bg-video">
@@ -111,8 +111,8 @@
                                     </span>
 
                                 </div>
-                                
-                               
+
+
                                 <div class="col-sm-6">
                                     <label class="col-form-label">Activo</label>
                                     <br>

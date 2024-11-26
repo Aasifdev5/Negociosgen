@@ -29,6 +29,7 @@ class User extends Authenticatable
         'last_seen',
         'is_online',
         'about',
+        'level',
         'refer',
         'username',
         'facebook',

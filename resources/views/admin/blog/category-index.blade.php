@@ -97,9 +97,7 @@
                                             </tbody>
                                         </table>
                                     </form>
-                                    <div class="mt-3">
-                                        {{ $blogCategories->links() }}
-                                    </div>
+
                                 </div>
                             </div>
                         </div>

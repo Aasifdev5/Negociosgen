@@ -384,12 +384,13 @@
 
                                 </ul>
                             </li>
-
+                            <li><a class="sidebar-header" href="{{ route('audiolibros.index') }}"><i
+                                data-feather="monitor"></i><span>{{ __('Audiolibros') }}
+                            </span></a></li>
                             <li><a class="sidebar-header" href="{{ url('admin/banners') }}"><i
                                         data-feather="monitor"></i><span>{{ __('Bandera') }}
                                     </span></a></li>
-                            <li><a class="sidebar-header" href="{{ url('admin/qrcode') }}"><i
-                                        class="fa fa-empire"></i> CÓDIGO QR </a></li>
+                            <li><a class="sidebar-header" href="{{ url('admin/qrcode') }}"><i class="fa fa-qrcode"></i> CÓDIGO QR </a></li>
                             <li>
                             <li class="">
                                 <a class="has-arrow sidebar-header" href="#">
