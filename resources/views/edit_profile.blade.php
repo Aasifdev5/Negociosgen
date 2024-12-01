@@ -77,32 +77,7 @@
             </form>
         </div>
     </div>
-    <div class="card" style="background-color: #121212; border: 1px solid #2e2e2e; border-radius: 10px; padding: 15px;">
-    <!-- Navigation Links -->
-    <ul class="list-unstyled">
-        <li class="mb-2">
-            <a class="nav-link text-light {{ Request::is('geanologìa') ? 'active' : '' }}"
-               href="{{ url('geanologìa') }}"
-               style="font-size: 14px; padding: 8px 0; display: block;">
-                Genealogía
-            </a>
-        </li>
-        <li class="mb-2">
-            <a class="nav-link text-light {{ Request::is('ganancias') ? 'active' : '' }}"
-               href="{{ url('ganancias') }}"
-               style="font-size: 14px; padding: 8px 0; display: block;">
-                Ganancias
-            </a>
-        </li>
-        <li>
-            <a class="nav-link text-light {{ Request::is('recursos') ? 'active' : '' }}"
-               href="{{ url('recursos') }}"
-               style="font-size: 14px; padding: 8px 0; display: block;">
-                Recursos
-            </a>
-        </li>
-    </ul>
-</div>
+
 
 </div>
 

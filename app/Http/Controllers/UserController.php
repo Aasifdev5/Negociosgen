@@ -31,6 +31,7 @@ use App\Models\Product;
 use App\Models\ProductVariations;
 use App\Models\Related_product;
 use App\Models\Role;
+use App\Models\Sales;
 use App\Models\TimeLog;
 use App\Models\User;
 use App\Models\Wishlist;
@@ -93,9 +94,9 @@ class UserController extends Controller
 
         $user_session = User::where('id', Session::get('LoggedIn'))->first();
 
-
+        $sales = Sales::where('refer_id', $user_session->id)->with('user')->get();
         $pages = Page::all();
-        return view('ganancias', compact('user_session', 'pages'));
+        return view('ganancias', compact('user_session', 'pages','sales'));
     }
     public function fondo()
     {
@@ -313,8 +314,9 @@ class UserController extends Controller
 
             $pages = Page::all();
             $user_session = User::where('id', Session::get('LoggedIn'))->first();
-
-            return view('recursos', compact('user_session',   'pages'));
+            $course = Course::orderBy('created_at', 'desc')->take(4)->get();  // Fetch 4 most recent courses
+            $blogs = Blog::orderBy('created_at', 'desc')->take(4)->get();
+            return view('recursos', compact('user_session',   'pages','course','blogs'));
         } else {
             return Redirect()->with('fail', 'Tienes que iniciar sesión primero');
         }
@@ -495,10 +497,12 @@ class UserController extends Controller
     {
         if (Session::has('LoggedIn')) {
             $user_session = User::where('id', Session::get('LoggedIn'))->first();
+            $sales = Sales::where('refer_id', $user_session->id)->with('user')->get();
 
+            // dd($sales);
             $pages = Page::all();
 
-            return view('dashboard', compact('user_session', 'pages'));
+            return view('dashboard', compact('user_session', 'pages','sales'));
         } else {
             // Redirect to the login page if the user is not logged in
             return redirect()->route('Userlogin'); // or use 'login' if you have a named route for login

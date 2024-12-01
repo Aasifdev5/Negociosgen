@@ -23,6 +23,7 @@ use App\Models\PaymentGateway;
 use App\Models\Permissions;
 use App\Models\PostingAds;
 use App\Models\Product;
+use App\Models\Sales;
 use App\Models\Settings;
 use App\Models\Task;
 use App\Models\Transactions;
@@ -1145,7 +1146,7 @@ class Admin extends Controller
             ]);
 
             // Membership cost and percentage distribution across levels
-            $membershipCost = 1000; // Adjust as per your needs
+            $membershipCost = 1000; // Adjust as needed
             $levelPercentages = [
                 1 => 0.30, // Level 1: 30%
                 2 => 0.03, // Level 2: 3%
@@ -1177,10 +1178,18 @@ class Admin extends Controller
                         ['user_id' => $referrer->id], // Condition for existing entry
                         ['amount' => $referrer->balance] // Values to update or insert
                     );
-
                     // Update the referrer's level
                     $referrer->level = $level;  // Update the level to reflect the commission tier
                     $referrer->save();
+                    // Add an entry to the Sales table
+                    Sales::create([
+                        'user_id' => $user->id, // User who made the purchase
+                        'refer_id' => $referrer->id, // Referrer's ID
+                        'level' => $level, // Commission level
+                        'percentage' => $levelPercentages[$level], // Commission percentage
+                        'commission' => $earnings, // Commission earned
+                        'date' => now(), // Current date
+                    ]);
 
                     // Move to the next referrer
                     $currentReferrer = $referrer->refer;
@@ -1200,6 +1209,4 @@ class Admin extends Controller
             return back()->with('fail', 'Ocurrió un error al procesar el pago.');
         }
     }
-
-
 }

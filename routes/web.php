@@ -46,14 +46,16 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Pages;
 use App\Http\Controllers\QRCodeController;
 use App\Http\Controllers\ResetPasswordController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\SalesController;
 
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\VerificationController;
 use App\Http\Middleware\SetLocale;
 use App\Models\Language;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 use Maatwebsite\Excel\Facades\Excel;
+
 
 
 
@@ -92,7 +94,7 @@ Route::group(['middleware' => ['prevent-back-history', SetLocale::class]], funct
 
 
     Route::get('/geanologìa', [UserController::class, 'geanologìa']);
-
+    Route::get('/sales-details/{id}', [SalesController::class, 'getSalesDetails'])->name('sales.details');
     Route::get('Userlogin', [UserController::class, 'Userlogin'])->name('Userlogin');
     Route::get('getProducts', [UserController::class, 'getProducts'])->name('getProducts');
     Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard')->middleware('isLoggedIn');
