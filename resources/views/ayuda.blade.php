@@ -6,7 +6,7 @@
 <section style="padding: 90px 0;background: #1A1A1A;">
     <div class="container my-5">
         <h1 class="text-center" style="color: #ededed;">¿Necesitas  <span style="color: #0090ff;">Ayuda?</span></h1>
-        <form action="/search" method="GET" style="width: 100%; max-width: 600px; margin: auto;">
+        <form action="{{ url('/ayuda') }}" method="GET" style="width: 100%; max-width: 600px; margin: auto;">
             <div class="input-group" style="position: relative; display: flex; align-items: center;">
               <input type="text" name="query" class="form-control" placeholder="Buscar con palabras claves" style="width: 100%; background-color: ; border-radius: 8px; border: 1px solid #333; padding-left: 40px; height: 48px; color: #8F8F8F; font-size: 16px;">
               <img class="search-icon" alt="Buscar" src="{{asset('assets/search.svg')}}" style="position: absolute; left: 12px; width: 20px; height: 20px; filter: brightness(0.8);">
@@ -32,65 +32,22 @@
             </style>
 
             <div class="row">
-                <!-- Blog Post 1 -->
+                @if($supportQuestions->count())
+            @foreach ($supportQuestions as $question)
                 <div class="col-lg-4 col-12 mb-4">
                     <div class="card image-parent h-100 transparent-card">
                         <div class="card-body stack">
-                            <h5 class="card-title fw-bold ttulo-del-blog">¿Qué es GEN y cómo funciona?</h5>
-                            <p class="card-text estamos-dedicados-a">GEN es una plataforma que ofrece cursos especializados en marketing y coaching, junto con un sistema de afiliados multinivel que te permite ganar comisiones promoviendo nuestros productos. Para comenzar, solo tienes que registrarte, acceder a nuestros cursos y empezar a aprender o promover.</p>
+                            <h5 class="card-title fw-bold ttulo-del-blog">{{ $question->question }}</h5>
+                            <p class="card-text estamos-dedicados-a">{{ $question->answer }}</p>
                         </div>
                     </div>
                 </div>
-
-                <!-- Blog Post 2 -->
-                <div class="col-lg-4 col-12 mb-4">
-                    <div class="card image-parent h-100 transparent-card">
-                        <div class="card-body stack">
-                            <h5 class="card-title fw-bold ttulo-del-blog">¿Cómo me registro en GEN?</h5>
-                            <p class="card-text estamos-dedicados-a">Puedes registrarte directamente en nuestra página de registro completando el formulario con tus datos personales. Recibirás un correo de confirmación para activar tu cuenta.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Blog Post 3 -->
-                <div class="col-lg-4 col-12 mb-4">
-                    <div class="card image-parent h-100 transparent-card">
-                        <div class="card-body stack">
-                            <h5 class="card-title fw-bold ttulo-del-blog">¿Qué métodos de pago aceptan?</h5>
-                            <p class="card-text estamos-dedicados-a">Aceptamos pagos con tarjeta de crédito, débito y transferencias bancarias. Además, contamos con opciones de pago mediante plataformas como PayPal y otros servicios locales en Bolivia.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Blog Post 4 -->
-                <div class="col-lg-4 col-12 mb-4">
-                    <div class="card image-parent h-100 transparent-card">
-                        <div class="card-body stack">
-                            <h5 class="card-title fw-bold ttulo-del-blog">¿Cómo puedo acceder a los cursos que compré?</h5>
-                            <p class="card-text estamos-dedicados-a">Una vez completada tu compra, los cursos estarán disponibles en tu cuenta en la sección de "Mis Cursos". Solo inicia sesión, selecciona el curso que compraste y comienza a aprender.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Blog Post 5 -->
-                <div class="col-lg-4 col-12 mb-4">
-                    <div class="card image-parent h-100 transparent-card">
-                        <div class="card-body stack">
-                            <h5 class="card-title fw-bold ttulo-del-blog">¿Cómo funciona el sistema de afiliados?</h5>
-                            <p class="card-text estamos-dedicados-a">El sistema de afiliados de GEN te permite ganar comisiones por referir a otros usuarios a nuestros cursos y productos. Puedes compartir tu enlace de afiliado personalizado, y cada vez que alguien realice una compra usando ese enlace, recibirás una comisión.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Blog Post 6 -->
-                <div class="col-lg-4 col-12 mb-4">
-                    <div class="card image-parent h-100 transparent-card">
-                        <div class="card-body stack">
-                            <h5 class="card-title fw-bold ttulo-del-blog">¿Puedo solicitar un reembolso?</h5>
-                            <p class="card-text estamos-dedicados-a">Sí, ofrecemos reembolsos dentro de los primeros 14 días desde la compra del curso, siempre que no hayas completado más del 20% del contenido. Para más detalles, revisa nuestros Términos y Condiciones de Reembolso.</p>
-                        </div>
-                    </div>
-                </div>
+            @endforeach
+        @else
+            <div class="alert alert-warning text-center">
+                <strong>No se encontraron resultados para tu búsqueda.</strong>
+            </div>
+        @endif
             </div>
 
         </div>
@@ -99,7 +56,12 @@
 
 
 
+
     </div>
+    <nav class="pagination justify-content-center">
+        @include('admin.pagination', ['paginator' => $supportQuestions])
+
+    </nav>
     <div class="container">
         <div class="container my-5 p-4" style="background-color: #0f1c2e; border: 1px solid #2E2E2E; border-radius: 16px;">
             <div class="row">

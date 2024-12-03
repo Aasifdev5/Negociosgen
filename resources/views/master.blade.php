@@ -83,7 +83,7 @@
 
 
                         <!-- Search Form -->
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <form action="/search" method="GET" style="max-width: 300px; margin-right: 70px;">
                                 <div class="input-group"
                                     style="position: relative; display: flex; align-items: center;">
@@ -94,7 +94,7 @@
                                         style="position: absolute; left: 12px; width: 20px;  filter: brightness(0.8);" />
                                 </div>
                             </form>
-                        </li>
+                        </li> --}}
 
                         <!-- Profile Dropdown -->
                         <li class="nav-item dropdown" style="margin-right:90px;">

@@ -32,6 +32,7 @@ use App\Models\ProductVariations;
 use App\Models\Related_product;
 use App\Models\Role;
 use App\Models\Sales;
+use App\Models\SupportTicketQuestion;
 use App\Models\TimeLog;
 use App\Models\User;
 use App\Models\Wishlist;
@@ -456,10 +457,20 @@ class UserController extends Controller
 
     public function ayuda(Request $request)
     {
+        $query = $request->get('query'); // Capture the search query
+
+        $supportQuestions = SupportTicketQuestion::when($query, function ($queryBuilder) use ($query) {
+            $queryBuilder->where('question', 'like', '%' . $query . '%')
+                         ->orWhere('answer', 'like', '%' . $query . '%');
+        })->paginate(9); // Adjust number of items per page
+
+
         $user_session = User::where('id', Session::get('LoggedIn'))->first();
         $pages = Page::all();
-        return view('ayuda', compact('user_session', 'pages'));
+
+        return view('ayuda', compact('user_session', 'pages', 'supportQuestions', 'query'));
     }
+
 
     public function sendResetPasswordLink(Request $request)
     {
@@ -521,20 +532,26 @@ class UserController extends Controller
         }
     }
 
-    public function blogs()
-    {
+    public function blogs(Request $request)
+{
+    $query = $request->get('query'); // Get the search query
 
-        $blogs = Blog::orderBy('id', 'DESC')->paginate(9);
+    // Fetch blogs, filtering by the search query if it exists
+    $blogs = Blog::when($query, function ($queryBuilder) use ($query) {
+        $queryBuilder->where('title', 'like', '%' . $query . '%')
+            ->orWhere('short_description', 'like', '%' . $query . '%');
+    })->orderBy('id', 'DESC')->paginate(9);
 
-        $user_session = User::where('id', Session::get('LoggedIn'))->first();
+    $user_session = User::where('id', Session::get('LoggedIn'))->first();
 
-        $data['blogComments'] = BlogComment::active();
-        $blogComments = $data['blogComments']->whereNull('parent_id')->get();
-        $pages = Page::all();
-        $latest_posts = Blog::orderBy('id', 'DESC')->paginate(3);
+    $data['blogComments'] = BlogComment::active();
+    $blogComments = $data['blogComments']->whereNull('parent_id')->get();
+    $pages = Page::all();
+    $latest_posts = Blog::orderBy('id', 'DESC')->paginate(3);
 
-        return view('blog', compact('user_session', 'latest_posts', 'blogs', 'pages', 'blogComments'));
-    }
+    return view('blog', compact('user_session', 'latest_posts', 'blogs', 'pages', 'blogComments', 'query'));
+}
+
     public function news_category($slug)
     {
         $news = DB::table('blogs')
