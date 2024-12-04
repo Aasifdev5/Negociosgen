@@ -3,68 +3,79 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\DB;
 
 class CheckUserActivity extends Command
 {
+    // Command signature
     protected $signature = 'usuarios:verificar-actividad';
+
+    // Command description
     protected $description = 'Asegurarse de que todos los usuarios activos refieran a alguien cada mes.';
 
     public function handle()
     {
-        // Obtener todos los usuarios suscritos
-        $usuarios = \DB::table('users')
+        $this->info('Iniciando la verificación de actividad de usuarios.');
+
+        // Retrieve all subscribed users
+        $usuarios = DB::table('users')
             ->where('is_subscribed', 1)
             ->get();
 
         foreach ($usuarios as $usuario) {
-            // Verificar si el usuario refirió a alguien en el mes actual
-            $referidosContados = \DB::table('users')
-                ->where('refer', $usuario->id) // Contar usuarios referidos por este usuario
-                ->whereMonth('created_at', Carbon::now()->month) // En el mes actual
+            // Check referrals for the current month
+            $referidosContados = DB::table('users')
+                ->where('refer', $usuario->id)
+                ->whereMonth('created_at', Carbon::now()->month)
                 ->count();
 
             if ($referidosContados === 0) {
-                // El usuario no refirió a nadie; marcar como inactivo y deducir 100Bs si es posible
+                // Mark user as inactive if no referrals were made
                 $this->marcarUsuarioInactivo($usuario);
+            } else {
+                $this->info("El usuario {$usuario->id} tiene {$referidosContados} referidos este mes.");
             }
         }
 
-        $this->info('La verificación de referidos de los usuarios se completó exitosamente.');
+        $this->info('La verificación de actividad de usuarios se completó.');
     }
 
     private function marcarUsuarioInactivo($usuario)
     {
         if ($usuario->balance >= 100) {
-            // Deducir 100Bs del saldo
-            \DB::table('users')
+            // Deduct 100 from balance and mark as inactive
+            DB::table('users')
                 ->where('id', $usuario->id)
                 ->update([
                     'balance' => $usuario->balance - 100,
-                    'is_subscribed' => 0, // Marcar como inactivo
+                    'is_subscribed' => 0,
                 ]);
 
-            // Notificar al usuario
+            $this->info("El usuario {$usuario->id} ha sido marcado como inactivo y se dedujeron 100Bs.");
             $this->notificarUsuario($usuario, false);
         } else {
-            // Si el saldo es insuficiente, simplemente marcar como inactivo
-            \DB::table('users')
+            // Mark as inactive without deduction
+            DB::table('users')
                 ->where('id', $usuario->id)
-                ->update(['is_subscribed' => 0]);
+                ->update(['is_subscribed' => 0,'is_active'=>0]);
+
+            $this->info("El usuario {$usuario->id} ha sido marcado como inactivo debido a saldo insuficiente.");
         }
     }
 
     private function notificarUsuario($usuario, $activado)
     {
         $mensajeCorreo = $activado
-            ? 'Tu cuenta ha sido activada. Por favor, refiere al menos a un usuario este mes para mantenerte activo.'
-            : 'No referiste a nadie este mes. Se han deducido 100Bs de tu saldo y tu cuenta ahora está inactiva.';
+            ? 'Tu cuenta ha sido activada. Refiera a alguien este mes para permanecer activo.'
+            : 'Tu cuenta ha sido desactivada. Se dedujeron 100Bs de tu saldo.';
 
         Mail::raw($mensajeCorreo, function ($message) use ($usuario) {
             $message->to($usuario->email)
-                    ->subject('Actualización del estado de tu cuenta');
+                    ->subject('Estado de tu cuenta');
         });
+
+        $this->info("Se envió un correo al usuario {$usuario->id}.");
     }
 }
