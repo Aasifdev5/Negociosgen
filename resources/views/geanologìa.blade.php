@@ -1,7 +1,7 @@
 @extends('master')
 
 @section('title')
-    Genealogía
+{{ __('Genealogía') }}
 @endsection
 
 @section('content')
@@ -113,25 +113,25 @@
                         <div class="menu-item mb-3 d-flex align-items-center">
                             <a href="{{ url('dashboard') }}" style="text-decoration: none; color: inherit;">
                                 <img src="{{ asset('assets/ChartBar.svg') }}" alt="Dashboard" class="me-2" width="24" height="24">
-                                <span>Dashboard</span>
+                                <span>{{ __('Panel') }}</span>
                             </a>
                         </div>
                         <div class="menu-item mb-3 d-flex align-items-center">
                             <a href="{{ url('geanologìa') }}" style="text-decoration: none; color: inherit;">
                                 <img src="{{ asset('assets/TreeStructure.svg') }}" alt="Genealogía" class="me-2" width="24" height="24">
-                                <span>Genealogía</span>
+                                <span>{{ __('Genealogía') }}</span>
                             </a>
                         </div>
                         <div class="menu-item mb-3 d-flex align-items-center">
                             <a href="{{ url('ganancias') }}" style="text-decoration: none; color: inherit;">
                                 <img src="{{ asset('assets/Wallet.svg') }}" alt="Ganancias" class="me-2" width="24" height="24">
-                                <span>Ganancias</span>
+                                <span>{{ __('Ganancias') }}</span>
                             </a>
                         </div>
                         <div class="menu-item mb-3 d-flex align-items-center">
                             <a href="{{ url('recursos') }}" style="text-decoration: none; color: inherit;">
                                 <img src="{{ asset('assets/Image.svg') }}" alt="Recursos" class="me-2" width="24" height="24">
-                                <span>Recursos</span>
+                                <span>{{ __('Recursos') }}</span>
                             </a>
                         </div>
                         <div class="menu-item d-flex align-items-center">
@@ -168,12 +168,12 @@
                                        @if (!empty($user_session->profile_photo))
                                        <img src="{{ asset('profile_photo/') }}<?php echo '/' . $user_session->profile_photo; ?>" class="rounded-circle img-fluid" alt="{{ $user_session->name }}">
                                        <br>
-                                       <span class="badge bg-primary" style="margin-top: 10px">Nivel {{ $user_session->level }}</span> <!-- Display Level -->
+                                       <span class="badge bg-primary" style="margin-top: 10px">{{ __('Nivel') }} {{ $user_session->level }}</span> <!-- Display Level -->
                                    @else
                                    <img src="{{ asset('149071.png') }}" alt="Profile Image"
                                    style="width: 60px; height: 60px;" />
                                    <br>
-                                   <span class="badge bg-primary" style="margin-top: 10px">Nivel {{ $user_session->level }}</span> <!-- Display Level -->
+                                   <span class="badge bg-primary" style="margin-top: 10px">{{ __('Nivel') }} {{ $user_session->level }}</span> <!-- Display Level -->
                                    @endif
 
                                         <h5 class="card-title" style="margin-top: 10px">{{ $user_session->name }}</h5>
@@ -181,7 +181,7 @@
                                         <p class="card-text d-flex justify-content-between">
                                             <span class="me-3">Referidos: {{ \App\Models\User::where('refer', $user_session->id)->count() }}</span>
 
-                                            <span>Ventas: ${{ $user_session->balance }}</span>
+                                            <span>{{ __('Ventas') }}: Bs{{ $user_session->balance }}</span>
 
                                         </p>
                                     </a>
@@ -199,19 +199,19 @@
                                                        @if (!empty($child->profile_photo))
                                                        <img src="{{ asset('profile_photo/') }}<?php echo '/' . $child->profile_photo; ?>" class="rounded-circle img-fluid" alt="{{ $child->name }}">
                                                        <br>
-                                                       <span class="badge bg-primary" style="margin-top: 10px">Nivel {{ $child->level }}</span> <!-- Display Level -->
+                                                       <span class="badge bg-primary" style="margin-top: 10px">{{ __('Nivel') }} {{ $child->level }}</span> <!-- Display Level -->
                                                    @else
                                                    <img src="{{ asset('149071.png') }}" alt="Profile Image"
                                                    style="width: 60px; height: 60px;" />
                                                    <br>
-                                                   <span class="badge bg-primary" style="margin-top: 10px">Nivel {{ $child->level }}</span> <!-- Display Level -->
+                                                   <span class="badge bg-primary" style="margin-top: 10px">{{ __('Nivel') }} {{ $child->level }}</span> <!-- Display Level -->
                                                    @endif
 
                                                         <h5 class="card-title" style="margin-top: 10px">{{ $child->name }}</h5>
                                                         <hr>
                                                         <p class="card-text d-flex justify-content-between">
                                                             <span class="me-3">Referidos: {{ \App\Models\User::where('refer', $child->id)->count() }}</span>
-                                                            <span>Ventas: ${{ $child->balance }}</span>
+                                                            <span>{{ __('Ventas') }}: Bs{{ $child->balance }}</span>
 
                                                         </p>
                                                     </a>
@@ -229,19 +229,19 @@
                                                                        @if (!empty($grandchild->profile_photo))
                                                                        <img src="{{ asset('profile_photo/') }}<?php echo '/' . $grandchild->profile_photo; ?>" class="rounded-circle img-fluid" alt="{{ $grandchild->name }}">
                                                                        <br>
-                                                                   <span class="badge bg-primary" style="margin-top: 10px">Nivel {{ $grandchild->level }}</span> <!-- Display Level -->
+                                                                   <span class="badge bg-primary" style="margin-top: 10px">{{ __('Nivel') }} {{ $grandchild->level }}</span> <!-- Display Level -->
                                                                    @else
                                                                    <img src="{{ asset('149071.png') }}" alt="Profile Image"
                                                                    style="width: 60px; height: 60px;" />
                                                                    <br>
-                                                                   <span class="badge bg-primary" style="margin-top: 10px">Nivel {{ $grandchild->level }}</span> <!-- Display Level -->
+                                                                   <span class="badge bg-primary" style="margin-top: 10px">{{ __('Nivel') }} {{ $grandchild->level }}</span> <!-- Display Level -->
                                                                    @endif
 
                                                                         <h5 class="card-title" style="margin-top: 10px">{{ $grandchild->name }}</h5>
                                                                         <hr>
                                                                         <p class="card-text d-flex justify-content-between">
                                                                             <span class="me-3">Referidos: {{ \App\Models\User::where('refer', $grandchild->id)->count() }}</span>
-                                                                            <span>Ventas: ${{ $grandchild->balance }}</span>
+                                                                            <span>{{ __('Ventas') }}: Bs{{ $grandchild->balance }}</span>
 
                                                                         </p>
                                                                     </a>
@@ -259,19 +259,19 @@
                                                                                        @if (!empty($greatGrandchild->profile_photo))
                                                                                        <img src="{{ asset('profile_photo/') }}<?php echo '/' . $greatGrandchild->profile_photo; ?>" class="rounded-circle img-fluid" alt="{{ $greatGrandchild->name }}">
                                                                                        <br>
-                                                                                   <span class="badge bg-primary" style="margin-top: 10px">Nivel {{ $greatGrandchild->level }}</span> <!-- Display Level -->
+                                                                                   <span class="badge bg-primary" style="margin-top: 10px">{{ __('Nivel') }} {{ $greatGrandchild->level }}</span> <!-- Display Level -->
                                                                                    @else
                                                                                    <img src="{{ asset('149071.png') }}" alt="Profile Image"
                                                                                    style="width: 60px; height: 60px;" />
                                                                                    <br>
-                                                                                   <span class="badge bg-primary" style="margin-top: 10px">Nivel {{ $greatGrandchild->level }}</span> <!-- Display Level -->
+                                                                                   <span class="badge bg-primary" style="margin-top: 10px">{{ __('Nivel') }} {{ $greatGrandchild->level }}</span> <!-- Display Level -->
                                                                                    @endif
 
                                                                                         <h5 class="card-title" style="margin-top: 10px">{{ $greatGrandchild->name }}</h5>
                                                                                         <hr>
                                                                                         <p class="card-text d-flex justify-content-between">
                                                                                             <span class="me-3">Referidos: {{ \App\Models\User::where('refer', $greatGrandchild->id)->count() }}</span>
-                                                                                            <span>Ventas: ${{ $greatGrandchild->balance }}</span>
+                                                                                            <span>{{ __('Ventas') }}: Bs{{ $greatGrandchild->balance }}</span>
 
                                                                                         </p>
                                                                                     </a>
@@ -310,7 +310,7 @@
                     <div class="d-flex flex-column align-items-center mb-4">
                         <img id="memberPhoto" class="rounded-circle mt-3" src="" alt="Member Photo" style="width: 80px; height: 80px;">
                         <div class="text-center">
-                            <div class="badge bg-primary text-white" id="memberLevel">Nivel 1</div>
+                            <div class="badge bg-primary text-white" id="memberLevel">{{ __('Nivel') }} 1</div>
                             <b class="d-block mt-1 text-white" id="memberName">Luis Martínez</b>
                         </div>
                     </div>
@@ -319,7 +319,7 @@
                         <div class="col text-white"
                              style="background: #1a1a1a; border:#1a1a1a; border-radius:10px; padding:15px;margin-right: 5px;">
                             <b id="totalSales">$500</b>
-                            <div>Ventas Totales</div>
+                            <div>{{ __('Ventas') }} Totales</div>
                         </div>
                         <div class="col-sm-6 text-white"
                              style="background: #1a1a1a; border:#1a1a1a; border-radius:10px; padding:15px;">
@@ -336,11 +336,11 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Fecha</th>
-                                    <th>Referido</th>
-                                    <th>Nivel</th>
-                                    <th>Porcentaje</th>
-                                    <th>Comisión Generada</th>
+                                    <th>{{ __('Fecha') }}</th>
+                                    <th>{{ __('Referido') }}</th>
+                                    <th>{{ __('Nivel') }}</th>
+                                    <th>{{ __('Porcentaje') }}</th>
+                                    <th>{{ __('Comisión Generada') }}</th>
                                 </tr>
                             </thead>
                             <tbody id="salesDetails">

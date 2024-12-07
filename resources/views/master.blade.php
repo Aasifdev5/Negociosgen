@@ -109,10 +109,10 @@
 
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{{ url('dashboard') }}">Panel</a></li>
-                                <li><a class="dropdown-item" href="{{ url('edit_profile') }}">Ver perfil</a></li>
+                                <li><a class="dropdown-item" href="{{ url('dashboard') }}">{{ __('Panel') }}</a></li>
+                                <li><a class="dropdown-item" href="{{ url('edit_profile') }}">{{ __('Ver perfil') }}</a></li>
 
-                                <li><a class="dropdown-item" href="{{ url('logout') }}">Cerrar sesión</a></li>
+                                <li><a class="dropdown-item" href="{{ url('logout') }}">{{ __('Cerrar sesión') }}</a></li>
                             </ul>
                         </li>
 
@@ -135,7 +135,7 @@
   font-family: 'Space Grotesk', sans-serif;
   margin-right: 20px;
   ">
-                    <span class="button1" style="line-height: 18px;">¡Únete ahora!</span>
+                    <span class="button1" style="line-height: 18px;">{{ __('¡Únete ahora!') }}</span>
                 </a>
                 <br>
                 <!-- Login Button -->
@@ -154,7 +154,7 @@ color: #0090ff;
 font-family: 'Space Grotesk', sans-serif;
 margin-right: 20px;
 ">
-                    <span class="button1" style="line-height: 18px;">Iniciar Sesión</span>
+                    <span class="button1" style="line-height: 18px;">{{ __('Iniciar Sesión') }}</span>
                 </a>
                 @endif
             </div>
@@ -179,10 +179,10 @@ margin-right: 20px;
                 <!-- Contact Information Section -->
                 <div class="col-lg-3 col-md-6 mb-4">
                     <div class="content-redes-sociales">
-                        <b class="informacin-de-contacto" style="display: block;">Información de Contacto</b>
+                        <b class="informacin-de-contacto" style="display: block;">{{ __('Información de Contacto') }}</b>
                         <ul class="content-list-redes list-unstyled" style="margin-top: 13px;">
                             <li class="list-item mb-2" style="margin-bottom: 0.5rem;">
-                                <a class="contctanos text-decoration-none text-light">Contáctanos</a>
+                                <a class="contctanos text-decoration-none text-light">{{ __('Contáctanos') }}</a>
                             </li>
                             <li class="list-item mb-2" style="margin-bottom: 0.5rem;">GEN Bolivia</li>
                             <li class="list-item mb-2" style="margin-bottom: 0.5rem;">NIT: XXXXXX</li>
@@ -196,7 +196,7 @@ margin-right: 20px;
                 <!-- Social Media Section -->
                 <div class="col-lg-3 col-md-6 mb-4">
                     <div class="content-redes-sociales1">
-                        <b class="informacin-de-contacto" style="display: block;">Síguenos en:</b>
+                        <b class="informacin-de-contacto" style="display: block;">{{ __('Síguenos en') }}:</b>
                         <ul class="content-list-redes list-unstyled"
                             style="margin-top: 13px; display: flex; flex-direction: column;">
                             <li class="list-item mb-2 d-flex " style="margin-bottom: 0.5rem;">
@@ -227,7 +227,7 @@ margin-right: 20px;
                 <!-- Legal Information Section -->
                 <div class="col-lg-3 col-md-12 mb-4">
                     <div class="content-redes-sociales2">
-                        <b class="informacin-de-contacto" style="display: block;">Legales & Derechos Reservados</b>
+                        <b class="informacin-de-contacto" style="display: block;">{{ __('Legales & Derechos Reservados') }}</b>
                         <ul class="content-list-redes list-unstyled"
                             style="margin-top: 13px; display: flex; flex-direction: column;">
                             <li>
@@ -250,17 +250,17 @@ margin-right: 20px;
                                     @endforeach
                                 </ul>
                             </li>
-                            <li class="list-item mb-2" style="margin-bottom: 0.5rem;">Mapa del sitio web</li>
-                            <li class="list-item mb-2" style="margin-bottom: 0.5rem;">Política de privacidad</li>
+                            <li class="list-item mb-2" style="margin-bottom: 0.5rem;">{{ __('Mapa del sitio web') }}</li>
+                            <li class="list-item mb-2" style="margin-bottom: 0.5rem;">{{ __('Política de privacidad') }}</li>
                             <li class="list-item" style="margin-bottom: 0;"><a href="{{ url('term') }}"
-                                    style="text-decoration: none;color:#fff;">Términos de uso</a></li>
+                                    style="text-decoration: none;color:#fff;">{{ __('Términos de uso') }}</a></li>
                             @if (!empty($user_session))
                                 <li class="list-item" style="margin-bottom: 0;"><a
                                         href="{{ route('tickets.create') }}"
-                                        style="text-decoration: none;color:#fff;">Support</a></li>
+                                        style="text-decoration: none;color:#fff;">{{ __('Apoyo') }}</a></li>
                             @else
                                 <li class="list-item" style="margin-bottom: 0;"><a href="{{ url('Userlogin') }}"
-                                        style="text-decoration: none;color:#fff;">Support</a></li>
+                                        style="text-decoration: none;color:#fff;">{{ __('Apoyo') }}</a></li>
                             @endif
 
                         </ul>
@@ -274,11 +274,12 @@ margin-right: 20px;
                 class="copyright-2024-gen-todos-lo-parent d-flex flex-column flex-md-row justify-content-between align-items-center mt-4">
                 <div
                     class="d-flex justify-content-center justify-content-md-start align-items-center mtodos-de-pago mb-3 mb-md-0">
-                    <div class="text-center text-md-start">Copyright © 2024 GEN. Todos los derechos reservados.</div>
+                    <div class="text-center text-md-start">{{ __('Derechos de autor') }} © {{ now()->year }} {{ __('GEN. Todos los derechos reservados.') }}</div>
+
                 </div>
 
                 <div class="mtodos-de-pago-parent d-flex flex-column flex-md-row align-items-center">
-                    <div class="mtodos-de-pago me-3">Métodos de pago:</div>
+                    <div class="mtodos-de-pago me-3">{{ __('Métodos de pago') }}:</div>
                     <div class="d-flex flex-wrap">
                         <img class="mastercard-icon me-2" alt="MasterCard"
                             src="{{ asset('assets/mastercard-Icon.svg') }}" style="max-width: 40px; height: auto;">

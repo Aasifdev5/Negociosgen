@@ -1,6 +1,6 @@
 @extends('master')
 @section('title')
-Contáctanos
+{{ __('Contáctanos') }}
 @endsection
 @section('content')
 <section style="padding: 90px 0;background: #1A1A1A;">
@@ -8,14 +8,14 @@ Contáctanos
         <div class="row">
             <!-- Left Column: Contact Information -->
             <div class="col-lg-6 col-md-12 mb-4">
-                <h2 class="text-light mb-4">¡Ponte en Contacto!</h2>
+                <h2 class="text-light mb-4">{{ __('¡Ponte en Contacto!') }}</h2>
                 <p class="" style="color: #a1a1a1;">
-                    Si tienes dudas o simplemente quieres saludarnos, la mejor forma de contactarnos es a través de nuestro formulario.
+                    {{ __('Si tienes dudas o simplemente quieres saludarnos, la mejor forma de contactarnos es a través de nuestro formulario.
                     Nos esforzamos en responder en menos de 48 horas, aunque a veces tardamos un poco más. ¡Gracias por tu paciencia! Leemos cada mensaje y lo dirigimos al equipo adecuado.
-                    También puedes visitar nuestra página de Ayuda para respuestas a las preguntas más comunes sobre GEN.
+                    También puedes visitar nuestra página de Ayuda para respuestas a las preguntas más comunes sobre GEN.')}}
                 </p>
                 <p class="" style="color: #a1a1a1;">
-                    Conéctate con nosotros a través de nuestras redes sociales:
+                    {{ __('Conéctate con nosotros a través de nuestras redes sociales') }}:
                 </p>
 
                 <!-- Social Media Icons -->
@@ -68,7 +68,7 @@ Contáctanos
             <!-- Right Column: Contact Form -->
             <div class="col-lg-6 col-md-12">
                 <div class="p-4" style="background-color: #000000; border: 1px solid #2E2E2E; border-radius: 10px;">
-                    <h4 class="text-light mb-3">Contacta con nosotros</h4>
+                    <h4 class="text-light mb-3">{{ __('Contacta con nosotros') }}</h4>
                      @if (Session::has('flash_message'))
                             <div class="alert alert-success">
                                 {{ Session::get('flash_message') }}
@@ -81,29 +81,29 @@ Contáctanos
                         @endif
                         {!! Form::open(['url' => 'contact_send', 'class' => 'row', 'id' => 'contact_form', 'role' => 'form']) !!}
                         <div class="mb-3">
-                            <label for="nombre" class="form-label text-light">Nombre</label>
+                            <label for="nombre" class="form-label text-light">{{ __('Nombre') }}</label>
                             <input type="text" name="name" class="form-control" id="nombre"
                                 placeholder="Título">
                         </div>
                         <div class="mb-3">
-                            <label for="email" class="form-label text-light">Email</label>
+                            <label for="email" class="form-label text-light">{{ __('Correo electrónico') }}</label>
                             <input type="email" class="form-control" name="email" id="email"
                                 placeholder="ejemplo@gmail.com">
                         </div>
                         <div class="mb-3">
-                            <label for="telefono" class="form-label text-light">Número de celular</label>
+                            <label for="telefono" class="form-label text-light">{{ __('Número de celular') }}</label>
                             <input type="tel" class="form-control" name="phone" id="telefono"
                                 placeholder="+591">
                         </div>
 
                         <div class=" mb-3">
-                            <label class="text-light">Asunto</label>
+                            <label class="text-light">{{ __('Asunto') }}</label>
                             <input type="text" name="subject" id="subject" class="form-control"
                                 placeholder="Asunto">
                         </div>
 
                         <div class="mb-3">
-                            <label for="descripcion" class="form-label text-light">Descripción</label>
+                            <label for="descripcion" class="form-label text-light">{{ __('Descripción') }}</label>
                             <textarea class="form-control" name="message" id="descripcion" rows="3"
                                 placeholder="Escribe la descripción opcional"></textarea>
                         </div>
@@ -135,13 +135,13 @@ Contáctanos
             <div class="container my-5 p-4" style="background-color: #0f1c2e; border: 1px solid #2E2E2E; border-radius: 16px;">
                 <div class="row">
                     <div class="col-12 col-md-8 text-start mb-3 mb-md-0">
-                        <h2 class="deseas-obtener-un text-light mb-3">¡Deseas obtener un ingreso adicional?</h2>
+                        <h2 class="deseas-obtener-un text-light mb-3">{{ __('¡Deseas obtener un ingreso adicional?') }}</h2>
                         <p class="no-esperes-ms text-light" style="max-width: 600px; color: #A1A1A1;">
-                            No esperes más para ser parte de este increíble proyecto. Empieza hoy mismo a transformar tu vida y la de quienes te rodean.
+                           {{ __(' No esperes más para ser parte de este increíble proyecto. Empieza hoy mismo a transformar tu vida y la de quienes te rodean.')}}
                         </p>
                     </div>
                     <div class="col-12 col-md-4 text-end d-flex align-items-center justify-content-end">
-                        <a href="{{ url('signup') }}" class="btn btn-primary btn-lg">Regístrate Aquí</a>
+                        <a href="{{ url('signup') }}" class="btn btn-primary btn-lg">{{ __('Regístrate Aquí') }}</a>
                     </div>
                 </div>
             </div>

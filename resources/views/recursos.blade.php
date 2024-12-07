@@ -1,12 +1,12 @@
 @extends('master')
 @section('title')
-    Recursos
+    {{ __('Recursos') }}
 @endsection
 @section('content')
     <section style="padding: 80px 0; background: #1a1a1a">
         <div class="container mt-5">
             <!-- Title Section -->
-            <h1 class="text-center text-light mb-4">Elige tu recurso y <span class="text-primary">Aumenta tus Ganancias</span>
+            <h1 class="text-center text-light mb-4">{{ __('Elige tu recurso y ') }}<span class="text-primary">{{ __('Aumenta tus Ganancias') }}</span>
             </h1>
 
             <div class="row mb-4">
@@ -22,20 +22,13 @@
                         </div>
                     </form>
                 </div>
-                <div class="col-sm-3 mb-3">
-                    <select name="filter" class="form-select" aria-label="Filtrar">
-                        <option value="" selected>Todos</option>
-                        <option value="option1">Opción 1</option>
-                        <option value="option2">Opción 2</option>
-                        <option value="option3">Opción 3</option>
-                    </select>
-                </div>
+
                 <div class="col-sm-6 text-end mb-3">
-                    <button type="button" class="btn btn-sm btn-primary">Ver Estadísticas</button>
+                    <button type="button" class="btn btn-sm btn-primary">{{ __('Ver Estadísticas') }}</button>
                 </div>
             </div>
 
-            <h1 class="text-light mb-3">Banners</h1>
+            <h1 class="text-light mb-3">{{ __('Banderas') }}</h1>
             <!-- Banners Section -->
             <div class="row mb-4">
                 <div class="col-md-3 mb-3">
@@ -58,12 +51,12 @@
             <div class="container mt-4 d-flex justify-content-between align-items-start"
                 style="background: #2E2E2E; border: 1px solid #2E2E2E; border-radius: 16px; padding: 16px;">
                 <div class="col-sm-8 me-3">
-                    <h3 class="text-light">Enlace para referidos</h3>
+                    <h3 class="text-light">{{ __('Enlace para referidos') }}</h3>
                     <input type="text" id="referralLink" class="form-control bg-dark text-white"
                         value="https://prueba.negociosgen.com/signup?{{ $user_session->id }}" readonly>
                     <button id="copyButton" class="btn btn-outline-primary mt-2" data-bs-toggle="tooltip"
                         data-bs-placement="top" title="Copiado!">
-                        Copiar enlace
+                        {{ __('Copiar enlace') }}
                     </button>
                 </div>
                 <div class="col-sm-4 mt-3">
@@ -104,7 +97,7 @@
 
             <!-- Videos Tutoriales Section -->
             <div class="resource-section">
-                <h5 class="text-light">Videos Tutoriales</h5>
+                <h5 class="text-light">{{ __('Videos Tutoriales') }}</h5>
                 <div class="container">
                     <!-- View All Button -->
                     <div class="col-sm-12 text-end mb-3">
@@ -242,7 +235,7 @@
             </style>
             <!-- Articulos Tutoriales Section -->
             <div class="resource-section">
-                <h5 class="text-light">Artículos Tutoriales</h5>
+                <h5 class="text-light">{{ __('Artículos Tutoriales') }}</h5>
                 <div class="row">
                     <div class="col-sm-12 text-end mb-3">
                         <a href="{{ url('blog') }}" class="btn btn-primary pull-right">{{ __('Ver Todos') }}</a>

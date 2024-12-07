@@ -84,7 +84,20 @@ class OTPController extends Controller
 
             // Recuperar el usuario basado en el correo electrónico de la sesión
             $user = User::where('email', Session::get('email'))->first();
+            if ($user->is_subscribed == 0 && $user->is_active == 0) {
+                  // Actualizar detalles del usuario después de una verificación exitosa
+            $user->update([
+                'is_online' => 1,
+                'last_seen' => Carbon::now('UTC')
+            ]);
 
+            // Establecer la sesión para el usuario conectado
+            $request->session()->put('LoggedIn', $user->id);
+                return redirect('addpaymentmethod')->with([
+
+                    'user' => $user
+                ]);
+            }
             // Verificar si el usuario está suscrito
             if ($user->is_subscribed !== 1) {
                 return back()->with('fail', 'Tu cuenta no está suscrita. Por favor, suscríbete para continuar.');

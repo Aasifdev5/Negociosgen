@@ -379,13 +379,11 @@
 
 
 
-
-
-
                                 </ul>
                             </li>
-                            <li><a class="sidebar-header" href="{{ route('audiolibros.index') }}"><i
-                                data-feather="monitor"></i><span>{{ __('Audiolibros') }}
+                            <li><a class="sidebar-header" href="{{ url('admin/withdraws') }}"><i class="icofont icofont-bank"></i><span>{{ __('Solicitudes de Retiro') }}
+                            </span></a></li>
+                            <li><a class="sidebar-header" href="{{ route('audiolibros.index') }}"><i class="icofont icofont-ui-head-phone"></i><span>{{ __('Audiolibros') }}
                             </span></a></li>
                             <li><a class="sidebar-header" href="{{ url('admin/banners') }}"><i
                                         data-feather="monitor"></i><span>{{ __('Bandera') }}

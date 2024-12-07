@@ -12,7 +12,7 @@
                     <div class="mb-3 d-flex justify-content-md-start justify-content-center order-1 mt-md-0 mt-3">
                         <div class="badge text-dark rounded-pill d-inline-flex align-items-center p-2"
                             style="font-size: 10px; font-family: 'Inter', sans-serif; font-weight: 600;background-color: #0ac7b4;">
-                            Próximo lanzamiento
+                            {{ __('Próximo lanzamiento') }}
                         </div>
                     </div>
 
@@ -22,11 +22,11 @@
                     <h2 class="text-center text-lg-start">
                         <span
                             style="color: #0090FF; font-size: 33px; letter-spacing: -0.02em; display: inline-block; font-family: 'Space Grotesk', sans-serif; font-weight: 700;">
-                            Libertad financiera y <br> crecimiento personal <br>
+                            {{ __('Libertad financiera y') }} <br> {{ __('crecimiento personal') }} <br>
                         </span>
                         <span
                             style="color: #fff; font-size: 33px; letter-spacing: -0.02em; display: inline-block; font-family: 'Space Grotesk', sans-serif; font-weight: 700;">
-                            a solo un clic
+                            {{ __('a solo un clic') }}
                         </span>
                     </h2>
 
@@ -39,8 +39,8 @@
                     font-weight: 400;
                     line-height: 28px;
                     color: #A1A1A1;">
-                        Únete a nuestro equipo de afiliados, toma nuestros cursos de desarrollo personal y genera ingresos
-                        promoviendo conocimiento y transformación.
+                        {{ __('Únete a nuestro equipo de afiliados, toma nuestros cursos de desarrollo personal y genera ingresos
+                        promoviendo conocimiento y transformación.')}}
                     </p>
 
                     <!-- Button -->
@@ -58,7 +58,7 @@
     font-weight: 700;
     color: white;
     text-transform: uppercase;">
-                            ¡Únete ahora!
+                            {{ __('¡Únete ahora!') }}
                         </a>
                     </div>
 
@@ -91,11 +91,11 @@
             <div class="row justify-content-center">
                 <div class="col-lg-2 text-center mb-4 mb-lg-0">
                     <h1 class="text-light font-weight-bold"
-                        style="font-size: 32px; font-family: 'Space Grotesk', sans-serif;">Beneficios</h1>
+                        style="font-size: 32px; font-family: 'Space Grotesk', sans-serif;">{{ __('Beneficios') }}</h1>
                     <p class="text-light"
                         style="color: white; font-size: 16px; font-family: 'Space Grotesk', sans-serif; line-height: 24px; max-width: 600px;">
-                        Te ofrecemos una oportunidad única de generar ingresos adicionales a través de nuestro sistema de
-                        marketing multinivel.
+                        {{ __('Te ofrecemos una oportunidad única de generar ingresos adicionales a través de nuestro sistema de
+                        marketing multinivel.')}}
                     </p>
                 </div>
 
@@ -108,7 +108,7 @@
                                     alt="Libertad Financiera" />
                                 <p class="text-light"
                                     style="font-size: 16px; font-family: 'Space Grotesk', sans-serif; line-height: 24px;">
-                                    Libertad<br />financiera</p>
+                                    {{ __('Libertad') }}<br />{{ __('financiera') }}</p>
                             </div>
                         </div>
 
@@ -119,7 +119,7 @@
                                     alt="Crecimiento" />
                                 <p class="text-light"
                                     style="font-size: 16px; font-family: 'Space Grotesk', sans-serif; line-height: 24px;">
-                                    Crecimiento</p>
+                                    {{ __('Crecimiento') }}</p>
                             </div>
                         </div>
 
@@ -130,7 +130,7 @@
                                     alt="Motivación" />
                                 <p class="text-light"
                                     style="font-size: 16px; font-family: 'Space Grotesk', sans-serif; line-height: 24px;">
-                                    Motivación</p>
+                                    {{ __('Motivación') }}</p>
                             </div>
                         </div>
 
@@ -141,7 +141,7 @@
                                     alt="Educación Financiera" />
                                 <p class="text-light"
                                     style="font-size: 16px; font-family: 'Space Grotesk', sans-serif; line-height: 24px;">
-                                    Educación<br />Financiera</p>
+                                    {{ __('Educación') }}<br />Financiera</p>
                             </div>
                         </div>
                     </div>
@@ -170,7 +170,7 @@
                     </div>
                     <h1
                         style="width: 100%; color: #EDEDED; font-size: 16px; font-family: Space Grotesk; font-weight: 700; word-wrap: break-word;padding-top: 5px;">
-                        Transformación Personal para Emprendedores
+                        {{ __('Transformación Personal para Emprendedores') }}
                     </h1>
                 </div>
 
@@ -178,15 +178,15 @@
 
                     <h1 class="text-center text-md-start"
                         style="width: 100%; color: #EDEDED; font-size: 32px; font-family: Space Grotesk; font-weight: 700; word-wrap: break-word;">
-                        Desarrolla Tus Habilidades: Coaching y Formación para Emprendedores
+                        {{ __('Desarrolla Tus Habilidades: Coaching y Formación para Emprendedores') }}
                     </h1>
 
                     <p class="text-center text-md-start"
                         style="width: 100%; color: #A1A1A1; font-size: 16px; font-family: 'Space Grotesk', sans-serif; font-weight: 400; line-height: 24px; word-wrap: break-word;">
-                        Nuestra sección de Coaching y Cursos está diseñada para empoderar a emprendedores a través de
+                        {{ __('Nuestra sección de Coaching y Cursos está diseñada para empoderar a emprendedores a través de
                         programas prácticos de formación. Aprende de expertos en marketing, desarrollo personal e
                         inteligencia emocional, y transforma tus conocimientos en oportunidades de éxito. Únete a nuestra
-                        comunidad y comienza tu viaje hacia el crecimiento hoy mismo.
+                        comunidad y comienza tu viaje hacia el crecimiento hoy mismo.')}}
                     </p>
                 </div>
 
@@ -236,7 +236,7 @@
                 <a href="{{ route('audiobook') }}" class="btn btn-primary">{{ __('Ver Todos') }}</a>
             </div>
 
-            <h1 style="padding-top: 5px; color: white;">Libros Recomendados</h1>
+            <h1 style="padding-top: 5px; color: white;">{{ __('Libros Recomendados') }}</h1>
 
             <div class="row">
                 @foreach ($audiobook as $row)
@@ -262,37 +262,37 @@
                 <div class="col-lg-6 col-md-12 order-2 order-md-1 text-center text-md-start"
                     style="padding-bottom: 10px;">
                     <h2 class="mb-4" style="color: #EDEDED; font-family: Space Grotesk; font-weight: 700;">
-                        Aprovecha las Oportunidades de Crecimiento
+                        {{ __('Aprovecha las Oportunidades de Crecimiento') }}
                     </h2>
                     <p
                         style="color: #A1A1A1; font-size: 16px; font-family: Space Grotesk; font-weight: 400; line-height: 24px;">
-                        Como miembro activo, tendrás acceso a cursos y entrenamientos exclusivos, además de la oportunidad
+                        {{ __('Como miembro activo, tendrás acceso a cursos y entrenamientos exclusivos, además de la oportunidad
                         de generar ingresos recomendando nuestra plataforma. Participa en eventos con coaches líderes y
-                        disfruta de descuentos en empresas afiliadas.
+                        disfruta de descuentos en empresas afiliadas.')}}
                     </p>
 
                     <!-- List of Features -->
                     <div class="mb-3 d-flex align-items-start">
                         <img class="me-2" src="{{ asset('assets/CheckCircleOutline (1).svg') }}" alt="Check icon"
                             style="width: 24px; height: 24px;">
-                        <div class="text-light">Acceso ilimitado a todos los cursos y coaching.</div>
+                        <div class="text-light">{{ __('Acceso ilimitado a todos los cursos y coaching.') }}</div>
                     </div>
 
                     <div class="mb-3 d-flex align-items-start">
                         <img class="me-2" src="{{ asset('assets/CheckCircleOutline (1).svg') }}" alt="Check icon"
                             style="width: 24px; height: 24px;">
-                        <div class="text-light">Descuentos exclusivos en negocios asociados.</div>
+                        <div class="text-light">{{ __('Descuentos exclusivos en negocios asociados.') }}</div>
                     </div>
 
                     <div class="mb-4 d-flex align-items-start">
                         <img class="me-2" src="{{ asset('assets/CheckCircleOutline (1).svg') }}" alt="Check icon"
                             style="width: 24px; height: 24px;">
-                        <div class="text-light">Genera ingresos compartiendo nuestro sistema con tu red.</div>
+                        <div class="text-light">{{ __('Genera ingresos compartiendo nuestro sistema con tu red.') }}</div>
                     </div>
 
                     <!-- Join Button -->
                     <div>
-                        <a href="{{ url('signup') }}" class="btn btn-primary btn-lg fw-bold">¡Únete ahora!</a>
+                        <a href="{{ url('signup') }}" class="btn btn-primary btn-lg fw-bold">{{ __('¡Únete ahora!') }}</a>
                     </div>
                 </div>
 
@@ -312,17 +312,16 @@
     </section>
     <section style="padding: 20px 0;background: #1A1A1A;">
         <div class="container">
-            <h1 style="padding-top: 5px;color: #ffff;">Nuestros Aliados</h1>
-            <p style="color: #A1A1A1;">También disfrutarás de descuentos en una amplia variedad de negocios asociados a
-                nivel nacional e internacional.</p>
+            <h1 style="padding-top: 5px;color: #ffff;">{{ __('Nuestros Aliados') }}</h1>
+            <p style="color: #A1A1A1;">{{ __('También disfrutarás de descuentos en una amplia variedad de negocios asociados a nivel nacional e internacional.') }}</p>
             <div class="row g-4">
                 <!-- UFC Gym Section -->
                 <div class="col-lg-4 col-md-4 col-sm-12 text-center p-3">
                     <div style="border: 1px solid #2e2e2e; padding: 10px; border-radius: 12px;">
                         <img class="img-fluid mb-2" src="{{ asset('assets/image 53.png') }}" alt="UFC Gym Image"
                             style="max-width: 100px; height: 100px; object-fit: contain;">
-                        <div class="fw-bold text-light">Gimnasio UFC 15%</div>
-                        <div class="" style="color: #A1A1A1;">(rua augusta 453, São Paulo, Brasil)</div>
+                        <div class="fw-bold text-light">{{ __('Gimnasio UFC 15%') }}</div>
+                        <div class="" style="color: #A1A1A1;">({{ __('rua augusta 453, São Paulo, Brasil') }})</div>
                     </div>
                 </div>
 
@@ -331,8 +330,8 @@
                     <div style="border: 1px solid #2e2e2e; padding: 10px; border-radius: 12px;">
                         <img class="img-fluid mb-2" src="{{ asset('assets/image 52.png') }}" alt="Cine Center Image"
                             style="max-width: 100px; height: 100px; object-fit: contain;">
-                        <div class="fw-bold text-light">Cine center 5%</div>
-                        <div class="" style="color: #A1A1A1;">(Calle warnes 34, Santa Cruz, Bolivia)</div>
+                        <div class="fw-bold text-light">{{ __('Cine center 5%') }}</div>
+                        <div class="" style="color: #A1A1A1;">({{ __('Calle warnes 34, Santa Cruz, Bolivia') }})</div>
                     </div>
                 </div>
             </div>
@@ -345,7 +344,7 @@
     </section>
     <section style="padding: 20px 0;background-color: #000000;">
         <div class="container my-5">
-            <h1 class="text-center text-light mb-4">Preguntas Frecuentes (FAQ)</h1>
+            <h1 class="text-center text-light mb-4">{{ __('Preguntas Frecuentes (FAQ)') }}</h1>
 
             <!-- FAQ Item 1 -->
             <div class="row mb-3">
@@ -353,15 +352,13 @@
                     <div class="d-flex align-items-center" data-bs-toggle="collapse" data-bs-target="#faq1"
                         aria-expanded="false" aria-controls="faq1">
                         <div class="flex-grow-1">
-                            <b class="fw-bold faq-title">¿Cómo me registro en la plataforma?</b>
+                            <b class="fw-bold faq-title">{{ __('¿Cómo me registro en la plataforma?') }}</b>
                         </div>
                         <img class="faq-icon ms-auto" src="{{ asset('assets/PlusOutline.svg') }}" alt="Plus Icon"
                             style="filter: brightness(0) invert(1);">
                     </div>
                     <div class="collapse" id="faq1">
-                        <p class="mt-2 faq-content">Para registrarte, simplemente haz clic en el botón "Registrarse" en la
-                            parte superior de la página. Completa los campos con tu información personal y sigue los pasos
-                            para activar tu cuenta.</p>
+                        <p class="mt-2 faq-content">{{ __('Para registrarte, simplemente haz clic en el botón "Registrarse" en la parte superior de la página. Completa los campos con tu información personal y sigue los pasos para activar tu cuenta.') }}</p>
                     </div>
                 </div>
             </div>
@@ -372,16 +369,13 @@
                     <div class="d-flex align-items-center" data-bs-toggle="collapse" data-bs-target="#faq2"
                         aria-expanded="false" aria-controls="faq2">
                         <div class="flex-grow-1">
-                            <b class="fw-bold faq-title">¿Qué beneficios obtengo al ser miembro?</b>
+                            <b class="fw-bold faq-title">{{ __('¿Qué beneficios obtengo al ser miembro?') }}</b>
                         </div>
                         <img class="faq-icon ms-auto" src="{{ asset('assets/PlusOutline.svg') }}" alt="Plus Icon"
                             style="filter: brightness(0) invert(1);">
                     </div>
                     <div class="collapse" id="faq2">
-                        <p class="mt-2 faq-content">Como miembro, tendrás acceso ilimitado a todos nuestros cursos de
-                            desarrollo personal, coaching, entrenamientos y seminarios. Además, podrás generar ingresos
-                            extra a través de nuestro sistema de afiliados multinivel y disfrutar de descuentos en diversas
-                            empresas asociadas.</p>
+                        <p class="mt-2 faq-content">{{ __('Como miembro, tendrás acceso ilimitado a todos nuestros cursos de desarrollo personal, coaching, entrenamientos y seminarios. Además, podrás generar ingresos extra a través de nuestro sistema de afiliados multinivel y disfrutar de descuentos en diversas empresas asociadas.') }}</p>
                     </div>
                 </div>
             </div>
@@ -392,15 +386,13 @@
                     <div class="d-flex align-items-center" data-bs-toggle="collapse" data-bs-target="#faq3"
                         aria-expanded="false" aria-controls="faq3">
                         <div class="flex-grow-1">
-                            <b class="fw-bold faq-title">¿Cómo puedo acceder a los cursos y coaching?</b>
+                            <b class="fw-bold faq-title">{{ __('¿Cómo puedo acceder a los cursos y coaching?') }}</b>
                         </div>
                         <img class="faq-icon ms-auto" src="{{ asset('assets/PlusOutline.svg') }}" alt="Plus Icon"
                             style="filter: brightness(0) invert(1);">
                     </div>
                     <div class="collapse" id="faq3">
-                        <p class="mt-2 faq-content">Una vez que te hayas registrado y activado tu membresía, podrás acceder
-                            a todos los cursos y sesiones de coaching directamente desde tu panel de usuario. Los videos
-                            estarán disponibles para ver en cualquier momento.</p>
+                        <p class="mt-2 faq-content">{{ __('Una vez que te hayas registrado y activado tu membresía, podrás acceder  a todos los cursos y sesiones de coaching directamente desde tu panel de usuario. Los videos estarán disponibles para ver en cualquier momento.') }}</p>
                     </div>
                 </div>
             </div>
@@ -411,15 +403,13 @@
                     <div class="d-flex align-items-center" data-bs-toggle="collapse" data-bs-target="#faq4"
                         aria-expanded="false" aria-controls="faq4">
                         <div class="flex-grow-1">
-                            <b class="fw-bold faq-title">¿Qué es el sistema de afiliados multinivel?</b>
+                            <b class="fw-bold faq-title">{{ __('¿Qué es el sistema de afiliados multinivel?') }}</b>
                         </div>
                         <img class="faq-icon ms-auto" src="{{ asset('assets/PlusOutline.svg') }}" alt="Plus Icon"
                             style="filter: brightness(0) invert(1);">
                     </div>
                     <div class="collapse" id="faq4">
-                        <p class="mt-2 faq-content">Nuestro sistema de afiliados multinivel te permite ganar comisiones
-                            recomendando nuestra plataforma a otras personas. A medida que tus referidos se registran y
-                            compran membresías, podrás recibir ganancias en varios niveles de profundidad.</p>
+                        <p class="mt-2 faq-content">{{ __('Nuestro sistema de afiliados multinivel te permite ganar comisiones recomendando nuestra plataforma a otras personas. A medida que tus referidos se registran y  compran membresías, podrás recibir ganancias en varios niveles de profundidad.') }}</p>
                     </div>
                 </div>
             </div>
@@ -430,15 +420,13 @@
                     <div class="d-flex align-items-center" data-bs-toggle="collapse" data-bs-target="#faq5"
                         aria-expanded="false" aria-controls="faq5">
                         <div class="flex-grow-1">
-                            <b class="fw-bold faq-title">¿Cómo puedo generar ingresos extra?</b>
+                            <b class="fw-bold faq-title">{{ __('¿Cómo puedo generar ingresos extra?') }}</b>
                         </div>
                         <img class="faq-icon ms-auto" src="{{ asset('assets/PlusOutline.svg') }}" alt="Plus Icon"
                             style="filter: brightness(0) invert(1);">
                     </div>
                     <div class="collapse" id="faq5">
-                        <p class="mt-2 faq-content">Puedes generar ingresos extra recomendando la plataforma a otros a
-                            través del sistema de marketing multinivel. Además, tendrás acceso a herramientas exclusivas que
-                            te ayudarán a promover nuestro contenido y crecer tu red de contactos.</p>
+                        <p class="mt-2 faq-content">{{ __('Puedes generar ingresos extra recomendando la plataforma a otros a través del sistema de marketing multinivel. Además, tendrás acceso a herramientas exclusivas que te ayudarán a promover nuestro contenido y crecer tu red de contactos.') }}</p>
                     </div>
                 </div>
             </div>
@@ -451,14 +439,14 @@
                 style="background-color: #0f1c2e; border: 1px solid #2E2E2E; border-radius: 16px;">
                 <div class="row">
                     <div class="col-12 col-md-8 text-start mb-3 mb-md-0">
-                        <h2 class="deseas-obtener-un text-light mb-3">¡Deseas obtener un ingreso adicional?</h2>
+                        <h2 class="deseas-obtener-un text-light mb-3">{{ __('¡Deseas obtener un ingreso adicional?') }}</h2>
                         <p class="no-esperes-ms text-light" style="max-width: 600px; color: #A1A1A1;">
-                            No esperes más para ser parte de este increíble proyecto. Empieza hoy mismo a transformar tu
-                            vida y la de quienes te rodean.
+                           {{ __(' No esperes más para ser parte de este increíble proyecto. Empieza hoy mismo a transformar tu
+                            vida y la de quienes te rodean.')}}
                         </p>
                     </div>
                     <div class="col-12 col-md-4 text-end d-flex align-items-center justify-content-end">
-                        <a href="{{ url('signup') }}" class="btn btn-primary btn-lg">Regístrate Aquí</a>
+                        <a href="{{ url('signup') }}" class="btn btn-primary btn-lg">{{ __('Regístrate Aquí') }}</a>
                     </div>
                 </div>
             </div>
@@ -473,17 +461,15 @@
             <div class="row">
                 <!-- Left Column: Contact Information -->
                 <div class="col-lg-6 col-md-12 mb-4">
-                    <h2 class="text-light mb-4">¡Ponte en Contacto!</h2>
+                    <h2 class="text-light mb-4">{{ __('¡Ponte en Contacto!') }}</h2>
                     <p class="" style="color: #a1a1a1;">
-                        Si tienes dudas o simplemente quieres saludarnos, la mejor forma de contactarnos es a través de
-                        nuestro formulario.
-                        Nos esforzamos en responder en menos de 48 horas, aunque a veces tardamos un poco más. ¡Gracias por
-                        tu paciencia! Leemos cada mensaje y lo dirigimos al equipo adecuado.
-                        También puedes visitar nuestra página de Ayuda para respuestas a las preguntas más comunes sobre
-                        GEN.
+                        {{ __('Si tienes dudas o simplemente quieres saludarnos, la mejor forma de contactarnos es a través de
+                        nuestro formulario. Nos esforzamos en responder en menos de 48 horas, aunque a veces tardamos un poco más. ¡Gracias por
+                        tu paciencia! Leemos cada mensaje y lo dirigimos al equipo adecuado.También puedes visitar nuestra página de Ayuda para respuestas a las preguntas más comunes sobre
+                        GEN.')}}
                     </p>
                     <p class="" style="color: #a1a1a1;">
-                        Conéctate con nosotros a través de nuestras redes sociales:
+                        {{ __('Conéctate con nosotros a través de nuestras redes sociales') }}:
                     </p>
 
                     <!-- Social Media Icons -->
@@ -549,7 +535,7 @@
                 <div class="col-lg-6 col-md-12">
                     <div class="p-4"
                         style="background-color: #000000; border: 1px solid #2E2E2E; border-radius: 10px;">
-                        <h4 class="text-light mb-3">Contacta con nosotros</h4>
+                        <h4 class="text-light mb-3">{{ __('Contacta con nosotros') }}</h4>
                         @if (Session::has('flash_message'))
                             <div class="alert alert-success">
                                 {{ Session::get('flash_message') }}
@@ -562,29 +548,29 @@
                         @endif
                         {!! Form::open(['url' => 'contact_send', 'class' => 'row', 'id' => 'contact_form', 'role' => 'form']) !!}
                         <div class="mb-3">
-                            <label for="nombre" class="form-label text-light">Nombre</label>
+                            <label for="nombre" class="form-label text-light">{{ __('Nombre') }}</label>
                             <input type="text" name="name" class="form-control" id="nombre"
                                 placeholder="Título">
                         </div>
                         <div class="mb-3">
-                            <label for="email" class="form-label text-light">Email</label>
+                            <label for="email" class="form-label text-light">{{ __('Correo electrónico') }}</label>
                             <input type="email" class="form-control" name="email" id="email"
                                 placeholder="ejemplo@gmail.com">
                         </div>
                         <div class="mb-3">
-                            <label for="telefono" class="form-label text-light">Número de celular</label>
+                            <label for="telefono" class="form-label text-light">{{ __('Número de celular') }}</label>
                             <input type="tel" class="form-control" name="phone" id="telefono"
                                 placeholder="+591">
                         </div>
 
                         <div class=" mb-3">
-                            <label class="text-light">Asunto</label>
+                            <label class="text-light">{{ __('Asunto') }}</label>
                             <input type="text" name="subject" id="subject" class="form-control"
                                 placeholder="Asunto">
                         </div>
 
                         <div class="mb-3">
-                            <label for="descripcion" class="form-label text-light">Descripción</label>
+                            <label for="descripcion" class="form-label text-light">{{ __('Descripción') }}</label>
                             <textarea class="form-control" name="message" id="descripcion" rows="3"
                                 placeholder="Escribe la descripción opcional"></textarea>
                         </div>

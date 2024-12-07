@@ -1,11 +1,11 @@
 @extends('master')
 @section('title')
-Libros Recomendados
+{{ __('Libros Recomendados') }}
 @endsection
 @section('content')
 <section style="padding: 150px 0; background: #000000;">
     <div class="container">
-        <h1 style="padding-top: 5px; color: white;">Libros Recomendados</h1>
+        <h1 style="padding-top: 5px; color: white;">{{ __('Libros Recomendados') }}</h1>
 
         <div class="row">
             @foreach ($audiobooks as $row)

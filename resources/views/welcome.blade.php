@@ -1,6 +1,6 @@
 @extends('master')
 @section('title')
-Bienvenida
+{{ __('Bienvenida') }}
 @endsection
 @section('content')
 <section style="padding: 180px 0; background: #1a1a1a">
@@ -18,7 +18,7 @@ Bienvenida
           <div class="col-lg-6 col-12 text-center mb-4">
             <h4 class="text-light">@if ($user_session)
                 {{ $user_session->name }}
-            @endif Bienvenido a la plataforma</h4>
+            @endif {{ __('Bienvenido a la plataforma') }}</h4>
             <img
               class="img-fluid my-3"
               src="{{ asset('assets/Rectangle 175.png') }}"

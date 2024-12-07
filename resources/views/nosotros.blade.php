@@ -20,7 +20,7 @@
                 font-weight: 700;
               "
             >
-              Transforma tu vida <span style="color: #0090ff">con</span>
+              {{ __('Transforma tu vida') }} <span style="color: #0090ff">{{ __('con') }}</span>
               <br />
             </span>
             <span
@@ -33,8 +33,8 @@
                 font-weight: 700;
               "
             >
-              educación financiera y <br />
-              crecimiento personal
+              {{ __('educación financiera y') }} <br />
+              {{ __('crecimiento personal') }}
             </span>
           </h2>
 
@@ -48,11 +48,11 @@
               color: #a1a1a1;
             "
           >
-            En GEN, Grupo Especializado en Negocios, te ofrecemos las
+            {{ __('En GEN, Grupo Especializado en Negocios, te ofrecemos las
             herramientas para alcanzar la libertad financiera y mejorar en
             todas las áreas de tu vida. A través de cursos, coaching y
             oportunidades de ingresos, te guiamos para que tomes el control de
-            tu futuro y el de tu familia.
+            tu futuro y el de tu familia.')}}
           </p>
 
           <!-- Button -->
@@ -73,7 +73,7 @@
                 text-transform: uppercase;
               "
             >
-              ¡Únete a GEN y comienza hoy!
+              {{ __('¡Únete a GEN y comienza hoy!') }}
             </a>
           </div>
         </div>
@@ -120,7 +120,7 @@
               word-wrap: break-word;
             "
           >
-            ¿QUIÉNES SOMOS?
+            {{ __('¿QUIÉNES SOMOS?') }}
           </h1>
           <p
             class="text-center text-md-start"
@@ -134,13 +134,13 @@
               word-wrap: break-word;
             "
           >
-            En GEN (Grupo Especializado en Negocios), nos dedicamos a la
+            {{ __('En GEN (Grupo Especializado en Negocios), nos dedicamos a la
             educación financiera, el desarrollo personal y el emprendimiento.
             Nuestro compromiso es ofrecer servicios de alto valor, ayudando a
             las personas a alcanzar sus metas y transformar sus vidas. A
             través de un enfoque claro y orientado a resultados, guiamos a
             nuestros miembros hacia la libertad financiera y un crecimiento
-            personal y profesional sostenido.
+            personal y profesional sostenido.')}}
           </p>
         </div>
       </div>
@@ -151,7 +151,7 @@
             class="text-light font-weight-bold"
             style="font-size: 32px; font-family: 'Space Grotesk', sans-serif"
           >
-            Nuestra Misión
+            {{ __('Nuestra Misión') }}
           </h1>
           <p
             class="text-light"
@@ -163,9 +163,9 @@
               max-width: 600px;
             "
           >
-            Nuestra misión es transformar vidas, empoderar a las personas para
+            {{ __('Nuestra misión es transformar vidas, empoderar a las personas para
             que superen sus límites y alcancen la libertad financiera. Lo
-            hacemos a través de:
+            hacemos a través de')}}:
           </p>
         </div>
 
@@ -188,11 +188,11 @@
                     line-height: 24px;
                   "
                 >
-                  Libertad financiera
+                  {{ __('Libertad financiera') }}
                 </h5>
                 <p class="text-light" style="font-size: 14px">
-                  En áreas clave como finanzas, emprendimiento y desarrollo
-                  personal.
+                  {{ __('En áreas clave como finanzas, emprendimiento y desarrollo
+                  personal.')}}
                 </p>
               </div>
             </div>
@@ -214,11 +214,10 @@
                     line-height: 24px;
                   "
                 >
-                  Crecimiento
+                  {{ __('Crecimiento') }}
                 </h5>
                 <p class="text-light" style="font-size: 14px">
-                  Para que nuestros miembros se inspiren y logren sus
-                  objetivos.
+                  {{ __('Para que nuestros miembros se inspiren y logren sus objetivos.') }}
                 </p>
               </div>
             </div>
@@ -240,11 +239,10 @@
                     line-height: 24px;
                   "
                 >
-                  Motivación
+                  {{ __('Motivación') }}
                 </h5>
                 <p class="text-light" style="font-size: 14px">
-                  Oportunidades de generación de ingresos mediante nuestro
-                  sistema de marketing multinivel.
+                    {{ __('Oportunidades de generación de ingresos mediante nuestro sistema de marketing multinivel.') }}
                 </p>
               </div>
             </div>
@@ -261,7 +259,7 @@
             class="text-light font-weight-bold"
             style="font-size: 32px; font-family: 'Space Grotesk', sans-serif"
           >
-            Nuestra Visión
+            {{ __('Nuestra Visión') }}
           </h1>
           <p
             class="text-light"
@@ -274,10 +272,7 @@
               margin: auto;
             "
           >
-            Ser un referente global en la educación financiera y el
-            crecimiento personal. Inspiramos, educamos y promovemos cambios
-            sociales, ayudando a mejorar la calidad de vida de las personas en
-            todo el mundo.
+            {{ __('Ser un referente global en la educación financiera y el crecimiento personal. Inspiramos, educamos y promovemos cambios sociales, ayudando a mejorar la calidad de vida de las personas en todo el mundo.') }}
           </p>
           <p
             class="text-light"
@@ -290,9 +285,7 @@
               margin: auto;
             "
           >
-            Parte de la ganancia de GEN será donada trimestralmente para
-            diferentes organizaciones, obras sociales, proyectos y áreas
-            necesitadas de nuestra sociedad.
+            {{ __('Parte de la ganancia de GEN será donada trimestralmente para diferentes organizaciones, obras sociales, proyectos y áreas necesitadas de nuestra sociedad.') }}
           </p>
         </div>
 
@@ -324,7 +317,7 @@
           font-family: 'Space Grotesk', sans-serif;
         "
       >
-        Nuestros Valores
+        {{ __('Nuestros Valores') }}
       </h1>
 
       <div class="row">
@@ -354,11 +347,10 @@
                     line-height: 24px;
                   "
                 >
-                  Compromiso
+                  {{ __('Compromiso') }}
                 </h5>
                 <p class="text-light" style="font-size: 14px">
-                  Estamos dedicados a apoyar a nuestros miembros en su camino
-                  hacia el éxito.
+                  {{ __('Estamos dedicados a apoyar a nuestros miembros en su camino hacia el éxito.') }}
                 </p>
               </div>
             </div>
@@ -387,11 +379,10 @@
                     line-height: 24px;
                   "
                 >
-                  Cooperación
+                  {{ __('Cooperación') }}
                 </h5>
                 <p class="text-light" style="font-size: 14px">
-                  Fomentamos el trabajo en equipo y la colaboración entre
-                  nuestra comunidad.
+                  {{ __('Fomentamos el trabajo en equipo y la colaboración entre nuestra comunidad.') }}
                 </p>
               </div>
             </div>
@@ -420,11 +411,10 @@
                     line-height: 24px;
                   "
                 >
-                  Motivación
+                  {{ __('Motivación') }}
                 </h5>
                 <p class="text-light" style="font-size: 14px">
-                  Inspiramos a las personas a tomar acción y avanzar hacia sus
-                  sueños.
+                  {{ __('Inspiramos a las personas a tomar acción y avanzar hacia sus sueños.') }}
                 </p>
               </div>
             </div>
@@ -453,11 +443,10 @@
                     line-height: 24px;
                   "
                 >
-                  Responsabilidad Social
+                  {{ __('Responsabilidad Social') }}
                 </h5>
                 <p class="text-light" style="font-size: 14px">
-                  Parte de nuestras ganancias se donan a causas sociales y
-                  organizaciones que necesitan apoyo.
+                  {{ __('Parte de nuestras ganancias se donan a causas sociales y organizaciones que necesitan apoyo.') }}
                 </p>
               </div>
             </div>
@@ -484,7 +473,7 @@
                 font-weight: 700;
               "
             >
-              Áreas de Enfoque
+              {{ __('Áreas de Enfoque') }}
             </span>
           </h2>
 
@@ -498,8 +487,7 @@
               color: #a1a1a1;
             "
           >
-            En GEN, abarcamos una amplia gama de temas esenciales para el
-            crecimiento integral de nuestros miembros:
+            {{ __('En GEN, abarcamos una amplia gama de temas esenciales para el crecimiento integral de nuestros miembros') }}:
           </p>
           <!-- List of Features -->
           <div class="mb-3 d-flex align-items-start">
@@ -510,7 +498,7 @@
               style="width: 24px; height: 24px"
             />
             <div class="text-light">
-              Educación financiera para adultos y niños.
+              {{ __('Educación financiera para adultos y niños.') }}
             </div>
           </div>
 
@@ -521,7 +509,7 @@
               alt="Check icon"
               style="width: 24px; height: 24px"
             />
-            <div class="text-light">Motivación y crecimiento personal.</div>
+            <div class="text-light">{{ __('Motivación y crecimiento personal.') }}</div>
           </div>
 
           <div class="mb-4 d-flex align-items-start">
@@ -532,7 +520,7 @@
               style="width: 24px; height: 24px"
             />
             <div class="text-light">
-              Emprendimiento y oportunidades de ingresos.
+              {{ __('Emprendimiento y oportunidades de ingresos.') }}
             </div>
           </div>
           <div class="mb-3 d-flex align-items-start">
@@ -543,7 +531,7 @@
               style="width: 24px; height: 24px"
             />
             <div class="text-light">
-              Estilo de vida saludable y bienestar.
+              {{ __('Estilo de vida saludable y bienestar.') }}
             </div>
           </div>
 
@@ -555,29 +543,8 @@
               style="width: 24px; height: 24px"
             />
             <div class="text-light">
-              Autoconocimiento y desarrollo espiritual.
+              {{ __('Autoconocimiento y desarrollo espiritual.') }}
             </div>
-          </div>
-
-          <div class="mb-4 d-flex align-items-start">
-            <img
-              class="me-2"
-              src="{{asset('assets/CheckCircleOutline (1).svg')}}"
-              alt="Check icon"
-              style="width: 24px; height: 24px"
-            />
-            <div class="text-light">
-              Familia, hijos y relaciones de pareja.
-            </div>
-          </div>
-          <div class="mb-3 d-flex align-items-start">
-            <img
-              class="me-2"
-              src="{{asset('assets/CheckCircleOutline (1).svg')}}"
-              alt="Check icon"
-              style="width: 24px; height: 24px"
-            />
-            <div class="text-light">Inteligencia emocional.</div>
           </div>
 
           <div class="mb-4 d-flex align-items-start">
@@ -587,7 +554,28 @@
               alt="Check icon"
               style="width: 24px; height: 24px"
             />
-            <div class="text-light">Estudiar y vivir en el exterior.</div>
+            <div class="text-light">
+              {{ __('Familia, hijos y relaciones de pareja.') }}
+            </div>
+          </div>
+          <div class="mb-3 d-flex align-items-start">
+            <img
+              class="me-2"
+              src="{{asset('assets/CheckCircleOutline (1).svg')}}"
+              alt="Check icon"
+              style="width: 24px; height: 24px"
+            />
+            <div class="text-light">{{ __('Inteligencia emocional.') }}</div>
+          </div>
+
+          <div class="mb-4 d-flex align-items-start">
+            <img
+              class="me-2"
+              src="{{asset('assets/CheckCircleOutline (1).svg')}}"
+              alt="Check icon"
+              style="width: 24px; height: 24px"
+            />
+            <div class="text-light">{{ __('Estudiar y vivir en el exterior.') }}</div>
           </div>
           <!-- Button -->
           <div class="text-center text-lg-start mb-3">
@@ -607,7 +595,7 @@
                 text-transform: uppercase;
               "
             >
-              ¡Únete a GEN y comienza hoy!
+              {{ __('¡Únete a GEN y comienza hoy!') }}
             </a>
           </div>
         </div>
@@ -627,14 +615,9 @@
 
   <section style="padding: 20px 0; background-color: #000000">
     <div class="container my-5">
-      <h1 class="text-light mb-4">Oportunidades con GEN</h1>
+      <h1 class="text-light mb-4">{{ __('Oportunidades con GEN') }}</h1>
       <p style="color: #a1a1a1">
-        Sabemos que uno de los mayores desafíos en la vida es la falta de
-        estabilidad económica, lo que nos puede llevar a descuidar nuestros
-        sueños, la familia e incluso nuestra salud. GEN te ofrece una
-        solución: puedes generar ingresos adicionales o convertir este
-        emprendimiento en tu fuente principal de ingresos, alcanzando tus
-        metas a corto, mediano y largo plazo.
+        {{ __('Sabemos que uno de los mayores desafíos en la vida es la falta de estabilidad económica, lo que nos puede llevar a descuidar nuestros sueños, la familia e incluso nuestra salud. GEN te ofrece una  solución: puedes generar ingresos adicionales o convertir este emprendimiento en tu fuente principal de ingresos, alcanzando tus metas a corto, mediano y largo plazo.') }}
       </p>
 
       <div class="col-lg-12 col-md-12 order-1 order-md-2 mb-5">
@@ -654,7 +637,7 @@
             font-family: 'Space Grotesk', sans-serif;
           "
         >
-          Con nuestro sistema de marketing multinivel, puedes:
+          {{ __('Con nuestro sistema de marketing multinivel, puedes') }}:
         </p>
 
         <div class="row justify-content-center">
@@ -684,11 +667,10 @@
                       line-height: 24px;
                     "
                   >
-                    Compromiso
+                    {{ ('Compromiso') }}
                   </h5>
                   <p class="text-light" style="font-size: 14px">
-                    Estamos dedicados a apoyar a nuestros miembros en su
-                    camino hacia el éxito.
+                    {{ __('Estamos dedicados a apoyar a nuestros miembros en su camino hacia el éxito.') }}
                   </p>
                 </div>
               </div>
@@ -717,11 +699,10 @@
                       line-height: 24px;
                     "
                   >
-                    Cooperación
+                    {{ ('Cooperación') }}
                   </h5>
                   <p class="text-light" style="font-size: 14px">
-                    Fomentamos el trabajo en equipo y la colaboración entre
-                    nuestra comunidad.
+                    {{ __('Fomentamos el trabajo en equipo y la colaboración entre nuestra comunidad.') }}
                   </p>
                 </div>
               </div>
@@ -750,11 +731,10 @@
                       line-height: 24px;
                     "
                   >
-                    Motivación
+                    {{ __('Motivación') }}
                   </h5>
                   <p class="text-light" style="font-size: 14px">
-                    Inspiramos a las personas a tomar acción y avanzar hacia
-                    sus sueños.
+                    {{ __('Inspiramos a las personas a tomar acción y avanzar hacia sus sueños.') }}
                   </p>
                 </div>
               </div>
@@ -783,11 +763,10 @@
                       line-height: 24px;
                     "
                   >
-                    Responsabilidad Social
+                    {{ __('Responsabilidad Social') }}
                   </h5>
                   <p class="text-light" style="font-size: 14px">
-                    Parte de nuestras ganancias se donan a causas sociales y
-                    organizaciones que necesitan apoyo.
+                    {{ __('Parte de nuestras ganancias se donan a causas sociales y organizaciones que necesitan apoyo.') }}
                   </p>
                 </div>
               </div>
@@ -815,11 +794,10 @@
                       line-height: 24px;
                     "
                   >
-                    Compromiso
+                    {{ __('Compromiso') }}
                   </h5>
                   <p class="text-light" style="font-size: 14px">
-                    Estamos dedicados a apoyar a nuestros miembros en su
-                    camino hacia el éxito.
+                    {{ __('Estamos dedicados a apoyar a nuestros miembros en su camino hacia el éxito.') }}
                   </p>
                 </div>
               </div>
@@ -848,11 +826,10 @@
                       line-height: 24px;
                     "
                   >
-                    Cooperación
+                    {{ __('Cooperación') }}
                   </h5>
                   <p class="text-light" style="font-size: 14px">
-                    Fomentamos el trabajo en equipo y la colaboración entre
-                    nuestra comunidad.
+                    {{ __('Fomentamos el trabajo en equipo y la colaboración entre nuestra comunidad.') }}
                   </p>
                 </div>
               </div>
@@ -881,11 +858,10 @@
                       line-height: 24px;
                     "
                   >
-                    Motivación
+                    {{ __('Motivación') }}
                   </h5>
                   <p class="text-light" style="font-size: 14px">
-                    Inspiramos a las personas a tomar acción y avanzar hacia
-                    sus sueños.
+                    {{ __('Inspiramos a las personas a tomar acción y avanzar hacia sus sueños.') }}
                   </p>
                 </div>
               </div>
@@ -914,11 +890,10 @@
                       line-height: 24px;
                     "
                   >
-                    Responsabilidad Social
+                    {{ __('Responsabilidad Social') }}
                   </h5>
                   <p class="text-light" style="font-size: 14px">
-                    Parte de nuestras ganancias se donan a causas sociales y
-                    organizaciones que necesitan apoyo.
+                    {{ __('Parte de nuestras ganancias se donan a causas sociales y organizaciones que necesitan apoyo.') }}
                   </p>
                 </div>
               </div>
@@ -941,15 +916,10 @@
             <!-- Text content on the right -->
             <div class="col-lg-6 col-md-12">
               <h3 class="text-light font-weight-bold mb-3">
-                Plan de Negocios GEN
+                {{ __('Plan de Negocios GEN') }}
               </h3>
               <p class="text-light">
-                Invita a tus conocidos, familiares, amigos y compañeros de
-                trabajo a descubrir esta increíble oportunidad de negocios.
-                Comparte sobre este proyecto que busca educar, motivar y
-                generar cambios positivos en las personas, además de ofrecer
-                fuentes de ingreso que pueden transformar vidas. Al unirte a
-                nuestra comunidad, podrás:
+                {{ __('Invita a tus conocidos, familiares, amigos y compañeros de trabajo a descubrir esta increíble oportunidad de negocios.Comparte sobre este proyecto que busca educar, motivar y generar cambios positivos en las personas, además de ofrecer fuentes de ingreso que pueden transformar vidas. Al unirte a nuestra comunidad, podrás') }}:
               </p>
 
               <!-- Item 1 -->
@@ -961,8 +931,7 @@
                   style="width: 24px; height: 24px"
                 />
                 <p class="mb-0 text-light">
-                  Acceso ilimitado a todos los cursos, entrenamientos y
-                  materiales digitales.
+                  {{ __('Acceso ilimitado a todos los cursos, entrenamientos y materiales digitales.') }}
                 </p>
               </div>
 
@@ -975,8 +944,7 @@
                   style="width: 24px; height: 24px"
                 />
                 <p class="mb-0 text-light">
-                  Comisiones por las personas que inscribas en tu red hasta el
-                  séptimo nivel.
+                  {{ __('Comisiones por las personas que inscribas en tu red hasta el séptimo nivel.') }}
                 </p>
               </div>
 
@@ -989,86 +957,85 @@
                   style="width: 24px; height: 24px"
                 />
                 <p class="mb-0 text-light">
-                  Oportunidad de mejorar tus finanzas, crecer personalmente y
-                  contribuir a causas sociales.
+                  {{ __('Oportunidad de mejorar tus finanzas, crecer personalmente y contribuir a causas sociales.') }}
                 </p>
               </div>
 
               <!-- Button -->
               <div class="text-center text-lg-left mt-4">
                 <a href="{{ url('signup') }}" class="btn btn-primary btn-lg"
-                  >¡Únete a GEN y comienza hoy!</a
+                  >{{ __('¡Únete a GEN y comienza hoy!') }}</a
                 >
               </div>
             </div>
           </div>
         </div>
-      <h1 class="text-light text-center font-weight-bold mb-3">Ganancias Potenciales</h1>
-      <p style="color: #A1A1A1;">GEN distribuye el 40% de sus ingresos entre sus miembros activos, basándose en la estructura de red que construyas. Así es como funcionan las comisiones:</p>
+      <h1 class="text-light text-center font-weight-bold mb-3">{{ __('Ganancias Potenciales') }}</h1>
+      <p style="color: #A1A1A1;">{{ __('GEN distribuye el 40% de sus ingresos entre sus miembros activos, basándose en la estructura de red que construyas. Así es como funcionan las comisiones') }}:</p>
       <div class="container py-5">
           <!-- Header Row -->
           <div class="row text-center text-light font-weight-bold mb-3">
-              <div class="col-6 col-md-3">Nivel</div>
-              <div class="col-6 col-md-2">% Comisión</div>
-              <div class="col-6 col-md-3">Personas</div>
-              <div class="col-6 col-md-4">Monto Total</div>
+              <div class="col-6 col-md-3">{{ __('Nivel') }}</div>
+              <div class="col-6 col-md-2">% {{ __('Comisión') }}</div>
+              <div class="col-6 col-md-3">{{ __('Personas') }}</div>
+              <div class="col-6 col-md-4">{{ __('Monto Total') }}</div>
           </div>
 
           <hr class="bg-light">
 
           <!-- Row 1 -->
           <div class="row text-center text-light mb-3">
-              <div class="col-6 col-md-3">1er Nivel</div>
+              <div class="col-6 col-md-3">1er {{ __('Nivel') }}</div>
               <div class="col-6 col-md-2">30%</div>
-              <div class="col-6 col-md-3">3 personas</div>
+              <div class="col-6 col-md-3">3 {{ __('Personas') }}</div>
               <div class="col-6 col-md-4">Bs. 900 + Bs. 100 Bono</div>
           </div>
           <hr class="bg-light">
           <!-- Row 2 -->
           <div class="row text-center text-light mb-3">
-              <div class="col-6 col-md-3">2do Nivel</div>
+              <div class="col-6 col-md-3">2do {{ __('Nivel') }}</div>
               <div class="col-6 col-md-2">3%</div>
-              <div class="col-6 col-md-3">9 personas</div>
+              <div class="col-6 col-md-3">9 {{ __('Personas') }}</div>
               <div class="col-6 col-md-4">Bs. 270</div>
           </div>
           <hr class="bg-light">
           <!-- Row 3 -->
           <div class="row text-center text-light mb-3">
-              <div class="col-6 col-md-3">3er Nivel</div>
+              <div class="col-6 col-md-3">3er {{ __('Nivel') }}</div>
               <div class="col-6 col-md-2">2%</div>
-              <div class="col-6 col-md-3">27 personas</div>
+              <div class="col-6 col-md-3">27 {{ __('Personas') }}</div>
               <div class="col-6 col-md-4">Bs. 540</div>
           </div>
           <hr class="bg-light">
           <!-- Row 4 -->
           <div class="row text-center text-light mb-3">
-              <div class="col-6 col-md-3">4to Nivel</div>
+              <div class="col-6 col-md-3">4to {{ __('Nivel') }}</div>
               <div class="col-6 col-md-2">2%</div>
-              <div class="col-6 col-md-3">81 personas</div>
+              <div class="col-6 col-md-3">81 {{ __('Personas') }}</div>
               <div class="col-6 col-md-4">Bs. 1,620</div>
           </div>
           <hr class="bg-light">
           <!-- Row 5 -->
           <div class="row text-center text-light mb-3">
-              <div class="col-6 col-md-3">5to Nivel</div>
+              <div class="col-6 col-md-3">5to {{ __('Nivel') }}</div>
               <div class="col-6 col-md-2">1%</div>
-              <div class="col-6 col-md-3">243 personas</div>
+              <div class="col-6 col-md-3">243 {{ __('Personas') }}</div>
               <div class="col-6 col-md-4">Bs. 2,430</div>
           </div>
           <hr class="bg-light">
           <!-- Row 6 -->
           <div class="row text-center text-light mb-3">
-              <div class="col-6 col-md-3">6to Nivel</div>
+              <div class="col-6 col-md-3">6to {{ __('Nivel') }}</div>
               <div class="col-6 col-md-2">1%</div>
-              <div class="col-6 col-md-3">729 personas</div>
+              <div class="col-6 col-md-3">729 {{ __('Personas') }}</div>
               <div class="col-6 col-md-4">Bs. 7,290</div>
           </div>
           <hr class="bg-light">
           <!-- Row 7 -->
           <div class="row text-center text-light mb-3">
-              <div class="col-6 col-md-3">7mo Nivel</div>
+              <div class="col-6 col-md-3">7mo {{ __('Nivel') }}</div>
               <div class="col-6 col-md-2">1%</div>
-              <div class="col-6 col-md-3">2,187 personas</div>
+              <div class="col-6 col-md-3">2,187 {{ __('Personas') }}</div>
               <div class="col-6 col-md-4">Bs. 21,870</div>
           </div>
       </div>
@@ -1076,21 +1043,21 @@
           <!-- Title -->
           <div class="row justify-content-center">
               <div class="col-12">
-                  <h2 class="font-weight-bold text-light">Únete a GEN</h2>
+                  <h2 class="font-weight-bold text-light">{{ __('Únete a GEN') }}</h2>
               </div>
           </div>
 
           <!-- Description -->
           <div class="row justify-content-center mt-3">
               <div class="col-12 col-md-8">
-                  <p class="text-light">No esperes más para ser parte de este increíble proyecto. Empieza hoy mismo a transformar tu vida y la de quienes te rodean. Inscríbete, construye tu red y logra la libertad financiera que siempre has deseado.</p>
+                  <p class="text-light">{{ __('No esperes más para ser parte de este increíble proyecto. Empieza hoy mismo a transformar tu vida y la de quienes te rodean. Inscríbete, construye tu red y logra la libertad financiera que siempre has deseado.') }}</p>
               </div>
           </div>
 
           <!-- Button -->
           <div class="row justify-content-center mt-3">
               <div class="col-auto">
-                  <a href="{{ url('signup') }}" class="btn btn-sm btn-primary">Inscríbete</a>
+                  <a href="{{ url('signup') }}" class="btn btn-sm btn-primary">{{ __('Inscríbete') }}</a>
               </div>
           </div>
       </div>

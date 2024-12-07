@@ -7,8 +7,8 @@
     <div class="container">
         <div class="container" style="background: #000; padding: 20px; border: 1px solid #000; border-radius: 16px;">
             <div class="text-center my-4">
-                <h3 class="text-light">Revisa tu correo electrónico para obtener un código</h3>
-                <p class="text-light">Por favor ingresa el código que enviamos a <strong>{{ Session::get('email') }}</strong> para ayudarnos a proteger tu cuenta.</p>
+                <h3 class="text-light">{{ __('Revisa tu correo electrónico para obtener un código') }}</h3>
+                <p class="text-light">{{ __('Por favor ingresa el código que enviamos a') }} <strong>{{ Session::get('email') }}</strong> {{ __('para ayudarnos a proteger tu cuenta.') }}</p>
             </div>
             @if(Session::has('success'))
             <div class="alert alert-success">
@@ -43,7 +43,7 @@
                 </div>
 
                 <div>
-                    <a href="{{ url('alternative.method') }}" class="text-decoration-none">Prueba de otra manera</a>
+                    <a href="{{ url('alternative.method') }}" class="text-decoration-none">{{ __('Prueba de otra manera') }}</a>
                 </div>
             </div>
         </div>

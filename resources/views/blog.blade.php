@@ -7,7 +7,7 @@
 @section('content')
     <section style="padding: 90px 0; background: #1A1A1A;">
         <div class="container my-5">
-            <h1 class="text-center" style="color: #ededed;">El blog de <span style="color: #0090ff;">GEN</span></h1>
+            <h1 class="text-center" style="color: #ededed;">{{ __('El blog de') }} <span style="color: #0090ff;">{{ __('GEN') }}</span></h1>
 
             <form action="{{ url('/blog') }}" method="GET" style="width: 100%; max-width: 600px; margin: auto;">
                 <div class="input-group" style="position: relative; display: flex; align-items: center;">
@@ -176,7 +176,7 @@
                         </div>
                     @else
                         <div class="alert alert-warning text-center">
-                            <strong>{{ __('No blog posts found.') }}</strong>
+                            <strong>{{ __('No se encontraron publicaciones de blog.') }}</strong>
                         </div>
                     @endif
 

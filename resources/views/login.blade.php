@@ -10,7 +10,7 @@
 
                 <div class="row justify-content-center">
                     <div class="col-md-4">
-                        <h2 class="text-center text-light mb-4">Iniciar Sesión</h2>
+                        <h2 class="text-center text-light mb-4">{{ __('Iniciar Sesión') }}</h2>
                         <form action="{{ url('send-otp') }}" method="POST">
                             @if (Session::has('success'))
                                 <div class="alert alert-success" style="background-color: green;">
@@ -24,7 +24,7 @@
                             @endif
                             @csrf
                             <div class="mb-3">
-                                <label for="email" class="form-label text-light">Email</label>
+                                <label for="email" class="form-label text-light">{{ __('Correo electrónico') }}</label>
                                 <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" id="email" placeholder="ejemplo@gmail.com" required value="{{ old('email') }}">
                                 @error('email')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -32,8 +32,8 @@
                             </div>
                             <button type="submit" class="btn btn-primary w-100">Enviar OTP</button>
                             <div class="mt-3 text-center">
-                                <span class="text-light">¿Aún no eres afiliado? </span>
-                                <a href="{{ url('signup') }}" class="text-primary">Únete aquí</a>
+                                <span class="text-light">{{ __('¿Aún no eres afiliado?') }} </span>
+                                <a href="{{ url('signup') }}" class="text-primary">{{ __('Únete aquí') }}</a>
                             </div>
                         </form>
 

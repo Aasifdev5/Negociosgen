@@ -36,6 +36,7 @@ use App\Models\SupportTicketQuestion;
 use App\Models\TimeLog;
 use App\Models\User;
 use App\Models\Wishlist;
+use App\Models\Withdrawal;
 use App\Notifications\NewUserRegisteredNotification;
 use App\Notifications\ResetPasswordNotification;
 use App\Notifications\UserRegisteredNotification;
@@ -88,6 +89,28 @@ class UserController extends Controller
 
         return view('index', compact('user_session',   'pages', 'course', 'audiobook'));
     }
+    public function requestWithdrawal(Request $request)
+    {
+        $user = User::find($request->user_id);
+
+        // Validar el monto de retiro
+        $request->validate([
+            'amount' => 'required|numeric|min:1',
+        ]);
+
+        // Verificar si el monto solicitado es mayor que el saldo disponible
+        if ($request->amount > $user->balance) {
+            return back()->with('fail', 'Saldo insuficiente.');
+        }
+
+        // Crear la solicitud de retiro
+        Withdrawal::create([
+            'user_id' => $user->id,
+            'amount' => $request->amount,
+        ]);
+
+        return back()->with('success', 'Solicitud de retiro enviada.');
+    }
 
     public function ganancias()
     {
@@ -97,7 +120,7 @@ class UserController extends Controller
 
         $sales = Sales::where('refer_id', $user_session->id)->with('user')->get();
         $pages = Page::all();
-        return view('ganancias', compact('user_session', 'pages','sales'));
+        return view('ganancias', compact('user_session', 'pages', 'sales'));
     }
     public function fondo()
     {
@@ -262,26 +285,15 @@ class UserController extends Controller
             return Redirect()->with('fail', 'Tienes que iniciar sesión primero');
         }
     }
-    public function MyOrders()
+    public function requestW()
     {
         if (Session::has('LoggedIn')) {
 
             $pages = Page::all();
             $user_session = User::where('id', Session::get('LoggedIn'))->first();
-            // Fetch orders with related order items, products, and payment status
-            $orders = Order::where('orders.user_id', Session::get('LoggedIn'))
-                ->leftJoin('payments', 'orders.id', '=', 'payments.order_id')
-
-                ->with(['orderItems' => function ($query) {
-                    $query->with('product');
-                }])
-                ->select('orders.id', 'orders.created_at', 'orders.total_amount', 'payments.accepted')
-                ->get();
 
 
-
-
-            return view('my_orders', compact('user_session',   'pages', 'orders'));
+            return view('requestsWithdraw', compact('user_session',   'pages'));
         } else {
             return Redirect()->with('fail', 'Tienes que iniciar sesión primero');
         }
@@ -317,7 +329,7 @@ class UserController extends Controller
             $user_session = User::where('id', Session::get('LoggedIn'))->first();
             $course = Course::orderBy('created_at', 'desc')->take(4)->get();  // Fetch 4 most recent courses
             $blogs = Blog::orderBy('created_at', 'desc')->take(4)->get();
-            return view('recursos', compact('user_session',   'pages','course','blogs'));
+            return view('recursos', compact('user_session',   'pages', 'course', 'blogs'));
         } else {
             return Redirect()->with('fail', 'Tienes que iniciar sesión primero');
         }
@@ -461,7 +473,7 @@ class UserController extends Controller
 
         $supportQuestions = SupportTicketQuestion::when($query, function ($queryBuilder) use ($query) {
             $queryBuilder->where('question', 'like', '%' . $query . '%')
-                         ->orWhere('answer', 'like', '%' . $query . '%');
+                ->orWhere('answer', 'like', '%' . $query . '%');
         })->paginate(9); // Adjust number of items per page
 
 
@@ -513,12 +525,46 @@ class UserController extends Controller
             // dd($sales);
             $pages = Page::all();
 
-            return view('dashboard', compact('user_session', 'pages','sales'));
+            return view('dashboard', compact('user_session', 'pages', 'sales'));
         } else {
             // Redirect to the login page if the user is not logged in
             return redirect()->route('Userlogin'); // or use 'login' if you have a named route for login
         }
     }
+    public function getDashboardData(Request $request)
+    {
+        // Get the current user's ID
+        $userId = Session::get('LoggedIn');
+
+        // Fetch monthly sales data (sum of the 'commission' field per month)
+        $sales = Sales::selectRaw('MONTH(created_at) as month, SUM(commission) as total')
+            ->where('refer_id', $userId)
+            ->groupBy('month')
+            ->orderBy('month') // Ensure months are ordered properly
+            ->pluck('total', 'month');
+
+        // Ensure every month (1-12) is accounted for, even if there are no sales in some months
+        $months = collect(range(1, 12))->mapWithKeys(fn($month) => [$month => $sales->get($month, 0)]);
+
+        // Calculate total commission earned by the user (sum of the 'commission' field)
+        $totalCommission = Sales::where('refer_id', $userId)
+            ->sum('commission');
+
+        // Commission breakdown by level (if needed)
+        $commissionByLevel = Sales::select('level', 'commission')
+            ->where('refer_id', $userId)
+            ->get();
+
+
+        return response()->json([
+            'monthlySales' => $months,
+            'totalCommission' => $totalCommission,
+            'commissionByLevel' => $commissionByLevel,
+        ]);
+    }
+
+
+
     public function welcome()
     {
         if (Session::has('LoggedIn')) {
@@ -533,24 +579,24 @@ class UserController extends Controller
     }
 
     public function blogs(Request $request)
-{
-    $query = $request->get('query'); // Get the search query
+    {
+        $query = $request->get('query'); // Get the search query
 
-    // Fetch blogs, filtering by the search query if it exists
-    $blogs = Blog::when($query, function ($queryBuilder) use ($query) {
-        $queryBuilder->where('title', 'like', '%' . $query . '%')
-            ->orWhere('short_description', 'like', '%' . $query . '%');
-    })->orderBy('id', 'DESC')->paginate(9);
+        // Fetch blogs, filtering by the search query if it exists
+        $blogs = Blog::when($query, function ($queryBuilder) use ($query) {
+            $queryBuilder->where('title', 'like', '%' . $query . '%')
+                ->orWhere('short_description', 'like', '%' . $query . '%');
+        })->orderBy('id', 'DESC')->paginate(9);
 
-    $user_session = User::where('id', Session::get('LoggedIn'))->first();
+        $user_session = User::where('id', Session::get('LoggedIn'))->first();
 
-    $data['blogComments'] = BlogComment::active();
-    $blogComments = $data['blogComments']->whereNull('parent_id')->get();
-    $pages = Page::all();
-    $latest_posts = Blog::orderBy('id', 'DESC')->paginate(3);
+        $data['blogComments'] = BlogComment::active();
+        $blogComments = $data['blogComments']->whereNull('parent_id')->get();
+        $pages = Page::all();
+        $latest_posts = Blog::orderBy('id', 'DESC')->paginate(3);
 
-    return view('blog', compact('user_session', 'latest_posts', 'blogs', 'pages', 'blogComments', 'query'));
-}
+        return view('blog', compact('user_session', 'latest_posts', 'blogs', 'pages', 'blogComments', 'query'));
+    }
 
     public function news_category($slug)
     {
@@ -1159,7 +1205,7 @@ class UserController extends Controller
         $course = Course::orderByDesc('id')->paginate(12);
         $user_session = User::where('id', Session::get('LoggedIn'))->first();
         $pages = Page::all();
-        return view('course', compact('pages', 'user_session','course'));
+        return view('course', compact('pages', 'user_session', 'course'));
     }
     public function storeBack(Request $request)
     {

@@ -85,27 +85,27 @@
                 <!-- Main Content -->
                 <div class="col-lg-9 col-md-8 col-sm-12">
                     <div class="card mb-4" style="background-color: #000; border: 1px solid #2e2e2e;">
-                        <h2 class="text-center mb-4 text-light py-5">Tu Perfil</h2>
+                        <h2 class="text-center mb-4 text-light py-5">{{ __('Tu Perfil') }}</h2>
                         <div class="card-body">
 
 
 
 
-                            <h3 class="text-light">Tus datos</h3>
+                            <h3 class="text-light">{{ __('Tus datos') }}</h3>
                             <div class="row">
                                 <div class="col-md-12 mb-3">
-                                    <label class="form-label text-light">Nombre</label>
+                                    <label class="form-label text-light">{{ __('Nombre') }}</label>
                                     <input type="text" name="name" class="form-control"
                                         value="{{ $user_session->name ?? '' }}" placeholder="Nombre" />
                                 </div>
 
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label text-light">Usuario</label>
+                                    <label class="form-label text-light">{{ __('Usuario') }}</label>
                                     <input type="text" name="username" class="form-control"
                                         value="{{ $user_session->username ?? '' }}" placeholder="Usuario" />
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label text-light">Email</label>
+                                    <label class="form-label text-light">{{ __('Correo electrónico') }}</label>
                                     <input type="email" name="email" class="form-control"
                                         value="{{ $user_session->email ?? '' }}" placeholder="Email" />
                                 </div>
@@ -115,12 +115,12 @@
                                         value="{{ $user_session->mobile_number ?? '' }}" placeholder="Celular" />
                                 </div>
                                 <div class="col-12 mb-3">
-                                    <label class="form-label text-light">Bio</label>
+                                    <label class="form-label text-light">{{ __('Biografía') }}</label>
                                     <textarea name="bio" class="form-control" rows="3" placeholder="Escribe un mensaje">{{ $user_session->about ?? '' }}</textarea>
                                 </div>
                             </div>
 
-                            <h3 class="text-light">Tus Redes Sociales</h3>
+                            <h3 class="text-light">{{ __('Tus Redes Sociales') }}</h3>
                             <div class="row mb-4">
                                 <div class="col-md-12 mb-3">
                                     <div class="d-flex align-items-center">
@@ -157,7 +157,7 @@
                             </div>
 
                             <div class="col-md-12 mb-4 text-end">
-                                <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                                <button type="submit" class="btn btn-primary">{{ __('Guardar cambios') }}</button>
                             </div>
                             </form>
                         </div>

@@ -1,6 +1,6 @@
 @extends('master')
 @section('title')
-    {{ __('Blog Details') }}
+    {{ __('Detalles del blog') }}
 @endsection
 @section('content')
     <style>
@@ -151,7 +151,7 @@
                         <div class="badges mt-4 d-flex align-items-center">
                             <img class="heart-icon me-2" alt="Me gusta" src="{{ asset('assets/heart.svg') }}"
                                 data-blog-id="{{ $blog_detail->id }}" style="cursor: pointer;">
-                            <div class="badges1">Me gusta</div>&nbsp;
+                            <div class="badges1">{{ __('Me gusta') }}</div>&nbsp;
                             <span id="likeCount">{{ $blog_detail->like_count }}</span>
                         </div>
                         <br>
@@ -169,7 +169,7 @@
                                     <input type="hidden" name="user_id" class="user_id" value="{{ $userId }}">
                                 @endif
                                 <div class="textarea mt-4">
-                                    <label class="label text-white">Nuevo comentario</label>
+                                    <label class="label text-white">{{ __('Nuevo comentario') }}</label>
                                     <div class="content mt-2">
                                         <textarea class="form-control" name="comment" rows="5" placeholder="Escribe tu comentario" style="padding: 10px;"></textarea>
                                     </div>
@@ -181,8 +181,7 @@
 
                                     <div class="comment-form__btn-box">
                                         <button type="submit"
-                                            class="btn btn-sm btn-outline-primary btn-sm d-flex align-items-center justify-content-center pull-right comment-form__btn">{{ __('Submit
-                                                                                                                                                                                                                                                                            Comment') }}</button>
+                                            class="btn btn-sm btn-outline-primary btn-sm d-flex align-items-center justify-content-center pull-right comment-form__btn">{{ __('Enviar comentario') }}</button>
                                     </div>
                                 </div>
 
@@ -322,7 +321,7 @@
                             @endforeach
                             <a class="btn btn-outline-primary btn-sm d-flex align-items-center justify-content-center"
                                 href="{{ url('Userlogin') }}">
-                                Iniciar Sesión
+                                {{ __('Iniciar Sesión') }}
                             </a>
                         @endif
 
@@ -332,7 +331,7 @@
                 <div class="col-lg-3 col-md-12 col-sm-12 col-12 mb-4">
                     <div class="sidebar">
                         <div class="lo-ms-ledo-wrapper">
-                            <h3 class="text-light">Lo más leído</h3>
+                            <h3 class="text-light">{{ __('Lo más leído') }}</h3>
                             <hr>
                         </div>
                         @forelse ($latest_posts as $item)
@@ -370,7 +369,7 @@
                         @empty
 
                             <div class="alert alert-warning text-center">
-                                <strong>{{ __('No blog posts found.') }}</strong>
+                                <strong>{{ __('No se encontraron publicaciones de blog.') }}</strong>
                             </div>
                         @endforelse
 
@@ -380,7 +379,7 @@
                 </div>
             </div>
             <div class="container">
-                <h1 class="text-light">Continúa leyendo:</h1>
+                <h1 class="text-light">{{ __('Continúa leyendo') }}:</h1>
 
                 <div class="row">
                     @forelse ($latest_posts as $item)
@@ -417,7 +416,7 @@
                         </div>
                     @empty
                         <div class="alert alert-warning text-center">
-                            <strong>{{ __('No blog posts found.') }}</strong>
+                            <strong>{{ __('No se encontraron publicaciones de blog.') }}</strong>
                         </div>
                     @endforelse
 
@@ -453,7 +452,7 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary"
                                 data-bs-dismiss="modal">{{ __('Close') }}</button>
-                            <button type="submit" class="btn btn-primary">{{ __('Submit Reply') }}</button>
+                            <button type="submit" class="btn btn-primary">{{ __('Enviar respuesta') }}</button>
                         </div>
                     </form>
                 </div>

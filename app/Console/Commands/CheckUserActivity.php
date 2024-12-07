@@ -2,10 +2,11 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
+use App\Models\Balance;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class CheckUserActivity extends Command
 {
@@ -21,7 +22,7 @@ class CheckUserActivity extends Command
 
         // Retrieve all subscribed users
         $usuarios = DB::table('users')
-            ->where('is_subscribed', 1)
+            ->where('is_subscribed', 1)->where('is_active',1)
             ->get();
 
         foreach ($usuarios as $usuario) {
@@ -33,7 +34,7 @@ class CheckUserActivity extends Command
 
             if ($referidosContados === 0) {
                 // Mark user as inactive if no referrals were made
-                $this->marcarUsuarioInactivo($usuario);
+                $this->marcarUsuarioInactivo($usuario, false);
             } else {
                 $this->info("El usuario {$usuario->id} tiene {$referidosContados} referidos este mes.");
             }
@@ -42,7 +43,7 @@ class CheckUserActivity extends Command
         $this->info('La verificación de actividad de usuarios se completó.');
     }
 
-    private function marcarUsuarioInactivo($usuario)
+    private function marcarUsuarioInactivo($usuario, $activado)
     {
         if ($usuario->balance >= 100) {
             // Deduct 100 from balance and mark as inactive
@@ -50,27 +51,40 @@ class CheckUserActivity extends Command
                 ->where('id', $usuario->id)
                 ->update([
                     'balance' => $usuario->balance - 100,
-                    'is_subscribed' => 0,
+                    'is_subscribed' => 1,
                 ]);
+                 // Update the balance in the `balance` table
+            $balance = Balance::where('user_id', $usuario->id)->first();
+
+
+
+            $balance->amount -= 100;
+            $balance->save();
 
             $this->info("El usuario {$usuario->id} ha sido marcado como inactivo y se dedujeron 100Bs.");
-            $this->notificarUsuario($usuario, false);
+            $this->notificarUsuario($usuario, false, true);
         } else {
             // Mark as inactive without deduction
             DB::table('users')
                 ->where('id', $usuario->id)
-                ->update(['is_subscribed' => 0,'is_active'=>0]);
+                ->update(['is_subscribed' => 0, 'is_active' => 0]);
 
             $this->info("El usuario {$usuario->id} ha sido marcado como inactivo debido a saldo insuficiente.");
+            $this->notificarUsuario($usuario, false, false);
         }
     }
 
-    private function notificarUsuario($usuario, $activado)
+    private function notificarUsuario($usuario, $activado, $deducido)
     {
-        $mensajeCorreo = $activado
-            ? 'Tu cuenta ha sido activada. Refiera a alguien este mes para permanecer activo.'
-            : 'Tu cuenta ha sido desactivada. Se dedujeron 100Bs de tu saldo.';
+        if ($deducido) {
+            // Email for deduction and deactivation
+            $mensajeCorreo = 'Tu cuenta ha sido desactivada. Se dedujeron 100Bs de tu saldo. Para permanecer activo, refiere al menos a un usuario este mes.';
+        } else {
+            // Email for no deduction and no activity
+            $mensajeCorreo = 'Tu cuenta ha sido desactivada. No referiste a nadie este mes. Para permanecer activo, refiere al menos a un usuario este mes.';
+        }
 
+        // Send email
         Mail::raw($mensajeCorreo, function ($message) use ($usuario) {
             $message->to($usuario->email)
                     ->subject('Estado de tu cuenta');

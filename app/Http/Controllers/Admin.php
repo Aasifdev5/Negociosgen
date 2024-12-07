@@ -28,6 +28,7 @@ use App\Models\Settings;
 use App\Models\Task;
 use App\Models\Transactions;
 use App\Models\User;
+use App\Models\Withdrawal;
 use App\Notifications\VerifyEmailNotification;
 use App\Traits\SendNotification;
 use Carbon\Carbon;
@@ -1140,73 +1141,138 @@ class Admin extends Controller
             // Fetch the user associated with the payment
             $user = User::findOrFail($payment->user_id);
 
-            // Update the user's subscription status
-            $user->update([
-                'is_subscribed' => 1,
-            ]);
+            // If the user isn't subscribed and is not active, and payment is exactly 100.00, activate subscription
+            if ($user->is_subscribed == 0 && $user->is_active == 0 && $payment->amount == 100.00) {
+                // Update the user's subscription status to active
+                $user->update([
+                    'is_subscribed' => 1,
+                    'is_active' => 1
+                ]);
+            } else {
+                // Otherwise, just mark them as subscribed (if not already)
+                $user->update([
+                    'is_subscribed' => 1,
+                ]);
 
-            // Membership cost and percentage distribution across levels
-            $membershipCost = 1000; // Adjust as needed
-            $levelPercentages = [
-                1 => 0.30, // Level 1: 30%
-                2 => 0.03, // Level 2: 3%
-                3 => 0.02, // Level 3: 2%
-                4 => 0.02, // Level 4: 2%
-                5 => 0.01, // Level 5: 1%
-                6 => 0.01, // Level 6: 1%
-                7 => 0.01, // Level 7: 1%
-            ];
+                // Membership cost and percentage distribution across levels
+                $membershipCost = 1000; // Adjust as needed
+                $levelPercentages = [
+                    1 => 0.30, // Level 1: 30%
+                    2 => 0.03, // Level 2: 3%
+                    3 => 0.02, // Level 3: 2%
+                    4 => 0.02, // Level 4: 2%
+                    5 => 0.01, // Level 5: 1%
+                    6 => 0.01, // Level 6: 1%
+                    7 => 0.01, // Level 7: 1%
+                ];
 
-            // Start with the immediate referrer
-            $currentReferrer = $user->refer;
-            $level = 1;
+                // Only run the referral logic if the payment is not 100.00
+                if ($payment->amount != 100.00) {
+                    // Start with the immediate referrer
+                    $currentReferrer = $user->refer;
+                    $level = 1;
 
-            // Distribute commissions up to 7 levels and update user levels
-            while ($currentReferrer && $level <= 7) {
-                $referrer = User::find($currentReferrer);
+                    // Distribute commissions up to 7 levels and update user levels
+                    while ($currentReferrer && $level <= 7) {
+                        $referrer = User::find($currentReferrer);
 
-                if ($referrer) {
-                    // Calculate the earnings for the current level
-                    $earnings = $membershipCost * $levelPercentages[$level];
+                        if ($referrer) {
+                            // Calculate the earnings for the current level
+                            $earnings = $membershipCost * $levelPercentages[$level];
 
-                    // Update the referrer's balance
-                    $referrer->balance += $earnings;
-                    $referrer->save();
+                            // Efficiently update the referrer's balance using increment
+                            $referrer->increment('balance', $earnings);
 
-                    // Update or create an entry in the Balance table
-                    Balance::updateOrCreate(
-                        ['user_id' => $referrer->id], // Condition for existing entry
-                        ['amount' => $referrer->balance] // Values to update or insert
-                    );
-                    // Update the referrer's level
-                    $referrer->level = $level;  // Update the level to reflect the commission tier
-                    $referrer->save();
-                    // Add an entry to the Sales table
-                    Sales::create([
-                        'user_id' => $user->id, // User who made the purchase
-                        'refer_id' => $referrer->id, // Referrer's ID
-                        'level' => $level, // Commission level
-                        'percentage' => $levelPercentages[$level], // Commission percentage
-                        'commission' => $earnings, // Commission earned
-                        'date' => now(), // Current date
-                    ]);
+                            // Update or create an entry in the Balance table
+                            Balance::updateOrCreate(
+                                ['user_id' => $referrer->id], // Condition for existing entry
+                                ['amount' => $referrer->balance] // Values to update or insert
+                            );
 
-                    // Move to the next referrer
-                    $currentReferrer = $referrer->refer;
-                } else {
-                    break; // Stop if no valid referrer exists
+                            // Update the referrer's level to reflect the commission tier
+                            $referrer->level = $level;
+                            $referrer->save();
+
+                            // Add an entry to the Sales table
+                            Sales::create([
+                                'user_id' => $user->id, // User who made the purchase
+                                'refer_id' => $referrer->id, // Referrer's ID
+                                'level' => $level, // Commission level
+                                'percentage' => $levelPercentages[$level], // Commission percentage
+                                'commission' => $earnings, // Commission earned
+                                'date' => now(), // Current date
+                            ]);
+
+                            // Move to the next referrer
+                            $currentReferrer = $referrer->refer;
+                        } else {
+                            break; // Stop if no valid referrer exists
+                        }
+
+                        $level++;
+                    }
                 }
-
-                $level++;
             }
 
-            DB::commit(); // Commit transaction
+            // Commit the transaction
+            DB::commit();
+
             return back()->with('success', 'Pago aceptado, el usuario está suscrito y las ganancias se distribuyeron correctamente a los referenciados.');
         } catch (\Exception $e) {
             DB::rollBack(); // Rollback transaction on error
-            \Log::error('Error al aceptar el pago para Payment ID ' . $id . ': ' . $e->getMessage());
+
+            // Log the error with more detailed information
+            \Log::error('Error al aceptar el pago para Payment ID ' . $id . ': ' . $e->getMessage(), [
+                'exception' => $e
+            ]);
 
             return back()->with('fail', 'Ocurrió un error al procesar el pago.');
         }
     }
+    public function withdraws()
+    {
+
+        if (Session::has('LoggedIn')) {
+
+            $user_session = User::where('id', Session::get('LoggedIn'))->first();
+
+            $requestWithdrawal = Withdrawal::all();
+
+
+            return view('admin.withdraw', compact('user_session', 'requestWithdrawal'));
+        }
+    }
+    public function updateStatus(Request $request, $id)
+    {
+        $withdrawal = Withdrawal::findOrFail($id);
+        $withdrawal->status = $request->status;
+
+        if ($request->status === 'approved') {
+            // Update the balance in the `users` table
+            $user = User::find($withdrawal->user_id);
+
+            if (!$user || $user->balance < $withdrawal->amount) {
+                return back()->with('fail', 'Insufficient balance in the user account.');
+            }
+
+            $user->balance -= $withdrawal->amount;
+            $user->save();
+
+            // Update the balance in the `balance` table
+            $balance = Balance::where('user_id', $withdrawal->user_id)->first();
+
+            if (!$balance || $balance->amount < $withdrawal->amount) {
+                return back()->with('fail', 'Insufficient balance in the balance table.');
+            }
+
+            $balance->amount -= $withdrawal->amount;
+            $balance->save();
+        }
+
+        $withdrawal->save();
+
+        return back()->with('success', 'Withdrawal status updated.');
+    }
+
+
 }

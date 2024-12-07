@@ -15,7 +15,7 @@
             <p style="color: #fff;">{{session::get('fail')}}</p>
         </div>
         @endif
-       
+
 
         <!-- my account section start -->
         <section class="my__account--section section--padding">
@@ -94,51 +94,8 @@
         </section>
         <!-- my account section end -->
 
-       
-   <!-- Start shipping section -->
-    <section class="shipping__section">
-        <div class="container">
-            <div class="shipping__inner style2 d-flex">
-                <div class="shipping__items style2 d-flex align-items-center">
-                    <div class="shipping__icon">
-                        <img src="{{ asset('assets/img/other/shipping1.webp') }}" alt="icon-img">
-                    </div>
-                    <div class="shipping__content">
-                        <h2 class="shipping__content--title h3">Envios a todo Bolivia</h2>
-                        <p class="shipping__content--desc">Envios garantizados</p>
-                    </div>
-                </div>
-                <div class="shipping__items style2 d-flex align-items-center">
-                    <div class="shipping__icon">
-                        <img src="{{ asset('assets/img/other/shipping2.webp') }}" alt="icon-img">
-                    </div>
-                    <div class="shipping__content">
-                        <h2 class="shipping__content--title h3">Contactanos libremente</h2>
-                        <p class="shipping__content--desc">las 24 horas del dia</p>
-                    </div>
-                </div>
-                <div class="shipping__items style2 d-flex align-items-center">
-                    <div class="shipping__icon">
-                        <img src="{{ asset('assets/img/other/shipping3.webp') }}" alt="icon-img">
-                    </div>
-                    <div class="shipping__content">
-                        <h2 class="shipping__content--title h3">Productos originales</h2>
-                        <p class="shipping__content--desc">Calidad garantizada</p>
-                    </div>
-                </div>
-                <div class="shipping__items style2 d-flex align-items-center">
-                    <div class="shipping__icon">
-                        <img src="{{ asset('assets/img/other/shipping4.webp') }}" alt="icon-img">
-                    </div>
-                    <div class="shipping__content">
-                        <h2 class="shipping__content--title h3">Pago en efectivo</h2>
-                        <p class="shipping__content--desc">O deposito bancario</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- End shipping section -->
+
+
 
     </main>
 @endsection

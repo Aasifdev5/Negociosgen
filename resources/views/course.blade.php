@@ -1,6 +1,6 @@
 @extends('master')
 @section('title')
-    Cursos
+    {{ __('Cursos') }}
 @endsection
 @section('content')
     <div class="container-fluid custom-bg w-100">
@@ -17,7 +17,7 @@
                 font-family: 'Space Grotesk', sans-serif;
                 font-weight: 700;
                 color: #fff;">
-                        Curso nuevo para <br>habilidades de la mente
+                        {{ __('Curso nuevo para') }} <br>{{ __('habilidades de la mente') }}
                     </h2>
 
 
@@ -27,9 +27,9 @@
             font-weight: 400;
             line-height: 28px;
             color: #A1A1A1;">
-                        Descubre nuestro nuevo curso diseñado para potenciar tus habilidades mentales. Aprende técnicas
+                       {{ __(' Descubre nuestro nuevo curso diseñado para potenciar tus habilidades mentales. Aprende técnicas
                         innovadoras para mejorar tu concentración, memoria y creatividad. ¡Inscríbete ahora y comienza a
-                        entrenar tu mente!
+                        entrenar tu mente!')}}
                     </p>
 
                     <button class="btn btn-sm btn-primary"
@@ -46,7 +46,7 @@
         text-transform: uppercase; /* Optional: To make the text uppercase */
     ">
                         <span style="font-weight: 700;">
-                            ¡Únete a GEN y comienza hoy!
+                            {{ __('¡Únete a GEN y comienza hoy!') }}
                         </span>
                     </button>
 
@@ -68,14 +68,14 @@
 
                 <div class="col-lg-6 col-md-12 text-center text-md-start" style="padding-bottom: 10px;">
                     <h2 class="mb-4" style="color: #EDEDED; font-family: Space Grotesk; font-weight: 700;">
-                        Consejos de Éxito: Sabiduría de Empresarios y Emprendedores
+                        {{ __('Consejos de Éxito: Sabiduría de Empresarios y Emprendedores') }}
                     </h2>
                     <p
                         style="color: #A1A1A1; font-size: 16px; font-family: Space Grotesk; font-weight: 400; line-height: 24px;">
-                        En esta sección, recopilamos valiosos consejos y experiencias de empresarios y emprendedores
+                        {{ __('En esta sección, recopilamos valiosos consejos y experiencias de empresarios y emprendedores
                         exitosos que han recorrido el camino del emprendimiento. Aprende de sus triunfos y fracasos para
                         aplicarlos en tu propio viaje, y descubre las claves para superar desafíos, fomentar la innovación y
-                        alcanzar el éxito en tu negocio.
+                        alcanzar el éxito en tu negocio.')}}
                     </p>
                 </div>
 
@@ -97,7 +97,7 @@
                     </div>
                     <h1
                         style="width: 100%; color: #EDEDED; font-size: 20px; font-family: Space Grotesk; font-weight: 700; word-wrap: break-word;">
-                        Aprende a Gestionar tu Tiempo
+                        {{ __('Aprende a Gestionar tu Tiempo') }}
                     </h1>
                 </div>
             </div>

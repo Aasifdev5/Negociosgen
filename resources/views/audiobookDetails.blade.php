@@ -1,6 +1,6 @@
 @extends('master')
 @section('title')
-    {{ $audiobook->title }} - Detalles del Audiolibro
+    {{ $audiobook->title }} - {{ __('Detalles del Audiolibro') }}
 @endsection
 
 @section('content')
@@ -32,8 +32,8 @@
                     </div>
 
                     <ul class="details-list mt-5">
-                        <li class="mb-2"><strong>Duración:</strong> {{ $audiobook->duration }}</li>
-                        <li><strong>Publicado:</strong> {{ $audiobook->created_at->format('d M Y') }}</li>
+                        <li class="mb-2"><strong>{{ __('Duración') }}:</strong> {{ $audiobook->duration }}</li>
+                        <li><strong>{{ __('Publicado') }}:</strong> {{ $audiobook->created_at->format('d M Y') }}</li>
                     </ul>
                 </div>
             </div>

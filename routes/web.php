@@ -98,7 +98,10 @@ Route::group(['middleware' => ['prevent-back-history', SetLocale::class]], funct
     Route::get('Userlogin', [UserController::class, 'Userlogin'])->name('Userlogin');
     Route::get('getProducts', [UserController::class, 'getProducts'])->name('getProducts');
     Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard')->middleware('isLoggedIn');
-    Route::post('/ProjectStore', [UserController::class, 'ProjectStore'])->name('ProjectStore');
+    Route::get('/dashboard-data', [UserController::class, 'getDashboardData'])->name('getDashboardData');
+
+    Route::get('/requestW', [UserController::class, 'requestW'])->name('requestW')->middleware('isLoggedIn');
+    Route::post('/requestWithdrawal', [UserController::class, 'requestWithdrawal'])->name('requestWithdrawal');
     Route::get('shop', [UserController::class, 'shop'])->name('shop')->middleware('isLoggedIn');
     Route::get('search', [UserController::class, 'search'])->name('search')->middleware('isLoggedIn');
     Route::post('/post-insert', [UserController::class, 'Ad_insert'])->name('Ad_insert')->middleware('isLoggedIn');
@@ -581,6 +584,8 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('update_balance', [FundController::class, 'update_balance'])->middleware('AdminIsLoggedIn');
         Route::get('delete_balance/{id}', [FundController::class, 'delete_balance'])->middleware('AdminIsLoggedIn');
         Route::post('/deposit', [FundController::class, 'deposit']);
+        Route::get('/withdraws', [Admin::class, 'withdraws'])->name('withdraws')->middleware('AdminIsLoggedIn');
+        Route::patch('/withdrawals/{id}', [Admin::class, 'updateStatus'])->name('withdrawals.update');
         Route::post('/withdraw', [FundController::class, 'withdraw']);
         Route::get('/transactions_report', [Admin::class, 'transactions_report'])->name('transactions_report')->middleware('AdminIsLoggedIn');
         Route::get('accept/{id}', [Admin::class, 'accept'])->name('accept');

@@ -1,12 +1,12 @@
 @extends('master')
 
-@section('title', __('Dashboard de Afiliados'))
+@section('title', __('Panel de afiliados'))
 
 @section('content')
 <section class="py-5 bg-dark" >
     <div class="container" style="margin-top: 50px">
         <h1 class="text-light mb-4">
-            Dashboard de <span class="text-primary">Afiliados</span>
+            {{ __('Panel') }} <span class="text-primary">{{ __('Afiliados') }}</span>
         </h1>
         <style>
             /* DataTable button styles */
@@ -33,25 +33,25 @@
                     <div class="menu-item mb-3 d-flex align-items-center">
                         <a href="{{ url('dashboard') }}" style="text-decoration: none; color: inherit;">
                             <img src="{{ asset('assets/ChartBar.svg') }}" alt="Dashboard" class="me-2" width="24" height="24">
-                            <span>Dashboard</span>
+                            <span>{{ __('Panel') }}</span>
                         </a>
                     </div>
                     <div class="menu-item mb-3 d-flex align-items-center">
                         <a href="{{ url('geanologìa') }}" style="text-decoration: none; color: inherit;">
                             <img src="{{ asset('assets/TreeStructure.svg') }}" alt="Genealogía" class="me-2" width="24" height="24">
-                            <span>Genealogía</span>
+                            <span>{{ __('Genealogía') }}</span>
                         </a>
                     </div>
                     <div class="menu-item mb-3 d-flex align-items-center">
                         <a href="{{ url('ganancias') }}" style="text-decoration: none; color: inherit;">
                             <img src="{{ asset('assets/Wallet.svg') }}" alt="Ganancias" class="me-2" width="24" height="24">
-                            <span>Ganancias</span>
+                            <span>{{ __('Ganancias') }}</span>
                         </a>
                     </div>
                     <div class="menu-item mb-3 d-flex align-items-center">
                         <a href="{{ url('recursos') }}" style="text-decoration: none; color: inherit;">
                             <img src="{{ asset('assets/Image.svg') }}" alt="Recursos" class="me-2" width="24" height="24">
-                            <span>Recursos</span>
+                            <span>{{ __('Recursos') }}</span>
                         </a>
                     </div>
                     <div class="menu-item d-flex align-items-center">
@@ -76,27 +76,27 @@
             <!-- Main Content -->
             <div class="col-lg-9">
                 <!-- Sales Summary -->
-                <h4 class="text-light mb-3">Resumen de Ventas</h4>
+                <h4 class="text-light mb-3">{{ __('Resumen de Ventas') }}</h4>
                 <div class="row">
                     <div class="col-lg-4 mb-3">
                         <div class="card  text-white p-4" style="background: #000">
-                            <h3>$500</h3>
-                            <p class="mb-0">Ventas Totales</p>
+                            <h3>Bs 500</h3>
+                            <p class="mb-0">{{ __('Ventas Totales') }}</p>
                         </div>
                     </div>
                     <div class="col-lg-4 mb-3">
                         <div class="card  text-white p-4" style="background: #000">
                             <div class="d-flex justify-content-between align-items-center mb-2">
-                                <h3>${{ \App\Models\User::where('id', $user_session->id)->first()->balance }}</h3>
-                                <a href="#" class="btn btn-primary btn-sm">Retirar Comisión</a>
+                                <h3>Bs {{ \App\Models\User::where('id', $user_session->id)->first()->balance }}</h3>
+                                <a href="{{ url('requestW') }}" class="btn btn-primary btn-sm">{{ __('Retirar Comisión') }}</a>
                             </div>
-                            <p class="mb-0">Comisiones Generadas</p>
+                            <p class="mb-0">{{ __('Comisiones Generadas') }}</p>
                         </div>
                     </div>
                     <div class="col-lg-4 mb-3">
                         <div class="card  text-white p-4" style="background: #000">
                             <h3>{{ \App\Models\User::where('refer', $user_session->id)->count() }}</h3>
-                            <p class="mb-0">Número de Referidos Activos</p>
+                            <p class="mb-0">{{ __('Número de Referidos Activos') }}</p>
                         </div>
                     </div>
                 </div>
@@ -104,20 +104,21 @@
                 <!-- Charts -->
                 <div class="row">
                     <div class="col-lg-6" style="background: #000">
-                        <h5 class="text-light mb-3">Ventas por Mes</h5>
-                        <div id="barChart" class=" p-3 rounded" style="height: 350px;"></div>
+                        <h5 class="text-light mb-3">{{ __('Ventas por Mes') }}</h5>
+                        <div id="barChart" class="p-3 rounded" style="height: 350px;"></div>
                     </div>
                     <div class="col-lg-6" style="background: #000">
-                        <h5 class="text-light mb-3">Distribución de Comisiones por Producto</h5>
-                        <div id="apexPieChart" class=" p-3 rounded" style="height: 350px;"></div>
+                        <h5 class="text-light mb-3">{{ __('Distribución de Comisiones por Nivel') }}</h5>
+                        <div id="apexPieChart" class="p-3 rounded" style="height: 350px;"></div>
                     </div>
                 </div>
+
 
                 <!-- Resources Section -->
                 <div class="card  text-white p-4 mt-5" style="background: #000">
                     <div class="d-flex justify-content-between align-items-center">
-                        <h4>Accede a nuestros recursos para <span class="text-primary">aumentar tus ganancias</span></h4>
-                        <a href="{{ url('recursos') }}" class="btn btn-primary">Ver Recursos</a>
+                        <h4>{{ __('Accede a nuestros recursos para') }} <span class="text-primary">{{ __('aumentar tus ganancias') }}</span></h4>
+                        <a href="{{ url('recursos') }}" class="btn btn-primary">{{ __('Ver Recursos') }}</a>
                     </div>
                 </div>
 
@@ -129,11 +130,11 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Fecha</th>
-                                        <th>Referido</th>
-                                        <th>Nivel</th>
-                                        <th>Porcentaje</th>
-                                        <th>Comisión Generada</th>
+                                        <th>{{ __('Fecha') }}</th>
+                                        <th>{{ __('Referido') }}</th>
+                                        <th>{{ __('Nivel') }}</th>
+                                        <th>{{ __('Porcentaje') }}</th>
+                                        <th>{{ __('Comisión Generada') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -144,11 +145,11 @@
                                             <td>{{ $sale->user ? $sale->user->name : 'N/A' }}</td>
                                             <td>{{ $sale->user ? $sale->user->level : 'N/A' }}</td>
                                             <td>{{ $sale->user ? ($sale->percentage * 100) . '%' : 'N/A' }}</td>
-                                            <td>${{ number_format($sale->commission, 2) }}</td>
+                                            <td>Bs{{ number_format($sale->commission, 2) }}</td>
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="6" class="text-center">No hay datos disponibles</td>
+                                            <td colspan="6" class="text-center">{{ __('No hay datos disponibles') }}</td>
                                         </tr>
                                     @endforelse
                                 </tbody>
@@ -163,21 +164,48 @@
 
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
-    // Bar Chart
-    new ApexCharts(document.querySelector("#barChart"), {
-        chart: { type: 'bar', height: 350 },
-        series: [{ name: 'Ventas', data: [56, 64, 76, 78, 70, 37] }],
-        xaxis: { categories: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio"] },
-        colors: ['#0090ff'],
-    }).render();
+  fetch('{{ route('getDashboardData') }}')
+    .then(response => response.json())
+    .then(data => {
+        // Update the bar chart with monthly sales data
+        new ApexCharts(document.querySelector("#barChart"), {
+            chart: { type: 'bar', height: 350 },
+            series: [{
+                name: 'Ventas',
+                data: Object.values(data.monthlySales).map(amount => parseFloat(amount))
+            }],
+            xaxis: {
+                categories: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
+            },
+            colors: ['#0090ff'],
+        }).render();
 
-    // Pie Chart
-    new ApexCharts(document.querySelector("#apexPieChart"), {
-        chart: { type: 'pie', height: 350 },
-        labels: ['Figma', 'Sketch'],
-        series: [80, 41],
-        colors: ['#0ac7b4', '#0090ff'],
-    }).render();
+        // Update the pie chart with commission by level
+        // Group commissions by level and sum them
+        const commissionByLevel = data.commissionByLevel.reduce((acc, item) => {
+            // Convert commission to a number and add to the corresponding level
+            if (acc[item.level]) {
+                acc[item.level] += parseFloat(item.commission);
+            } else {
+                acc[item.level] = parseFloat(item.commission);
+            }
+            return acc;
+        }, {});
+
+        // Extract the levels and their summed commissions for the pie chart
+        const levels = Object.keys(commissionByLevel);
+        const commissions = Object.values(commissionByLevel);
+
+        new ApexCharts(document.querySelector("#apexPieChart"), {
+            chart: { type: 'pie', height: 350 },
+            labels: levels, // Use levels as the labels
+            series: commissions, // Use commissions as the values
+            colors: ['#0ac7b4', '#0090ff', '#ffbc00', '#ff6b6b'], // Adjust colors as needed
+        }).render();
+    })
+    .catch(error => console.error('Error fetching data:', error));
+
+
 
     // DataTable
     $(document).ready(function () {

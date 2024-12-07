@@ -48,3 +48,11 @@
 #5 C:\\Users\\Aasif\\Desktop\\Negociosgen\\artisan(35): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #6 {main}
 "} 
+[2024-12-04 06:22:29] local.INFO: Session OTP: 382277  
+[2024-12-04 06:22:29] local.INFO: Submitted OTP: 382277  
+[2024-12-04 06:22:44] local.INFO: Session OTP:   
+[2024-12-04 06:22:44] local.INFO: Submitted OTP: 382277  
+[2024-12-04 06:24:40] local.INFO: Session OTP: 538645  
+[2024-12-04 06:24:40] local.INFO: Submitted OTP: 538645  
+[2024-12-04 06:26:57] local.INFO: Session OTP: 835895  
+[2024-12-04 06:26:57] local.INFO: Submitted OTP: 835895  

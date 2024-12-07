@@ -45,7 +45,7 @@
 </style>
 <section style="padding: 120px; background: #000;">
     <div class="container mt-5">
-        <h2 class="text-center text-light mb-4">Estadísticas Claves</h2>
+        <h2 class="text-center text-light mb-4">{{ __('Estadísticas Claves') }}</h2>
 
         <div class="table-responsive">
             <table id="estadisticas-table" class="table table-dark table-bordered text-light text-center">

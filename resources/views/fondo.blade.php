@@ -8,11 +8,11 @@
     <div class="container">
         <div class=" text-light p-4 rounded" style="border: 1px solid #000;background: #000;">
             <div class="text-center mb-4">
-                <h2 class="mb-4">Transferir Fondos</h2>
+                <h2 class="mb-4">{{ __('Transferir Fondos') }}</h2>
             </div>
 
             <div class="mb-4">
-                <h4 class="">Retirar Fondos</h4>
+                <h4 class="">{{ __('Retirar Fondos') }}</h4>
             </div>
 
               <!-- Start of each card in its own row -->
@@ -22,8 +22,8 @@
                     <div class="card-body d-flex flex-row align-items-center">
                         <img src="arrow-left-right.svg" class="card-img-top mb-2" style="width: 50px;" alt="Transfer Arrow">
                         <div class="ml-3">
-                            <h5 class="card-title">Transferir a su cuenta bancaria</h5>
-                            <p class="card-text">Transferir fondos de comisiones a su cuenta bancaria.</p>
+                            <h5 class="card-title">{{ __('Transferir a su cuenta bancaria') }}</h5>
+                            <p class="card-text">{{ __('Transferir fondos de comisiones a su cuenta bancaria.') }}</p>
                         </div>
                     </div>
                 </div>
@@ -37,8 +37,8 @@
                     <div class="card-body d-flex flex-row align-items-center">
                         <img src="arrow-left-right.svg" class="card-img-top mb-2" style="width: 50px;" alt="Transfer Arrow">
                         <div class="ml-3">
-                            <h5 class="card-title">Transferir utilizando PayPal</h5>
-                            <p class="card-text">Inicia sesión en PayPal para transferir su dinero.</p>
+                            <h5 class="card-title">{{ __('Transferir utilizando PayPal') }}</h5>
+                            <p class="card-text">{{ __('Inicia sesión en PayPal para transferir su dinero.') }}</p>
                         </div>
                     </div>
                 </div>
@@ -51,8 +51,8 @@
                     <div class="card-body d-flex flex-row align-items-center">
                         <img src="arrow-left-right.svg" class="card-img-top mb-2" style="width: 50px;" alt="Transfer Arrow">
                         <div class="ml-3">
-                            <h5 class="card-title">Transferir utilizando LIGO</h5>
-                            <p class="card-text">Inicia sesión en LIGO para transferir su dinero.</p>
+                            <h5 class="card-title">{{ __('Transferir utilizando LIGO') }}</h5>
+                            <p class="card-text">{{ __('Inicia sesión en LIGO para transferir su dinero.') }}</p>
                         </div>
                     </div>
                 </div>

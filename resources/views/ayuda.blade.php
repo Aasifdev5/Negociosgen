@@ -1,11 +1,11 @@
 @extends('master')
 @section('title')
-¿Necesitas ayuda?
+{{ __('¿Necesitas ayuda?') }}
 @endsection
 @section('content')
 <section style="padding: 90px 0;background: #1A1A1A;">
     <div class="container my-5">
-        <h1 class="text-center" style="color: #ededed;">¿Necesitas  <span style="color: #0090ff;">Ayuda?</span></h1>
+        <h1 class="text-center" style="color: #ededed;">{{ __('¿Necesitas') }}  <span style="color: #0090ff;">{{ __('Ayuda?') }}</span></h1>
         <form action="{{ url('/ayuda') }}" method="GET" style="width: 100%; max-width: 600px; margin: auto;">
             <div class="input-group" style="position: relative; display: flex; align-items: center;">
               <input type="text" name="query" class="form-control" placeholder="Buscar con palabras claves" style="width: 100%; background-color: ; border-radius: 8px; border: 1px solid #333; padding-left: 40px; height: 48px; color: #8F8F8F; font-size: 16px;">
@@ -45,7 +45,7 @@
             @endforeach
         @else
             <div class="alert alert-warning text-center">
-                <strong>No se encontraron resultados para tu búsqueda.</strong>
+                <strong>{{ __('No se encontraron resultados para tu búsqueda.') }}</strong>
             </div>
         @endif
             </div>
@@ -66,13 +66,13 @@
         <div class="container my-5 p-4" style="background-color: #0f1c2e; border: 1px solid #2E2E2E; border-radius: 16px;">
             <div class="row">
                 <div class="col-12 col-md-8 text-start mb-3 mb-md-0">
-                    <h2 class="deseas-obtener-un text-light mb-3">¡Deseas obtener un ingreso adicional?</h2>
+                    <h2 class="deseas-obtener-un text-light mb-3">{{ __('¡Deseas obtener un ingreso adicional?') }}</h2>
                     <p class="no-esperes-ms text-light" style="max-width: 600px; color: #A1A1A1;">
-                        No esperes más para ser parte de este increíble proyecto. Empieza hoy mismo a transformar tu vida y la de quienes te rodean.
+                        {{ __('No esperes más para ser parte de este increíble proyecto. Empieza hoy mismo a transformar tu vida y la de quienes te rodean.') }}
                     </p>
                 </div>
                 <div class="col-12 col-md-4 text-end d-flex align-items-center justify-content-end">
-                    <a href="{{ url('signup') }}" class="btn btn-primary btn-lg">Regístrate Aquí</a>
+                    <a href="{{ url('signup') }}" class="btn btn-primary btn-lg">{{ __('Regístrate Aquí') }}</a>
                 </div>
             </div>
         </div>
