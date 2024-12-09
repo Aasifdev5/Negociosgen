@@ -388,6 +388,10 @@
                             <li><a class="sidebar-header" href="{{ url('admin/banners') }}"><i
                                         data-feather="monitor"></i><span>{{ __('Bandera') }}
                                     </span></a></li>
+                                    {{-- <li><a class="sidebar-header" href="{{ url('admin/portfolios') }}"><i class="icofont icofont-briefcase"></i><span>{{ __('Portfolio') }}
+                                    </span></a></li>
+                                    <li><a class="sidebar-header" href="{{ url('admin/testimonials') }}"><i class="icofont icofont-award"></i><span>{{ __('Testimonials') }}
+                                    </span></a></li> --}}
                             <li><a class="sidebar-header" href="{{ url('admin/qrcode') }}"><i class="fa fa-qrcode"></i> CÓDIGO QR </a></li>
                             <li>
                             <li class="">

@@ -6,13 +6,14 @@
     <section style="padding: 80px 0; background: #1a1a1a">
         <div class="container mt-5">
             <!-- Title Section -->
-            <h1 class="text-center text-light mb-4">{{ __('Elige tu recurso y ') }}<span class="text-primary">{{ __('Aumenta tus Ganancias') }}</span>
+            <h1 class="text-center text-light mb-4">{{ __('Elige tu recurso y ') }}<span
+                    class="text-primary">{{ __('Aumenta tus Ganancias') }}</span>
             </h1>
 
             <div class="row mb-4">
                 <div class="col-sm-3 mb-3">
 
-                    <form action="/search" method="GET" style="">
+                    <form action="{{ url('/recursos') }}" method="GET" style="">
                         <div class="input-group" style="position: relative; display: flex; align-items: center;">
                             <input type="text" name="query" class="form-control"
                                 placeholder="Buscar con palabras claves"
@@ -23,31 +24,29 @@
                     </form>
                 </div>
 
-                <div class="col-sm-6 text-end mb-3">
-                    <button type="button" class="btn btn-sm btn-primary">{{ __('Ver Estadísticas') }}</button>
+                <div class="col-sm-12 text-end mb-3">
+                    <button type="button" class="btn btn-sm btn-primary pull-right">{{ __('Ver Estadísticas') }}</button>
                 </div>
             </div>
 
             <h1 class="text-light mb-3">{{ __('Banderas') }}</h1>
             <!-- Banners Section -->
             <div class="row mb-4">
-                <div class="col-md-3 mb-3">
-                    <img src="{{ asset('assets/banner(6).png') }}" class="img-fluid" alt="Banner 1" data-bs-toggle="modal"
-                        data-bs-target="#bannerModal" onclick="setModalContent('banner(6).png')">
-                </div>
-                <div class="col-md-3 mb-3">
-                    <img src="{{ asset('assets/banner(7).png') }}" class="img-fluid" alt="Banner 2" data-bs-toggle="modal"
-                        data-bs-target="#bannerModal" onclick="setModalContent('banner(7).png')">
-                </div>
-                <div class="col-md-3 mb-3">
-                    <img src="{{ asset('assets/banner(8).png') }}" class="img-fluid" alt="Banner 3" data-bs-toggle="modal"
-                        data-bs-target="#bannerModal" onclick="setModalContent('banner(8).png')">
-                </div>
-                <div class="col-md-3 mb-3">
-                    <img src="{{ asset('assets/banner(9).png') }}" class="img-fluid" alt="Banner 4" data-bs-toggle="modal"
-                        data-bs-target="#bannerModal" onclick="setModalContent('banner(9).png')">
-                </div>
+                @foreach ($banners as $row)
+                    <div class="col-md-3 mb-3">
+                        <img src="{{ asset($row->image) }}" class="img-fluid" alt="{{ $row->name }}"
+                            data-bs-toggle="modal" data-bs-target="#bannerModal"
+                            onclick="setModalContent('{{ asset($row->image) }}', '{{ $row->name }}')">
+                    </div>
+                @endforeach
+
+
+
             </div>
+            <nav class="pagination justify-content-center">
+                @include('admin.pagination', ['paginator' => $banners])
+
+            </nav>
             <div class="container mt-4 d-flex justify-content-between align-items-start"
                 style="background: #2E2E2E; border: 1px solid #2E2E2E; border-radius: 16px; padding: 16px;">
                 <div class="col-sm-8 me-3">
@@ -245,8 +244,7 @@
                         <div class="col-lg-3 col-12 mb-4">
                             <div class="card image-parent h-100 transparent-card">
                                 <a href="{{ url('blog_detail/' . $row->slug) }}">
-                                    <img src="{{ asset($row->image) }}" class="image-icon card-img-top"
-                                        alt="Blog Image">
+                                    <img src="{{ asset($row->image) }}" class="image-icon card-img-top" alt="Blog Image">
                                 </a>
 
                                 <div class="card-body text-white stack">
@@ -296,22 +294,45 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content" style="background-color: #0A0A0A; color: #ededed;">
                 <div class="modal-header" style="border: none;">
-                    <h5 class="modal-title banner-de-marketing text-light" id="bannerModalLabel">Banner de Marketing</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
+                    <h5 class="modal-title banner-de-marketing text-light" id="bannerModalLabel"></h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body text-center">
-                    <img src="" id="modalImage" class="image-icon" alt="Banner">
+                    <img src="" id="modalImage" class="img-fluid image-icon mb-3" alt="Banner">
                     <div class="button-parent mt-3 d-flex justify-content-center gap-3">
-                        <button class="btn btn-outline-primary button1">
+                        <button class="btn btn-outline-primary button1" onclick="shareBanner()">
                             <b>Compartir</b>
                         </button>
-                        <button class="btn btn-primary button1">
+                        <a id="downloadLink" href="#" download class="btn btn-primary button1">
                             <b>Descargar</b>
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        function setModalContent(imageUrl, title) {
+            // Set modal image and title
+            document.getElementById('modalImage').src = imageUrl;
+            document.getElementById('bannerModalLabel').textContent = title;
+
+            // Set download link
+            const downloadLink = document.getElementById('downloadLink');
+            downloadLink.href = imageUrl;
+        }
+
+        function shareBanner() {
+            if (navigator.share) {
+                const imageUrl = document.getElementById('modalImage').src;
+                navigator.share({
+                    title: document.getElementById('bannerModalLabel').textContent,
+                    url: imageUrl
+                }).catch((error) => console.error('Error sharing:', error));
+            } else {
+                alert('Sharing is not supported in this browser.');
+            }
+        }
+    </script>
 @endsection

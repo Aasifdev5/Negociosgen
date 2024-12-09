@@ -1,14 +1,13 @@
 <?php
 
-use App\Exports\ProductsExport;
 use App\Http\Controllers\Admin;
-use App\Http\Controllers\Admin\AboutUsController;
+
 
 use App\Http\Controllers\Admin\BankController;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\BlogCategoryController;
 use App\Http\Controllers\Admin\BlogController;
-use App\Http\Controllers\Admin\BrandController;
+
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ContactUsController;
 use App\Http\Controllers\Admin\CurrencyController;
@@ -44,10 +43,12 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\MailTemplateController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Pages;
+use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\QRCodeController;
 use App\Http\Controllers\ResetPasswordController;
-use App\Http\Controllers\SalesController;
 
+use App\Http\Controllers\SalesController;
+use App\Http\Controllers\TestimonialController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VerificationController;
 use App\Http\Middleware\SetLocale;
@@ -55,10 +56,6 @@ use App\Models\Language;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 use Maatwebsite\Excel\Facades\Excel;
-
-
-
-
 
 
 
@@ -208,6 +205,29 @@ Route::group(['prefix' => 'admin'], function () {
 
     Route::group(['middleware' => 'admin-prevent-back-history', SetLocale::class], function () {
         Route::resource('banners', BannerController::class)->names('admin.banners');
+        // Testimonial routes
+        Route::prefix('testimonials')->group(function () {
+            Route::get('/', [TestimonialController::class, 'index'])->name('testimonials.index');
+            Route::get('create', [TestimonialController::class, 'create'])->name('testimonials.create');
+            Route::post('store', [TestimonialController::class, 'store'])->name('testimonials.store');
+            Route::get('edit/{id}', [TestimonialController::class, 'edit'])->name('testimonials.edit');
+            Route::post('update/{id}', [TestimonialController::class, 'update'])->name('testimonials.update');
+            Route::delete('delete/{id}', [TestimonialController::class, 'destroy'])->name('testimonials.delete');
+            Route::post('bulk-delete', [TestimonialController::class, 'bulkDelete'])->name('testimonials.bulk.delete');
+        });
+
+        // Portfolio routes
+        Route::prefix('portfolios')->group(function () {
+            Route::get('/', [PortfolioController::class, 'index'])->name('portfolios.index');
+            Route::get('create', [PortfolioController::class, 'create'])->name('portfolios.create');
+            Route::post('store', [PortfolioController::class, 'store'])->name('portfolios.store');
+            Route::get('edit/{id}', [PortfolioController::class, 'edit'])->name('portfolios.edit');
+            Route::post('update/{id}', [PortfolioController::class, 'update'])->name('portfolios.update');
+            Route::delete('delete/{id}', [PortfolioController::class, 'destroy'])->name('portfolios.delete');
+            Route::post('bulk-delete', [PortfolioController::class, 'bulkDelete'])->name('portfolios.bulk.delete');
+        });
+
+
         Route::post('banners/bulk-destroy', [BannerController::class, 'bulkDestroy'])->name('admin.banners.bulkDestroy');
 
         Route::get('/local/{ln}', function ($ln) {

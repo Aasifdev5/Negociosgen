@@ -8,6 +8,7 @@ use App\Mail\MarkdownMail;
 use App\Mail\SendMailreset;
 use App\Models\Audiobook;
 use App\Models\BankDetails;
+use App\Models\Banner;
 use App\Models\BillingDetail;
 use App\Models\Blog;
 use App\Models\BlogCategory;
@@ -321,19 +322,33 @@ class UserController extends Controller
             return Redirect()->with('fail', 'Tienes que iniciar sesión primero');
         }
     }
-    public function recursos()
+    public function recursos(Request $request)
     {
         if (Session::has('LoggedIn')) {
-
             $pages = Page::all();
             $user_session = User::where('id', Session::get('LoggedIn'))->first();
-            $course = Course::orderBy('created_at', 'desc')->take(4)->get();  // Fetch 4 most recent courses
-            $blogs = Blog::orderBy('created_at', 'desc')->take(4)->get();
-            return view('recursos', compact('user_session',   'pages', 'course', 'blogs'));
+            $course = Course::orderBy('created_at', 'desc')->take(4)->get();
+
+            $query = $request->input('query');
+
+            // Fetch blogs, filtering by the search query if it exists
+            $blogs = Blog::when($query, function ($queryBuilder) use ($query) {
+                $queryBuilder->where('title', 'like', '%' . $query . '%')
+                    ->orWhere('short_description', 'like', '%' . $query . '%');
+            })->orderBy('id', 'DESC')->paginate(9);
+
+            // Fetch banners, filtering by the search query if it exists
+            $banners = Banner::when($query, function ($queryBuilder) use ($query) {
+                $queryBuilder->where('title1', 'like', '%' . $query . '%')
+                    ->orWhere('title2', 'like', '%' . $query . '%');
+            })->orderBy('id', 'DESC')->paginate(10);
+
+            return view('recursos', compact('user_session', 'pages', 'course', 'blogs', 'banners', 'query'));
         } else {
-            return Redirect()->with('fail', 'Tienes que iniciar sesión primero');
+            return redirect()->back()->with('fail', 'Tienes que iniciar sesión primero');
         }
     }
+
     public function term()
     {
 
