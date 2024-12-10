@@ -59,6 +59,14 @@
                         class="nav-item nav-item-custom-padding {{ Request::is('index') || Request::is('/') ? 'active' : '' }}">
                         <a class="nav-link text-light" href="{{ url('index') }}">{{ __('Inicio') }}</a>
                     </li>
+                    <li
+                        class="nav-item nav-item-custom-padding {{ Request::is('who')  ? 'active' : '' }}">
+                        <a class="nav-link text-light" href="{{ url('who') }}">{{ __('who are we?') }}</a>
+                    </li>
+                    <li
+                        class="nav-item nav-item-custom-padding {{ Request::is('affiliate_company')  ? 'active' : '' }}">
+                        <a class="nav-link text-light" href="{{ url('affiliate_company') }}">{{ __('Affiliated Companies') }}</a>
+                    </li>
                     <li class="nav-item nav-item-custom-padding {{ Request::is('nosotros') ? 'active' : '' }}">
                         <a class="nav-link text-light" href="{{ url('nosotros') }}">{{ __('Nosotros') }}</a>
                     </li>
@@ -119,7 +127,7 @@
                 </ul>
             @else
                 <!-- Join Now Button -->
-                <a class="button btn btn-sm" href="{{ url('signup') }}"
+                <a class="button btn btn-sm" href="{{ url('membership') }}"
                     style="
   position: relative;
   border-radius: 6px;
@@ -182,13 +190,12 @@ margin-right: 20px;
                         <b class="informacin-de-contacto" style="display: block;">{{ __('Información de Contacto') }}</b>
                         <ul class="content-list-redes list-unstyled" style="margin-top: 13px;">
                             <li class="list-item mb-2" style="margin-bottom: 0.5rem;">
-                                <a class="contctanos text-decoration-none text-light">{{ __('Contáctanos') }}</a>
+                                <a class="contctanos text-decoration-none text-light" href="{{ url('contact') }}">{{ __('Contáctanos') }}</a>
                             </li>
                             <li class="list-item mb-2" style="margin-bottom: 0.5rem;">GEN Bolivia</li>
-                            <li class="list-item mb-2" style="margin-bottom: 0.5rem;">NIT: XXXXXX</li>
-                            <li class="list-item mb-2" style="margin-bottom: 0.5rem;">Calle X, Número X, Barrio X
-                                Santa Cruz, Bolivia</li>
-                            <li class="list-item" style="margin-bottom: 0;">+591 XXXX XXXX</li>
+                            <li class="list-item mb-2" style="margin-bottom: 0.5rem;">{{ $general_setting['app_email'] ?? '' }}</li>
+                            <li class="list-item mb-2" style="margin-bottom: 0.5rem;">{{ $general_setting['app_location'] ?? '' }}</li>
+                            <li class="list-item" style="margin-bottom: 0;">{{ $general_setting['app_contact_number'] ?? '' }}</li>
                         </ul>
                     </div>
                 </div>
@@ -197,30 +204,33 @@ margin-right: 20px;
                 <div class="col-lg-3 col-md-6 mb-4">
                     <div class="content-redes-sociales1">
                         <b class="informacin-de-contacto" style="display: block;">{{ __('Síguenos en') }}:</b>
-                        <ul class="content-list-redes list-unstyled"
-                            style="margin-top: 13px; display: flex; flex-direction: column;">
-                            <li class="list-item mb-2 d-flex " style="margin-bottom: 0.5rem;">
-                                <img class="facebooklogo-icon" alt="Facebook"
-                                    src="{{ asset('assets/FacebookLogo.svg') }}" width="35px"
-                                    style="margin-right: 8px;">
-                                <span class="facebook fw-bold">Facebook</span>
+                        <ul class="content-list-redes list-unstyled" style="margin-top: 13px; display: flex; flex-direction: column;">
+                            <li class="list-item mb-2 d-flex" style="margin-bottom: 0.5rem;">
+                                <a href="{{ $general_setting['instagram_url'] ?? '' }}" target="_blank" class="d-flex align-items-center" style="text-decoration: none;">
+                                    <img class="atomiconredes" alt="Instagram" src="{{ asset('assets/Instagram.svg') }}" width="30px" style="margin-right: 8px;">
+                                    <span class="facebook fw-bold">Instagram</span>
+                                </a>
                             </li>
-                            <li class="list-item mb-2 d-flex " style="margin-bottom: 0.5rem;">
-                                <img class="atomiconredes" alt="Instagram" src="{{ asset('assets/Instagram.svg') }}"
-                                    width="30px" style="margin-right: 8px;">
-                                <span class="facebook fw-bold">Instagram</span>
+                            <li class="list-item mb-2 d-flex" style="margin-bottom: 0.5rem;">
+                                <a href="{{ $general_setting['facebook_url'] ?? '' }}" target="_blank" class="d-flex align-items-center" style="text-decoration: none;">
+                                    <img class="facebooklogo-icon" alt="Facebook" src="{{ asset('assets/FacebookLogo.svg') }}" width="35px" style="margin-right: 8px;">
+                                    <span class="facebook fw-bold">Facebook</span>
+                                </a>
                             </li>
-                            <li class="list-item mb-2 d-flex " style="margin-bottom: 0.5rem;">
-                                <img class="facebooklogo-icon" alt="LinkedIn" src="{{ asset('assets/Redes.svg') }}"
-                                    width="30px" style="margin-right: 8px;">
-                                <span class="facebook fw-bold">LinkedIn</span>
+                            <li class="list-item mb-2 d-flex" style="margin-bottom: 0.5rem;">
+                                <a href="{{ $general_setting['youtube_url'] ?? '' }}" target="_blank" class="d-flex align-items-center" style="text-decoration: none; color: inherit;">
+                                    <i class="fab fa-youtube" style="font-size: 30px; margin-right: 8px; color: #fff;"></i>
+                                    <span class="facebook fw-bold" style="color: inherit;">YouTube</span>
+                                </a>
                             </li>
-                            <li class="list-item d-flex " style="margin-bottom: 0;">
-                                <img class="facebooklogo-icon" alt="Twitter" src="{{ asset('assets/XLogo.svg') }}"
-                                    width="30px" style="margin-right: 8px;">
-                                <span class="facebook fw-bold">Twitter</span>
+                            <li class="list-item d-flex" style="margin-bottom: 0;">
+                                <a href="{{ $general_setting['tiktok_url'] ?? '' }}" target="_blank" class="d-flex align-items-center" style="text-decoration: none; color: inherit;">
+                                    <i class="fab fa-tiktok" style="font-size: 30px; margin-right: 8px; color: #fff;"></i>
+                                    <span class="facebook fw-bold" style="color: inherit;">TikTok</span>
+                                </a>
                             </li>
                         </ul>
+
                     </div>
                 </div>
 

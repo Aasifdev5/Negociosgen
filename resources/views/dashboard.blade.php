@@ -37,6 +37,13 @@
                         </a>
                     </div>
                     <div class="menu-item mb-3 d-flex align-items-center">
+                        <a href="{{ url('gen_cards') }}" style="text-decoration: none; color: inherit;">
+                            <i class="fas fa-credit-card me-2" style="font-size: 24px;"></i>
+                            <span>{{ __('GEN Cards') }}</span>
+                        </a>
+                    </div>
+
+                    <div class="menu-item mb-3 d-flex align-items-center">
                         <a href="{{ url('geanologìa') }}" style="text-decoration: none; color: inherit;">
                             <img src="{{ asset('assets/TreeStructure.svg') }}" alt="Genealogía" class="me-2" width="24" height="24">
                             <span>{{ __('Genealogía') }}</span>

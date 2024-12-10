@@ -22,45 +22,12 @@
                     @endif
                     @csrf
                     <input type="hidden" name="refer" value="{{ $refer ?? '' }}">
-
+                    <input type="hidden" name="membershipType" value="{{ $membershipType ?? '' }}">
                     <div class="row mb-3">
                         <div class="col-md-6 mb-3">
-                            <label for="nombre" class="form-label text-light">{{ __('Nombre') }}</label>
+                            <label for="nombre" class="form-label text-light">{{ __('Nombre completo') }}</label>
                             <input type="text" class="form-control @error('first_name') is-invalid @enderror" name="first_name" id="nombre" placeholder="Nombre" value="{{ old('first_name') }}">
                             @error('first_name')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="apellido" class="form-label text-light">{{ __('Apellido') }}</label>
-                            <input type="text" class="form-control @error('last_name') is-invalid @enderror" name="last_name" id="apellido" placeholder="Apellido" value="{{ old('last_name') }}">
-                            @error('last_name')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <div class="col-md-12 mb-3">
-                            <label for="email" class="form-label text-light">{{ __('Correo electrónico') }}</label>
-                            <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" id="email" placeholder="ejemplo@gmail.com" value="{{ old('email') }}">
-                            @error('email')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <div class="col-md-6 mb-3">
-                            <label for="carnet" class="form-label text-light">{{ __('Número de carnet') }}</label>
-                            <input type="text" class="form-control @error('id_number') is-invalid @enderror" name="id_number" id="carnet" placeholder="Número" value="{{ old('id_number') }}">
-                            @error('id_number')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
@@ -78,7 +45,16 @@
                     </div>
 
                     <div class="row mb-3">
-                        <div class="col-md-12 mb-3">
+                        <div class="col-md-6 mb-3">
+                            <label for="email" class="form-label text-light">{{ __('Correo electrónico') }}</label>
+                            <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" id="email" placeholder="ejemplo@gmail.com" value="{{ old('email') }}">
+                            @error('email')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="col-md-6 mb-3">
                             <label for="celular" class="form-label text-light">{{ __('Celular') }}</label>
                             <input type="text" class="form-control @error('mobile_number') is-invalid @enderror" name="mobile_number" id="celular" placeholder="+591" value="{{ old('mobile_number') }}">
                             @error('mobile_number')
@@ -88,6 +64,10 @@
                             @enderror
                         </div>
                     </div>
+
+
+
+
 
                     <div class="row mb-3">
                         <div class="col-md-12 mb-3">

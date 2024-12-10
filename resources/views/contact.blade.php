@@ -3,6 +3,9 @@
 {{ __('Contáctanos') }}
 @endsection
 @section('content')
+@php
+        $general_setting = \App\Models\Setting::pluck('option_value', 'option_key')->toArray();
+    @endphp
 <section style="padding: 90px 0;background: #1A1A1A;">
     <div class="container my-5">
         <div class="row">
@@ -18,51 +21,67 @@
                     {{ __('Conéctate con nosotros a través de nuestras redes sociales') }}:
                 </p>
 
-                <!-- Social Media Icons -->
-                <div class="row mb-4">
-                    <div class="col-md-6 mb-3">
-                        <div class="list-item d-flex align-items-center" style="border: 1px solid #2e2e2e; border-radius: 8px; padding: 16px; color: #ededed; font-family: 'Space Grotesk';">
-                            <img class="envelopesimple-icon" alt="Email Icon" src="{{asset('assets/EnvelopeSimple.svg')}}" style="width: 24px; height: 24px;">
-                            <div class="correogmailcom ms-2">Correo@gmail.com</div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="list-item d-flex align-items-center" style="border: 1px solid #2e2e2e; border-radius: 8px; padding: 16px; color: #ededed; font-family: 'Space Grotesk';">
-                            <img class="envelopesimple-icon" alt="WhatsApp Icon" src="{{asset('assets/WhatsappLogo.svg')}}" style="width: 24px; height: 24px;">
-                            <div class="correogmailcom ms-2">+591 986 874 365</div>
-                        </div>
+               <!-- Social Media Icons -->
+               <div class="row mb-4">
+                <div class="col-md-6 mb-3">
+                    <div class="list-item d-flex align-items-center"
+                        style="border: 1px solid #2e2e2e; border-radius: 8px; padding: 16px; color: #ededed; font-family: 'Space Grotesk';">
+                        <img class="envelopesimple-icon" alt="Email Icon"
+                            src="{{ asset('assets/EnvelopeSimple.svg') }}" style="width: 24px; height: 24px;">
+                        <div class="correogmailcom ms-2">{{ $general_setting['app_email'] ?? '' }}</div>
                     </div>
                 </div>
+                <div class="col-md-6 mb-3">
+                    <div class="list-item d-flex align-items-center"
+                        style="border: 1px solid #2e2e2e; border-radius: 8px; padding: 16px; color: #ededed; font-family: 'Space Grotesk';">
+                        <img class="envelopesimple-icon" alt="WhatsApp Icon"
+                            src="{{ asset('assets/WhatsappLogo.svg') }}" style="width: 24px; height: 24px;">
+                        <div class="correogmailcom ms-2">{{ $general_setting['app_contact_number'] ?? '' }}</div>
+                    </div>
+                </div>
+            </div>
 
-                <div class="row mb-4">
-                    <div class="col-md-6 mb-3">
-                        <div class="list-item d-flex align-items-center" style="border: 1px solid #2e2e2e; border-radius: 8px; padding: 16px; color: #ededed; font-family: 'Space Grotesk';">
-                            <img class="envelopesimple-icon" alt="Facebook Icon" src="{{asset('assets/FacebookLogo.svg')}}" style="width: 24px; height: 24px;">
-                            <div class="correogmailcom ms-2">Facebook</div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="list-item d-flex align-items-center" style="border: 1px solid #2e2e2e; border-radius: 8px; padding: 16px; color: #ededed; font-family: 'Space Grotesk';">
-                            <img class="atomiconredes" alt="Instagram Icon" src="{{asset('assets/Instagram.svg')}}" style="width: 24px; height: 24px;">
-                            <div class="correogmailcom ms-2">Instagram</div>
-                        </div>
+            <div class="row mb-4">
+                <div class="col-md-6 mb-3">
+                    <div class="list-item d-flex align-items-center"
+                        style="border: 1px solid #2e2e2e; border-radius: 8px; padding: 16px; color: #ededed; font-family: 'Space Grotesk';">
+                        <a href="{{ $general_setting['facebook_url'] ?? '' }}" target="_blank" class="d-flex align-items-center" style="text-decoration: none;">
+                            <img class="facebooklogo-icon" alt="Facebook" src="{{ asset('assets/FacebookLogo.svg') }}" width="35px" style="margin-right: 8px;">
+                            <span class="facebook fw-bold">Facebook</span>
+                        </a>
                     </div>
                 </div>
+                <div class="col-md-6 mb-3">
+                    <div class="list-item d-flex align-items-center"
+                        style="border: 1px solid #2e2e2e; border-radius: 8px; padding: 16px; color: #ededed; font-family: 'Space Grotesk';">
+                        <a href="{{ $general_setting['instagram_url'] ?? '' }}" target="_blank" class="d-flex align-items-center" style="text-decoration: none;">
+                            <img class="atomiconredes" alt="Instagram" src="{{ asset('assets/Instagram.svg') }}" width="30px" style="margin-right: 8px;">
+                            <span class="facebook fw-bold">Instagram</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
 
-                <div class="row mb-4">
-                    <div class="col-md-6 mb-3">
-                        <div class="list-item d-flex align-items-center" style="border: 1px solid #2e2e2e; border-radius: 8px; padding: 16px; color: #ededed; font-family: 'Space Grotesk';">
-                            <img class="xlogo-icon" alt="LinkedIn Icon" src="{{asset('assets/Redes.svg')}}" style="width: 24px; height: 24px;">
-                            <div class="correogmailcom ms-2">LinkedIn</div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="list-item d-flex align-items-center" style="border: 1px solid #2e2e2e; border-radius: 8px; padding: 16px; color: #ededed; font-family: 'Space Grotesk';">
-                            <img class="envelopesimple-icon" alt="Twitter Icon" src="{{asset('assets/XLogo.svg')}}" style="width: 24px; height: 24px;">
-                            <div class="correogmailcom ms-2">Twitter</div>
-                        </div>
+            <div class="row mb-4">
+                <div class="col-md-6 mb-3">
+                    <div class="list-item d-flex align-items-center"
+                        style="border: 1px solid #2e2e2e; border-radius: 8px; padding: 16px; color: #ededed; font-family: 'Space Grotesk';">
+                        <a href="{{ $general_setting['youtube_url'] ?? '' }}" target="_blank" class="d-flex align-items-center" style="text-decoration: none; color: inherit;">
+                            <i class="fab fa-youtube" style="font-size: 30px; margin-right: 8px; color: #fff;"></i>
+                            <span class="facebook fw-bold" style="color: inherit;">YouTube</span>
+                        </a>
                     </div>
                 </div>
+                <div class="col-md-6 mb-3">
+                    <div class="list-item d-flex align-items-center"
+                        style="border: 1px solid #2e2e2e; border-radius: 8px; padding: 16px; color: #ededed; font-family: 'Space Grotesk';">
+                         <a href="{{ $general_setting['tiktok_url'] ?? '' }}" target="_blank" class="d-flex align-items-center" style="text-decoration: none; color: inherit;">
+                            <i class="fab fa-tiktok" style="font-size: 30px; margin-right: 8px; color: #fff;"></i>
+                            <span class="facebook fw-bold" style="color: inherit;">TikTok</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
             </div>
 
             <!-- Right Column: Contact Form -->
@@ -141,14 +160,11 @@
                         </p>
                     </div>
                     <div class="col-12 col-md-4 text-end d-flex align-items-center justify-content-end">
-                        <a href="{{ url('signup') }}" class="btn btn-primary btn-lg">{{ __('Regístrate Aquí') }}</a>
+                        <a href="{{ url('membership') }}" class="btn btn-primary btn-lg">{{ __('Join Now') }}</a>
                     </div>
                 </div>
             </div>
         </div>
-
-
-
 
     </section>
 @endsection

@@ -33,7 +33,7 @@
                             <button type="submit" class="btn btn-primary w-100">Enviar OTP</button>
                             <div class="mt-3 text-center">
                                 <span class="text-light">{{ __('¿Aún no eres afiliado?') }} </span>
-                                <a href="{{ url('signup') }}" class="text-primary">{{ __('Únete aquí') }}</a>
+                                <a href="{{ url('membership') }}" class="text-primary">{{ __('Join Now') }}</a>
                             </div>
                         </form>
 

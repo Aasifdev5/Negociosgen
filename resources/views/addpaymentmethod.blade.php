@@ -21,7 +21,23 @@
             <div class="col-lg-6 mb-4">
                 <div class="container" style="background: #000; padding: 20px; border: 1px solid #000; border-radius: 16px;">
                     <div class="mb-4">
-                        <h2 class="text-light">{{ __('Métodos de Pago') }}</h2>
+                        <h4 class="text-light">Selected Membership:
+                        @if ($user_session->membershipType=="GEN_CLASSIC")
+                        GEN CLASSIC Member
+                        @endif
+                        @if ($user_session->membershipType=="GEN_VIP")
+                        GEN VIP Member
+                        @endif
+                        @if ($user_session->membershipType=="GEN_GOLD")
+                        GEN GOLD Member
+                        @endif
+                        @if ($user_session->membershipType=="GEN_PLATINUM")
+                        GEN PLATINUM Member
+                        @endif
+
+
+                        </h4>
+                        <p class="text-light">{{ __('Métodos de Pago') }}</p>
 
                         <!-- Toggle Buttons -->
                         <div class="mb-3 d-grid gap-2 my-3 text-center">

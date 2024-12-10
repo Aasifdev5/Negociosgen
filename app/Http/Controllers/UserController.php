@@ -13,6 +13,7 @@ use App\Models\BillingDetail;
 use App\Models\Blog;
 use App\Models\BlogCategory;
 use App\Models\BlogComment;
+use App\Models\Brand;
 use App\Models\Campaign;
 use App\Models\Cart;
 use App\Models\Category;
@@ -85,10 +86,10 @@ class UserController extends Controller
         $user_session = User::where('id', Session::get('LoggedIn'))->first();
         $course = Course::orderBy('created_at', 'desc')->take(4)->get();  // Fetch 4 most recent courses
         $audiobook = Audiobook::orderBy('created_at', 'desc')->take(6)->get();  // Fetch 6 most recent audiobooks
-
+        $brands = Brand::all();
         $pages = Page::all();
 
-        return view('index', compact('user_session',   'pages', 'course', 'audiobook'));
+        return view('index', compact('user_session',   'pages', 'course', 'audiobook', 'brands'));
     }
     public function requestWithdrawal(Request $request)
     {
@@ -165,7 +166,8 @@ class UserController extends Controller
         $keys = array_keys($request->all());
 
         // Check if the keys array is not empty before accessing the first key
-        $refer = !empty($keys) ? $keys[0] : null;
+        $refer = request()->get('refer');
+        $membershipType = request()->get('membership');
 
         // Fetch the necessary data
         $pages = Page::all();
@@ -173,7 +175,7 @@ class UserController extends Controller
         $cities = City::all();
 
         // Pass the $refer value to the view
-        return view('register', compact('pages', 'countries', 'cities', 'refer'));
+        return view('register', compact('pages', 'countries', 'cities', 'refer', 'membershipType'));
     }
 
 
@@ -182,7 +184,6 @@ class UserController extends Controller
         // Validate input fields
         $request->validate([
             'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => ['required', 'string', 'min:8', 'max:30'],
             'mobile_number' => 'required|string|max:15',
@@ -199,6 +200,7 @@ class UserController extends Controller
         // Create a new user
         $user = User::create([
             'account_type' => 'affiliate',
+            'membershipType' => $request->membershipType,
             'name' => trim($request->first_name . ' ' . $request->last_name),
             'email' => $request->email,
             'password' => bcrypt($request->password),
@@ -712,6 +714,50 @@ class UserController extends Controller
 
 
         return view('contact', compact('user_session', 'pages'));
+    }
+    public function who()
+    {
+
+        $user_session = User::where('id', Session::get('LoggedIn'))->first();
+
+        $pages = Page::all();
+
+
+        return view('who', compact('user_session', 'pages'));
+    }
+    public function affiliate_company()
+    {
+
+        $user_session = User::where('id', Session::get('LoggedIn'))->first();
+        $brands = Brand::all();
+        $pages = Page::all();
+
+
+        return view('affiliate_company', compact('user_session', 'pages', 'brands'));
+    }
+    public function membership(Request $request)
+    {
+
+        $user_session = User::where('id', Session::get('LoggedIn'))->first();
+        $brands = Brand::all();
+        $pages = Page::all();
+        // Get all keys from the request
+        $keys = array_keys($request->all());
+
+        // Check if the keys array is not empty before accessing the first key
+        $refer = !empty($keys) ? $keys[0] : null;
+
+        return view('membership', compact('user_session', 'pages', 'brands', 'refer'));
+    }
+    public function gen_cards(Request $request)
+    {
+
+        $user_session = User::where('id', Session::get('LoggedIn'))->first();
+
+        $pages = Page::all();
+
+
+        return view('gen_cards', compact('user_session', 'pages'));
     }
     public function shop()
     {

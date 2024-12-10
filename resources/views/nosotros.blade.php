@@ -57,7 +57,7 @@
 
           <!-- Button -->
           <div class="text-center text-lg-start mb-3">
-            <a href="{{ url('signup') }}"
+            <a href="{{ url('membership') }}"
               class="btn btn-sm btn-primary"
               style="
                 padding: 16px 24px;
@@ -73,7 +73,7 @@
                 text-transform: uppercase;
               "
             >
-              {{ __('¡Únete a GEN y comienza hoy!') }}
+              {{ __('Join Now') }}
             </a>
           </div>
         </div>
@@ -579,7 +579,7 @@
           </div>
           <!-- Button -->
           <div class="text-center text-lg-start mb-3">
-            <a href="{{ url('signup') }}"
+            <a href="{{ url('membership') }}"
               class="btn btn-sm btn-primary"
               style="
                 padding: 16px 24px;
@@ -595,7 +595,7 @@
                 text-transform: uppercase;
               "
             >
-              {{ __('¡Únete a GEN y comienza hoy!') }}
+              {{ __('Join Now') }}
             </a>
           </div>
         </div>
@@ -963,8 +963,8 @@
 
               <!-- Button -->
               <div class="text-center text-lg-left mt-4">
-                <a href="{{ url('signup') }}" class="btn btn-primary btn-lg"
-                  >{{ __('¡Únete a GEN y comienza hoy!') }}</a
+                <a href="{{ url('membership') }}" class="btn btn-primary btn-lg"
+                  >{{ __('Join Now') }}</a
                 >
               </div>
             </div>
@@ -1057,7 +1057,7 @@
           <!-- Button -->
           <div class="row justify-content-center mt-3">
               <div class="col-auto">
-                  <a href="{{ url('signup') }}" class="btn btn-sm btn-primary">{{ __('Inscríbete') }}</a>
+                  <a href="{{ url('membership') }}" class="btn btn-sm btn-primary">{{ __('Join Now') }}</a>
               </div>
           </div>
       </div>

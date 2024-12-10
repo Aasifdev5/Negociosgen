@@ -45,7 +45,7 @@
 
                     <!-- Button -->
                     <div class="text-center text-lg-start mb-3">
-                        <a href="{{ url('signup') }}" class="btn btn-sm btn-primary"
+                        <a href="{{ url('membership') }}" class="btn btn-sm btn-primary"
                             style="
     padding: 16px 24px;
     border-radius: 6px;
@@ -58,7 +58,7 @@
     font-weight: 700;
     color: white;
     text-transform: uppercase;">
-                            {{ __('¡Únete ahora!') }}
+                            {{ __('Join Now') }}
                         </a>
                     </div>
 
@@ -292,7 +292,7 @@
 
                     <!-- Join Button -->
                     <div>
-                        <a href="{{ url('signup') }}" class="btn btn-primary btn-lg fw-bold">{{ __('¡Únete ahora!') }}</a>
+                        <a href="{{ url('membership') }}" class="btn btn-primary btn-lg fw-bold">{{ __('Join Now') }}</a>
                     </div>
                 </div>
 
@@ -315,25 +315,18 @@
             <h1 style="padding-top: 5px;color: #ffff;">{{ __('Nuestros Aliados') }}</h1>
             <p style="color: #A1A1A1;">{{ __('También disfrutarás de descuentos en una amplia variedad de negocios asociados a nivel nacional e internacional.') }}</p>
             <div class="row g-4">
-                <!-- UFC Gym Section -->
+                @foreach ($brands as $row)
                 <div class="col-lg-4 col-md-4 col-sm-12 text-center p-3">
                     <div style="border: 1px solid #2e2e2e; padding: 10px; border-radius: 12px;">
-                        <img class="img-fluid mb-2" src="{{ asset('assets/image 53.png') }}" alt="UFC Gym Image"
+                        <img class="img-fluid mb-2" src="{{ asset($row->thumbnail) }}" alt="UFC Gym Image"
                             style="max-width: 100px; height: 100px; object-fit: contain;">
-                        <div class="fw-bold text-light">{{ __('Gimnasio UFC 15%') }}</div>
-                        <div class="" style="color: #A1A1A1;">({{ __('rua augusta 453, São Paulo, Brasil') }})</div>
+                        <div class="fw-bold text-light">{{ $row->name }}</div>
+                        <div class="" style="color: #A1A1A1;">({{ $row->address }})</div>
                     </div>
                 </div>
 
-                <!-- Cine Center Section -->
-                <div class="col-lg-4 col-md-4 col-sm-12 text-center p-3">
-                    <div style="border: 1px solid #2e2e2e; padding: 10px; border-radius: 12px;">
-                        <img class="img-fluid mb-2" src="{{ asset('assets/image 52.png') }}" alt="Cine Center Image"
-                            style="max-width: 100px; height: 100px; object-fit: contain;">
-                        <div class="fw-bold text-light">{{ __('Cine center 5%') }}</div>
-                        <div class="" style="color: #A1A1A1;">({{ __('Calle warnes 34, Santa Cruz, Bolivia') }})</div>
-                    </div>
-                </div>
+                @endforeach
+
             </div>
 
 
@@ -446,7 +439,7 @@
                         </p>
                     </div>
                     <div class="col-12 col-md-4 text-end d-flex align-items-center justify-content-end">
-                        <a href="{{ url('signup') }}" class="btn btn-primary btn-lg">{{ __('Regístrate Aquí') }}</a>
+                        <a href="{{ url('membership') }}" class="btn btn-primary btn-lg">{{ __('Join Now') }}</a>
                     </div>
                 </div>
             </div>
@@ -456,6 +449,10 @@
 
 
     </section>
+    @php
+    $general_setting = \App\Models\Setting::pluck('option_value', 'option_key')->toArray();
+
+@endphp
     <section style="padding: 20px 0;background: #1A1A1A;">
         <div class="container my-5">
             <div class="row">
@@ -479,7 +476,7 @@
                                 style="border: 1px solid #2e2e2e; border-radius: 8px; padding: 16px; color: #ededed; font-family: 'Space Grotesk';">
                                 <img class="envelopesimple-icon" alt="Email Icon"
                                     src="{{ asset('assets/EnvelopeSimple.svg') }}" style="width: 24px; height: 24px;">
-                                <div class="correogmailcom ms-2">Correo@gmail.com</div>
+                                <div class="correogmailcom ms-2">{{ $general_setting['app_email'] ?? '' }}</div>
                             </div>
                         </div>
                         <div class="col-md-6 mb-3">
@@ -487,7 +484,7 @@
                                 style="border: 1px solid #2e2e2e; border-radius: 8px; padding: 16px; color: #ededed; font-family: 'Space Grotesk';">
                                 <img class="envelopesimple-icon" alt="WhatsApp Icon"
                                     src="{{ asset('assets/WhatsappLogo.svg') }}" style="width: 24px; height: 24px;">
-                                <div class="correogmailcom ms-2">+591 986 874 365</div>
+                                <div class="correogmailcom ms-2">{{ $general_setting['app_contact_number'] ?? '' }}</div>
                             </div>
                         </div>
                     </div>
@@ -496,17 +493,19 @@
                         <div class="col-md-6 mb-3">
                             <div class="list-item d-flex align-items-center"
                                 style="border: 1px solid #2e2e2e; border-radius: 8px; padding: 16px; color: #ededed; font-family: 'Space Grotesk';">
-                                <img class="envelopesimple-icon" alt="Facebook Icon"
-                                    src="{{ asset('assets/FacebookLogo.svg') }}" style="width: 24px; height: 24px;">
-                                <div class="correogmailcom ms-2">Facebook</div>
+                                <a href="{{ $general_setting['facebook_url'] ?? '' }}" target="_blank" class="d-flex align-items-center" style="text-decoration: none;">
+                                    <img class="facebooklogo-icon" alt="Facebook" src="{{ asset('assets/FacebookLogo.svg') }}" width="35px" style="margin-right: 8px;">
+                                    <span class="facebook fw-bold">Facebook</span>
+                                </a>
                             </div>
                         </div>
                         <div class="col-md-6 mb-3">
                             <div class="list-item d-flex align-items-center"
                                 style="border: 1px solid #2e2e2e; border-radius: 8px; padding: 16px; color: #ededed; font-family: 'Space Grotesk';">
-                                <img class="atomiconredes" alt="Instagram Icon"
-                                    src="{{ asset('assets/Instagram.svg') }}" style="width: 24px; height: 24px;">
-                                <div class="correogmailcom ms-2">Instagram</div>
+                                <a href="{{ $general_setting['instagram_url'] ?? '' }}" target="_blank" class="d-flex align-items-center" style="text-decoration: none;">
+                                    <img class="atomiconredes" alt="Instagram" src="{{ asset('assets/Instagram.svg') }}" width="30px" style="margin-right: 8px;">
+                                    <span class="facebook fw-bold">Instagram</span>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -515,17 +514,19 @@
                         <div class="col-md-6 mb-3">
                             <div class="list-item d-flex align-items-center"
                                 style="border: 1px solid #2e2e2e; border-radius: 8px; padding: 16px; color: #ededed; font-family: 'Space Grotesk';">
-                                <img class="xlogo-icon" alt="LinkedIn Icon" src="{{ asset('assets/Redes.svg') }}"
-                                    style="width: 24px; height: 24px;">
-                                <div class="correogmailcom ms-2">LinkedIn</div>
+                                <a href="{{ $general_setting['youtube_url'] ?? '' }}" target="_blank" class="d-flex align-items-center" style="text-decoration: none; color: inherit;">
+                                    <i class="fab fa-youtube" style="font-size: 30px; margin-right: 8px; color: #fff;"></i>
+                                    <span class="facebook fw-bold" style="color: inherit;">YouTube</span>
+                                </a>
                             </div>
                         </div>
                         <div class="col-md-6 mb-3">
                             <div class="list-item d-flex align-items-center"
                                 style="border: 1px solid #2e2e2e; border-radius: 8px; padding: 16px; color: #ededed; font-family: 'Space Grotesk';">
-                                <img class="envelopesimple-icon" alt="Twitter Icon"
-                                    src="{{ asset('assets/XLogo.svg') }}" style="width: 24px; height: 24px;">
-                                <div class="correogmailcom ms-2">Twitter</div>
+                                 <a href="{{ $general_setting['tiktok_url'] ?? '' }}" target="_blank" class="d-flex align-items-center" style="text-decoration: none; color: inherit;">
+                                    <i class="fab fa-tiktok" style="font-size: 30px; margin-right: 8px; color: #fff;"></i>
+                                    <span class="facebook fw-bold" style="color: inherit;">TikTok</span>
+                                </a>
                             </div>
                         </div>
                     </div>

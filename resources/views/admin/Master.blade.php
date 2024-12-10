@@ -501,6 +501,12 @@
                                             <span>{{ __('Categoría') }}</span>
                                         </a>
                                     </li>
+                                    <li>
+                                        <a href="{{ route('brands.index') }}">
+                                            <i class="fa fa-circle"></i>
+                                            <span>{{ __('Marcas') }}</span>
+                                        </a>
+                                    </li>
                                     {{-- <li>
 
                                         <a href="{{ route('subcategory.index') }}">

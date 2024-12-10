@@ -52,7 +52,7 @@
                 <div class="col-sm-8 me-3">
                     <h3 class="text-light">{{ __('Enlace para referidos') }}</h3>
                     <input type="text" id="referralLink" class="form-control bg-dark text-white"
-                        value="https://prueba.negociosgen.com/signup?{{ $user_session->id }}" readonly>
+                        value="https://prueba.negociosgen.com/membership?{{ $user_session->id }}" readonly>
                     <button id="copyButton" class="btn btn-outline-primary mt-2" data-bs-toggle="tooltip"
                         data-bs-placement="top" title="Copiado!">
                         {{ __('Copiar enlace') }}

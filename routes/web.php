@@ -7,7 +7,7 @@ use App\Http\Controllers\Admin\BankController;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\BlogCategoryController;
 use App\Http\Controllers\Admin\BlogController;
-
+use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ContactUsController;
 use App\Http\Controllers\Admin\CurrencyController;
@@ -120,6 +120,8 @@ Route::group(['middleware' => ['prevent-back-history', SetLocale::class]], funct
     Route::get('/clear-wishlist', [UserController::class, 'clearWishlist'])->name('clear.wishlist');
 
     Route::get('/contact', [UserController::class, 'contact'])->name('contact');
+    Route::get('/who', [UserController::class, 'who'])->name('who');
+    Route::get('/affiliate_company', [UserController::class, 'affiliate_company'])->name('affiliate_company');
     Route::get('/userNotifications', [UserController::class, 'userNotifications'])->name('userNotifications');
     Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
     Route::get('/chat/messages', [ChatController::class, 'getChatMessages'])->name('chat.messages');
@@ -133,6 +135,8 @@ Route::group(['middleware' => ['prevent-back-history', SetLocale::class]], funct
     Route::get('/invoice/{id}', [InvoiceController::class, 'generateInvoice'])->name('invoice.generate');
 
     Route::get('/news-category/{id}', [UserController::class, 'news_category'])->name('news_category');
+    Route::get('/membership', [UserController::class, 'membership'])->name('membership')->middleware('isLoggedIn');
+    Route::get('/gen_cards', [UserController::class, 'gen_cards'])->name('gen_cards')->middleware('isLoggedIn');
     Route::get('/verification', [UserController::class, 'verification'])->name('verification')->middleware('isLoggedIn');
     Route::get('/home', [UserController::class, 'home'])->name('home')->middleware('isLoggedIn');
     Route::get('addToWishlist/{price}/{id}', [UserController::class, 'addToWishlist'])->name('addToWishlist');
@@ -498,7 +502,14 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('delete/{id}', [MediaController::class, 'delete'])->name('gallery.delete');
             Route::post('bulk-delete', [MediaController::class, 'bulkDelete'])->name('gallery.bulk.delete');
         });
-
+        Route::prefix('brands')->group(function () {
+            Route::get('/', [BrandController::class, 'index'])->name('brands.index')->middleware('AdminIsLoggedIn');
+            Route::get('create', [BrandController::class, 'create'])->name('brands.create')->middleware('AdminIsLoggedIn');
+            Route::post('store', [BrandController::class, 'store'])->name('brands.store');
+            Route::get('edit/{uuid}', [BrandController::class, 'edit'])->name('brands.edit')->middleware('AdminIsLoggedIn');
+            Route::post('update/{uuid}', [BrandController::class, 'update'])->name('brands.update');
+            Route::get('delete/{uuid}', [BrandController::class, 'delete'])->name('brands.delete');
+        });
         Route::group(['prefix' => 'blog', 'as' => 'blog.'], function () {
             Route::get('/', [BlogController::class, 'index'])->name('index')->middleware('AdminIsLoggedIn');
             Route::get('create', [BlogController::class, 'create'])->name('create')->middleware('AdminIsLoggedIn');
