@@ -201,6 +201,7 @@ class UserController extends Controller
         $user = User::create([
             'account_type' => 'affiliate',
             'membershipType' => $request->membershipType,
+            'membership_status' => 'pending',
             'name' => trim($request->first_name . ' ' . $request->last_name),
             'email' => $request->email,
             'password' => bcrypt($request->password),
@@ -749,6 +750,51 @@ class UserController extends Controller
 
         return view('membership', compact('user_session', 'pages', 'brands', 'refer'));
     }
+    public function membershipRenew(Request $request)
+{
+
+    $userId = $request->query('user_id');
+    // Retrieve the logged-in user
+    $user_session = User::find($userId);
+
+    // Ensure the user exists
+    if (!$user_session) {
+        return redirect()->route('login')->with('error', 'User not found. Please log in again.');
+    }
+
+
+
+    // Pass data to the view
+    return view('membershipRenew', compact('user_session'));
+}
+public function renew(Request $request)
+{
+    // Validate the incoming request
+    $request->validate([
+        'membership' => 'required|string|in:GEN_CLASSIC,GEN_VIP,GEN_GOLD,GEN_PLATINUM',
+    ]);
+
+    // Retrieve the logged-in user
+    $user_session = User::find($request->user_id);
+
+    if (!$user_session) {
+        return redirect()->route('login')->with('error', 'User not found. Please log in again.');
+    }
+
+    // Renew membership logic (update user's membership type and expiry date)
+    $membershipType = $request->input('membership');
+    $user_session->update([
+        'membershipType' => $membershipType,
+        'membership_status' => 'pending',
+        'payment_status' => 'pending',
+    ]);
+    return redirect('addpaymentmethod')->with([
+
+        'membershipType' => $membershipType
+    ]);
+
+}
+
     public function gen_cards(Request $request)
     {
 

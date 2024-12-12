@@ -17,5 +17,7 @@ class Kernel extends ConsoleKernel
 
         // Schedule the command to run on the 1st of every month at midnight
         $schedule->command('usuarios:verificar-actividad')->monthlyOn(1, '00:00');
+        $schedule->job(new \App\Jobs\CheckMembershipExpiry)->daily();
+        $schedule->job(new \App\Jobs\SendMembershipRenewalReminders)->daily();
     }
 }

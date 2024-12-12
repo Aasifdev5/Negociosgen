@@ -55,12 +55,14 @@
                             <span>{{ __('Ganancias') }}</span>
                         </a>
                     </div>
+                    @if (!empty($user_session) && $user_session->is_subscribed == 1 && $user_session->membership_status == 'active')
                     <div class="menu-item mb-3 d-flex align-items-center">
                         <a href="{{ url('recursos') }}" style="text-decoration: none; color: inherit;">
                             <img src="{{ asset('assets/Image.svg') }}" alt="Recursos" class="me-2" width="24" height="24">
                             <span>{{ __('Recursos') }}</span>
                         </a>
                     </div>
+                    @endif
                     <div class="menu-item d-flex align-items-center">
                         <a href="{{ url('edit_profile') }}" style="text-decoration: none; color: inherit;">
                             @if (!empty($user_session->profile_photo))

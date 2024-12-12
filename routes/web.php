@@ -135,7 +135,10 @@ Route::group(['middleware' => ['prevent-back-history', SetLocale::class]], funct
     Route::get('/invoice/{id}', [InvoiceController::class, 'generateInvoice'])->name('invoice.generate');
 
     Route::get('/news-category/{id}', [UserController::class, 'news_category'])->name('news_category');
-    Route::get('/membership', [UserController::class, 'membership'])->name('membership')->middleware('isLoggedIn');
+    Route::get('/membership', [UserController::class, 'membership'])->name('membership');
+    Route::get('/membership/renew', [UserController::class, 'membershipRenew'])->name('membershipRenew');
+    Route::post('/renew', [UserController::class, 'renew'])->name('renew');
+
     Route::get('/gen_cards', [UserController::class, 'gen_cards'])->name('gen_cards')->middleware('isLoggedIn');
     Route::get('/verification', [UserController::class, 'verification'])->name('verification')->middleware('isLoggedIn');
     Route::get('/home', [UserController::class, 'home'])->name('home')->middleware('isLoggedIn');

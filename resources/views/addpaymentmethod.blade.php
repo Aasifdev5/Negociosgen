@@ -59,6 +59,8 @@
                             <form action="{{ route('order.store') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <input type="hidden" name="user_id" value="{{ $user_session->id }}">
+                                <input type="hidden" name="membershipType" value="{{ $user_session->membershipType ?? '' }}">
+
                                 <div class="mb-3">
                                     <label for="amount" class="text-light form-label">{{ __('Monto') }}</label>
                                     <input type="text" class="form-control" id="amount" name="amount">

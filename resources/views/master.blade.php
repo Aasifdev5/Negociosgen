@@ -70,7 +70,7 @@
                     <li class="nav-item nav-item-custom-padding {{ Request::is('nosotros') ? 'active' : '' }}">
                         <a class="nav-link text-light" href="{{ url('nosotros') }}">{{ __('Nosotros') }}</a>
                     </li>
-                    @if (!empty($user_session) && $user_session->is_subscribed == 1)
+                    @if (!empty($user_session) && $user_session->is_subscribed == 1 && $user_session->membership_status == 'active')
                         <li class="nav-item nav-item-custom-padding {{ Request::is('course') ? 'active' : '' }}">
                             <a class="nav-link text-light" href="{{ url('course') }}"> {{ __('Cursos') }}</a>
                         </li>

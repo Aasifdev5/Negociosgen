@@ -27,6 +27,13 @@ class User extends Authenticatable
         'password',
         'phone',
         'membershipType',
+        'membership_status',
+        'membership_start_date',
+        'membership_end_date',
+        'renewal_due_date',
+        'payment_status',
+        'membership_card_number',
+        'guest_access_count',
         'last_seen',
         'is_online',
         'about',
@@ -73,17 +80,17 @@ class User extends Authenticatable
     {
         return $this->hasMany(ForumPostComment::class, 'user_id', 'id');
     }
-// In the User model
-// User model
-public function children()
-{
-    return $this->hasMany(User::class, 'refer');  // 'refer' is the foreign key
-}
+    // In the User model
+    // User model
+    public function children()
+    {
+        return $this->hasMany(User::class, 'refer');  // 'refer' is the foreign key
+    }
 
-public function parent()
-{
-    return $this->belongsTo(User::class, 'refer');  // Refers back to the parent user (the user who referred them)
-}
+    public function parent()
+    {
+        return $this->belongsTo(User::class, 'refer');  // Refers back to the parent user (the user who referred them)
+    }
 
 
     public static function getUserFullname($id)

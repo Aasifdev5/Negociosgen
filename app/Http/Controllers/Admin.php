@@ -2,49 +2,39 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\TransactionsExport;
-use App\Http\helper;
+
+use App\Mail\MembershipRenewalNotification;
 use App\Mail\SendMailreset;
 use App\Models\Balance;
 use App\Models\Category;
 use App\Models\City;
+
 use App\Models\Country;
-use App\Models\Course;
-use App\Models\CourseCategory;
-use App\Models\CreditReload;
-use App\Models\GeneralSetting;
+use App\Models\MembershipPayment;
+
 use App\Models\Notification;
-use App\Models\Order;
-use App\Models\OrderItem;
-use App\Models\PaidTopAd;
 use App\Models\PasswordReset;
+
 use App\Models\Payment;
-use App\Models\PaymentGateway;
+
 use App\Models\Permissions;
-use App\Models\PostingAds;
-use App\Models\Product;
+
 use App\Models\Sales;
-use App\Models\Settings;
-use App\Models\Task;
-use App\Models\Transactions;
 use App\Models\User;
 use App\Models\Withdrawal;
 use App\Notifications\VerifyEmailNotification;
 use App\Traits\SendNotification;
+
 use Carbon\Carbon;
-use DateTime;
-use DateTimeZone;
-use Dotenv\Dotenv;
+
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash as FacadesHash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
-use Maatwebsite\Excel\Facades\Excel;
+
 
 
 class Admin extends Controller
@@ -1018,105 +1008,7 @@ class Admin extends Controller
             return view('admin.pages.transactions_list', compact('user_session', 'transaction'));
         }
     }
-    public function getOrderDetails($orderId)
-    {
-        // Fetch order details from your database
-        $order = Order::where('id', $orderId)->first();
 
-        if (!$order) {
-            return response()->json(['error' => 'Order not found'], 404);
-        }
-
-        $transaction = Payment::where('order_id', $orderId)->first();
-
-        // Assuming `product_details` field contains JSON data of products
-        $products = json_decode($transaction->product_details, true);
-
-        // Prepare an array to store detailed product information
-        $aggregatedProducts = [];
-
-        // Aggregate quantities and prices
-        foreach ($products as $product) {
-            $productId = $product['product_id'];
-            $productSku = $product['sku'];
-
-            // Fetch product details
-            $productDetails = Product::find($productId);
-
-            // Skip if product details not found
-            if (!$productDetails) {
-                continue;
-            }
-
-            // Fetch order item to get color and size
-            $orderItem = OrderItem::where('order_id', $orderId)
-                ->where('product_id', $productId)
-                ->where('size', $product['size'])  // Ensure that size is also considered
-                ->first();
-
-            $productColor = $orderItem ? $orderItem->color : 'N/A';
-            $productSize = $orderItem ? $orderItem->size : 'N/A';
-
-            // Fetch product variation based on SKU
-            // Fetch product variation based on SKU
-            $vcolor = \App\Models\ProductVariations::where('sku', $productSku)->first();
-
-            // Initialize the variable
-            $productImages = null;
-
-            // Count the number of images for the given product and color 'm'
-            $productImagesCount = \App\Models\Pro_image::where('product_id', $productId)
-                ->where('color', 'm')
-                ->count();
-
-            // Use the count to decide how to fetch the images
-            if ($productImagesCount > 1) {
-                // If there are multiple images with color 'm', fetch one
-                $productImages = \App\Models\Pro_image::where('product_id', $productId)
-                    ->where('color', 'm')
-                    ->orderBy('id', 'asc')
-                    ->first();
-            } else {
-                // Otherwise, fetch the image based on the vcolor
-                $productImages = $vcolor ? \App\Models\Pro_image::where('product_id', $vcolor->product_id)
-                    ->where('color', $vcolor->color)
-                    ->orderBy('id', 'asc')
-                    ->first() : null;
-            }
-            // Set image URL based on availability of product images
-            $imageUrl = $productImages
-                ? asset($productImages->thumbnail)
-                : (isset($productDetails->f_thumbnail)
-                    ? asset('product_images/' . $productDetails->f_thumbnail)
-                    : 'N/A');
-
-            // Unique key based on product_id, color, and size
-            $uniqueKey = $productId . '_' . $productColor . '_' . $productSize;
-
-            // Aggregate product details by the unique key
-            if (!isset($aggregatedProducts[$uniqueKey])) {
-                $aggregatedProducts[$uniqueKey] = [
-                    'title' => $productDetails->title,
-                    'sku' => $productSku,
-                    'price' => $product['price'],
-                    'quantity' => 0,
-                    'color' => $productColor,
-                    'size' => $productSize,
-                    'image' => $imageUrl,
-                ];
-            }
-
-            // Combine quantities and calculate total price
-            $aggregatedProducts[$uniqueKey]['quantity'] += $product['quantity'];
-            $aggregatedProducts[$uniqueKey]['total'] = $aggregatedProducts[$uniqueKey]['price'] * $aggregatedProducts[$uniqueKey]['quantity'];
-        }
-
-        // Convert aggregated products to a simple array
-        $detailedProducts = array_values($aggregatedProducts);
-
-        // Return order details as JSON response with detailed products
-        return response()->json(['products' => $detailedProducts]);
-    }
     public function bulkDelete(Request $request)
     {
         $ids = $request->input('ids');
@@ -1149,13 +1041,55 @@ class Admin extends Controller
                     'is_active' => 1
                 ]);
             } else {
-                // Otherwise, just mark them as subscribed (if not already)
-                $user->update([
-                    'is_subscribed' => 1,
-                ]);
+                if ($user->membershipType == "GEN_CLASSIC") {
+                    $durationInYears = 1;
+                    // Membership cost and percentage distribution across levels
+                    $membershipCost = 1000; // Adjust as needed
+                    $membership_id = 1;
+                }
 
-                // Membership cost and percentage distribution across levels
-                $membershipCost = 1000; // Adjust as needed
+                if ($user->membershipType == "GEN_VIP") {
+                    $durationInYears = 1;
+                    // Membership cost and percentage distribution across levels
+                    $membershipCost = 3000; // Adjust as needed
+                    $membership_id = 2;
+                }
+
+                if ($user->membershipType == "GEN_GOLD") {
+                    $durationInYears = 1;
+                    // Membership cost and percentage distribution across levels
+                    $membershipCost = 5000; // Adjust as needed
+                    $membership_id = 3;
+                }
+
+                if ($user->membershipType == "GEN_PLATINUM") {
+                    $durationInYears = 2;
+                    // Membership cost and percentage distribution across levels
+                    $membershipCost = 7000; // Adjust as needed
+                    $membership_id = 4;
+                }
+                if ($user->membership_status == "expired" || $user->membership_status == "pending" || $user->payment_status == "unpaid" || $user->payment_status == "pending") {
+                    // Otherwise, just mark them as subscribed (if not already)
+                    $user->update([
+                        'is_subscribed' => 1,
+                        'membershipType' => $user->membershipType,
+                        'membership_status' => 'active',
+                        'membership_start_date' => now(),
+                        'membership_end_date' => now()->addYears($durationInYears),
+                        'renewal_due_date' => now()->addYears($durationInYears)->subDays(30), // Reminder one month before expiry
+                        'payment_status' => 'paid',
+                    ]);
+                    MembershipPayment::create([
+                        'user_id' => $user->id,
+                        'membership_id' => $membership_id,
+                        'amount_paid' => $membershipCost,
+                        'payment_date' => now(),
+                        'payment_method' => 'paypal',
+                    ]);
+
+                }
+
+
                 $levelPercentages = [
                     1 => 0.30, // Level 1: 30%
                     2 => 0.03, // Level 2: 3%
@@ -1273,6 +1207,4 @@ class Admin extends Controller
 
         return back()->with('success', 'Withdrawal status updated.');
     }
-
-
 }

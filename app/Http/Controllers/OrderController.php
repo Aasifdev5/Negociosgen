@@ -16,13 +16,13 @@ class OrderController extends Controller
 {
     public function store(Request $request)
     {
-// dd($request->all());
+        // dd($request->all());
         $userDetails = User::find($request->user_id);
 
 
         // Create a new payment
         $payment = Payment::create([
-
+            'membershipType' => $request->membershipType,
             'name' => $userDetails->name,
             'payer_email' => $userDetails->email,
             'user_id' => $userDetails->id,
@@ -40,7 +40,5 @@ class OrderController extends Controller
 
 
         return back()->with('success', 'Una vez que se apruebe su pago, podrá iniciar sesión');
-
-
     }
 }
