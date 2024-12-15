@@ -3,6 +3,16 @@
     {{ __('Recursos') }}
 @endsection
 @section('content')
+@if(Session::has('success'))
+<div class="alert alert-success">
+    <p>{{session::get('success')}}</p>
+</div>
+@endif
+@if(Session::has('fail'))
+<div class="alert alert-danger">
+    <p>{{session::get('fail')}}</p>
+</div>
+@endif
     <section style="padding: 80px 0; background: #1a1a1a">
         <div class="container mt-5">
             <!-- Title Section -->

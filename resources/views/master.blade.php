@@ -70,11 +70,11 @@
                     <li class="nav-item nav-item-custom-padding {{ Request::is('nosotros') ? 'active' : '' }}">
                         <a class="nav-link text-light" href="{{ url('nosotros') }}">{{ __('Nosotros') }}</a>
                     </li>
-                    @if (!empty($user_session) && $user_session->is_subscribed == 1 && $user_session->membership_status == 'active')
+
                         <li class="nav-item nav-item-custom-padding {{ Request::is('course') ? 'active' : '' }}">
                             <a class="nav-link text-light" href="{{ url('course') }}"> {{ __('Cursos') }}</a>
                         </li>
-                    @endif
+
                     <li class="nav-item nav-item-custom-padding {{ Request::is('blog') ? 'active' : '' }}">
                         <a class="nav-link text-light" href="{{ url('blog') }}"> {{ __('Blog') }}</a>
                     </li>
@@ -260,7 +260,7 @@ margin-right: 20px;
                                     @endforeach
                                 </ul>
                             </li>
-                            <li class="list-item mb-2" style="margin-bottom: 0.5rem;">{{ __('Mapa del sitio web') }}</li>
+                            <li class="list-item mb-2" style="margin-bottom: 0.5rem;"><a href="{{ url('workUs') }}" style="text-decoration: none;color:#fff;">{{ __('Work with Us') }}</a></li>
                             <li class="list-item mb-2" style="margin-bottom: 0.5rem;">{{ __('Política de privacidad') }}</li>
                             <li class="list-item" style="margin-bottom: 0;"><a href="{{ url('term') }}"
                                     style="text-decoration: none;color:#fff;">{{ __('Términos de uso') }}</a></li>

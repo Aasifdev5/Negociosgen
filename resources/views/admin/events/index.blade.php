@@ -50,7 +50,7 @@
                                                 <tr class="removable-item">
                                                     <td><input type="checkbox" class="event-checkbox" value="{{ $event->uuid }}"></td>
                                                     <td>{{ $event->title }}</td>
-                                                    <td>{{ Str::limit($event->description, 50) }}</td>
+                                                    <td>{!! Str::limit($event->description, 50) !!}</td>
                                                     <td>{{ \Carbon\Carbon::parse($event->date)->format('d/m/Y') }}</td>
 
                                                     <td>{{ $event->time }}</td>

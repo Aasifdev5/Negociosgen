@@ -6,8 +6,19 @@
 @php
         $general_setting = \App\Models\Setting::pluck('option_value', 'option_key')->toArray();
     @endphp
+
 <section style="padding: 90px 0;background: #1A1A1A;">
     <div class="container my-5">
+        @if(Session::has('success'))
+     <div class="alert alert-success">
+         <p>{{session::get('success')}}</p>
+     </div>
+     @endif
+     @if(Session::has('fail'))
+     <div class="alert alert-danger">
+         <p>{{session::get('fail')}}</p>
+     </div>
+     @endif
         <div class="row">
             <!-- Left Column: Contact Information -->
             <div class="col-lg-6 col-md-12 mb-4">

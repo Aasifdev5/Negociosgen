@@ -6,8 +6,20 @@
 @php
         $general_setting = \App\Models\Setting::pluck('option_value', 'option_key')->toArray();
     @endphp
+
+
     <section style="padding: 20px 0;background: #1A1A1A;">
 <div class="container py-5 ">
+    @if(Session::has('success'))
+     <div class="alert alert-success">
+         <p>{{session::get('success')}}</p>
+     </div>
+     @endif
+     @if(Session::has('fail'))
+     <div class="alert alert-danger">
+         <p>{{session::get('fail')}}</p>
+     </div>
+     @endif
     <!-- Who We Are Section -->
     <div class="text-center pt-5 mb-5">
         <img src="<?php echo '/' . $general_setting['app_footer_payment_image'] ?? ''; ?>" alt="GEN Logo" class="img-fluid mb-3" width="200px" height="200px" style="max-width: 200px;">

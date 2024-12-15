@@ -3,6 +3,7 @@
     {{ __('Detalles del blog') }}
 @endsection
 @section('content')
+
     <style>
         .transparent-card {
             background-color: rgba(26, 26, 26, 0.7);
@@ -47,6 +48,16 @@
     <section style="padding: 90px 0; background: #1a1a1a">
         <div class="container-fluid custom-bg w-100">
             <div class="container my-5">
+                @if(Session::has('success'))
+<div class="alert alert-success">
+    <p>{{session::get('success')}}</p>
+</div>
+@endif
+@if(Session::has('fail'))
+<div class="alert alert-danger">
+    <p>{{session::get('fail')}}</p>
+</div>
+@endif
                 <div class="row">
                     <!-- Text Column -->
                     <div class="col-lg-6 col-md-12 order-2 order-md-1">

@@ -68,24 +68,12 @@
 
                                     <!-- Course Price -->
                                     <div class="mb-3">
-                                        <label for="coursePrice" class="form-label">Precio</label>
-                                        <input type="number" class="form-control" id="coursePrice" name="price" placeholder="$0.00" value="{{ old('price', $course->price) }}" >
+                                        <label for="coursePrice" class="form-label">Coache</label>
+                                        <input type="text" class="form-control" id="coursePrice" name="coache" value="{{ old('coache', $course->coache) }}" >
                                         <span class="text-danger" id="priceError"></span>
                                     </div>
 
-                                    <!-- Course Category -->
-                                    <div class="mb-3">
-                                        <label for="courseCategory" class="form-label">Categoría</label>
-                                        <select class="form-select" id="courseCategory" name="category" >
-                                            <option value="">Seleccione una categoría</option>
-                                            @foreach ($categories as $row)
-                                                <option value="{{ $row->id }}" {{ old('category', $course->category) == $row->id ? 'selected' : '' }}>
-                                                    {{ $row->name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        <span class="text-danger" id="categoryError"></span>
-                                    </div>
+
 
                                     <!-- Video Link -->
                                     <div class="mb-3">

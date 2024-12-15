@@ -5,6 +5,16 @@
 @section('content')
 <div class="container-fluid custom-bg w-100">
     <div class="container my-5">
+        @if(Session::has('success'))
+<div class="alert alert-success">
+    <p>{{session::get('success')}}</p>
+</div>
+@endif
+@if(Session::has('fail'))
+<div class="alert alert-danger">
+    <p>{{session::get('fail')}}</p>
+</div>
+@endif
       <div class="row">
         <!-- Text Column -->
         <div class="col-lg-6 col-md-12 order-2 order-md-1">
@@ -604,7 +614,7 @@
         <div class="col-lg-6 col-md-12 order-1 order-md-2">
           <img
             class="img-fluid rounded-3"
-            src="{{asset('assets/homb1.png')}}"
+            src="{{asset('assets/UpscaleImage_1_20241027_mano--texto.jpg')}}"
             alt="Placeholder Image"
             style="padding-top: 20px; width: 100%; height: auto"
           />

@@ -3,8 +3,19 @@
     Inicio
 @endsection
 @section('content')
+
     <div class="container-fluid custom-bg w-100">
         <div class="container my-5">
+            @if (Session::has('success'))
+                <div class="alert alert-success">
+                    <p>{{ session::get('success') }}</p>
+                </div>
+            @endif
+            @if (Session::has('fail'))
+                <div class="alert alert-danger">
+                    <p>{{ session::get('fail') }}</p>
+                </div>
+            @endif
             <div class="row">
                 <!-- Text Column -->
                 <div class="col-lg-6 col-md-12 order-2 order-md-1">
@@ -40,7 +51,7 @@
                     line-height: 28px;
                     color: #A1A1A1;">
                         {{ __('Únete a nuestro equipo de afiliados, toma nuestros cursos de desarrollo personal y genera ingresos
-                        promoviendo conocimiento y transformación.')}}
+                                                promoviendo conocimiento y transformación.') }}
                     </p>
 
                     <!-- Button -->
@@ -95,7 +106,7 @@
                     <p class="text-light"
                         style="color: white; font-size: 16px; font-family: 'Space Grotesk', sans-serif; line-height: 24px; max-width: 600px;">
                         {{ __('Te ofrecemos una oportunidad única de generar ingresos adicionales a través de nuestro sistema de
-                        marketing multinivel.')}}
+                                                marketing multinivel.') }}
                     </p>
                 </div>
 
@@ -184,9 +195,9 @@
                     <p class="text-center text-md-start"
                         style="width: 100%; color: #A1A1A1; font-size: 16px; font-family: 'Space Grotesk', sans-serif; font-weight: 400; line-height: 24px; word-wrap: break-word;">
                         {{ __('Nuestra sección de Coaching y Cursos está diseñada para empoderar a emprendedores a través de
-                        programas prácticos de formación. Aprende de expertos en marketing, desarrollo personal e
-                        inteligencia emocional, y transforma tus conocimientos en oportunidades de éxito. Únete a nuestra
-                        comunidad y comienza tu viaje hacia el crecimiento hoy mismo.')}}
+                                                programas prácticos de formación. Aprende de expertos en marketing, desarrollo personal e
+                                                inteligencia emocional, y transforma tus conocimientos en oportunidades de éxito. Únete a nuestra
+                                                comunidad y comienza tu viaje hacia el crecimiento hoy mismo.') }}
                     </p>
                 </div>
 
@@ -200,29 +211,39 @@
     <section style="padding: 20px 0; background-color: #0A0A0A; position: relative;">
         <div class="container">
             <!-- View All Button -->
-            <div class="view-all-btn" style="position: absolute; top: 10px; right: 20px;">
+            <div class="view-all-btn" style="position: absolute; top: -30px; right: 20px;">
                 <a href="{{ url('course') }}" class="btn btn-primary">{{ __('Ver Todos') }}</a>
             </div>
 
             <div class="row">
                 @foreach ($course as $row)
-                    <div class="col-lg-3 col-md-6 col-6" style="padding-bottom: 10px;">
-                        <div class="video-container">
-                            <div class="gradient-overlay"></div>
-                            <img src="{{ asset($row->video_thumbnail) }}" class="thumbnail" alt="Video Thumbnail" />
-                            @if (!empty($user_session))
-                            <span class="play-button"><img src="{{ asset('assets/Play (1).svg') }}" alt="Play Button" /></span>
-                            @else
-                                <a href="{{ url('Userlogin') }}"><span class="play-button"><img src="{{ asset('assets/Play (1).svg') }}" alt="Play Button" /></span></a>
-                            @endif
-
-                            <div class="embed-responsive" style="display: none;">
-                                <iframe class="embed-responsive-item" src="{{ $row->getEmbedUrl($row->video_link) }}"
-                                    frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
-                                </iframe>
+                    <!-- Use $row to avoid conflict with $course -->
+                    <div class="col-lg-3 col-md-12" style="margin-bottom: 20px;">
+                        <!-- Course Introduction -->
+                        <div class="course-intro" style="margin-bottom: 20px;">
+                            <div class="video-container">
+                                <div class="gradient-overlay"></div>
+                                <img src="{{ asset($row->video_thumbnail) }}" class="thumbnail"
+                                    alt="Course Thumbnail" />
+                                @if (!empty($user_session))
+                                    <span class="play-button">
+                                        <img src="{{ asset('assets/Play (1).svg') }}" alt="Play Button" />
+                                    </span>
+                                @else
+                                    <a href="{{ url('Userlogin') }}">
+                                        <span class="play-button">
+                                            <img src="{{ asset('assets/Play (1).svg') }}" alt="Play Button" />
+                                        </span>
+                                    </a>
+                                @endif
+                                <div class="embed-responsive" style="display: none;">
+                                    <iframe class="embed-responsive-item" src="{{ $row->getEmbedUrl($row->video_link) }}"
+                                        frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                                </div>
                             </div>
+                            <h3 style="color: #EDEDED; margin-top: 10px;">{{ $row->title }}</h3>
+                            <p style="color: #E0E0E0;">Coach: {{ $row->coache }}</p>
                         </div>
-                        <h4 style="color: #EDEDED;">{{ $row->title }}</h4>
                     </div>
                 @endforeach
             </div>
@@ -267,8 +288,8 @@
                     <p
                         style="color: #A1A1A1; font-size: 16px; font-family: Space Grotesk; font-weight: 400; line-height: 24px;">
                         {{ __('Como miembro activo, tendrás acceso a cursos y entrenamientos exclusivos, además de la oportunidad
-                        de generar ingresos recomendando nuestra plataforma. Participa en eventos con coaches líderes y
-                        disfruta de descuentos en empresas afiliadas.')}}
+                                                de generar ingresos recomendando nuestra plataforma. Participa en eventos con coaches líderes y
+                                                disfruta de descuentos en empresas afiliadas.') }}
                     </p>
 
                     <!-- List of Features -->
@@ -292,7 +313,8 @@
 
                     <!-- Join Button -->
                     <div>
-                        <a href="{{ url('membership') }}" class="btn btn-primary btn-lg fw-bold">{{ __('Join Now') }}</a>
+                        <a href="{{ url('membership') }}"
+                            class="btn btn-primary btn-lg fw-bold">{{ __('Join Now') }}</a>
                     </div>
                 </div>
 
@@ -313,18 +335,19 @@
     <section style="padding: 20px 0;background: #1A1A1A;">
         <div class="container">
             <h1 style="padding-top: 5px;color: #ffff;">{{ __('Nuestros Aliados') }}</h1>
-            <p style="color: #A1A1A1;">{{ __('También disfrutarás de descuentos en una amplia variedad de negocios asociados a nivel nacional e internacional.') }}</p>
+            <p style="color: #A1A1A1;">
+                {{ __('También disfrutarás de descuentos en una amplia variedad de negocios asociados a nivel nacional e internacional.') }}
+            </p>
             <div class="row g-4">
                 @foreach ($brands as $row)
-                <div class="col-lg-4 col-md-4 col-sm-12 text-center p-3">
-                    <div style="border: 1px solid #2e2e2e; padding: 10px; border-radius: 12px;">
-                        <img class="img-fluid mb-2" src="{{ asset($row->thumbnail) }}" alt="UFC Gym Image"
-                            style="max-width: 100px; height: 100px; object-fit: contain;">
-                        <div class="fw-bold text-light">{{ $row->name }}</div>
-                        <div class="" style="color: #A1A1A1;">({{ $row->address }})</div>
+                    <div class="col-lg-4 col-md-4 col-sm-12 text-center p-3">
+                        <div style="border: 1px solid #2e2e2e; padding: 10px; border-radius: 12px;">
+                            <img class="img-fluid mb-2" src="{{ asset($row->thumbnail) }}" alt="UFC Gym Image"
+                                style="max-width: 100px; height: 100px; object-fit: contain;">
+                            <div class="fw-bold text-light">{{ $row->name }}</div>
+                            <div class="" style="color: #A1A1A1;">({{ $row->address }})</div>
+                        </div>
                     </div>
-                </div>
-
                 @endforeach
 
             </div>
@@ -338,93 +361,32 @@
     <section style="padding: 20px 0;background-color: #000000;">
         <div class="container my-5">
             <h1 class="text-center text-light mb-4">{{ __('Preguntas Frecuentes (FAQ)') }}</h1>
-
-            <!-- FAQ Item 1 -->
-            <div class="row mb-3">
-                <div class="col-12">
-                    <div class="d-flex align-items-center" data-bs-toggle="collapse" data-bs-target="#faq1"
-                        aria-expanded="false" aria-controls="faq1">
-                        <div class="flex-grow-1">
-                            <b class="fw-bold faq-title">{{ __('¿Cómo me registro en la plataforma?') }}</b>
+            @if ($supportQuestions->count())
+                @foreach ($supportQuestions as $question)
+                    <!-- FAQ Item -->
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <div class="d-flex align-items-center" data-bs-toggle="collapse"
+                                data-bs-target="#faq{{ $question->id }}" aria-expanded="false"
+                                aria-controls="faq{{ $question->id }}">
+                                <div class="flex-grow-1">
+                                    <b class="fw-bold faq-title">{{ $question->question }}</b>
+                                </div>
+                                <img class="faq-icon ms-auto" src="{{ asset('assets/PlusOutline.svg') }}"
+                                    alt="Plus Icon" style="filter: brightness(0) invert(1);">
+                            </div>
+                            <div class="collapse" id="faq{{ $question->id }}">
+                                <p class="mt-2 faq-content">{{ $question->answer }}</p>
+                            </div>
                         </div>
-                        <img class="faq-icon ms-auto" src="{{ asset('assets/PlusOutline.svg') }}" alt="Plus Icon"
-                            style="filter: brightness(0) invert(1);">
                     </div>
-                    <div class="collapse" id="faq1">
-                        <p class="mt-2 faq-content">{{ __('Para registrarte, simplemente haz clic en el botón "Registrarse" en la parte superior de la página. Completa los campos con tu información personal y sigue los pasos para activar tu cuenta.') }}</p>
-                    </div>
+                @endforeach
+            @else
+                <div class="alert alert-warning text-center">
+                    <strong>{{ __('No se encontraron resultados para tu búsqueda.') }}</strong>
                 </div>
-            </div>
-
-            <!-- FAQ Item 2 -->
-            <div class="row mb-3">
-                <div class="col-12">
-                    <div class="d-flex align-items-center" data-bs-toggle="collapse" data-bs-target="#faq2"
-                        aria-expanded="false" aria-controls="faq2">
-                        <div class="flex-grow-1">
-                            <b class="fw-bold faq-title">{{ __('¿Qué beneficios obtengo al ser miembro?') }}</b>
-                        </div>
-                        <img class="faq-icon ms-auto" src="{{ asset('assets/PlusOutline.svg') }}" alt="Plus Icon"
-                            style="filter: brightness(0) invert(1);">
-                    </div>
-                    <div class="collapse" id="faq2">
-                        <p class="mt-2 faq-content">{{ __('Como miembro, tendrás acceso ilimitado a todos nuestros cursos de desarrollo personal, coaching, entrenamientos y seminarios. Además, podrás generar ingresos extra a través de nuestro sistema de afiliados multinivel y disfrutar de descuentos en diversas empresas asociadas.') }}</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- FAQ Item 3 -->
-            <div class="row mb-3">
-                <div class="col-12">
-                    <div class="d-flex align-items-center" data-bs-toggle="collapse" data-bs-target="#faq3"
-                        aria-expanded="false" aria-controls="faq3">
-                        <div class="flex-grow-1">
-                            <b class="fw-bold faq-title">{{ __('¿Cómo puedo acceder a los cursos y coaching?') }}</b>
-                        </div>
-                        <img class="faq-icon ms-auto" src="{{ asset('assets/PlusOutline.svg') }}" alt="Plus Icon"
-                            style="filter: brightness(0) invert(1);">
-                    </div>
-                    <div class="collapse" id="faq3">
-                        <p class="mt-2 faq-content">{{ __('Una vez que te hayas registrado y activado tu membresía, podrás acceder  a todos los cursos y sesiones de coaching directamente desde tu panel de usuario. Los videos estarán disponibles para ver en cualquier momento.') }}</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- FAQ Item 4 -->
-            <div class="row mb-3">
-                <div class="col-12">
-                    <div class="d-flex align-items-center" data-bs-toggle="collapse" data-bs-target="#faq4"
-                        aria-expanded="false" aria-controls="faq4">
-                        <div class="flex-grow-1">
-                            <b class="fw-bold faq-title">{{ __('¿Qué es el sistema de afiliados multinivel?') }}</b>
-                        </div>
-                        <img class="faq-icon ms-auto" src="{{ asset('assets/PlusOutline.svg') }}" alt="Plus Icon"
-                            style="filter: brightness(0) invert(1);">
-                    </div>
-                    <div class="collapse" id="faq4">
-                        <p class="mt-2 faq-content">{{ __('Nuestro sistema de afiliados multinivel te permite ganar comisiones recomendando nuestra plataforma a otras personas. A medida que tus referidos se registran y  compran membresías, podrás recibir ganancias en varios niveles de profundidad.') }}</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- FAQ Item 5 -->
-            <div class="row mb-3">
-                <div class="col-12">
-                    <div class="d-flex align-items-center" data-bs-toggle="collapse" data-bs-target="#faq5"
-                        aria-expanded="false" aria-controls="faq5">
-                        <div class="flex-grow-1">
-                            <b class="fw-bold faq-title">{{ __('¿Cómo puedo generar ingresos extra?') }}</b>
-                        </div>
-                        <img class="faq-icon ms-auto" src="{{ asset('assets/PlusOutline.svg') }}" alt="Plus Icon"
-                            style="filter: brightness(0) invert(1);">
-                    </div>
-                    <div class="collapse" id="faq5">
-                        <p class="mt-2 faq-content">{{ __('Puedes generar ingresos extra recomendando la plataforma a otros a través del sistema de marketing multinivel. Además, tendrás acceso a herramientas exclusivas que te ayudarán a promover nuestro contenido y crecer tu red de contactos.') }}</p>
-                    </div>
-                </div>
-            </div>
+            @endif
         </div>
-
     </section>
     <section style="padding: 20px 0;background: #212020;">
         <div class="container">
@@ -432,10 +394,11 @@
                 style="background-color: #0f1c2e; border: 1px solid #2E2E2E; border-radius: 16px;">
                 <div class="row">
                     <div class="col-12 col-md-8 text-start mb-3 mb-md-0">
-                        <h2 class="deseas-obtener-un text-light mb-3">{{ __('¡Deseas obtener un ingreso adicional?') }}</h2>
+                        <h2 class="deseas-obtener-un text-light mb-3">{{ __('¡Deseas obtener un ingreso adicional?') }}
+                        </h2>
                         <p class="no-esperes-ms text-light" style="max-width: 600px; color: #A1A1A1;">
-                           {{ __(' No esperes más para ser parte de este increíble proyecto. Empieza hoy mismo a transformar tu
-                            vida y la de quienes te rodean.')}}
+                            {{ __(' No esperes más para ser parte de este increíble proyecto. Empieza hoy mismo a transformar tu
+                                                        vida y la de quienes te rodean.') }}
                         </p>
                     </div>
                     <div class="col-12 col-md-4 text-end d-flex align-items-center justify-content-end">
@@ -450,9 +413,9 @@
 
     </section>
     @php
-    $general_setting = \App\Models\Setting::pluck('option_value', 'option_key')->toArray();
+        $general_setting = \App\Models\Setting::pluck('option_value', 'option_key')->toArray();
 
-@endphp
+    @endphp
     <section style="padding: 20px 0;background: #1A1A1A;">
         <div class="container my-5">
             <div class="row">
@@ -461,9 +424,9 @@
                     <h2 class="text-light mb-4">{{ __('¡Ponte en Contacto!') }}</h2>
                     <p class="" style="color: #a1a1a1;">
                         {{ __('Si tienes dudas o simplemente quieres saludarnos, la mejor forma de contactarnos es a través de
-                        nuestro formulario. Nos esforzamos en responder en menos de 48 horas, aunque a veces tardamos un poco más. ¡Gracias por
-                        tu paciencia! Leemos cada mensaje y lo dirigimos al equipo adecuado.También puedes visitar nuestra página de Ayuda para respuestas a las preguntas más comunes sobre
-                        GEN.')}}
+                                                nuestro formulario. Nos esforzamos en responder en menos de 48 horas, aunque a veces tardamos un poco más. ¡Gracias por
+                                                tu paciencia! Leemos cada mensaje y lo dirigimos al equipo adecuado.También puedes visitar nuestra página de Ayuda para respuestas a las preguntas más comunes sobre
+                                                GEN.') }}
                     </p>
                     <p class="" style="color: #a1a1a1;">
                         {{ __('Conéctate con nosotros a través de nuestras redes sociales') }}:
@@ -493,8 +456,11 @@
                         <div class="col-md-6 mb-3">
                             <div class="list-item d-flex align-items-center"
                                 style="border: 1px solid #2e2e2e; border-radius: 8px; padding: 16px; color: #ededed; font-family: 'Space Grotesk';">
-                                <a href="{{ $general_setting['facebook_url'] ?? '' }}" target="_blank" class="d-flex align-items-center" style="text-decoration: none;">
-                                    <img class="facebooklogo-icon" alt="Facebook" src="{{ asset('assets/FacebookLogo.svg') }}" width="35px" style="margin-right: 8px;">
+                                <a href="{{ $general_setting['facebook_url'] ?? '' }}" target="_blank"
+                                    class="d-flex align-items-center" style="text-decoration: none;">
+                                    <img class="facebooklogo-icon" alt="Facebook"
+                                        src="{{ asset('assets/FacebookLogo.svg') }}" width="35px"
+                                        style="margin-right: 8px;">
                                     <span class="facebook fw-bold">Facebook</span>
                                 </a>
                             </div>
@@ -502,8 +468,10 @@
                         <div class="col-md-6 mb-3">
                             <div class="list-item d-flex align-items-center"
                                 style="border: 1px solid #2e2e2e; border-radius: 8px; padding: 16px; color: #ededed; font-family: 'Space Grotesk';">
-                                <a href="{{ $general_setting['instagram_url'] ?? '' }}" target="_blank" class="d-flex align-items-center" style="text-decoration: none;">
-                                    <img class="atomiconredes" alt="Instagram" src="{{ asset('assets/Instagram.svg') }}" width="30px" style="margin-right: 8px;">
+                                <a href="{{ $general_setting['instagram_url'] ?? '' }}" target="_blank"
+                                    class="d-flex align-items-center" style="text-decoration: none;">
+                                    <img class="atomiconredes" alt="Instagram" src="{{ asset('assets/Instagram.svg') }}"
+                                        width="30px" style="margin-right: 8px;">
                                     <span class="facebook fw-bold">Instagram</span>
                                 </a>
                             </div>
@@ -514,8 +482,10 @@
                         <div class="col-md-6 mb-3">
                             <div class="list-item d-flex align-items-center"
                                 style="border: 1px solid #2e2e2e; border-radius: 8px; padding: 16px; color: #ededed; font-family: 'Space Grotesk';">
-                                <a href="{{ $general_setting['youtube_url'] ?? '' }}" target="_blank" class="d-flex align-items-center" style="text-decoration: none; color: inherit;">
-                                    <i class="fab fa-youtube" style="font-size: 30px; margin-right: 8px; color: #fff;"></i>
+                                <a href="{{ $general_setting['youtube_url'] ?? '' }}" target="_blank"
+                                    class="d-flex align-items-center" style="text-decoration: none; color: inherit;">
+                                    <i class="fab fa-youtube"
+                                        style="font-size: 30px; margin-right: 8px; color: #fff;"></i>
                                     <span class="facebook fw-bold" style="color: inherit;">YouTube</span>
                                 </a>
                             </div>
@@ -523,7 +493,8 @@
                         <div class="col-md-6 mb-3">
                             <div class="list-item d-flex align-items-center"
                                 style="border: 1px solid #2e2e2e; border-radius: 8px; padding: 16px; color: #ededed; font-family: 'Space Grotesk';">
-                                 <a href="{{ $general_setting['tiktok_url'] ?? '' }}" target="_blank" class="d-flex align-items-center" style="text-decoration: none; color: inherit;">
+                                <a href="{{ $general_setting['tiktok_url'] ?? '' }}" target="_blank"
+                                    class="d-flex align-items-center" style="text-decoration: none; color: inherit;">
                                     <i class="fab fa-tiktok" style="font-size: 30px; margin-right: 8px; color: #fff;"></i>
                                     <span class="facebook fw-bold" style="color: inherit;">TikTok</span>
                                 </a>

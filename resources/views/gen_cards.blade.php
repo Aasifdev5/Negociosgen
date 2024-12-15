@@ -4,7 +4,18 @@
 @endsection
 @section('content')
 <br>
+
 <section class="container py-5" style="background-color: #f8f9fa;">
+    @if(Session::has('success'))
+<div class="alert alert-success">
+    <p>{{session::get('success')}}</p>
+</div>
+@endif
+@if(Session::has('fail'))
+<div class="alert alert-danger">
+    <p>{{session::get('fail')}}</p>
+</div>
+@endif
     <div class="text-center mb-5">
         <h2 class="fw-bold">GEN Cards</h2>
         <p class="lead text-muted">

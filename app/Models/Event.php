@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class Event extends Model
 {
@@ -30,7 +31,15 @@ class Event extends Model
     ];
 
     /**
-     * Boot function to set UUID automatically.
+     * Automatically cast attributes to their respective data types.
+     */
+    protected $casts = [
+        'date' => 'datetime', // Automatically converts to a Carbon instance
+        'time' => 'string',
+    ];
+
+    /**
+     * Boot function to set UUID and slug automatically.
      */
     protected static function boot()
     {
@@ -40,10 +49,17 @@ class Event extends Model
         static::creating(function ($model) {
             $model->uuid = (string) Str::uuid();
         });
+
+        // Automatically generate slug when updating title
+        static::saving(function ($model) {
+            if (empty($model->slug)) {
+                $model->slug = Str::slug($model->title);
+            }
+        });
     }
 
     /**
-     * Set the slug attribute automatically.
+     * Set the title and slug attributes automatically.
      *
      * @param string $value
      */
@@ -51,5 +67,27 @@ class Event extends Model
     {
         $this->attributes['title'] = $value;
         $this->attributes['slug'] = Str::slug($value);
+    }
+
+    /**
+     * Get the full URL for the event's image.
+     *
+     * @return string
+     */
+    public function getImageUrlAttribute()
+    {
+        return $this->image
+            ? asset('storage/' . $this->image)
+            : asset('default-event.jpg'); // Default image
+    }
+
+    /**
+     * Get the formatted date for the event.
+     *
+     * @return string
+     */
+    public function getFormattedDateAttribute()
+    {
+        return $this->date ? $this->date->format('F j, Y') : null;
     }
 }

@@ -6,8 +6,19 @@
     @php
         $general_setting = \App\Models\Setting::pluck('option_value', 'option_key')->toArray();
     @endphp
+
     <section style="padding: 40px 0; background: #1A1A1A;">
         <div class="container py-5">
+            @if(Session::has('success'))
+     <div class="alert alert-success">
+         <p>{{session::get('success')}}</p>
+     </div>
+     @endif
+     @if(Session::has('fail'))
+     <div class="alert alert-danger">
+         <p>{{session::get('fail')}}</p>
+     </div>
+     @endif
             <!-- Join Now Section -->
             <div class="text-center mb-5">
                 <img src="<?php echo '/' . $general_setting['app_footer_payment_image'] ?? ''; ?>" alt="GEN Banner" class="img-fluid mb-4" width="200px" height="200px" style="max-width: 100%; border-radius: 10px;">

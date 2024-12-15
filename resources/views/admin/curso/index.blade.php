@@ -41,8 +41,7 @@
                                                 <th>Fecha de creación</th>
                                                 <th>Nombre del curso</th>
                                                 <th>Descripción</th>
-                                                <th>Precio</th>
-                                                <th>Categoría</th>
+                                                <th>Coache</th>
                                                 <th>Enlace de video</th>
                                                 <th>Portada</th>
                                                 <th>Estado</th>
@@ -56,8 +55,7 @@
                                                     <td>{{ $course->created_at->format('d/m/Y') }}</td>
                                                     <td>{{ $course->title }}</td>
                                                     <td>{!! Str::limit($course->description, 50) !!}</td>
-                                                    <td>${{ number_format($course->price, 2) }}</td>
-                                                    <td>{{ $course->category }}</td>
+                                                    <td>{{ $course->coache }}</td>
                                                     <td>
                                                         <a href="{{ $course->video_link }}" target="_blank" title="{{ __('Ver video') }}" class="btn btn-danger">
                                                             <i class="fab fa-youtube"></i> {{ __('Ver video') }}

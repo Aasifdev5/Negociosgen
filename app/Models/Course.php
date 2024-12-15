@@ -17,7 +17,7 @@ class Course extends Model
     protected $fillable = [
         'title',
         'description',
-        'price',
+        'coache',
         'category',
         'video_link',
         'uuid', // Add uuid to fillable attributes

@@ -20,6 +20,7 @@ use App\Models\Category;
 use App\Models\City;
 use App\Models\Country;
 use App\Models\Course;
+use App\Models\Event;
 use App\Models\GeneralSetting;
 use App\Models\Like;
 use App\Models\MailTemplate;
@@ -47,6 +48,7 @@ use App\Traits\SendNotification;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash as FacadesHash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
@@ -84,12 +86,24 @@ class UserController extends Controller
     {
 
         $user_session = User::where('id', Session::get('LoggedIn'))->first();
-        $course = Course::orderBy('created_at', 'desc')->take(4)->get();  // Fetch 4 most recent courses
+        $course = Course::whereNotNull('coache') // Exclude records with null 'coache' values
+            ->orderBy('created_at', 'desc') // Order by creation date, newest first
+            ->get()
+            ->groupBy('coache') // Group courses by 'coache'
+            ->map(function ($group) {
+                return $group->take(4); // Take the latest 4 courses per coach
+            })
+            ->flatten(); // Flatten the collection to a single-level array
+            $supportQuestions = SupportTicketQuestion::orderBy('created_at', 'desc')  // Order by most recent
+            ->limit(9)  // Fetch only the 9 most recent questions
+            ->get();  // Retrieve the results
+
+        // Fetch 4 most recent courses
         $audiobook = Audiobook::orderBy('created_at', 'desc')->take(6)->get();  // Fetch 6 most recent audiobooks
         $brands = Brand::all();
         $pages = Page::all();
 
-        return view('index', compact('user_session',   'pages', 'course', 'audiobook', 'brands'));
+        return view('index', compact('user_session',   'pages', 'course', 'audiobook', 'brands','supportQuestions'));
     }
     public function requestWithdrawal(Request $request)
     {
@@ -244,16 +258,41 @@ class UserController extends Controller
         $user = User::where('email', $request->email)->first();
 
         if ($user) {
-            if ($request->password == $user->password) {
-                if ($user->email_verified_at === null) {
-                    return back()->with('fail', 'Your account is not verified. Please verify your email.');
+            if (FacadesHash::check($request->password, $user->password)) {
+                // if ($user->email_verified_at === null) {
+                //     return back()->with('fail', 'Your account is not verified. Please verify your email.');
+                // }
+
+                if ($user->is_subscribed == 0 && $user->is_active == 0) {
+                    // Actualizar detalles del usuario después de una verificación exitosa
+                    $user->update([
+                        'is_online' => 1,
+                        'last_seen' => Carbon::now('UTC')
+                    ]);
+
+                    // Establecer la sesión para el usuario conectado
+                    $request->session()->put('LoggedIn', $user->id);
+                    return redirect('addpaymentmethod')->with([
+
+                        'user' => $user
+                    ]);
+                }
+                // Verificar si el usuario está suscrito
+                if ($user->is_subscribed !== 1) {
+                    return back()->with('fail', 'Tu cuenta no está suscrita. Por favor, suscríbete para continuar.');
                 }
 
-                $user->update(['is_online' => 1, 'last_seen' => Carbon::now('UTC')]);
-                $request->session()->put('LoggedIn', $user->id);
-                $userId = Session::get('LoggedIn');
+                // Actualizar detalles del usuario después de una verificación exitosa
+                $user->update([
+                    'is_online' => 1,
+                    'last_seen' => Carbon::now('UTC')
+                ]);
 
-                return redirect('dashboard');
+                // Establecer la sesión para el usuario conectado
+                $request->session()->put('LoggedIn', $user->id);
+
+                // Redirigir a la página de bienvenida
+                return redirect('welcome')->with('success', 'LoggedIn Successfully.');
             } else {
                 return back()->with('fail', 'Password does not match');
             }
@@ -330,8 +369,11 @@ class UserController extends Controller
         if (Session::has('LoggedIn')) {
             $pages = Page::all();
             $user_session = User::where('id', Session::get('LoggedIn'))->first();
-            $course = Course::orderBy('created_at', 'desc')->take(4)->get();
 
+            $course = Course::orderBy('created_at', 'desc')->take(4)->get();
+            if (in_array($user_session->membership_status, ['expired', 'pending'])) {
+                return redirect()->back()->with('fail', __('Your membership is expired or pending. Please update your membership.'));
+            }
             $query = $request->input('query');
 
             // Fetch blogs, filtering by the search query if it exists
@@ -365,42 +407,7 @@ class UserController extends Controller
     }
 
 
-    public function clearCart()
-    {
-        $userId = Session::get('LoggedIn');
-        Cart::where('user_id', $userId)->delete();
 
-        return redirect()->back()->with('success', '¡El carrito ha sido vaciado con éxito!');
-    }
-    public function clearWishlist()
-    {
-        $userId = Session::get('LoggedIn');
-        Wishlist::where('user_id', $userId)->delete();
-
-        return redirect()->back()->with('success', '¡Lista de deseos vaciada con éxito!');
-    }
-    public function Billingstore(Request $request)
-    {
-        $request->validate([
-            'full_name' => 'required|string|max:255',
-            'address' => 'required|string|max:255',
-            'city' => 'required|string|max:255',
-            'country' => 'required|string|max:255',
-            'postal_code' => 'required|string|max:10',
-        ]);
-
-        $billingDetail = BillingDetail::create([
-            'user_id' => auth()->id(),
-            'full_name' => $request->full_name,
-            'address' => $request->address,
-            'city' => $request->city,
-            'country' => $request->country,
-            'postal_code' => $request->postal_code,
-        ]);
-
-        // Redirect to the next step or show success message
-        return redirect()->route('next.step')->with('success', 'Billing details saved successfully!');
-    }
     public function verification()
     {
         if (Session::has('LoggedIn')) {
@@ -433,40 +440,8 @@ class UserController extends Controller
         // dd($request->id);
         return view('blog_detail', compact('blogComments', 'user_session', 'blog_detail', 'pages', 'latest_posts', 'commentCount'));
     }
-    public function storeLikes(Request $request)
-    {
 
 
-
-        // Create a new Like record
-        $data = Like::create([
-            'project_id' => $request->projectId,
-        ]);
-        // dd($data);
-        // Get the updated like count for the project
-        $likeCount = Like::where('project_id', $request->projectId)->count();
-
-        // Return response (optional)
-        return response()->json([
-            'success' => true,
-            'likeCount' => $likeCount,
-            'message' => 'Liked Successfully'
-        ]);
-    }
-
-    public function checkLike(Request $request)
-    {
-        $projectId = $request->projectId; // Get the project ID
-        $userId = Session::get('LoggedIn'); // Get the currently logged-in user ID
-
-        // Check if user already liked the project
-        $like = Like::where('project_id', $projectId)->exists();
-
-        // Return response
-        return response()->json([
-            'liked' => $like,
-        ]);
-    }
 
     public function addpaymentmethod(Request $request)
     {
@@ -726,11 +701,21 @@ class UserController extends Controller
 
         return view('who', compact('user_session', 'pages'));
     }
+    public function workUs()
+    {
+
+        $user_session = User::where('id', Session::get('LoggedIn'))->first();
+
+        $pages = Page::all();
+
+
+        return view('workUs', compact('user_session', 'pages'));
+    }
     public function affiliate_company()
     {
 
         $user_session = User::where('id', Session::get('LoggedIn'))->first();
-        $brands = Brand::all();
+        $brands = Brand::orderby('id', 'desc')->paginate(9);;
         $pages = Page::all();
 
 
@@ -751,115 +736,106 @@ class UserController extends Controller
         return view('membership', compact('user_session', 'pages', 'brands', 'refer'));
     }
     public function membershipRenew(Request $request)
-{
+    {
 
-    $userId = $request->query('user_id');
-    // Retrieve the logged-in user
-    $user_session = User::find($userId);
+        $userId = $request->query('user_id');
+        // Retrieve the logged-in user
+        $user_session = User::find($userId);
 
-    // Ensure the user exists
-    if (!$user_session) {
-        return redirect()->route('login')->with('error', 'User not found. Please log in again.');
+        // Ensure the user exists
+        if (!$user_session) {
+            return redirect()->route('login')->with('error', 'User not found. Please log in again.');
+        }
+
+
+
+        // Pass data to the view
+        return view('membershipRenew', compact('user_session'));
     }
+    public function renew(Request $request)
+    {
+        // Validate the incoming request
+        $request->validate([
+            'membership' => 'required|string|in:GEN_CLASSIC,GEN_VIP,GEN_GOLD,GEN_PLATINUM',
+        ]);
 
+        // Retrieve the logged-in user
+        $user_session = User::find($request->user_id);
 
+        if (!$user_session) {
+            return redirect()->route('login')->with('error', 'User not found. Please log in again.');
+        }
 
-    // Pass data to the view
-    return view('membershipRenew', compact('user_session'));
-}
-public function renew(Request $request)
-{
-    // Validate the incoming request
-    $request->validate([
-        'membership' => 'required|string|in:GEN_CLASSIC,GEN_VIP,GEN_GOLD,GEN_PLATINUM',
-    ]);
+        // Renew membership logic (update user's membership type and expiry date)
+        $membershipType = $request->input('membership');
+        $user_session->update([
+            'membershipType' => $membershipType,
+            'membership_status' => 'pending',
+            'payment_status' => 'pending',
+        ]);
+        return redirect('addpaymentmethod')->with([
 
-    // Retrieve the logged-in user
-    $user_session = User::find($request->user_id);
-
-    if (!$user_session) {
-        return redirect()->route('login')->with('error', 'User not found. Please log in again.');
+            'membershipType' => $membershipType
+        ]);
     }
-
-    // Renew membership logic (update user's membership type and expiry date)
-    $membershipType = $request->input('membership');
-    $user_session->update([
-        'membershipType' => $membershipType,
-        'membership_status' => 'pending',
-        'payment_status' => 'pending',
-    ]);
-    return redirect('addpaymentmethod')->with([
-
-        'membershipType' => $membershipType
-    ]);
-
-}
 
     public function gen_cards(Request $request)
     {
-
-        $user_session = User::where('id', Session::get('LoggedIn'))->first();
-
-        $pages = Page::all();
-
-
-        return view('gen_cards', compact('user_session', 'pages'));
-    }
-    public function shop()
-    {
         if (Session::has('LoggedIn')) {
+            $user_session = User::where('id', Session::get('LoggedIn'))->first();
 
             $pages = Page::all();
+
+
+            return view('gen_cards', compact('user_session', 'pages'));
+        } else {
+            return Redirect()->with('fail', 'Tienes que iniciar sesión primero');
+        }
+    }
+    public function gen_members_area(Request $request)
+    {
+        if (Session::has('LoggedIn')) {
             $user_session = User::where('id', Session::get('LoggedIn'))->first();
-            $userCategories = !empty($user_session->categories) ? explode(',', $user_session->categories) : [];
-            $products = Product::whereIn('category', $userCategories)
-                ->whereNotIn('sku', function ($query) {
-                    $query->select('sku')
-                        ->from('product_variations');
-                })
-                ->orderBy('id', 'desc')
+
+            $pages = Page::all();
+
+
+            return view('gen_members_area', compact('user_session', 'pages'));
+        } else {
+            return Redirect()->with('fail', 'Tienes que iniciar sesión primero');
+        }
+    }
+    public function partners(Request $request)
+    {
+        if (Session::has('LoggedIn')) {
+            $user_session = User::where('id', Session::get('LoggedIn'))->first();
+
+            $brands = Brand::orderby('id', 'desc')->paginate(9);
+
+
+            return view('partners', compact('user_session', 'brands'));
+        } else {
+            return Redirect()->with('fail', 'Tienes que iniciar sesión primero');
+        }
+    }
+    public function events(Request $request)
+    {
+        if (Session::has('LoggedIn')) {
+            $user_session = User::where('id', Session::get('LoggedIn'))->first();
+
+            $events = Event::where('date', '>=', Carbon::now())  // Only fetch events with a date in the future
+                ->orderBy('date', 'asc')  // Order by date, ascending (earliest events first)
+                ->orderBy('time', 'asc')  // Order by time, ascending (earliest times first)
                 ->paginate(9);
 
 
-
-
-            return view('shop', compact('products', 'user_session',   'pages'));
+            return view('events', compact('user_session', 'events'));
         } else {
             return Redirect()->with('fail', 'Tienes que iniciar sesión primero');
         }
     }
-    public function search(Request $request)
-    {
-        if (Session::has('LoggedIn')) {
-
-            $pages = Page::all();
-            $user_session = User::where('id', Session::get('LoggedIn'))->first();
-            $userCategories = !empty($user_session->categories) ? explode(',', $user_session->categories) : [];
-
-            $query = $request->input('query');
-
-            // Retrieve paginated products based on user categories and search query
-            $products = Product::whereIn('category', $userCategories)
-                ->when($query, function ($q) use ($query) {
-                    // Apply search condition if query exists
-                    $q->where('title', 'like', '%' . $query . '%');
-                })
-                ->whereNotIn('sku', function ($query) {
-                    // Exclude products with SKUs found in product_variations table
-                    $query->select('sku')->from('product_variations');
-                })
-                ->orderBy('id', 'desc') // Order by ID descending
-                ->paginate(9); // Paginate with 9 products per page
 
 
-
-
-
-            return view('search-results', compact('products', 'user_session',   'pages'));
-        } else {
-            return Redirect()->with('fail', 'Tienes que iniciar sesión primero');
-        }
-    }
     public function geanologìa(Request $request)
     {
         if (Session::has('LoggedIn')) {
@@ -876,426 +852,6 @@ public function renew(Request $request)
     }
 
 
-    public function productbybrand($id)
-    {
-        if (Session::has('LoggedIn')) {
-            $pages = Page::all();
-            $user_session = User::where('id', Session::get('LoggedIn'))->first();
-            $userCategories = !empty($user_session->categories) ? explode(',', $user_session->categories) : [];
-            $products = Product::whereIn('category', $userCategories)->where('brand_id', $id)
-                ->whereNotIn('sku', function ($query) {
-                    $query->select('sku')
-                        ->from('product_variations');
-                })
-                ->orderBy('id', 'desc')
-                ->paginate(9);
-
-            $category = $id;
-
-            return view('productbybrand', compact('products', 'user_session',   'pages', 'category'));
-        } else {
-            return Redirect()->with('fail', 'Tienes que iniciar sesión primero');
-        }
-    }
-    public function productbyCategory($id)
-    {
-        if (Session::has('LoggedIn')) {
-            $pages = Page::all();
-            $user_session = User::where('id', Session::get('LoggedIn'))->first();
-            $userCategories = !empty($user_session->categories) ? explode(',', $user_session->categories) : [];
-            $products = Product::whereIn('category', $userCategories)->where('category', $id)
-                ->whereNotIn('sku', function ($query) {
-                    $query->select('sku')
-                        ->from('product_variations');
-                })
-                ->orderBy('id', 'desc')
-                ->paginate(9);
-
-            $category = $id;
-
-            return view('productbyCategory', compact('products', 'user_session',   'pages', 'category'));
-        } else {
-            return Redirect()->with('fail', 'Tienes que iniciar sesión primero');
-        }
-    }
-    public function productbySubCategory($category, $subcategory)
-    {
-        if (Session::has('LoggedIn')) {
-            $pages = Page::all();
-            $user_session = User::where('id', Session::get('LoggedIn'))->first();
-            $userCategories = !empty($user_session->categories) ? explode(',', $user_session->categories) : [];
-            $products = Product::whereIn('category', $userCategories)->where('category', $category)->where('subcategory_id', $subcategory)
-                ->whereNotIn('sku', function ($query) {
-                    $query->select('sku')
-                        ->from('product_variations');
-                })
-                ->orderBy('id', 'desc')
-                ->paginate(9);
-
-            $subcategory = $subcategory;
-            $category = $category;
-
-            return view('productbySubCategory', compact('products', 'user_session',   'pages', 'subcategory', 'category'));
-        } else {
-            return Redirect()->with('fail', 'Tienes que iniciar sesión primero');
-        }
-    }
-    public function productbyChildCategory($category, $subcategory, $childcategory)
-    {
-        if (Session::has('LoggedIn')) {
-            $pages = Page::all();
-            $user_session = User::where('id', Session::get('LoggedIn'))->first();
-            $userCategories = !empty($user_session->categories) ? explode(',', $user_session->categories) : [];
-            $products = Product::whereIn('category', $userCategories)->where('category', $category)->where('subcategory_id', $subcategory)->where('childcategory', $childcategory)
-                ->whereNotIn('sku', function ($query) {
-                    $query->select('sku')
-                        ->from('product_variations');
-                })
-                ->orderBy('id', 'desc')
-                ->paginate(9);
-
-            $childcategory = $childcategory;
-
-            return view('productbyChildCategory', compact('products', 'user_session',   'pages', 'childcategory'));
-        } else {
-            return Redirect()->with('fail', 'Tienes que iniciar sesión primero');
-        }
-    }
-    public function getProducts(Request $request)
-    {
-        $searchTerm = $request->input('search');
-        $categoryId = $request->input('category_id');
-
-        // Fetch user session and categories
-        $user_session = User::find(Session::get('LoggedIn'));
-
-        $userCategories = $user_session->categories ? explode(',', $user_session->categories) : [];
-
-        // Query products based on user's allowed categories
-        $query = Product::whereIn('category', $userCategories);
-
-        if (!empty($searchTerm)) {
-            $query->where('title', 'like', '%' . $searchTerm . '%');
-        }
-
-        if (!empty($categoryId) && $categoryId != 1) {
-            $query->where('category', $categoryId);
-        }
-
-        // Exclude products with skus present in product_variations table
-        $query->whereNotIn('sku', function ($subquery) {
-            $subquery->select('sku')
-                ->from('product_variations');
-        });
-
-        // Get products matching the query
-        $products = $query->get();
-
-
-        // Return JSON response with a 200 status code (assuming success)
-        return response()->json($products, 200);
-    }
-    public function addToCart($price, $id, $quantity, $chooseSize)
-    {
-        $productSku = Product::where('id', $id)->first();
-
-        if (!$productSku) {
-            return back()->with('error', 'Product not found.');
-        }
-
-        $variation = ProductVariations::where('sku', $productSku->sku)->first();
-        if (!empty($variation)) {
-            $skuvariation = ProductVariations::where('product_id', $variation->product_id)
-                ->where('size', $chooseSize)
-                ->where('color', $variation->color)
-                ->first();
-            // Check if the result is null before accessing the sku property
-            if ($skuvariation) {
-                $skuvariation = $skuvariation->sku;
-            } else {
-                // Handle the case where no matching variation is found
-                $skuvariation = $productSku->sku;
-            }
-        } else {
-            $skuvariation = $productSku->sku;
-        }
-
-        // Check if a variation exists
-        if ($variation) {
-            $color = $variation->color;
-        } else {
-            $color = ''; // Handle the case where no variation is found
-        }
-
-        // Save into cart
-        $saveIntoCart = Cart::create([
-            'user_id' => Session::get('LoggedIn'),
-            'product_id' => $id,
-            'color' => $color,
-            'price' => $price,
-            'quantity' => $quantity,
-            'size' => $chooseSize,
-            'sku' => $skuvariation
-        ]);
-
-        return back()->with('success', 'El producto se añade al carrito.');
-    }
-
-    public function vBuyaddToCart($price, $id, $quantity, $chooseSize)
-    {
-
-        $productSku = Product::where('id', $id)->first();
-
-        if (!$productSku) {
-            return back()->with('error', 'Product not found.');
-        }
-
-        $variation = ProductVariations::where('sku', $productSku->sku)->first();
-
-        if (!empty($variation)) {
-            $skuvariation = ProductVariations::where('product_id', $variation->product_id)
-                ->where('size', $chooseSize)
-                ->where('color', $variation->color)
-                ->first();
-
-            if (!empty($skuvariation)) {
-                $skuvariation = $skuvariation->sku;
-            } else {
-                $skuvariation = ProductVariations::where('product_id', $variation->product_id)
-                    ->where('color', $variation->color)
-                    ->first();
-
-                $skuvariation = $skuvariation ? $skuvariation->sku : null;
-            }
-        } else {
-            $skuvariation = $productSku->sku;
-        }
-
-
-
-        // Check if a variation exists
-        if ($variation) {
-            $color = $variation->color;
-        } else {
-            $color = ''; // Handle the case where no variation is found
-        }
-
-
-        // Save into cart
-        $saveIntoCart = Cart::create([
-            'user_id' => Session::get('LoggedIn'),
-            'product_id' => $id,
-            'color' => $color,
-            'price' => $price,
-            'quantity' => $quantity,
-            'size' => $chooseSize,
-            'sku' => $skuvariation
-        ]);
-
-        return redirect()->route('cart');
-    }
-
-    public function BuyaddToCart($price, $id, $quantity)
-    {
-        $product = Product::find($id);
-
-        if (!$product) {
-            return back()->with('error', 'Product not found.');
-        }
-
-        $variation = ProductVariations::where('sku', $product->sku)->first();
-
-        // Check if a variation exists
-        if ($variation) {
-            $color = $variation->color;
-        } else {
-            $color = ''; // Handle the case where no variation is found
-        }
-
-        // Save into cart
-        $saveIntoCart = Cart::create([
-            'user_id' => Session::get('LoggedIn'),
-            'product_id' => $id,
-            'color' => $color,
-            'price' => $price,
-            'quantity' => $quantity,
-        ]);
-
-        return redirect()->route('cart');
-    }
-
-    public function updateQuantity(Request $request)
-    {
-        $productId = $request->input('productId');
-        $quantity = $request->input('quantity');
-
-        // Validate the input
-        $request->validate([
-            'productId' => 'required|integer|exists:products,id',
-            'quantity' => 'required|integer|min:1',
-        ]);
-
-        // Update the quantity in the database
-        $cartItem = Cart::where('product_id', $productId)->where('user_id', Session::get('LoggedIn'))->first();
-        if ($cartItem) {
-            $cartItem->quantity = $quantity;
-            $cartItem->save();
-            return response()->json(['success' => true]);
-        }
-
-        return response()->json(['success' => false, 'message' => 'Cart item not found'], 404);
-    }
-    public function addToWishlist($price, $id)
-    {
-        $stock = Product::find($id);
-        if (!empty($stock->is_stock)) {
-            $stockcheck = $stock->is_stock;
-        }
-        if ($stock->is_stock == null || empty($stock->is_stock)) {
-            $stockcheck = 0;
-        }
-        $saveIntoWishlist = Wishlist::create([
-            'user_id' => Session::get('LoggedIn'),
-            'product_id' => $id,
-            'price' => $price,
-            'is_stock' => $stockcheck,
-        ]);
-        return back()->with('success', 'El producto se añade a la lista de deseos.');
-    }
-    public function RemoveWish($id)
-    {
-        if (Session::has('LoggedIn')) {
-            $wishItem = Wishlist::find($id);
-            if ($wishItem) {
-                $wishItem->delete();
-                return redirect()->route('wishlist')->with('success', 'Artículo eliminado de la lista de deseos');
-            } else {
-                return redirect()->route('wishlist')->with('fail', 'Item not found in wishlist');
-            }
-        } else {
-            return redirect()->route('login')->with('fail', 'Tienes que iniciar sesión primero');
-        }
-    }
-    public function removeCart($id)
-    {
-        if (Session::has('LoggedIn')) {
-            $cartItem = Cart::find($id);
-            if ($cartItem) {
-                $cartItem->delete();
-                return redirect()->route('cart')->with('success', 'Artículo eliminado del carrito');
-            } else {
-                return redirect()->route('cart')->with('fail', 'Item not found in cart');
-            }
-        } else {
-            return redirect()->route('login')->with('fail', 'Tienes que iniciar sesión primero');
-        }
-    }
-
-    public function cart()
-    {
-        if (Session::has('LoggedIn')) {
-
-            $pages = Page::all();
-            $user_session = User::where('id', Session::get('LoggedIn'))->first();
-            $userCategories = !empty($user_session->categories) ? explode(',', $user_session->categories) : [];
-            $products = Product::whereIn('category', $userCategories)->orderBy('id', 'desc')->paginate(4);
-
-            $latest_products = Product::whereIn('category', $userCategories)
-                ->whereNotIn('sku', function ($query) {
-                    $query->select('sku')
-                        ->from('product_variations');
-                })
-                ->orderBy('id', 'desc')->get();
-
-            $carts = Cart::where('user_id', Session::get('LoggedIn'))->get();
-
-            return view('cart', compact('products', 'user_session',   'pages', 'latest_products', 'carts'));
-        } else {
-            return Redirect()->with('fail', 'Tienes que iniciar sesión primero');
-        }
-    }
-    public function ProjectStore(Request $request)
-    {
-
-        $rules = [
-            'category' => 'required',
-            'title' => 'required',
-            'image' => 'required',
-
-            'description' => 'required',
-            // 'short_description' => 'required|max:200',
-            'goal' => 'required',
-            'end_method' => 'required',
-            'country_id' => 'required',
-        ];
-
-        $this->validate($request, $rules);
-
-        $user_id = Session::get('LoggedIn');
-
-        $slug = unique_slug($request->title);
-        if ($request->hasFile('image')) {
-
-            // Handle new image upload
-            $attribute = $request->file('image');
-            $destination = 'Projects';
-
-            // Generate unique filename
-            $file_name = time() . '-' . Str::random(10) . '.' . $attribute->getClientOriginalExtension();
-            // Move uploaded file to the destination directory
-            $attribute->move(public_path('uploads/' . $destination), $file_name);
-            // Update image path
-            $image = 'uploads/' . $destination . '/' . $file_name;
-        }
-        //feature image has been moved to update
-        $data = [
-            'user_id' => $user_id,
-            'category_id' => $request->category,
-            'title' => $request->title,
-            'slug' => $slug,
-            'image' => $image,
-            'short_description' => $request->short_description,
-            'description' => $request->description,
-            'campaign_owner_commission' => get_option('campaign_owner_commission'),
-            'goal' => $request->goal,
-            'min_amount' => $request->min_amount,
-            'max_amount' => $request->max_amount,
-
-            'end_method' => $request->end_method,
-            'video' => $request->video,
-            'feature_image' => '',
-            'status' => 0,
-            'country_id' => $request->country_id,
-            'address' => $request->address,
-            'is_funded' => 0,
-            'start_date' => $request->start_date,
-            'end_date' => $request->end_date,
-        ];
-        // Handle OG image upload
-        if ($request->hasFile('og_image')) {
-            $attribute = $request->file('og_image');
-            $destination = 'meta';
-
-            // Generate unique filename
-            $file_name = time() . '-' . Str::random(10) . '.' . $attribute->getClientOriginalExtension();
-            // Move uploaded file to the destination directory
-            $attribute->move(public_path('uploads/' . $destination), $file_name);
-            // Update og_image path
-            $data['og_image'] = 'uploads/' . $destination . '/' . $file_name;
-        }
-
-        $create = Campaign::create($data);
-        $text = 'A new project has posted on the platform.';
-        $target_url = url('project-details', ['slug' => $slug]);
-        $this->sendForApi($text, 1, $target_url, $user_id, $user_id);
-
-        // dd($request->all());
-        if ($create) {
-            return back()->with('success', 'Project Created');
-        }
-
-        return back()->with('fail', 'Something went wrong');
-    }
 
     public function blog()
     {
@@ -1306,14 +862,34 @@ public function renew(Request $request)
     }
     public function course()
     {
+        // Redirect if the user is not logged in
         if (!Session::has('LoggedIn')) {
-            return redirect()->route('Userlogin')->with('error', 'Por favor, inicie sesión primero.');
+            return redirect()->route('Userlogin')->with('error', __('Please log in first.'));
         }
-        $course = Course::orderByDesc('id')->paginate(12);
-        $user_session = User::where('id', Session::get('LoggedIn'))->first();
+
+        // Fetch the logged-in user
+        $user_session = User::find(Session::get('LoggedIn'));
+
+        // Handle cases where the user is not found
+        if (!$user_session) {
+            return redirect()->route('Userlogin')->with('error', __('User not found.'));
+        }
+
+        // Redirect if the membership status is expired
+        if (in_array($user_session->membership_status, ['expired', 'pending'])) {
+            return redirect()->back()->with('fail', __('Your membership is expired or pending. Please update your membership.'));
+        }
+
+        // Fetch courses with pagination
+        $courses = Course::latest()->paginate(12);
+
+        // Fetch pages
         $pages = Page::all();
-        return view('course', compact('pages', 'user_session', 'course'));
+
+        // Render the course view
+        return view('course', compact('pages', 'user_session', 'courses'));
     }
+
     public function storeBack(Request $request)
     {
 

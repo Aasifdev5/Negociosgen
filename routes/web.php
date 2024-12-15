@@ -103,7 +103,8 @@ Route::group(['middleware' => ['prevent-back-history', SetLocale::class]], funct
     Route::get('search', [UserController::class, 'search'])->name('search')->middleware('isLoggedIn');
     Route::post('/post-insert', [UserController::class, 'Ad_insert'])->name('Ad_insert')->middleware('isLoggedIn');
     Route::get('blog', [UserController::class, 'blogs'])->name('blog');
-    Route::get('course', [UserController::class, 'course'])->name('course');
+    Route::get('course', [UserController::class, 'course'])->middleware('check.membership')->name('course');
+
     Route::get('nosotros', [UserController::class, 'nosotros'])->name('nosotros');
     Route::post('/save_address', [UserController::class, 'save_address'])->name('save_address');
     Route::get('/change_password', [UserController::class, 'change_password'])->name('change_password')->middleware('isLoggedIn');
@@ -121,6 +122,7 @@ Route::group(['middleware' => ['prevent-back-history', SetLocale::class]], funct
 
     Route::get('/contact', [UserController::class, 'contact'])->name('contact');
     Route::get('/who', [UserController::class, 'who'])->name('who');
+    Route::get('/workUs', [UserController::class, 'workUs'])->name('workUs');
     Route::get('/affiliate_company', [UserController::class, 'affiliate_company'])->name('affiliate_company');
     Route::get('/userNotifications', [UserController::class, 'userNotifications'])->name('userNotifications');
     Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
@@ -140,6 +142,9 @@ Route::group(['middleware' => ['prevent-back-history', SetLocale::class]], funct
     Route::post('/renew', [UserController::class, 'renew'])->name('renew');
 
     Route::get('/gen_cards', [UserController::class, 'gen_cards'])->name('gen_cards')->middleware('isLoggedIn');
+    Route::get('/gen_members_area', [UserController::class, 'gen_members_area'])->name('gen_members_area')->middleware('isLoggedIn');
+    Route::get('/partners', [UserController::class, 'partners'])->name('partners')->middleware('isLoggedIn');
+    Route::get('/events', [UserController::class, 'events'])->name('events')->middleware('isLoggedIn');
     Route::get('/verification', [UserController::class, 'verification'])->name('verification')->middleware('isLoggedIn');
     Route::get('/home', [UserController::class, 'home'])->name('home')->middleware('isLoggedIn');
     Route::get('addToWishlist/{price}/{id}', [UserController::class, 'addToWishlist'])->name('addToWishlist');
@@ -154,12 +159,9 @@ Route::group(['middleware' => ['prevent-back-history', SetLocale::class]], funct
     Route::get('/welcome', [UserController::class, 'welcome'])->name('welcome')->middleware('isLoggedIn');
     Route::get('/Details', [UserController::class, 'Details'])->name('Details')->middleware('isLoggedIn');
     Route::get('/product-details/{slug}', [UserController::class, 'ProductDetail'])->name('ProductDetail')->middleware('isLoggedIn');
-    Route::get('/productbybrand/{id}', [UserController::class, 'productbybrand'])->name('productbybrand')->middleware('isLoggedIn');
-    Route::get('/productbyCategory/{id}', [UserController::class, 'productbyCategory'])->name('productbyCategory')->middleware('isLoggedIn');
-    Route::get('/productbySubCategory/{category}/{subcategory}', [UserController::class, 'productbySubCategory'])->name('productbySubCategory')->middleware('isLoggedIn');
-    Route::get('/productbyChildCategory/{category}/{subcategory}/{childcategory}', [UserController::class, 'productbyChildCategory'])->name('productbyChildCategory')->middleware('isLoggedIn');
+
     Route::get('/transferencia', [UserController::class, 'transferencia'])->name('transferencia')->middleware('isLoggedIn');
-    Route::get('/recursos', [UserController::class, 'recursos'])->name('recursos')->middleware('alreadyLoggedIn');
+    Route::get('/recursos', [UserController::class, 'recursos'])->middleware('check.membership')->name('recursos')->middleware('alreadyLoggedIn');
 
     Route::get('/signup', [UserController::class, 'signup'])->name('signup')->middleware('alreadyLoggedIn');
     Route::get('verify-otp', [OTPController::class, 'showOtpForm'])->name('verify.otp')->middleware('alreadyLoggedIn');

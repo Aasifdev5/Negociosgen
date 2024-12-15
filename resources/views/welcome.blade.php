@@ -3,8 +3,19 @@
 {{ __('Bienvenida') }}
 @endsection
 @section('content')
+
 <section style="padding: 180px 0; background: #1a1a1a">
     <div class="container">
+        @if(Session::has('success'))
+<div class="alert alert-success">
+    <p>{{session::get('success')}}</p>
+</div>
+@endif
+@if(Session::has('fail'))
+<div class="alert alert-danger">
+    <p>{{session::get('fail')}}</p>
+</div>
+@endif
       <div
         class="container"
         style="

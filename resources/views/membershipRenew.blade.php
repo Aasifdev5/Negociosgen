@@ -6,7 +6,16 @@
 
     <section style="padding: 40px 0; background: #1A1A1A;">
         <div class="container py-5">
-
+            @if(Session::has('success'))
+            <div class="alert alert-success">
+                <p>{{session::get('success')}}</p>
+            </div>
+            @endif
+            @if(Session::has('fail'))
+            <div class="alert alert-danger">
+                <p>{{session::get('fail')}}</p>
+            </div>
+            @endif
 
             <!-- Membership Options Section -->
             <div class="row mb-5">

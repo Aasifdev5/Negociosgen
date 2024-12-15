@@ -57,6 +57,7 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
+
         'inactivity.timeout' => \App\Http\Middleware\InactivityTimeout::class,
         'AdminAlreadyLoggedIn' => \App\Http\Middleware\AdminAlreadyLoggedIn::class,
         'AdminIsLoggedIn' => \App\Http\Middleware\AdminIsLoggedIn::class,
@@ -78,5 +79,6 @@ class Kernel extends HttpKernel
         'sendMessage' => SendMessage::class,
         'prevent-back-history' => \App\Http\Middleware\PreventBackHistory::class,
         'admin-prevent-back-history' => \App\Http\Middleware\AdminPreventBackHistory::class,
+        'check.membership' => \App\Http\Middleware\CheckMembershipStatus::class,
     ];
 }

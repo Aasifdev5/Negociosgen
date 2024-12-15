@@ -51,8 +51,8 @@ class CursoController extends Controller
         $validator = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'price' => 'required|numeric|min:0',
-            'category' => 'required|string|max:255',
+            'coache' => 'required',
+
             'video_link' => [
                 'required',
                 'url',
@@ -72,8 +72,8 @@ class CursoController extends Controller
         $data = [
             'title' => $request->title,
             'description' => $request->description,
-            'price' => $request->price,
-            'category' => $request->category,
+            'coache' => $request->coache,
+
             'video_link' => $request->video_link,
             'slug' => Str::slug($request->title),
         ];
@@ -143,8 +143,8 @@ class CursoController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'price' => 'required|numeric|min:0',
-            'category' => 'required|string|max:255',
+            'coache' => 'required',
+
             'video_link' => 'required|url',
             'video_thumbnail' => 'nullable|image|mimes:png,jpg,jpeg',
         ]);
@@ -153,7 +153,7 @@ class CursoController extends Controller
         $data = [
             'title' => $request->title,
             'description' => $request->description,
-            'price' => $request->price,
+            'coache' => $request->coache,
             'category' => $request->category,
             'video_link' => $request->video_link,
             'slug' => Str::slug($request->title),

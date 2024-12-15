@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 12, 2024 at 09:40 AM
+-- Generation Time: Dec 15, 2024 at 07:54 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -578,8 +578,8 @@ CREATE TABLE `courses` (
   `uuid` char(36) NOT NULL,
   `title` varchar(191) NOT NULL,
   `description` text DEFAULT NULL,
-  `price` decimal(8,2) DEFAULT NULL,
-  `category` varchar(191) NOT NULL,
+  `coache` varchar(255) DEFAULT NULL,
+  `category` varchar(191) DEFAULT NULL,
   `video_link` varchar(191) NOT NULL,
   `video_thumbnail` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -590,10 +590,11 @@ CREATE TABLE `courses` (
 -- Dumping data for table `courses`
 --
 
-INSERT INTO `courses` (`id`, `uuid`, `title`, `description`, `price`, `category`, `video_link`, `video_thumbnail`, `created_at`, `updated_at`) VALUES
-(3, '0100bd04-ba9f-4bc1-ba4d-e87652ac338d', 'xcvxvxcvcx', '<p>xcvxvxcxvxvcxvxvx</p>', 5.00, '30', 'https://www.youtube.com/watch?v=_Ip-f_ULaM4', 'uploads/video_thumbnail/1732514407-JSulnJUK1V.jpg', '2024-11-25 00:30:08', '2024-11-25 00:30:08'),
-(4, '117f741c-0261-485d-88f4-910812237342', 'ertetewrwer', '<p>ewrsrfwerwredf</p>', 35000.00, '30', 'https://www.youtube.com/watch?v=guDx-8fu3Uc', 'uploads/video_thumbnail/1732514780-Duuj7alqSl.jpg', '2024-11-25 00:36:20', '2024-11-25 00:36:20'),
-(5, 'cd18d727-0794-47d5-9f49-2153f60ee7e3', 'drebgrdvte44e', '<p>fhbdhh</p>', 45.00, '30', 'https://www.youtube.com/watch?v=UrW19xffEUk', 'uploads/video_thumbnails/1732527932-gHegvF3QuR.jpg', '2024-11-25 04:15:33', '2024-11-25 04:15:33');
+INSERT INTO `courses` (`id`, `uuid`, `title`, `description`, `coache`, `category`, `video_link`, `video_thumbnail`, `created_at`, `updated_at`) VALUES
+(3, '0100bd04-ba9f-4bc1-ba4d-e87652ac338d', 'xcvxvxcvcx', '<p>xcvxvxcxvxvcxvxvx</p>', 'alex', NULL, 'https://www.youtube.com/watch?v=_Ip-f_ULaM4', 'uploads/video_thumbnail/1732514407-JSulnJUK1V.jpg', '2024-11-25 00:30:08', '2024-12-14 23:06:50'),
+(4, '117f741c-0261-485d-88f4-910812237342', 'ertetewrwer', '<p>ewrsrfwerwredf</p>', 'alex', NULL, 'https://www.youtube.com/watch?v=guDx-8fu3Uc', 'uploads/video_thumbnail/1732514780-Duuj7alqSl.jpg', '2024-11-25 00:36:20', '2024-12-14 23:06:19'),
+(5, 'cd18d727-0794-47d5-9f49-2153f60ee7e3', 'drebgrdvte44e', '<p>fhbdhh</p>', 'alex', NULL, 'https://www.youtube.com/watch?v=UrW19xffEUk', 'uploads/video_thumbnails/1732527932-gHegvF3QuR.jpg', '2024-11-25 04:15:33', '2024-12-14 23:05:59'),
+(6, '9c82e844-32ab-4c90-996f-bc765605fec6', 'xcsdfsfs', '<p>xcvsdds</p>', 'alex', NULL, 'https://www.youtube.com/watch?v=BgoTIV2hA4I', 'uploads/video_thumbnails/1734237278-Z2Ll8rn8Zl.png', '2024-12-14 23:04:38', '2024-12-14 23:04:38');
 
 -- --------------------------------------------------------
 
@@ -649,6 +650,14 @@ CREATE TABLE `events` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `events`
+--
+
+INSERT INTO `events` (`uuid`, `title`, `description`, `date`, `time`, `link`, `image`, `slug`, `created_at`, `updated_at`, `deleted_at`) VALUES
+('47d97d32-e150-4d72-90ca-c8eeb4ccd79a', 'meeting for discuss', '<p>meeting for discuss about company strategies</p>', '2024-12-14', '16:03:00', 'https://meet.google.com/eff-wmgv-xjg', NULL, 'meeting-for-discuss', '2024-12-14 01:00:12', '2024-12-14 01:00:12', NULL),
+('5b646235-17dd-4c7c-a5a4-688d63dd0373', 'sdfsdf', '<p>dfgdfgdr</p>', '2024-12-16', '11:27:00', 'https://meet.google.com/eff-wmgv-xjg', NULL, 'sdfsdf', '2024-12-15 00:27:58', '2024-12-15 00:27:58', NULL);
 
 -- --------------------------------------------------------
 
@@ -2293,9 +2302,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `is_active`, `profile_photo`, `account_type`, `balance`, `membershipType`, `is_subscribed`, `refer`, `level`, `is_online`, `last_seen`, `birth_date`, `role`, `permissions`, `name`, `email`, `email_verified_at`, `password`, `custom_password`, `mobile_number`, `about`, `city`, `facebook`, `instagram`, `linkedin`, `twitter`, `address`, `status`, `remember_token`, `ip_address`, `is_system`, `id_number`, `country`, `created_by`, `deleted_at`, `language`, `is_super_admin`, `created_at`, `updated_at`, `membership_status`, `membership_start_date`, `membership_end_date`, `renewal_due_date`, `payment_status`, `membership_card_number`, `guest_access_count`) VALUES
-(1, NULL, 1, '149071.png', 'admin', NULL, NULL, 0, NULL, NULL, 1, '2024-12-12 01:59:56', NULL, 1, NULL, 'SUPER ADMINISTRADOR', 'gen@negociosgen.com', '2023-03-23 07:45:02', '$2y$10$2Xg3cj6N2RMrVNhMvzL6hu5vkvjZ.zOMsFrTICTE40rT1paV6CtP6', '987654321', '8878326802', NULL, 'bolivia', NULL, NULL, NULL, NULL, 'sdfafa', 1, NULL, '127.0.0.1', 1, '1', '1', NULL, NULL, 'es', 1, '2023-03-23 07:45:02', '2024-12-12 01:59:56', 'pending', NULL, NULL, NULL, 'unpaid', NULL, 0),
+(1, NULL, 1, '149071.png', 'admin', NULL, NULL, 0, NULL, NULL, 1, '2024-12-14 22:44:13', NULL, 1, NULL, 'SUPER ADMINISTRADOR', 'gen@negociosgen.com', '2023-03-23 07:45:02', '$2y$10$2Xg3cj6N2RMrVNhMvzL6hu5vkvjZ.zOMsFrTICTE40rT1paV6CtP6', '987654321', '8878326802', NULL, 'bolivia', NULL, NULL, NULL, NULL, 'sdfafa', 1, NULL, '127.0.0.1', 1, '1', '1', NULL, NULL, 'es', 1, '2023-03-23 07:45:02', '2024-12-14 22:44:13', 'pending', NULL, NULL, NULL, 'unpaid', NULL, 0),
 (3, NULL, 1, NULL, 'affiliate', '530', NULL, 1, NULL, NULL, 0, '2024-12-03 21:10:40', '2024-10-16', 2, NULL, 'Alex', 'arstech2a@gmail.com', NULL, '$2y$10$yfNz3sJ2P3d31JhNkPve8.L.rVsISl81scG5DGvgB8pcfQUZd9l.e', NULL, '591591591', 'df', NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, '127.0.0.1', 0, '1', NULL, NULL, NULL, '\'en\'', 0, '2024-10-29 22:26:33', '2024-12-04 01:10:40', 'pending', NULL, '0000-00-00 00:00:00', NULL, 'unpaid', NULL, 0),
-(5, NULL, 1, NULL, 'affiliate', '1450', 'GEN_GOLD', 1, NULL, '3', 1, '2024-12-07 22:04:19', '2024-10-03', 2, NULL, 'muskan bano', 'aasifdev5@gmail.com', NULL, '$2y$10$5WrZoZLUyhoaTA31IeC6O.0TcQbGbll6WxK6oA/foGEt8vxGjvV/a', NULL, '591', NULL, '14', NULL, NULL, NULL, NULL, '722 azad nagar indore', 1, NULL, NULL, 0, '45', '1', NULL, NULL, '\'en\'', 0, '2024-10-31 01:23:24', '2024-12-12 00:26:17', 'expired', '2023-01-01 10:42:38', '2024-12-10 10:42:38', '2024-11-10 00:00:00', 'paid', NULL, 0),
+(5, NULL, 1, NULL, 'affiliate', '1450', 'GEN_GOLD', 1, NULL, '3', 1, '2024-12-14 22:45:50', '2024-10-03', 2, NULL, 'muskan bano', 'aasifdev5@gmail.com', NULL, '$2y$10$9LiWUF5HP0GDOj05wal90eb/uZ8SsuXJveTWm.VbMDi6Jy4D3zViG', NULL, '591', NULL, '14', NULL, NULL, NULL, NULL, '722 azad nagar indore', 1, NULL, NULL, 0, '45', '1', NULL, NULL, '\'en\'', 0, '2024-10-31 01:23:24', '2024-12-14 22:45:50', 'expired', '2023-01-01 10:42:38', '2024-12-10 10:42:38', '2024-11-10 00:00:00', 'paid', NULL, 0),
 (6, NULL, 1, NULL, 'affiliate', '530', NULL, 1, NULL, '2', 0, '2024-11-27 21:17:35', '2024-11-20', 2, NULL, 'Tanzila', 'hrnatrajdfsinfotech@gmail.com', NULL, '$2y$10$1d.I9JhZ3wp1WNix7lxFA.L5J5vIXgrttg9e.rDX4xHMgy2VfVxgG', NULL, '5919589642080', NULL, '12', NULL, NULL, NULL, NULL, '722 azad nagar indore', 1, NULL, '127.0.0.1', 0, '', '1', NULL, NULL, '\'en\'', 0, '2024-11-20 00:36:57', '2024-11-28 01:17:35', 'pending', NULL, NULL, NULL, 'unpaid', NULL, 0),
 (7, NULL, 1, NULL, 'affiliate', '475', NULL, 1, NULL, '2', 1, '2024-12-04 23:56:04', '2024-11-19', 2, NULL, 'Vergil', 'hrnatrajinfmbvnotech@gmail.com', NULL, '$2y$10$dUOlOwtjE3eTrkg6FuelNuX8l2NH/WaPx9lqk/07G/sBMsfR4DuES', NULL, '59154285285', NULL, '12', NULL, NULL, NULL, NULL, '722 azad nagar indore', 1, NULL, '127.0.0.1', 0, '', '1', NULL, NULL, '\'en\'', 0, '2024-11-20 00:46:16', '2024-12-05 00:47:49', 'pending', NULL, NULL, NULL, 'unpaid', NULL, 0),
 (8, NULL, 1, NULL, 'affiliate', NULL, NULL, NULL, NULL, NULL, 0, NULL, '2024-11-20', 2, NULL, 'Aasif Ahmed', 'hrnatrajinffdggfdgotech@gmail.com', NULL, '$2y$10$6I.z1YM8jLYN39OKqJkWOOxdEWGZfPp7M32liMruXyX3u/GdzRw8a', NULL, '5919589642080', NULL, '12', NULL, NULL, NULL, NULL, '722 azad nagar indore', 1, NULL, '127.0.0.1', 0, '', '1', NULL, NULL, '\'en\'', 0, '2024-11-20 00:50:55', '2024-11-20 00:50:55', 'pending', NULL, NULL, NULL, 'unpaid', NULL, 0),
@@ -2806,7 +2815,7 @@ ALTER TABLE `countries`
 -- AUTO_INCREMENT for table `courses`
 --
 ALTER TABLE `courses`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `currencies`

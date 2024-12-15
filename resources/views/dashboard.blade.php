@@ -3,8 +3,20 @@
 @section('title', __('Panel de afiliados'))
 
 @section('content')
+
 <section class="py-5 bg-dark" >
+
     <div class="container" style="margin-top: 50px">
+        @if(Session::has('success'))
+        <div class="alert alert-success">
+            <p>{{session::get('success')}}</p>
+        </div>
+        @endif
+        @if(Session::has('fail'))
+        <div class="alert alert-danger">
+            <p>{{session::get('fail')}}</p>
+        </div>
+        @endif
         <h1 class="text-light mb-4">
             {{ __('Panel') }} <span class="text-primary">{{ __('Afiliados') }}</span>
         </h1>
@@ -50,19 +62,26 @@
                         </a>
                     </div>
                     <div class="menu-item mb-3 d-flex align-items-center">
+                        <a href="{{ url('gen_members_area') }}" style="text-decoration: none; color: inherit;">
+                            <i class="fas fa-tree me-2" style="font-size: 24px;"></i>
+                            <span>{{ __('GEN Members Area') }}</span>
+                        </a>
+                    </div>
+
+                    <div class="menu-item mb-3 d-flex align-items-center">
                         <a href="{{ url('ganancias') }}" style="text-decoration: none; color: inherit;">
                             <img src="{{ asset('assets/Wallet.svg') }}" alt="Ganancias" class="me-2" width="24" height="24">
                             <span>{{ __('Ganancias') }}</span>
                         </a>
                     </div>
-                    @if (!empty($user_session) && $user_session->is_subscribed == 1 && $user_session->membership_status == 'active')
+
                     <div class="menu-item mb-3 d-flex align-items-center">
                         <a href="{{ url('recursos') }}" style="text-decoration: none; color: inherit;">
                             <img src="{{ asset('assets/Image.svg') }}" alt="Recursos" class="me-2" width="24" height="24">
                             <span>{{ __('Recursos') }}</span>
                         </a>
                     </div>
-                    @endif
+
                     <div class="menu-item d-flex align-items-center">
                         <a href="{{ url('edit_profile') }}" style="text-decoration: none; color: inherit;">
                             @if (!empty($user_session->profile_photo))

@@ -5,8 +5,19 @@
 @endsection
 
 @section('content')
+
     <section style="padding: 90px 0; background: #1A1A1A;">
         <div class="container my-5">
+            @if(Session::has('success'))
+<div class="alert alert-success">
+    <p>{{session::get('success')}}</p>
+</div>
+@endif
+@if(Session::has('fail'))
+<div class="alert alert-danger">
+    <p>{{session::get('fail')}}</p>
+</div>
+@endif
             <h1 class="text-center" style="color: #ededed;">{{ __('El blog de') }} <span style="color: #0090ff;">{{ __('GEN') }}</span></h1>
 
             <form action="{{ url('/blog') }}" method="GET" style="width: 100%; max-width: 600px; margin: auto;">

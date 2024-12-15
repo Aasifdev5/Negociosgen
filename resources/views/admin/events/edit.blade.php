@@ -25,7 +25,7 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="description" class="form-label">Descripción</label>
-                                        <textarea class="form-control summernote" id="description" name="description" rows="3" placeholder="Escribe la descripción del curso">{{ old('description', $event->description) }}</textarea>
+                                        <textarea class="form-control summernote" id="description" name="description" rows="3" placeholder="Escribe la descripción del curso">{!!old('description', $event->description) !!}</textarea>
                                         <small id="descriptionError" class="text-danger"></small>
                                     </div>
                                     <div class="row">

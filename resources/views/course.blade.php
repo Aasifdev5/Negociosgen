@@ -3,8 +3,19 @@
     {{ __('Cursos') }}
 @endsection
 @section('content')
+
     <div class="container-fluid custom-bg w-100">
         <div class="container my-5">
+            @if(Session::has('success'))
+<div class="alert alert-success">
+    <p>{{session::get('success')}}</p>
+</div>
+@endif
+@if(Session::has('fail'))
+<div class="alert alert-danger">
+    <p>{{session::get('fail')}}</p>
+</div>
+@endif
             <div class="row">
                 <!-- Text Column -->
                 <div class="col-lg-6 col-md-12 order-2 order-md-1">
@@ -103,30 +114,39 @@
             </div>
 
             <div class="row g-4 mt-4">
-                @foreach ($course as $row)
-                    <div class="col-lg-3 col-md-6 col-6" style="padding-bottom: 10px;">
+                @foreach ($courses as $row) <!-- Use $row to avoid conflict with $course -->
+                <div class="col-lg-3 col-md-12" style="margin-bottom: 20px;">
+                    <!-- Course Introduction -->
+                    <div class="course-intro" style="margin-bottom: 20px;">
                         <div class="video-container">
                             <div class="gradient-overlay"></div>
-                            <img src="{{ asset($row->video_thumbnail) }}" class="thumbnail" alt="Video Thumbnail" />
+                            <img src="{{ asset($row->video_thumbnail) }}" class="thumbnail" alt="Course Thumbnail" />
                             @if (!empty($user_session))
-                            <span class="play-button"><img src="{{ asset('assets/Play (1).svg') }}" alt="Play Button" /></span>
+                                <span class="play-button">
+                                    <img src="{{ asset('assets/Play (1).svg') }}" alt="Play Button" />
+                                </span>
                             @else
-                                <a href="{{ url('Userlogin') }}"><span class="play-button"><img src="{{ asset('assets/Play (1).svg') }}" alt="Play Button" /></span></a>
+                                <a href="{{ url('Userlogin') }}">
+                                    <span class="play-button">
+                                        <img src="{{ asset('assets/Play (1).svg') }}" alt="Play Button" />
+                                    </span>
+                                </a>
                             @endif
-
                             <div class="embed-responsive" style="display: none;">
-                                <iframe class="embed-responsive-item" src="{{ $row->getEmbedUrl($row->video_link) }}"
-                                    frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
-                                </iframe>
+                                <iframe class="embed-responsive-item"
+                                    src="{{ $row->getEmbedUrl($row->video_link) }}"
+                                    frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
                             </div>
                         </div>
-                        <h4 style="color: #EDEDED;">{{ $row->title }}</h4>
+                        <h3 style="color: #EDEDED; margin-top: 10px;">{{ $row->title }}</h3>
+                        <p style="color: #E0E0E0;">Coach: {{ $row->coache }}</p>
                     </div>
-                @endforeach
+                </div>
+            @endforeach
             </div>
             <nav class="pagination justify-content-center">
 
-                @include('admin.pagination', ['paginator' => $course])
+                @include('admin.pagination', ['paginator' => $courses])
             </nav>
         </div>
     </section>

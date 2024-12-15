@@ -4,7 +4,18 @@
 @endsection
 @section('content')
 <section style="padding: 20px 0;background: #1A1A1A;">
+
 <div class="container py-5">
+    @if(Session::has('success'))
+    <div class="alert alert-success">
+        <p>{{session::get('success')}}</p>
+    </div>
+    @endif
+    @if(Session::has('fail'))
+    <div class="alert alert-danger">
+        <p>{{session::get('fail')}}</p>
+    </div>
+    @endif
     <!-- Affiliated Companies Section -->
     <div class="text-center mb-5">
         <h2 class="fw-bold text-light">Affiliated Companies</h2>
@@ -31,6 +42,10 @@
                 @endforeach
 
             </div>
+            <nav class="pagination justify-content-center">
+                @include('admin.pagination', ['paginator' => $brands])
+
+            </nav>
         </div>
     </section>
 

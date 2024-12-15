@@ -11,7 +11,7 @@
                 <div class="row justify-content-center">
                     <div class="col-md-4">
                         <h2 class="text-center text-light mb-4">{{ __('Iniciar Sesión') }}</h2>
-                        <form action="{{ url('send-otp') }}" method="POST">
+                        <form action="{{ url('log') }}" method="POST">
                             @if (Session::has('success'))
                                 <div class="alert alert-success" style="background-color: green;">
                                     <p style="color: #fff;">{{ session::get('success') }}</p>
@@ -30,7 +30,16 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
-                            <button type="submit" class="btn btn-primary w-100">Enviar OTP</button>
+                            <div class="mb-3">
+                                <label for="contrasena" class="form-label text-light">Contraseña</label>
+                                <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" id="contrasena" placeholder="xxxxxxxxxxxxx">
+                                @error('password')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Login</button>
                             <div class="mt-3 text-center">
                                 <span class="text-light">{{ __('¿Aún no eres afiliado?') }} </span>
                                 <a href="{{ url('membership') }}" class="text-primary">{{ __('Join Now') }}</a>
