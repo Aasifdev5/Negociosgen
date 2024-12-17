@@ -41,12 +41,13 @@ use App\Http\Controllers\FundController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\MailTemplateController;
+use App\Http\Controllers\NewsController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Pages;
 use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\QRCodeController;
-use App\Http\Controllers\ResetPasswordController;
 
+use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\SalesController;
 use App\Http\Controllers\TestimonialController;
 use App\Http\Controllers\UserController;
@@ -56,6 +57,7 @@ use App\Models\Language;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 use Maatwebsite\Excel\Facades\Excel;
+
 
 
 
@@ -93,6 +95,7 @@ Route::group(['middleware' => ['prevent-back-history', SetLocale::class]], funct
     Route::get('/geanologìa', [UserController::class, 'geanologìa']);
     Route::get('/sales-details/{id}', [SalesController::class, 'getSalesDetails'])->name('sales.details');
     Route::get('Userlogin', [UserController::class, 'Userlogin'])->name('Userlogin');
+    Route::get('newsDetails/{id}', [UserController::class, 'newsDetails'])->name('newsDetails');
     Route::get('getProducts', [UserController::class, 'getProducts'])->name('getProducts');
     Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard')->middleware('isLoggedIn');
     Route::get('/dashboard-data', [UserController::class, 'getDashboardData'])->name('getDashboardData');
@@ -296,7 +299,16 @@ Route::group(['prefix' => 'admin'], function () {
 
             Route::post('/eliminar-multiple', [AudiobookController::class, 'bulkDelete'])->name('bulk-delete');
         });
+        Route::group(['prefix' => 'news', 'as' => 'news.'], function () {
+            Route::get('', [NewsController::class, 'index'])->name('index');
+            Route::get('create', [NewsController::class, 'create'])->name('create'); // This matches 'audiolibros.crear'
+            Route::post('store', [NewsController::class, 'store'])->name('store');
+            Route::get('edit/{id}', [NewsController::class, 'edit'])->name('edit'); // This matches 'audiolibros.edit'
+            Route::post('update/{id}', [NewsController::class, 'update'])->name('update');
+            Route::delete('/destroy/{news}', [NewsController::class, 'destroy'])->name('destroy');
 
+            Route::post('/eliminar-multiple', [NewsController::class, 'bulkDelete'])->name('bulk-delete');
+        });
 
         Route::group(['prefix' => 'settings', 'as' => 'settings.'], function () {
             //Start:: General Settings

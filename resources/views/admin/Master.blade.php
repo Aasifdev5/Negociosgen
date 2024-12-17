@@ -394,7 +394,9 @@
                                     </span></a></li> --}}
                             <li><a class="sidebar-header" href="{{ url('admin/qrcode') }}"><i class="fa fa-qrcode"></i> CÓDIGO QR </a></li>
                             <li>
-                            <li class="">
+                                <li><a class="sidebar-header" href="{{ route('news.index') }}"><i class="icofont icofont-triangle"></i> Noticias </a></li>
+                            <li>
+                            {{-- <li class="">
                                 <a class="has-arrow sidebar-header" href="#">
                                     <i class="icofont icofont-social-blogger"></i>
                                     <span>{{ __('Administrar Blog') }}<i
@@ -426,18 +428,18 @@
                                         </a>
                                     </li>
                                 </ul>
-                            </li>
+                            </li> --}}
 
                             <li><a class="sidebar-header" href="{{ url('admin/transactions_report') }}"><i
                                         data-feather="dollar-sign"></i><span>{{ __('Recibir Fondos') }} </span></a>
                             </li>
-                            <li><a class="sidebar-header" href="{{ url('admin/pages') }}"><i
+                            {{-- <li><a class="sidebar-header" href="{{ url('admin/pages') }}"><i
                                         data-feather="book"></i><span>{{ __('Pages') }} </span></a> </li>
                             <li>
                                 <a href="{{ url('admin/mail-templates') }}" class="sidebar-header">
                                     <i data-feather="mail"></i><span>{{ __('Plantillas de Correo') }} </span>
                                 </a>
-                            </li>
+                            </li> --}}
                             <li>
                                 <a class="sidebar-header" href="#">
                                     <i class="fa fa-language"></i>
@@ -490,8 +492,19 @@
                                     </li>
                                 </ul>
                             </li>
-
-                            <li><a class="sidebar-header" href="#"><i data-feather="layers"></i><span>
+                            <li>
+                                <a class="sidebar-header" href="{{ route('brands.index') }}">
+                                    <i class="fa fa-suitcase"></i>
+                                    <span>{{ __('Marcas') }}</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="sidebar-header" href="{{ route('curso.index') }}">
+                                    <i class="fa fa-graduation-cap"></i>
+                                    <span>{{ __('Consejos de éxito') }}</span>
+                                </a>
+                            </li>
+                            {{-- <li><a class="sidebar-header" href="#"><i data-feather="layers"></i><span>
                                         {{ __('Gestión de cursos') }} </span><i
                                         class="fa fa-angle-right pull-right"></i></a>
                                 <ul class="sidebar-submenu">
@@ -501,32 +514,22 @@
                                             <span>{{ __('Categoría') }}</span>
                                         </a>
                                     </li>
-                                    <li>
-                                        <a href="{{ route('brands.index') }}">
-                                            <i class="fa fa-circle"></i>
-                                            <span>{{ __('Marcas') }}</span>
-                                        </a>
-                                    </li>
-                                    {{-- <li>
+
+                                     <li>
 
                                         <a href="{{ route('subcategory.index') }}">
                                             <i class="fa fa-circle"></i>
                                             <span>{{ __('Subcategoría') }}</span>
                                         </a>
-                                    </li> --}}
-                                    <li>
-                                        <a href="{{ route('curso.index') }}">
-                                            <i class="fa fa-circle"></i>
-                                            <span>{{ __('Cursos') }}</span>
-                                        </a>
                                     </li>
-                                    {{-- <li>
+
+                                     <li>
 
                                         <a href="{{ url('admin\childcategory') }}">
                                             <i class="fa fa-circle"></i>
                                             <span>{{ __('Childcategoría') }}</span>
                                         </a>
-                                    </li> --}}
+                                    </li>
 
                                     <li>
                                         <a href="{{ route('gallery.index') }}">
@@ -538,7 +541,7 @@
 
 
                                 </ul>
-                            </li>
+                            </li> --}}
 
                             {{-- <li><a class="sidebar-header" href="{{ url('admin/transactions_report') }}"><i
                                         data-feather="dollar-sign"></i><span>{{ __('Solicitudes de pedido') }}

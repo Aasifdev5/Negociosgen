@@ -50,7 +50,7 @@
                             </div>
                         </div>
                         <div class="text-center mt-4">
-                            <a href="{{ url('membership') }}" class="btn btn-primary btn-lg">{{ __('Join Now') }}</a>
+                            <a href="{{ url('membership') }}" class="btn btn-primary btn-lg">{{ __('Únete ahora') }}</a>
                         </div>
                     </div>
                 </div>

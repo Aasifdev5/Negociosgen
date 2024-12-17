@@ -1,6 +1,6 @@
 @extends('master')
 @section('title')
-{{ __('Contáctanos') }}
+{{ __('Ponte en contacto') }}
 @endsection
 @section('content')
 @php
@@ -43,11 +43,14 @@
                     </div>
                 </div>
                 <div class="col-md-6 mb-3">
-                    <div class="list-item d-flex align-items-center"
-                        style="border: 1px solid #2e2e2e; border-radius: 8px; padding: 16px; color: #ededed; font-family: 'Space Grotesk';">
-                        <img class="envelopesimple-icon" alt="WhatsApp Icon"
-                            src="{{ asset('assets/WhatsappLogo.svg') }}" style="width: 24px; height: 24px;">
-                        <div class="correogmailcom ms-2">{{ $general_setting['app_contact_number'] ?? '' }}</div>
+                    <div class="list-item d-flex align-items-center" style="border: 1px solid #2e2e2e; border-radius: 8px; padding: 16px; color: #ededed; font-family: 'Space Grotesk';">
+                        <img class="envelopesimple-icon" alt="WhatsApp Icon" src="{{ asset('assets/WhatsappLogo.svg') }}" style="width: 24px; height: 24px;">
+                        <div class="correogmailcom ms-2">
+                            <!-- WhatsApp Icon and Link -->
+                            <a href="https://wa.me/59172635801" target="_blank" style="color: inherit; text-decoration: none; display: flex; align-items: center;">
+                                <span> WhatsApp</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -98,7 +101,7 @@
             <!-- Right Column: Contact Form -->
             <div class="col-lg-6 col-md-12">
                 <div class="p-4" style="background-color: #000000; border: 1px solid #2E2E2E; border-radius: 10px;">
-                    <h4 class="text-light mb-3">{{ __('Contacta con nosotros') }}</h4>
+                    <h4 class="text-light mb-3">{{ __('Ponte en contacto') }}</h4>
                      @if (Session::has('flash_message'))
                             <div class="alert alert-success">
                                 {{ Session::get('flash_message') }}
@@ -171,7 +174,7 @@
                         </p>
                     </div>
                     <div class="col-12 col-md-4 text-end d-flex align-items-center justify-content-end">
-                        <a href="{{ url('membership') }}" class="btn btn-primary btn-lg">{{ __('Join Now') }}</a>
+                        <a href="{{ url('membership') }}" class="btn btn-primary btn-lg">{{ __('Únete ahora') }}</a>
                     </div>
                 </div>
             </div>

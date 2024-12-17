@@ -83,7 +83,7 @@
                 text-transform: uppercase;
               "
             >
-              {{ __('Join Now') }}
+              {{ __('Únete ahora') }}
             </a>
           </div>
         </div>
@@ -605,7 +605,7 @@
                 text-transform: uppercase;
               "
             >
-              {{ __('Join Now') }}
+              {{ __('Únete ahora') }}
             </a>
           </div>
         </div>
@@ -974,7 +974,7 @@
               <!-- Button -->
               <div class="text-center text-lg-left mt-4">
                 <a href="{{ url('membership') }}" class="btn btn-primary btn-lg"
-                  >{{ __('Join Now') }}</a
+                  >{{ __('Únete ahora') }}</a
                 >
               </div>
             </div>
@@ -1067,7 +1067,7 @@
           <!-- Button -->
           <div class="row justify-content-center mt-3">
               <div class="col-auto">
-                  <a href="{{ url('membership') }}" class="btn btn-sm btn-primary">{{ __('Join Now') }}</a>
+                  <a href="{{ url('membership') }}" class="btn btn-sm btn-primary">{{ __('Únete ahora') }}</a>
               </div>
           </div>
       </div>

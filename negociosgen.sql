@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 15, 2024 at 07:54 AM
+-- Generation Time: Dec 17, 2024 at 11:10 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -42,9 +42,8 @@ CREATE TABLE `audiobooks` (
 --
 
 INSERT INTO `audiobooks` (`id`, `title`, `author`, `audio_file_path`, `thumbnail`, `created_at`, `updated_at`) VALUES
-(1, 'dfgfsdfsdwee', 'fgdgsvrtstw4', 'uploads/audiobooks/1732530704-E74wGvAT2l.mp3', 'uploads/audiobook_thumbnails/1732528379-FDbshDhQx1.png', '2024-11-25 04:22:59', '2024-11-25 05:01:44'),
-(2, 'bnvhnfhfhfdghd', 'ghgydrbrtwer', 'uploads/audiobooks/1732528414-zELuKGwN3L.mp3', 'uploads/audiobook_thumbnails/1732528414-ulGTrRjSAT.png', '2024-11-25 04:23:34', '2024-11-25 04:23:34'),
-(4, 'cvbcbdgdr', 'dfgfdgdsfrwe', 'uploads/audiobooks/1732531639-mS4pBBAF6v.mp3', 'uploads/audiobook_thumbnails/1732531639-FgNcftywpR.png', '2024-11-25 05:17:19', '2024-11-25 05:17:19');
+(1, 'Success is Attracted by How You Think', 'By Dr. Joe Dispenza. Learn how your mindset influences your success.', 'uploads/audiobooks/1732530704-E74wGvAT2l.mp3', 'uploads/audiobook_thumbnails/1732528379-FDbshDhQx1.png', '2024-11-25 04:22:59', '2024-11-25 05:01:44'),
+(2, 'The Power of Habit', 'By Charles Duhigg. Understand the science of habits and how to change them.', 'uploads/audiobooks/1732528414-zELuKGwN3L.mp3', 'uploads/audiobook_thumbnails/1732528414-ulGTrRjSAT.png', '2024-11-25 04:23:34', '2024-11-25 04:23:34');
 
 -- --------------------------------------------------------
 
@@ -1290,7 +1289,33 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (39, '2024_12_09_051328_create_testimonials_table', 26),
 (40, '2024_12_11_040805_add_membership_columns_to_users_table', 27),
 (41, '2024_12_11_041019_create_memberships_table', 27),
-(42, '2024_12_11_042221_create_membership_payments_table', 28);
+(42, '2024_12_11_042221_create_membership_payments_table', 28),
+(43, '2024_12_17_081443_create_news_table', 29);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `news`
+--
+
+CREATE TABLE `news` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(191) NOT NULL,
+  `type` enum('text','image','audio','video') NOT NULL DEFAULT 'text',
+  `thumbnail` varchar(191) DEFAULT NULL,
+  `content` text DEFAULT NULL,
+  `file_path` varchar(191) DEFAULT NULL,
+  `author` varchar(191) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `news`
+--
+
+INSERT INTO `news` (`id`, `title`, `type`, `thumbnail`, `content`, `file_path`, `author`, `created_at`, `updated_at`) VALUES
+(2, 'fgh', 'image', 'uploads/news/thumbnails/1734427048-JNh0FcAndj.png', '<p>fggdfgd</p>', 'uploads/news/image/1734427526-juqv9glYeh.png', 'dtgertdgdte', '2024-12-17 03:47:28', '2024-12-17 03:55:26');
 
 -- --------------------------------------------------------
 
@@ -2302,7 +2327,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `is_active`, `profile_photo`, `account_type`, `balance`, `membershipType`, `is_subscribed`, `refer`, `level`, `is_online`, `last_seen`, `birth_date`, `role`, `permissions`, `name`, `email`, `email_verified_at`, `password`, `custom_password`, `mobile_number`, `about`, `city`, `facebook`, `instagram`, `linkedin`, `twitter`, `address`, `status`, `remember_token`, `ip_address`, `is_system`, `id_number`, `country`, `created_by`, `deleted_at`, `language`, `is_super_admin`, `created_at`, `updated_at`, `membership_status`, `membership_start_date`, `membership_end_date`, `renewal_due_date`, `payment_status`, `membership_card_number`, `guest_access_count`) VALUES
-(1, NULL, 1, '149071.png', 'admin', NULL, NULL, 0, NULL, NULL, 1, '2024-12-14 22:44:13', NULL, 1, NULL, 'SUPER ADMINISTRADOR', 'gen@negociosgen.com', '2023-03-23 07:45:02', '$2y$10$2Xg3cj6N2RMrVNhMvzL6hu5vkvjZ.zOMsFrTICTE40rT1paV6CtP6', '987654321', '8878326802', NULL, 'bolivia', NULL, NULL, NULL, NULL, 'sdfafa', 1, NULL, '127.0.0.1', 1, '1', '1', NULL, NULL, 'es', 1, '2023-03-23 07:45:02', '2024-12-14 22:44:13', 'pending', NULL, NULL, NULL, 'unpaid', NULL, 0),
+(1, NULL, 1, '149071.png', 'admin', NULL, NULL, 0, NULL, NULL, 1, '2024-12-17 01:52:25', NULL, 1, NULL, 'SUPER ADMINISTRADOR', 'gen@negociosgen.com', '2023-03-23 07:45:02', '$2y$10$2Xg3cj6N2RMrVNhMvzL6hu5vkvjZ.zOMsFrTICTE40rT1paV6CtP6', '987654321', '8878326802', NULL, 'bolivia', NULL, NULL, NULL, NULL, 'sdfafa', 1, NULL, '127.0.0.1', 1, '1', '1', NULL, NULL, 'es', 1, '2023-03-23 07:45:02', '2024-12-17 01:52:25', 'pending', NULL, NULL, NULL, 'unpaid', NULL, 0),
 (3, NULL, 1, NULL, 'affiliate', '530', NULL, 1, NULL, NULL, 0, '2024-12-03 21:10:40', '2024-10-16', 2, NULL, 'Alex', 'arstech2a@gmail.com', NULL, '$2y$10$yfNz3sJ2P3d31JhNkPve8.L.rVsISl81scG5DGvgB8pcfQUZd9l.e', NULL, '591591591', 'df', NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, '127.0.0.1', 0, '1', NULL, NULL, NULL, '\'en\'', 0, '2024-10-29 22:26:33', '2024-12-04 01:10:40', 'pending', NULL, '0000-00-00 00:00:00', NULL, 'unpaid', NULL, 0),
 (5, NULL, 1, NULL, 'affiliate', '1450', 'GEN_GOLD', 1, NULL, '3', 1, '2024-12-14 22:45:50', '2024-10-03', 2, NULL, 'muskan bano', 'aasifdev5@gmail.com', NULL, '$2y$10$9LiWUF5HP0GDOj05wal90eb/uZ8SsuXJveTWm.VbMDi6Jy4D3zViG', NULL, '591', NULL, '14', NULL, NULL, NULL, NULL, '722 azad nagar indore', 1, NULL, NULL, 0, '45', '1', NULL, NULL, '\'en\'', 0, '2024-10-31 01:23:24', '2024-12-14 22:45:50', 'expired', '2023-01-01 10:42:38', '2024-12-10 10:42:38', '2024-11-10 00:00:00', 'paid', NULL, 0),
 (6, NULL, 1, NULL, 'affiliate', '530', NULL, 1, NULL, '2', 0, '2024-11-27 21:17:35', '2024-11-20', 2, NULL, 'Tanzila', 'hrnatrajdfsinfotech@gmail.com', NULL, '$2y$10$1d.I9JhZ3wp1WNix7lxFA.L5J5vIXgrttg9e.rDX4xHMgy2VfVxgG', NULL, '5919589642080', NULL, '12', NULL, NULL, NULL, NULL, '722 azad nagar indore', 1, NULL, '127.0.0.1', 0, '', '1', NULL, NULL, '\'en\'', 0, '2024-11-20 00:36:57', '2024-11-28 01:17:35', 'pending', NULL, NULL, NULL, 'unpaid', NULL, 0),
@@ -2558,6 +2583,12 @@ ALTER TABLE `metas`
 -- Indexes for table `migrations`
 --
 ALTER TABLE `migrations`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `news`
+--
+ALTER TABLE `news`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -2899,7 +2930,13 @@ ALTER TABLE `metas`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+
+--
+-- AUTO_INCREMENT for table `news`
+--
+ALTER TABLE `news`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `notifications`

@@ -42,7 +42,7 @@
                             <button type="submit" class="btn btn-primary w-100">Login</button>
                             <div class="mt-3 text-center">
                                 <span class="text-light">{{ __('¿Aún no eres afiliado?') }} </span>
-                                <a href="{{ url('membership') }}" class="text-primary">{{ __('Join Now') }}</a>
+                                <a href="{{ url('membership') }}" class="text-primary">{{ __('Únete ahora') }}</a>
                             </div>
                         </form>
 

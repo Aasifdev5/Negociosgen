@@ -92,7 +92,7 @@
                         </p>
                     </div>
                     <div class="col-12 col-md-4 text-end d-flex align-items-center justify-content-end">
-                        <a href="{{ url('membership') }}" class="btn btn-primary btn-lg">{{ __('Join Now') }}</a>
+                        <a href="{{ url('membership') }}" class="btn btn-primary btn-lg">{{ __('Únete ahora') }}</a>
                     </div>
                 </div>
             </div>

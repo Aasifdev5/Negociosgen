@@ -1,6 +1,6 @@
 @extends('master')
 @section('title')
-{{ __('Affiliated Companies') }}
+{{ __('Empresas Afiliadas') }}
 @endsection
 @section('content')
 <section style="padding: 20px 0;background: #1A1A1A;">
@@ -16,11 +16,11 @@
         <p>{{session::get('fail')}}</p>
     </div>
     @endif
-    <!-- Affiliated Companies Section -->
+    <!-- Empresas Afiliadas Section -->
     <div class="text-center mb-5">
-        <h2 class="fw-bold text-light">Affiliated Companies</h2>
+        <h2 class="fw-bold text-light">{{ __('Empresas Afiliadas') }}</h2>
         <p class="lead" style="color: #A1A1A1;">
-            To receive discounts or benefits from GEN-affiliated companies, open the GEN website, log into the members' area, and show the company representative that your account is active (if you do not yet have your GEN card). Don’t forget to bring an ID to confirm your details.
+            Para recibir descuentos o beneficios de las empresas afiliadas a GEN, abre el sitio web de GEN, ingresa al área de miembros y muestra al representante de la empresa que tu cuenta está activa (si aún no tienes tu tarjeta GEN). No olvides llevar una identificación para confirmar tus datos.
         </p>
     </div>
 
@@ -32,7 +32,7 @@
                 @foreach ($brands as $row)
                 <div class="col-lg-4 col-md-4 col-sm-12 text-center p-3">
                     <div style="border: 1px solid #2e2e2e; padding: 10px; border-radius: 12px;">
-                        <img class="img-fluid mb-2" src="{{ asset($row->thumbnail) }}" alt="UFC Gym Image"
+                        <img class="img-fluid mb-2" src="{{ asset($row->thumbnail) }}" alt="Imagen de UFC Gym"
                             style="max-width: 100px; height: 100px; object-fit: contain;">
                         <div class="fw-bold text-light">{{ $row->name }}</div>
                         <div class="" style="color: #A1A1A1;">({{ $row->address }})</div>
@@ -51,7 +51,7 @@
 
     <!-- Call to Action Button -->
     <div class="text-center">
-        <a href="{{ url('membership') }}" class="btn btn-primary btn-lg">Join Now</a>
+        <a href="{{ url('membership') }}" class="btn btn-primary btn-lg">{{ __('Únete ahora') }}</a>
     </div>
 </div>
 </section>

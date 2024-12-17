@@ -51,7 +51,7 @@
                     line-height: 28px;
                     color: #A1A1A1;">
                         {{ __('Únete a nuestro equipo de afiliados, toma nuestros cursos de desarrollo personal y genera ingresos
-                                                promoviendo conocimiento y transformación.') }}
+                                                                                                promoviendo conocimiento y transformación.') }}
                     </p>
 
                     <!-- Button -->
@@ -69,7 +69,7 @@
     font-weight: 700;
     color: white;
     text-transform: uppercase;">
-                            {{ __('Join Now') }}
+                            {{ __('Únete ahora') }}
                         </a>
                     </div>
 
@@ -100,69 +100,200 @@
     <div class="container-fluid" style="background: #000000; position: relative; padding: 30px 0;margin-top: -10px;">
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-lg-2 text-center mb-4 mb-lg-0">
+                <!-- Title and Description -->
+                <div class="col-lg-6 text-center mb-4 mb-lg-0">
                     <h1 class="text-light font-weight-bold"
-                        style="font-size: 32px; font-family: 'Space Grotesk', sans-serif;">{{ __('Beneficios') }}</h1>
+                        style="font-size: 32px; font-family: 'Space Grotesk', sans-serif;">
+                        {{ __('Beneficios') }}
+                    </h1>
                     <p class="text-light"
-                        style="color: white; font-size: 16px; font-family: 'Space Grotesk', sans-serif; line-height: 24px; max-width: 600px;">
-                        {{ __('Te ofrecemos una oportunidad única de generar ingresos adicionales a través de nuestro sistema de
-                                                marketing multinivel.') }}
+                        style="color: white; font-size: 16px; font-family: 'Space Grotesk', sans-serif; line-height: 24px; max-width: 600px; margin: 0 auto;">
+                        {{ __('Además de poder acceder a los cursos y coaching con coaches a nivel mundial, tendrás una oportunidad única de generar ingresos adicionales a través de nuestro sistema de marketing multinivel, y poder disfrutar de descuentos en una amplia variedad de empresas afiliadas a nivel nacional e internacional.') }}
                     </p>
                 </div>
 
+                <!-- Icons and Benefits Section -->
                 <div class="col-lg-10">
                     <div class="row justify-content-center">
+                        <!-- Benefit 1: Oportunidades de generar ingresos -->
                         <div class="col-6 col-md-3 text-center mb-4">
                             <div class="rounded"
-                                style="background: #000000; border: 1px solid #2e2e2e; border-radius: 16px; padding: 20px; position: relative;">
-                                <img class="mb-2" style="width: 80px; height: 58px;" src="{{ asset('assets/b1.png') }}"
-                                    alt="Libertad Financiera" />
+                                style="background: #000000; border: 1px solid #2e2e2e; border-radius: 16px; padding: 30px; position: relative;">
+                                <img class="mb-3" style="width: 80px; height: 58px;" src="{{ asset('assets/b1.png') }}"
+                                    alt="Oportunidades de generar ingresos" />
                                 <p class="text-light"
                                     style="font-size: 16px; font-family: 'Space Grotesk', sans-serif; line-height: 24px;">
-                                    {{ __('Libertad') }}<br />{{ __('financiera') }}</p>
+                                    {{ __('Oportunidades de generar ingresos') }}
+                                </p>
                             </div>
                         </div>
 
+                        <!-- Benefit 2: Desarrollo Personal -->
                         <div class="col-6 col-md-3 text-center mb-4">
                             <div class="rounded"
-                                style="background: #000000; border: 1px solid #2e2e2e; border-radius: 16px; padding: 20px; position: relative;">
-                                <img class="mb-2" style="width: 80px; height: 80px;" src="{{ asset('assets/b3.png') }}"
-                                    alt="Crecimiento" />
+                                style="background: #000000; border: 1px solid #2e2e2e; border-radius: 16px; padding: 30px; position: relative;">
+                                <img class="mb-3" style="width: 80px; height: 80px;" src="{{ asset('assets/b3.png') }}"
+                                    alt="Desarrollo Personal" />
                                 <p class="text-light"
                                     style="font-size: 16px; font-family: 'Space Grotesk', sans-serif; line-height: 24px;">
-                                    {{ __('Crecimiento') }}</p>
+                                    {{ __('Desarrollo Personal') }}
+                                </p>
                             </div>
                         </div>
 
+                        <!-- Benefit 3: Descuentos en empresas afiliadas -->
                         <div class="col-6 col-md-3 text-center mb-4">
                             <div class="rounded"
-                                style="background: #000000; border: 1px solid #2e2e2e; border-radius: 16px; padding: 20px; position: relative;">
-                                <img class="mb-2" style="width: 80px; height: 80px;" src="{{ asset('assets/b3.png') }}"
-                                    alt="Motivación" />
+                                style="background: #000000; border: 1px solid #2e2e2e; border-radius: 16px; padding: 30px; position: relative;">
+                                <img class="mb-3" style="width: 80px; height: 80px;" src="{{ asset('assets/b3.png') }}"
+                                    alt="Descuentos en empresas afiliadas" />
                                 <p class="text-light"
                                     style="font-size: 16px; font-family: 'Space Grotesk', sans-serif; line-height: 24px;">
-                                    {{ __('Motivación') }}</p>
+                                    {{ __('Descuentos en empresas afiliadas') }}
+                                </p>
                             </div>
                         </div>
 
+                        <!-- Benefit 4: Educación Financiera -->
                         <div class="col-6 col-md-3 text-center mb-4">
                             <div class="rounded"
-                                style="background: #000000; border: 1px solid #2e2e2e; border-radius: 16px; padding: 20px; position: relative;">
-                                <img class="mb-2" style="width: 80px; height: 58px;" src="{{ asset('assets/b4.png') }}"
+                                style="background: #000000; border: 1px solid #2e2e2e; border-radius: 16px; padding: 30px; position: relative;">
+                                <img class="mb-3" style="width: 80px; height: 58px;" src="{{ asset('assets/b4.png') }}"
                                     alt="Educación Financiera" />
                                 <p class="text-light"
                                     style="font-size: 16px; font-family: 'Space Grotesk', sans-serif; line-height: 24px;">
-                                    {{ __('Educación') }}<br />Financiera</p>
+                                    {{ __('Educación') }}<br />{{ __('Financiera') }}
+                                </p>
                             </div>
                         </div>
                     </div>
-
-
                 </div>
             </div>
         </div>
 
+
     </div>
+    <div class="container-fluid custom-bg w-100" style="padding: 50px 0; background: #1a1a1a;">
+        <div class="container my-5">
+            <!-- Title -->
+            <h2 class="text-center mb-5"
+                style="color: #fff; font-family: 'Space Grotesk', sans-serif; font-size: 36px; font-weight: 700;">
+                GEN: {{ __('Generando Valor') }}
+            </h2>
+
+            <div class="row align-items-center">
+                <!-- Image Column -->
+                <div class="col-lg-6 col-md-12 text-center">
+                    <img class="img-fluid rounded-3" src="{{ asset('assets/UpscaleImage_1_20241027_mano--texto.jpg') }}"
+                        alt="Imagen de Mano Abierta" style="width: 100%; max-width: 500px; height: auto;" />
+                </div>
+
+                <!-- Text Column -->
+                <div class="col-lg-6 col-md-12">
+                    <ul style="list-style: none; padding: 0;">
+                        <!-- List Items -->
+                        <li class="mb-3 d-flex align-items-start">
+                            <img class="me-2" src="{{ asset('assets/CheckCircleOutline (1).svg') }}" alt="Icono de Check"
+                                style="width: 24px; height: 24px;" />
+                            <span
+                                style="color: #fff; font-family: 'Space Grotesk', sans-serif;">{{ __('Propósito de Vida') }}</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-start">
+                            <img class="me-2" src="{{ asset('assets/CheckCircleOutline (1).svg') }}"
+                                alt="Icono de Check" style="width: 24px; height: 24px;" />
+                            <span
+                                style="color: #fff; font-family: 'Space Grotesk', sans-serif;">{{ __('Crecimiento Personal') }}</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-start">
+                            <img class="me-2" src="{{ asset('assets/CheckCircleOutline (1).svg') }}"
+                                alt="Icono de Check" style="width: 24px; height: 24px;" />
+                            <span
+                                style="color: #fff; font-family: 'Space Grotesk', sans-serif;">{{ __('Educación Financiera') }}</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-start">
+                            <img class="me-2" src="{{ asset('assets/CheckCircleOutline (1).svg') }}"
+                                alt="Icono de Check" style="width: 24px; height: 24px;" />
+                            <span
+                                style="color: #fff; font-family: 'Space Grotesk', sans-serif;">{{ __('Emprendimiento') }}</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-start">
+                            <img class="me-2" src="{{ asset('assets/CheckCircleOutline (1).svg') }}"
+                                alt="Icono de Check" style="width: 24px; height: 24px;" />
+                            <span
+                                style="color: #fff; font-family: 'Space Grotesk', sans-serif;">{{ __('Salud y Calidad de Vida') }}</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-start">
+                            <img class="me-2" src="{{ asset('assets/CheckCircleOutline (1).svg') }}"
+                                alt="Icono de Check" style="width: 24px; height: 24px;" />
+                            <span
+                                style="color: #fff; font-family: 'Space Grotesk', sans-serif;">{{ __('Familia y Sociedad') }}</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-start">
+                            <img class="me-2" src="{{ asset('assets/CheckCircleOutline (1).svg') }}"
+                                alt="Icono de Check" style="width: 24px; height: 24px;" />
+                            <span
+                                style="color: #fff; font-family: 'Space Grotesk', sans-serif;">{{ __('Espiritualidad') }}</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-start">
+                            <img class="me-2" src="{{ asset('assets/CheckCircleOutline (1).svg') }}"
+                                alt="Icono de Check" style="width: 24px; height: 24px;" />
+                            <span
+                                style="color: #fff; font-family: 'Space Grotesk', sans-serif;">{{ __('Autoimagen') }}</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-start">
+                            <img class="me-2" src="{{ asset('assets/CheckCircleOutline (1).svg') }}"
+                                alt="Icono de Check" style="width: 24px; height: 24px;" />
+                            <span
+                                style="color: #fff; font-family: 'Space Grotesk', sans-serif;">{{ __('Autoconocimiento') }}</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-start">
+                            <img class="me-2" src="{{ asset('assets/CheckCircleOutline (1).svg') }}"
+                                alt="Icono de Check" style="width: 24px; height: 24px;" />
+                            <span
+                                style="color: #fff; font-family: 'Space Grotesk', sans-serif;">{{ __('Inteligencia Emocional') }}</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-start">
+                            <img class="me-2" src="{{ asset('assets/CheckCircleOutline (1).svg') }}"
+                                alt="Icono de Check" style="width: 24px; height: 24px;" />
+                            <span
+                                style="color: #fff; font-family: 'Space Grotesk', sans-serif;">{{ __('Marca Personal') }}</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-start">
+                            <img class="me-2" src="{{ asset('assets/CheckCircleOutline (1).svg') }}"
+                                alt="Icono de Check" style="width: 24px; height: 24px;" />
+                            <span
+                                style="color: #fff; font-family: 'Space Grotesk', sans-serif;">{{ __('Motivación') }}</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-start">
+                            <img class="me-2" src="{{ asset('assets/CheckCircleOutline (1).svg') }}"
+                                alt="Icono de Check" style="width: 24px; height: 24px;" />
+                            <span
+                                style="color: #fff; font-family: 'Space Grotesk', sans-serif;">{{ __('Mentalidad') }}</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-start">
+                            <img class="me-2" src="{{ asset('assets/CheckCircleOutline (1).svg') }}"
+                                alt="Icono de Check" style="width: 24px; height: 24px;" />
+                            <span
+                                style="color: #fff; font-family: 'Space Grotesk', sans-serif;">{{ __('Mindfulness') }}</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-start">
+                            <img class="me-2" src="{{ asset('assets/CheckCircleOutline (1).svg') }}"
+                                alt="Icono de Check" style="width: 24px; height: 24px;" />
+                            <span
+                                style="color: #fff; font-family: 'Space Grotesk', sans-serif;">{{ __('Ley de la Atracción') }}</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-start">
+                            <img class="me-2" src="{{ asset('assets/CheckCircleOutline (1).svg') }}"
+                                alt="Icono de Check" style="width: 24px; height: 24px;" />
+                            <span
+                                style="color: #fff; font-family: 'Space Grotesk', sans-serif;">{{ __('Educación Financiera para Niños y Adolescentes') }}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <section style="padding: 20px 0; background-color: #0A0A0A;">
         <div class="container">
             <div class="row">
@@ -170,7 +301,8 @@
                     <div class="video-container">
                         <div class="gradient-overlay"></div>
                         <img src="{{ asset('assets/image (6).png') }}" class="thumbnail" alt="Video Thumbnail" />
-                        <span class="play-button"><img src="{{ asset('assets/Play (1).svg') }}" alt="Play Button" /></span>
+                        <span class="play-button"><img src="{{ asset('assets/Play (1).svg') }}"
+                                alt="Play Button" /></span>
                         <div class="embed-responsive" style="display: none;">
                             <video class="embed-responsive-item" controls>
                                 <source src="{{ asset('assets/Affiliate Marketing Whiteboard Video.mp4') }}"
@@ -195,9 +327,9 @@
                     <p class="text-center text-md-start"
                         style="width: 100%; color: #A1A1A1; font-size: 16px; font-family: 'Space Grotesk', sans-serif; font-weight: 400; line-height: 24px; word-wrap: break-word;">
                         {{ __('Nuestra sección de Coaching y Cursos está diseñada para empoderar a emprendedores a través de
-                                                programas prácticos de formación. Aprende de expertos en marketing, desarrollo personal e
-                                                inteligencia emocional, y transforma tus conocimientos en oportunidades de éxito. Únete a nuestra
-                                                comunidad y comienza tu viaje hacia el crecimiento hoy mismo.') }}
+                                                                                                programas prácticos de formación. Aprende de expertos en marketing, desarrollo personal e
+                                                                                                inteligencia emocional, y transforma tus conocimientos en oportunidades de éxito. Únete a nuestra
+                                                                                                comunidad y comienza tu viaje hacia el crecimiento hoy mismo.') }}
                     </p>
                 </div>
 
@@ -252,23 +384,127 @@
 
     <section style="padding: 20px 0; background: #000000; position: relative;">
         <div class="container">
+            <h1 class="text-light">{{ __('Libros que todo empreendedor debe leer') }}:</h1>
+            <ul style="list-style: none; padding: 0;">
+                <!-- List Items -->
+                <li class="mb-3 d-flex align-items-start">
+                    <img class="me-2" src="{{ asset('assets/CheckCircleOutline (1).svg') }}" alt="Icono de Check"
+                        style="width: 24px; height: 24px;" />
+                    <span
+                        style="color: #fff; font-family: 'Space Grotesk', sans-serif;">{{ __('Padre rico, padre pobre (Robert Kiyosaki)') }}</span>
+                </li>
+                <li class="mb-3 d-flex align-items-start">
+                    <img class="me-2" src="{{ asset('assets/CheckCircleOutline (1).svg') }}" alt="Icono de Check"
+                        style="width: 24px; height: 24px;" />
+                    <span
+                        style="color: #fff; font-family: 'Space Grotesk', sans-serif;">{{ __('El inversor inteligente (Benjamin Graham)') }}</span>
+                </li>
+                <li class="mb-3 d-flex align-items-start">
+                    <img class="me-2" src="{{ asset('assets/CheckCircleOutline (1).svg') }}" alt="Icono de Check"
+                        style="width: 24px; height: 24px;" />
+                    <span
+                        style="color: #fff; font-family: 'Space Grotesk', sans-serif;">{{ __('Secretos de una mente millonaria (T. Harv Eker)') }}</span>
+                </li>
+                <li class="mb-3 d-flex align-items-start">
+                    <img class="me-2" src="{{ asset('assets/CheckCircleOutline (1).svg') }}" alt="Icono de Check"
+                        style="width: 24px; height: 24px;" />
+                    <span
+                        style="color: #fff; font-family: 'Space Grotesk', sans-serif;">{{ __('Piense y hágase rico (Napoleon Hill)') }}</span>
+                </li>
+                <li class="mb-3 d-flex align-items-start">
+                    <img class="me-2" src="{{ asset('assets/CheckCircleOutline (1).svg') }}" alt="Icono de Check"
+                        style="width: 24px; height: 24px;" />
+                    <span
+                        style="color: #fff; font-family: 'Space Grotesk', sans-serif;">{{ __('El millonario de la puerta de al lado (Thomas J. Stanley y William D. Danko)') }}</span>
+                </li>
+                <li class="mb-3 d-flex align-items-start">
+                    <img class="me-2" src="{{ asset('assets/CheckCircleOutline (1).svg') }}" alt="Icono de Check"
+                        style="width: 24px; height: 24px;" />
+                    <span
+                        style="color: #fff; font-family: 'Space Grotesk', sans-serif;">{{ __('Finanzas para niños (Natalia de Santiago)') }}</span>
+                </li>
+                <li class="mb-3 d-flex align-items-start">
+                    <img class="me-2" src="{{ asset('assets/CheckCircleOutline (1).svg') }}" alt="Icono de Check"
+                        style="width: 24px; height: 24px;" />
+                    <span
+                        style="color: #fff; font-family: 'Space Grotesk', sans-serif;">{{ __('El hombre mas Rico de Babilonia – George S. Clason') }}</span>
+                </li>
+                <li class="mb-3 d-flex align-items-start">
+                    <img class="me-2" src="{{ asset('assets/CheckCircleOutline (1).svg') }}" alt="Icono de Check"
+                        style="width: 24px; height: 24px;" />
+                    <span
+                        style="color: #fff; font-family: 'Space Grotesk', sans-serif;">{{ __('El Poder del Hábito – Charles Duhigg') }}</span>
+                </li>
+                <li class="mb-3 d-flex align-items-start">
+                    <img class="me-2" src="{{ asset('assets/CheckCircleOutline (1).svg') }}" alt="Icono de Check"
+                        style="width: 24px; height: 24px;" />
+                    <span
+                        style="color: #fff; font-family: 'Space Grotesk', sans-serif;">{{ __('Independência Financiera – Robert T. Kiyosaki') }}</span>
+                </li>
+
+            </ul>
             <!-- View All Button -->
             <div class="view-all-btn" style="position: absolute; top: 10px; right: 20px;">
-                <a href="{{ route('audiobook') }}" class="btn btn-primary">{{ __('Ver Todos') }}</a>
+                <a href="{{ route('audiobook') }}" class="btn btn-primary">{{ __('Ver todo') }}</a>
             </div>
 
-            <h1 style="padding-top: 5px; color: white;">{{ __('Libros Recomendados') }}</h1>
+            <h1 style="padding-top: 5px; color: white;">{{ __('Audiobooks y podcasts de crecimiento') }}</h1>
 
             <div class="row">
                 @foreach ($audiobook as $row)
-                    <div class="col-lg-2 col-md-3 col-6 mb-4">
-                        <a href="{{ route('showAudiobookDetails', $row->id) }}">
-                            <img class="img-fluid"
-                                style="height: auto; background: #1a1a1a; border: 1px solid #2e2e2e; padding: 10px; border-radius: 12px;"
-                                src="{{ asset($row->thumbnail) }}" alt="Audio Thumbnail" />
-                        </a>
+                    <div class="col-lg-6 col-md-6 col-12 mb-4">
+                        <div style="background: #1a1a1a; padding: 15px; border: 1px solid #2e2e2e; border-radius: 8px;">
+                            <!-- Audiobook Title -->
+                            <h3 style="color: white; font-size: 18px; margin-bottom: 10px;">
+                                <a href="{{ route('showAudiobookDetails', $row->id) }}"
+                                    style="color: #00aced; text-decoration: none;">
+                                    {{ $row->title }}
+                                </a>
+                            </h3>
+
+                            <!-- Audiobook Description -->
+                            <p style="color: #ccc; font-size: 14px; margin-bottom: 10px;">
+                                {{ $row->author }}
+                            </p>
+
+                            <!-- Link to More Details -->
+                            <a href="{{ route('showAudiobookDetails', $row->id) }}" class="btn btn-sm btn-secondary">
+                                {{ __('Learn More') }}
+                            </a>
+                        </div>
                     </div>
                 @endforeach
+            </div>
+        </div>
+    </section>
+
+
+    <section style="padding: 40px 0; background: #111111; position: relative;">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 class="text-light">{{ __('Noticias') }}</h1>
+                <a href="{{ url('news') }}" class="btn btn-primary btn-sm">{{ __('Ver todo') }}</a>
+            </div>
+
+            <div class="row">
+                @forelse ($latest_posts as $item)
+                    <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                        <div class="card shadow-lg border-0 rounded h-100">
+                            <a href="{{ url('newsDetails/' . $item->id) }}" class="text-decoration-none">
+                                <img src="{{ asset($item->thumbnail) }}" alt="{{ $item->title }}" class="card-img-top rounded-top" style="object-fit: cover; height: 200px;">
+                                <div class="card-body bg-dark text-light">
+                                    <h5 class="card-title mb-3">{{ $item->title }}</h5>
+                                    <p class="card-text mb-3">{!! Str::limit($item->content, 150) !!}</p>
+                                    <span class="text-muted">{{ __('Leer más') }} <i class="fa fa-arrow-right"></i></span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                @empty
+                    <div class="alert alert-warning text-center w-100">
+                        <strong>{{ __('No se encontraron publicaciones de blog.') }}</strong>
+                    </div>
+                @endforelse
             </div>
         </div>
     </section>
@@ -287,9 +523,11 @@
                     </h2>
                     <p
                         style="color: #A1A1A1; font-size: 16px; font-family: Space Grotesk; font-weight: 400; line-height: 24px;">
-                        {{ __('Como miembro activo, tendrás acceso a cursos y entrenamientos exclusivos, además de la oportunidad
-                                                de generar ingresos recomendando nuestra plataforma. Participa en eventos con coaches líderes y
-                                                disfruta de descuentos en empresas afiliadas.') }}
+                        {{ __('Como miembro activo, tendrás acceso a cursos y entrenamientos
+                                                exclusivos, además de la oportunidad de generar ingresos recomendando
+                                                nuestra plataforma. Participa en eventos con coaches líderes a nivel
+                                                nacional e internacional y disfruta de descuentos en empresas afiliadas en
+                                                mas de 10 paises.') }}
                     </p>
 
                     <!-- List of Features -->
@@ -308,13 +546,20 @@
                     <div class="mb-4 d-flex align-items-start">
                         <img class="me-2" src="{{ asset('assets/CheckCircleOutline (1).svg') }}" alt="Check icon"
                             style="width: 24px; height: 24px;">
-                        <div class="text-light">{{ __('Genera ingresos compartiendo nuestro sistema con tu red.') }}</div>
+                        <div class="text-light">{{ __('Genera ingresos compartiendo nuestro sistema con tu red.') }}
+                        </div>
+                    </div>
+                    <div class="mb-4 d-flex align-items-start">
+                        <img class="me-2" src="{{ asset('assets/CheckCircleOutline (1).svg') }}" alt="Check icon"
+                            style="width: 24px; height: 24px;">
+                        <div class="text-light">
+                            {{ __('Premios e incentivos para miembros que hagan crecer su red de asociados.') }}</div>
                     </div>
 
                     <!-- Join Button -->
                     <div>
                         <a href="{{ url('membership') }}"
-                            class="btn btn-primary btn-lg fw-bold">{{ __('Join Now') }}</a>
+                            class="btn btn-primary btn-lg fw-bold">{{ __('Únete ahora') }}</a>
                     </div>
                 </div>
 
@@ -388,6 +633,47 @@
             @endif
         </div>
     </section>
+    <!-- Sección de Ingreso Adicional -->
+    <section style="padding: 40px 0; background: #1A1A1A;">
+        <div class="container">
+            <div class="text-center mb-4">
+                <h2 class="text-light fw-bold">{{ __('Ingreso Adicional') }}</h2>
+                <p class="lead text-light" style="color: #A1A1A1;">
+                    Descubre cómo puedes generar ingresos adicionales a través de nuestra plataforma, además de varios otros
+                    beneficios.
+                    ¡Únete hoy y comienza a ganar!
+                </p>
+            </div>
+
+            <!-- Fila para los Iconos de Font Awesome -->
+            <div class="row justify-content-center">
+                <!-- Icono de Dólar -->
+                <div class="col-md-3 text-center mb-4">
+                    <div style="font-size: 50px; color: #5bc0de;">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <p class="text-light" style="color: #ddd;">{{ __('Genera ingresos') }}</p>
+                </div>
+
+                <!-- Icono de Libro -->
+                <div class="col-md-3 text-center mb-4">
+                    <div style="font-size: 50px; color: #f39c12;">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <p class="text-light" style="color: #ddd;">{{ __('Aprende con Libros') }}</p>
+                </div>
+
+                <!-- Icono de Taza -->
+                <div class="col-md-3 text-center mb-4">
+                    <div style="font-size: 50px; color: #28a745;">
+                        <i class="fas fa-mug-hot"></i>
+                    </div>
+                    <p class="text-light" style="color: #ddd;">{{ __('Disfruta una Taza de Café') }}</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section style="padding: 20px 0;background: #212020;">
         <div class="container">
             <div class="container my-5 p-4"
@@ -398,11 +684,11 @@
                         </h2>
                         <p class="no-esperes-ms text-light" style="max-width: 600px; color: #A1A1A1;">
                             {{ __(' No esperes más para ser parte de este increíble proyecto. Empieza hoy mismo a transformar tu
-                                                        vida y la de quienes te rodean.') }}
+                                                                                                                vida y la de quienes te rodean.') }}
                         </p>
                     </div>
                     <div class="col-12 col-md-4 text-end d-flex align-items-center justify-content-end">
-                        <a href="{{ url('membership') }}" class="btn btn-primary btn-lg">{{ __('Join Now') }}</a>
+                        <a href="{{ url('membership') }}" class="btn btn-primary btn-lg">{{ __('Únete ahora') }}</a>
                     </div>
                 </div>
             </div>
@@ -424,9 +710,9 @@
                     <h2 class="text-light mb-4">{{ __('¡Ponte en Contacto!') }}</h2>
                     <p class="" style="color: #a1a1a1;">
                         {{ __('Si tienes dudas o simplemente quieres saludarnos, la mejor forma de contactarnos es a través de
-                                                nuestro formulario. Nos esforzamos en responder en menos de 48 horas, aunque a veces tardamos un poco más. ¡Gracias por
-                                                tu paciencia! Leemos cada mensaje y lo dirigimos al equipo adecuado.También puedes visitar nuestra página de Ayuda para respuestas a las preguntas más comunes sobre
-                                                GEN.') }}
+                                                                                                nuestro formulario. Nos esforzamos en responder en menos de 48 horas, aunque a veces tardamos un poco más. ¡Gracias por
+                                                                                                tu paciencia! Leemos cada mensaje y lo dirigimos al equipo adecuado.También puedes visitar nuestra página de Ayuda para respuestas a las preguntas más comunes sobre
+                                                                                                GEN.') }}
                     </p>
                     <p class="" style="color: #a1a1a1;">
                         {{ __('Conéctate con nosotros a través de nuestras redes sociales') }}:
@@ -447,7 +733,13 @@
                                 style="border: 1px solid #2e2e2e; border-radius: 8px; padding: 16px; color: #ededed; font-family: 'Space Grotesk';">
                                 <img class="envelopesimple-icon" alt="WhatsApp Icon"
                                     src="{{ asset('assets/WhatsappLogo.svg') }}" style="width: 24px; height: 24px;">
-                                <div class="correogmailcom ms-2">{{ $general_setting['app_contact_number'] ?? '' }}</div>
+                                <div class="correogmailcom ms-2">
+                                    <!-- WhatsApp Icon and Link -->
+                                    <a href="https://wa.me/59172635801" target="_blank"
+                                        style="color: inherit; text-decoration: none; display: flex; align-items: center;">
+                                        <span> WhatsApp</span>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -470,8 +762,9 @@
                                 style="border: 1px solid #2e2e2e; border-radius: 8px; padding: 16px; color: #ededed; font-family: 'Space Grotesk';">
                                 <a href="{{ $general_setting['instagram_url'] ?? '' }}" target="_blank"
                                     class="d-flex align-items-center" style="text-decoration: none;">
-                                    <img class="atomiconredes" alt="Instagram" src="{{ asset('assets/Instagram.svg') }}"
-                                        width="30px" style="margin-right: 8px;">
+                                    <img class="atomiconredes" alt="Instagram"
+                                        src="{{ asset('assets/Instagram.svg') }}" width="30px"
+                                        style="margin-right: 8px;">
                                     <span class="facebook fw-bold">Instagram</span>
                                 </a>
                             </div>

@@ -24,6 +24,7 @@ use App\Models\Event;
 use App\Models\GeneralSetting;
 use App\Models\Like;
 use App\Models\MailTemplate;
+use App\Models\News;
 use App\Models\Notification;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -100,10 +101,11 @@ class UserController extends Controller
 
         // Fetch 4 most recent courses
         $audiobook = Audiobook::orderBy('created_at', 'desc')->take(6)->get();  // Fetch 6 most recent audiobooks
+        $latest_posts = News::orderBy('id', 'DESC')->take(3)->get();
         $brands = Brand::all();
         $pages = Page::all();
 
-        return view('index', compact('user_session',   'pages', 'course', 'audiobook', 'brands','supportQuestions'));
+        return view('index', compact('user_session',   'pages', 'course', 'audiobook', 'brands','supportQuestions','latest_posts'));
     }
     public function requestWithdrawal(Request $request)
     {
@@ -440,7 +442,16 @@ class UserController extends Controller
         // dd($request->id);
         return view('blog_detail', compact('blogComments', 'user_session', 'blog_detail', 'pages', 'latest_posts', 'commentCount'));
     }
+    public function newsDetails(Request $request)
+    {
 
+        $news = News::where('id', $request->id)->first();
+
+        $latest_posts = News::orderBy('id', 'DESC')->paginate(3);
+        $user_session = User::where('id', Session::get('LoggedIn'))->first();
+        // dd($request->id);
+        return view('newsDetails', compact( 'user_session', 'news', 'latest_posts'));
+    }
 
 
     public function addpaymentmethod(Request $request)

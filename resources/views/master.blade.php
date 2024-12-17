@@ -24,6 +24,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('admin/css/custom/image-preview.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
+    <!-- Flag icon-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('admin/css/flag-icon.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/styles.css') }}">
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -47,6 +49,15 @@
                 <img src="{{ asset($general_setting['app_logo'] ?? '') }}" alt="Avatar Logo" style="width: 100px"
                     class="rounded-pill" />
             </a>
+
+            <div class="language-buttons" style="display: flex; gap: 10px; align-items: center;">
+                @foreach (appLanguages() as $app_lang)
+                    <a href="{{ url('admin/local/' . $app_lang->iso_code) }}" class="btn btn-language" style="border: none; background: transparent;">
+                        <img src="{{ asset($app_lang->flag) }}" width="50" height="30" alt="{{ $app_lang->language }}">
+                    </a>
+                @endforeach
+            </div>
+
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -61,23 +72,23 @@
                     </li>
                     <li
                         class="nav-item nav-item-custom-padding {{ Request::is('who')  ? 'active' : '' }}">
-                        <a class="nav-link text-light" href="{{ url('who') }}">{{ __('who are we?') }}</a>
+                        <a class="nav-link text-light" href="{{ url('who') }}">{{ __('Quienes somos nosotras') }}</a>
                     </li>
                     <li
                         class="nav-item nav-item-custom-padding {{ Request::is('affiliate_company')  ? 'active' : '' }}">
-                        <a class="nav-link text-light" href="{{ url('affiliate_company') }}">{{ __('Affiliated Companies') }}</a>
+                        <a class="nav-link text-light" href="{{ url('affiliate_company') }}">{{ __('Empresas afiliadas') }}</a>
                     </li>
-                    <li class="nav-item nav-item-custom-padding {{ Request::is('nosotros') ? 'active' : '' }}">
+                    {{-- <li class="nav-item nav-item-custom-padding {{ Request::is('nosotros') ? 'active' : '' }}">
                         <a class="nav-link text-light" href="{{ url('nosotros') }}">{{ __('Nosotros') }}</a>
-                    </li>
+                    </li> --}}
 
                         <li class="nav-item nav-item-custom-padding {{ Request::is('course') ? 'active' : '' }}">
                             <a class="nav-link text-light" href="{{ url('course') }}"> {{ __('Cursos') }}</a>
                         </li>
 
-                    <li class="nav-item nav-item-custom-padding {{ Request::is('blog') ? 'active' : '' }}">
+                    {{-- <li class="nav-item nav-item-custom-padding {{ Request::is('blog') ? 'active' : '' }}">
                         <a class="nav-link text-light" href="{{ url('blog') }}"> {{ __('Blog') }}</a>
-                    </li>
+                    </li> --}}
                     <li class="nav-item nav-item-custom-padding {{ Request::is('contact') ? 'active' : '' }}">
                         <a class="nav-link text-light" href="{{ url('contact') }}"> {{ __('Contáctanos') }}</a>
                     </li>
@@ -126,7 +137,7 @@
 
                 </ul>
             @else
-                <!-- Join Now Button -->
+                <!-- Únete ahora Button -->
                 <a class="button btn btn-sm" href="{{ url('membership') }}"
                     style="
   position: relative;
@@ -168,7 +179,26 @@ margin-right: 20px;
             </div>
         </div>
     </nav>
-
+    <a href="https://wa.me/59172635801" target="_blank"
+    style="
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: #25D366;
+        color: white;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        text-decoration:none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        font-size: 28px;
+    ">
+     <i class="fab fa-whatsapp"></i>
+ </a>
 
     @yield('content')
 
@@ -177,7 +207,7 @@ margin-right: 20px;
         <div class="container">
             <div class="row">
                 <!-- Logo Section -->
-                <div class="col-lg-3 col-md-12 text-center mb-4">
+                <div class="col-lg-2 col-md-12 text-center mb-4">
                     <div class="content-brand">
                         <img class="logoipo-icon" alt="Logo" src="<?php echo '/' . $general_setting['app_footer_payment_image'] ?? ''; ?>"
                             style="max-width: 100%; height: auto;">
@@ -185,7 +215,7 @@ margin-right: 20px;
                 </div>
 
                 <!-- Contact Information Section -->
-                <div class="col-lg-3 col-md-6 mb-4">
+                <div class="col-lg-2 col-md-6 mb-4">
                     <div class="content-redes-sociales">
                         <b class="informacin-de-contacto" style="display: block;">{{ __('Información de Contacto') }}</b>
                         <ul class="content-list-redes list-unstyled" style="margin-top: 13px;">
@@ -200,8 +230,73 @@ margin-right: 20px;
                     </div>
                 </div>
 
+                <!-- Languages Section with Flags -->
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <div class="content-redes-sociales">
+                        <b class="informacin-de-contacto" style="display: block;">{{ __('Países') }}</b>
+                        <ul class="content-list-redes list-unstyled" style="margin-top: 13px;">
+                            <!-- Flags using Font Awesome icons -->
+                            <li class="list-item mb-2" style="margin-bottom: 0.5rem;">
+                                <a href="#" class="text-decoration-none">
+                                    <i class="flag-icon flag-icon-bo"></i> Bolivia
+                                </a>
+                            </li>
+                            <li class="list-item mb-2" style="margin-bottom: 0.5rem;">
+                                <a href="#" class="text-decoration-none">
+                                    <i class="flag-icon flag-icon-br"></i> Brazil
+                                </a>
+                            </li>
+                            <li class="list-item mb-2" style="margin-bottom: 0.5rem;">
+                                <a href="#" class="text-decoration-none">
+                                    <i class="flag-icon flag-icon-pe"></i> Peru
+                                </a>
+                            </li>
+                            <li class="list-item mb-2" style="margin-bottom: 0.5rem;">
+                                <a href="#" class="text-decoration-none">
+                                    <i class="flag-icon flag-icon-ar"></i> Argentina
+                                </a>
+                            </li>
+                            <li class="list-item mb-2" style="margin-bottom: 0.5rem;">
+                                <a href="#" class="text-decoration-none">
+                                    <i class="flag-icon flag-icon-py"></i> Paraguay
+                                </a>
+                            </li>
+                            <li class="list-item mb-2" style="margin-bottom: 0.5rem;">
+                                <a href="#" class="text-decoration-none">
+                                    <i class="flag-icon flag-icon-cl"></i>   Chile
+                                </a>
+                            </li>
+                            <li class="list-item mb-2" style="margin-bottom: 0.5rem;">
+                                <a href="#" class="text-decoration-none">
+                                    <i class="flag-icon flag-icon-co"></i> Colombia
+                                </a>
+                            </li>
+                            <li class="list-item mb-2" style="margin-bottom: 0.5rem;">
+                                <a href="#" class="text-decoration-none">
+                                    <i class="flag-icon flag-icon-ec"></i> Ecuador
+                                </a>
+                            </li>
+                            <li class="list-item mb-2" style="margin-bottom: 0.5rem;">
+                                <a href="#" class="text-decoration-none">
+                                    <i class="flag-icon flag-icon-mx"></i> Mexico
+                                </a>
+                            </li>
+                            <li class="list-item mb-2" style="margin-bottom: 0.5rem;">
+                                <a href="#" class="text-decoration-none">
+                                    <i class="flag-icon flag-icon-us"></i> USA
+                                </a>
+                            </li>
+                            <li class="list-item mb-2" style="margin-bottom: 0.5rem;">
+                                <a href="#" class="text-decoration-none">
+                                    <i class="flag-icon flag-icon-es"></i> Spain
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
                 <!-- Social Media Section -->
-                <div class="col-lg-3 col-md-6 mb-4">
+                <div class="col-lg-2 col-md-6 mb-4">
                     <div class="content-redes-sociales1">
                         <b class="informacin-de-contacto" style="display: block;">{{ __('Síguenos en') }}:</b>
                         <ul class="content-list-redes list-unstyled" style="margin-top: 13px; display: flex; flex-direction: column;">
@@ -230,87 +325,48 @@ margin-right: 20px;
                                 </a>
                             </li>
                         </ul>
-
                     </div>
                 </div>
 
                 <!-- Legal Information Section -->
-                <div class="col-lg-3 col-md-12 mb-4">
+                <div class="col-lg-2 col-md-12 mb-4">
                     <div class="content-redes-sociales2">
                         <b class="informacin-de-contacto" style="display: block;">{{ __('Legales & Derechos Reservados') }}</b>
-                        <ul class="content-list-redes list-unstyled"
-                            style="margin-top: 13px; display: flex; flex-direction: column;">
-                            <li>
-                                <a href="#" class="btn btn-dropdown site-language" id="dropdownLanguage"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img src="{{ asset(selectedLanguage(session()->get('local'))->flag) }}"
-                                        width="50" height="30" alt="Language Icon">
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownLanguage"
-                                    style="background: #000">
-                                    @foreach (appLanguages() as $app_lang)
-                                        <li>
-                                            <a class="dropdown-item"
-                                                href="{{ url('admin/local/' . $app_lang->iso_code) }}">
-                                                <img src="{{ asset($app_lang->flag) }}" width="50"
-                                                    height="30" alt="icon">
-                                                <span>{{ $app_lang->language }}</span>
-                                            </a>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            </li>
-                            <li class="list-item mb-2" style="margin-bottom: 0.5rem;"><a href="{{ url('workUs') }}" style="text-decoration: none;color:#fff;">{{ __('Work with Us') }}</a></li>
+                        <ul class="content-list-redes list-unstyled" style="margin-top: 13px; display: flex; flex-direction: column;">
+                            <li class="list-item mb-2" style="margin-bottom: 0.5rem;"><a href="{{ url('workUs') }}" style="text-decoration: none;color:#fff;">{{ __('Trabaja con nosotras') }}</a></li>
                             <li class="list-item mb-2" style="margin-bottom: 0.5rem;">{{ __('Política de privacidad') }}</li>
-                            <li class="list-item" style="margin-bottom: 0;"><a href="{{ url('term') }}"
-                                    style="text-decoration: none;color:#fff;">{{ __('Términos de uso') }}</a></li>
+                            <li class="list-item" style="margin-bottom: 0;"><a href="{{ url('term') }}" style="text-decoration: none;color:#fff;">{{ __('Términos de uso') }}</a></li>
                             @if (!empty($user_session))
-                                <li class="list-item" style="margin-bottom: 0;"><a
-                                        href="{{ route('tickets.create') }}"
-                                        style="text-decoration: none;color:#fff;">{{ __('Apoyo') }}</a></li>
+                                <li class="list-item" style="margin-bottom: 0;"><a href="{{ route('tickets.create') }}" style="text-decoration: none;color:#fff;">{{ __('Apoyo') }}</a></li>
                             @else
-                                <li class="list-item" style="margin-bottom: 0;"><a href="{{ url('Userlogin') }}"
-                                        style="text-decoration: none;color:#fff;">{{ __('Apoyo') }}</a></li>
+                                <li class="list-item" style="margin-bottom: 0;"><a href="{{ url('Userlogin') }}" style="text-decoration: none;color:#fff;">{{ __('Apoyo') }}</a></li>
                             @endif
-
                         </ul>
                     </div>
                 </div>
             </div>
 
-
             <!-- Copyright Section -->
-            <div
-                class="copyright-2024-gen-todos-lo-parent d-flex flex-column flex-md-row justify-content-between align-items-center mt-4">
-                <div
-                    class="d-flex justify-content-center justify-content-md-start align-items-center mtodos-de-pago mb-3 mb-md-0">
+            <div class="copyright-2024-gen-todos-lo-parent d-flex flex-column flex-md-row justify-content-between align-items-center mt-4">
+                <div class="d-flex justify-content-center justify-content-md-start align-items-center mtodos-de-pago mb-3 mb-md-0">
                     <div class="text-center text-md-start">{{ __('Derechos de autor') }} © {{ now()->year }} {{ __('GEN. Todos los derechos reservados.') }}</div>
-
                 </div>
 
                 <div class="mtodos-de-pago-parent d-flex flex-column flex-md-row align-items-center">
                     <div class="mtodos-de-pago me-3">{{ __('Métodos de pago') }}:</div>
                     <div class="d-flex flex-wrap">
-                        <img class="mastercard-icon me-2" alt="MasterCard"
-                            src="{{ asset('assets/mastercard-Icon.svg') }}" style="max-width: 40px; height: auto;">
-                        <img class="visa-icon me-2" alt="Visa" src="{{ asset('assets/visa-Icon.svg') }}"
-                            style="max-width: 40px; height: auto;">
-                        <img class="visa-icon me-2" alt="American Express"
-                            src="{{ asset('assets/american-express-Icon.svg') }}"
-                            style="max-width: 40px; height: auto;">
-                        <img class="mastercard-icon me-2" alt="PayPal" src="{{ asset('assets/paypal-Icon.svg') }}"
-                            style="max-width: 40px; height: auto;">
-                        <img class="visa-icon me-2" alt="Google Pay" src="{{ asset('assets/G.svg') }}"
-                            style="max-width: 40px; height: auto;">
-                        <img class="mastercard-icon" alt="Diners Club" src="{{ asset('assets/qrcode.svg') }}"
-                            style="max-width: 40px; height: auto;">
+                        <img class="mastercard-icon me-2" alt="MasterCard" src="{{ asset('assets/mastercard-Icon.svg') }}" style="max-width: 40px; height: auto;">
+                        <img class="visa-icon me-2" alt="Visa" src="{{ asset('assets/visa-Icon.svg') }}" style="max-width: 40px; height: auto;">
+                        <img class="visa-icon me-2" alt="American Express" src="{{ asset('assets/american-express-Icon.svg') }}" style="max-width: 40px; height: auto;">
+                        <img class="mastercard-icon me-2" alt="PayPal" src="{{ asset('assets/paypal-Icon.svg') }}" style="max-width: 40px; height: auto;">
+                        <img class="visa-icon me-2" alt="Google Pay" src="{{ asset('assets/G.svg') }}" style="max-width: 40px; height: auto;">
+                        <img class="mastercard-icon" alt="Diners Club" src="{{ asset('assets/qrcode.svg') }}" style="max-width: 40px; height: auto;">
                     </div>
                 </div>
-
             </div>
-
         </div>
     </footer>
+
 
 
 
