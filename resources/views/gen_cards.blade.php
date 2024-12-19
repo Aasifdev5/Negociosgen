@@ -1,6 +1,6 @@
 @extends('master')
 @section('title')
-    {{ __('GEN Cards') }}
+    {{ __('Tarjetas GEN') }}
 @endsection
 @section('content')
 <br>
@@ -17,55 +17,55 @@
 </div>
 @endif
     <div class="text-center mb-5">
-        <h2 class="fw-bold">GEN Cards</h2>
+        <h2 class="fw-bold">Tarjetas GEN</h2>
         <p class="lead text-muted">
-            Choose from GEN CLASSIC, VIP, GOLD, or PLATINUM cards with unique benefits.
+            Elige entre las tarjetas GEN CLASSIC, VIP, GOLD o PLATINUM con beneficios únicos.
         </p>
 
     </div>
 
-    <!-- Card Options Section -->
+    <!-- Sección de Opciones de Tarjetas -->
     <div class="row">
-        <!-- GEN CLASSIC Card -->
+        <!-- Tarjeta GEN CLASSIC -->
         <div class="col-md-3 mb-4">
             <div class="card shadow-sm border-light rounded" style="background-color: #000; color: white;">
                 <div class="card-body text-center">
                     <h4 class="card-title text-primary fw-bold">GEN CLASSIC</h4>
-                    <p class="card-text">One-year access to courses, virtual coaching, and more.</p>
-                    <a href="{{ url('payment_link_for_gen_classic') }}" class="btn btn-primary w-100">Payment Link</a>
+                    <p class="card-text">Acceso de un año a cursos, coaching virtual y más.</p>
+                    <a href="{{ url('payment_link_for_gen_classic') }}" class="btn btn-primary w-100">Enlace de Pago</a>
                 </div>
             </div>
         </div>
 
-        <!-- GEN VIP Card -->
+        <!-- Tarjeta GEN VIP -->
         <div class="col-md-3 mb-4">
             <div class="card shadow-sm border-light rounded" style="background-color: #000; color: white;">
                 <div class="card-body text-center">
                     <h4 class="card-title text-warning fw-bold">GEN VIP</h4>
-                    <p class="card-text">Access to courses, live events, and exclusive benefits.</p>
-                    <a href="{{ url('payment_link_for_gen_vip') }}" class="btn btn-warning w-100">Payment Link</a>
+                    <p class="card-text">Acceso a cursos, eventos en vivo y beneficios exclusivos.</p>
+                    <a href="{{ url('payment_link_for_gen_vip') }}" class="btn btn-warning w-100">Enlace de Pago</a>
                 </div>
             </div>
         </div>
 
-        <!-- GEN GOLD Card -->
+        <!-- Tarjeta GEN GOLD -->
         <div class="col-md-3 mb-4">
             <div class="card shadow-sm border-light rounded" style="background-color: #000; color: white;">
                 <div class="card-body text-center">
                     <h4 class="card-title text-warning fw-bold">GEN GOLD</h4>
-                    <p class="card-text">One-year access to courses, virtual coaching, and live coaching.</p>
-                    <a href="{{ url('payment_link_for_gen_gold') }}" class="btn btn-warning w-100">Payment Link</a>
+                    <p class="card-text">Acceso de un año a cursos, coaching virtual y coaching en vivo.</p>
+                    <a href="{{ url('payment_link_for_gen_gold') }}" class="btn btn-warning w-100">Enlace de Pago</a>
                 </div>
             </div>
         </div>
 
-        <!-- GEN PLATINUM Card -->
+        <!-- Tarjeta GEN PLATINUM -->
         <div class="col-md-3 mb-4">
             <div class="card shadow-sm border-light rounded" style="background-color: #000; color: white;">
                 <div class="card-body text-center">
                     <h4 class="card-title text-success fw-bold">GEN PLATINUM</h4>
-                    <p class="card-text">Two-year access to courses, virtual coaching, live coaching, and more.</p>
-                    <a href="{{ url('payment_link_for_gen_platinum') }}" class="btn btn-success w-100">Payment Link</a>
+                    <p class="card-text">Acceso de dos años a cursos, coaching virtual, coaching en vivo y más.</p>
+                    <a href="{{ url('payment_link_for_gen_platinum') }}" class="btn btn-success w-100">Enlace de Pago</a>
                 </div>
             </div>
         </div>

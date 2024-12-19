@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Home;
+use App\Models\HomeSettings;
 use App\Models\Setting;
+use App\Models\User;
 use App\Traits\General;
 use App\Traits\ImageSaveTrait;
 use Illuminate\Http\Request;
-use Auth;
+use Illuminate\Support\Facades\Session;
 
 class HomeSettingController extends Controller
 {
@@ -16,10 +18,10 @@ class HomeSettingController extends Controller
 
     public function themeSettings()
     {
-        if (!Auth::user()->can('home_setting')) {
-            abort('403');
-        } // end permission checking
-
+        if (!Session::has('LoggedIn')) {
+            return redirect()->route('login')->withErrors(__('Please login to access this page.'));
+        }
+        $data['user_session'] = User::where('id', Session::get('LoggedIn'))->first();
         $data['title'] = __('Theme Settings');
         $data['navApplicationSettingParentActiveClass'] = 'mm-active';
         $data['subNavHomeSettingsActiveClass'] = 'mm-active';
@@ -27,14 +29,137 @@ class HomeSettingController extends Controller
 
         return view('admin.application_settings.home.theme-settings', $data);
     }
-    
+    public function updateHomeSettings(Request $request)
+    {
+        // Validate the input
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string|max:500',
+            'video' => 'nullable|mimes:mp4,mkv,avi|max:100000',
+            'video_thumbnail' => 'nullable|mimes:jpg,jpeg,png|max:5000',
+            'video_caption' => 'nullable|string|max:255',
+        ]);
+
+        // Retrieve existing home settings (assuming the settings are stored under a specific key)
+        $existingSettings = HomeSettings::where('key', 'home_special_feature')->first();
+
+        // Prepare data to update
+        $data = [
+            'title' => $request->input('title'),
+            'description' => $request->input('description'),
+            'video_caption' => $request->input('video_caption'),
+        ];
+
+        // Handle Video Upload
+        if ($request->hasFile('video')) {
+            // Get existing video path
+            $existingVideoPath = $existingSettings ? $existingSettings->video : null;
+
+            // Delete old video if it exists
+            if ($existingVideoPath && file_exists(public_path($existingVideoPath))) {
+                unlink(public_path($existingVideoPath)); // Delete old video
+            }
+
+            $video = $request->file('video');
+            $videoName = time() . '_' . \Illuminate\Support\Str::random(10) . '.' . $video->getClientOriginalExtension();
+            $video->move(public_path('uploads/videos'), $videoName); // Move the video to 'uploads/videos' folder
+            $data['video'] = 'uploads/videos/' . $videoName; // Store the file path
+        }
+
+        // Handle Video Thumbnail Upload
+        if ($request->hasFile('video_thumbnail')) {
+            // Get existing thumbnail path
+            $existingThumbnailPath = $existingSettings ? $existingSettings->video_thumbnail : null;
+
+            // Delete old thumbnail if it exists
+            if ($existingThumbnailPath && file_exists(public_path($existingThumbnailPath))) {
+                unlink(public_path($existingThumbnailPath)); // Delete old thumbnail
+            }
+
+            $thumbnail = $request->file('video_thumbnail');
+            $thumbnailName = time() . '_' . \Illuminate\Support\Str::random(10) . '.' . $thumbnail->getClientOriginalExtension();
+            $thumbnail->move(public_path('uploads/thumbnails'), $thumbnailName); // Move the thumbnail to 'uploads/thumbnails' folder
+            $data['video_thumbnail'] = 'uploads/thumbnails/' . $thumbnailName; // Store the file path
+        }
+
+        // Save or update the HomeSettings
+        HomeSettings::updateOrCreate(
+            ['key' => 'develop_skills'], // If you're updating a specific setting, use a unique key
+            $data
+        );
+
+        return redirect()->back()->with('success', __('Home settings updated successfully.'));
+    }
+    public function updateCourseSettings(Request $request)
+    {
+        // Validate the input
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string|max:500',
+            'video' => 'nullable|mimes:mp4,mkv,avi|max:100000',
+            'video_thumbnail' => 'nullable|mimes:jpg,jpeg,png|max:5000',
+            'video_caption' => 'nullable|string|max:255',
+        ]);
+
+        // Retrieve existing home settings (assuming the settings are stored under a specific key)
+        $existingSettings = HomeSettings::where('key', 'home_special_feature')->first();
+
+        // Prepare data to update
+        $data = [
+            'title' => $request->input('title'),
+            'description' => $request->input('description'),
+            'video_caption' => $request->input('video_caption'),
+        ];
+
+        // Handle Video Upload
+        if ($request->hasFile('video')) {
+            // Get existing video path
+            $existingVideoPath = $existingSettings ? $existingSettings->video : null;
+
+            // Delete old video if it exists
+            if ($existingVideoPath && file_exists(public_path($existingVideoPath))) {
+                unlink(public_path($existingVideoPath)); // Delete old video
+            }
+
+            $video = $request->file('video');
+            $videoName = time() . '_' . \Illuminate\Support\Str::random(10) . '.' . $video->getClientOriginalExtension();
+            $video->move(public_path('uploads/videos'), $videoName); // Move the video to 'uploads/videos' folder
+            $data['video'] = 'uploads/videos/' . $videoName; // Store the file path
+        }
+
+        // Handle Video Thumbnail Upload
+        if ($request->hasFile('video_thumbnail')) {
+            // Get existing thumbnail path
+            $existingThumbnailPath = $existingSettings ? $existingSettings->video_thumbnail : null;
+
+            // Delete old thumbnail if it exists
+            if ($existingThumbnailPath && file_exists(public_path($existingThumbnailPath))) {
+                unlink(public_path($existingThumbnailPath)); // Delete old thumbnail
+            }
+
+            $thumbnail = $request->file('video_thumbnail');
+            $thumbnailName = time() . '_' . \Illuminate\Support\Str::random(10) . '.' . $thumbnail->getClientOriginalExtension();
+            $thumbnail->move(public_path('uploads/thumbnails'), $thumbnailName); // Move the thumbnail to 'uploads/thumbnails' folder
+            $data['video_thumbnail'] = 'uploads/thumbnails/' . $thumbnailName; // Store the file path
+        }
+
+        // Save or update the HomeSettings
+        HomeSettings::updateOrCreate(
+            ['key' => 'success_tips'], // If you're updating a specific setting, use a unique key
+            $data
+        );
+
+        return redirect()->back()->with('success', __('Home settings updated successfully.'));
+    }
+
+
     public function sectionSettings()
     {
-        if (!Auth::user()->can('home_setting')) {
-            abort('403');
-        } // end permission checking
-
-        $data['title'] = 'Section Settings';
+        if (!Session::has('LoggedIn')) {
+            return redirect()->route('login')->withErrors(__('Please login to access this page.'));
+        }
+        $data['user_session'] = User::where('id', Session::get('LoggedIn'))->first();
+        $data['title'] = __('Section Settings');
         $data['navApplicationSettingParentActiveClass'] = 'mm-active';
         $data['subNavHomeSettingsActiveClass'] = 'mm-active';
         $data['sectionSettingsActiveClass'] = 'active';
@@ -43,30 +168,13 @@ class HomeSettingController extends Controller
         return view('admin.application_settings.home.section-settings', $data);
     }
 
-    public function sectionSettingsStatusChange(Request $request)
-    {
-        $attribute_name = $request->attribute_name;
-        $status = $request->status;
-        $home = Home::first();
-        if ($attribute_name) {
-            $home->update([
-                $attribute_name => $status,
-            ]);
-        }
-
-        return response()->json([
-            'msg' => 'success'
-        ]);
-    }
-
-
     public function bannerSection()
     {
-        if (!Auth::user()->can('home_setting')) {
-            abort('403');
-        } // end permission checking
-
-        $data['title'] = 'Banner Section';
+        if (!Session::has('LoggedIn')) {
+            return redirect()->route('login')->withErrors(__('Please login to access this page.'));
+        }
+        $data['user_session'] = User::where('id', Session::get('LoggedIn'))->first();
+        $data['title'] = __('Banner Section');
         $data['navApplicationSettingParentActiveClass'] = 'mm-active';
         $data['subNavHomeSettingsActiveClass'] = 'mm-active';
         $data['bannerSectionActiveClass'] = 'active';
@@ -75,101 +183,15 @@ class HomeSettingController extends Controller
         return view('admin.application_settings.home.banner-section', $data);
     }
 
-    public function bannerSectionUpdate(Request $request)
-    {
-        if (!Auth::user()->can('home_setting')) {
-            abort('403');
-        } // end permission checking
-
-        $request->validate([
-            'banner_image' => 'mimes:png,svg|file|max:1024'
-        ]);
-
-        $home = Home::first();
-        if (!$home) {
-            $home = new Home();
-            if ($request->hasFile('banner_image')) {
-                $home->banner_image = $this->saveImage('home', $request->banner_image, 'null', 'null');
-            }
-
-        } else {
-            if ($request->hasFile('banner_image')) {
-                $home->banner_image = $this->updateImage('home', $request->banner_image, $home->banner_image, 'null', 'null');
-            }
-        }
-
-        $home->banner_mini_words_title = $request->banner_mini_words_title;
-        $home->banner_first_line_title = $request->banner_first_line_title;
-        $home->banner_second_line_title = $request->banner_second_line_title;
-        $home->banner_second_line_changeable_words = $request->banner_second_line_changeable_words;
-        $home->banner_third_line_title = $request->banner_third_line_title;
-        $home->banner_subtitle = $request->banner_subtitle;
-
-        $home->banner_first_button_name = $request->banner_first_button_name;
-        $home->banner_first_button_link = $request->banner_first_button_link;
-
-        $home->banner_second_button_name = $request->banner_second_button_name;
-        $home->banner_second_button_link = $request->banner_second_button_link;
-        $home->save();
-
-        // for demo 
-        
-        if(env('IS_LOCAL', 0)){
-            if ($request->hasFile('banner_image')) {
-                $request->validate([
-                    'banner_image' => 'mimes:png,svg'
-                ]);
-                $option = Setting::firstOrCreate(['option_key' => 'banner_image_'.get_option('theme', THEME_DEFAULT)]);
-                $option->option_value = $this->saveImage('setting', $request->banner_image, null, null);
-                $option->save();
-            }
-        }
-
-        //for theme 3
-        if(get_option('theme', THEME_DEFAULT) == THEME_THREE){
-            if ($request->hasFile('banner_right_card_icon')) {
-                $request->validate([
-                    'banner_right_card_icon' => 'mimes:png,svg'
-                ]);
-                $option = Setting::firstOrCreate(['option_key' => 'banner_right_card_icon']);
-                $option->option_value = $this->saveImage('setting', $request->banner_right_card_icon, null, null);
-                $option->save();
-            }
-            if ($request->hasFile('banner_left_card_icon')) {
-                $request->validate([
-                    'banner_left_card_icon' => 'mimes:png,svg'
-                ]);
-                $option = Setting::firstOrCreate(['option_key' => 'banner_left_card_icon']);
-                $option->option_value = $this->saveImage('setting', $request->banner_left_card_icon, null, null);
-                $option->save();
-            }
-
-            $option = Setting::firstOrCreate(['option_key' => 'banner_left_card_title']);
-            $option->option_value = $request->banner_left_card_title;
-            $option->save();
-            $option = Setting::firstOrCreate(['option_key' => 'banner_left_card_description']);
-            $option->option_value = $request->banner_left_card_description;
-            $option->save();
-            $option = Setting::firstOrCreate(['option_key' => 'banner_right_card_title']);
-            $option->option_value = $request->banner_right_card_title;
-            $option->save();
-            $option = Setting::firstOrCreate(['option_key' => 'banner_right_card_description']);
-            $option->option_value = $request->banner_right_card_description;
-            $option->save();
-        }
-        //END for theme 3
-
-        $this->showToastrMessage('success', __('Updated Successfully'));
-        return redirect()->back();
-    }
-
     public function specialFeatureSection()
     {
-        if (!Auth::user()->can('home_setting')) {
-            abort('403');
-        } // end permission checking
-
-        $data['title'] = 'Home Special Feature Section';
+        if (!Session::has('LoggedIn')) {
+            return redirect()->route('login')->withErrors(__('Please login to access this page.'));
+        }
+        // Retrieve existing home settings (assuming the settings are stored under a specific key)
+        $data['existingSettings'] = HomeSettings::where('key', 'develop_skills')->first();
+        $data['user_session'] = User::where('id', Session::get('LoggedIn'))->first();
+        $data['title'] = __('Home Special Feature Section');
         $data['navApplicationSettingParentActiveClass'] = 'mm-active';
         $data['subNavHomeSettingsActiveClass'] = 'mm-active';
         $data['specialSectionActiveClass'] = 'active';
@@ -179,51 +201,54 @@ class HomeSettingController extends Controller
 
     public function courseSection()
     {
-        if (!Auth::user()->can('home_setting')) {
-            abort('403');
-        } // end permission checking
-
-        $data['title'] = 'Course Section';
+        if (!Session::has('LoggedIn')) {
+            return redirect()->route('login')->withErrors(__('Please login to access this page.'));
+        }
+        $data['existingSettings'] = HomeSettings::where('key', 'success_tips')->first();
+        $data['user_session'] = User::where('id', Session::get('LoggedIn'))->first();
+        $data['title'] = __('Course Section');
         $data['navApplicationSettingParentActiveClass'] = 'mm-active';
         $data['subNavHomeSettingsActiveClass'] = 'mm-active';
         $data['courseSectionActiveClass'] = 'active';
 
         return view('admin.application_settings.home.course-section', $data);
     }
+
     public function categoryCourseSection()
     {
-        if (!Auth::user()->can('home_setting')) {
-            abort('403');
-        } // end permission checking
-
-        $data['title'] = 'Category Course Section';
+        if (!Session::has('LoggedIn')) {
+            return redirect()->route('login')->withErrors(__('Please login to access this page.'));
+        }
+        $data['user_session'] = User::where('id', Session::get('LoggedIn'))->first();
+        $data['title'] = __('Category Course Section');
         $data['navApplicationSettingParentActiveClass'] = 'mm-active';
         $data['subNavHomeSettingsActiveClass'] = 'mm-active';
         $data['categoryCourseSectionActiveClass'] = 'active';
 
         return view('admin.application_settings.home.category-course-section', $data);
     }
+
     public function upcomingCourseSection()
     {
-        if (!Auth::user()->can('home_setting')) {
-            abort('403');
-        } // end permission checking
-
-        $data['title'] = 'Upcoming Course Section';
+        if (!Session::has('LoggedIn')) {
+            return redirect()->route('login')->withErrors(__('Please login to access this page.'));
+        }
+        $data['user_session'] = User::where('id', Session::get('LoggedIn'))->first();
+        $data['title'] = __('Upcoming Course Section');
         $data['navApplicationSettingParentActiveClass'] = 'mm-active';
         $data['subNavHomeSettingsActiveClass'] = 'mm-active';
         $data['upcomingCourseSectionActiveClass'] = 'active';
 
         return view('admin.application_settings.home.upcoming-course-section', $data);
     }
-   
+
     public function productSection()
     {
-        if (!Auth::user()->can('home_setting')) {
-            abort('403');
-        } // end permission checking
-
-        $data['title'] = 'Product Section';
+        if (!Session::has('LoggedIn')) {
+            return redirect()->route('login')->withErrors(__('Please login to access this page.'));
+        }
+        $data['user_session'] = User::where('id', Session::get('LoggedIn'))->first();
+        $data['title'] = __('Product Section');
         $data['navApplicationSettingParentActiveClass'] = 'mm-active';
         $data['subNavHomeSettingsActiveClass'] = 'mm-active';
         $data['productSectionActiveClass'] = 'active';
@@ -233,11 +258,11 @@ class HomeSettingController extends Controller
 
     public function bundleCourseSection()
     {
-        if (!Auth::user()->can('home_setting')) {
-            abort('403');
-        } // end permission checking
-
-        $data['title'] = 'Bundle Course Section';
+        if (!Session::has('LoggedIn')) {
+            return redirect()->route('login')->withErrors(__('Please login to access this page.'));
+        }
+        $data['user_session'] = User::where('id', Session::get('LoggedIn'))->first();
+        $data['title'] = __('Bundle Course Section');
         $data['navApplicationSettingParentActiveClass'] = 'mm-active';
         $data['subNavHomeSettingsActiveClass'] = 'mm-active';
         $data['bundleCourseSectionActiveClass'] = 'active';
@@ -247,11 +272,11 @@ class HomeSettingController extends Controller
 
     public function topCategorySection()
     {
-        if (!Auth::user()->can('home_setting')) {
-            abort('403');
-        } // end permission checking
-
-        $data['title'] = 'Top Category Section';
+        if (!Session::has('LoggedIn')) {
+            return redirect()->route('login')->withErrors(__('Please login to access this page.'));
+        }
+        $data['user_session'] = User::where('id', Session::get('LoggedIn'))->first();
+        $data['title'] = __('Top Category Section');
         $data['navApplicationSettingParentActiveClass'] = 'mm-active';
         $data['subNavHomeSettingsActiveClass'] = 'mm-active';
         $data['topCategorySectionActiveClass'] = 'active';
@@ -261,11 +286,11 @@ class HomeSettingController extends Controller
 
     public function topInstructorSection()
     {
-        if (!Auth::user()->can('home_setting')) {
-            abort('403');
-        } // end permission checking
-
-        $data['title'] = 'Top Instructor Section';
+        if (!Session::has('LoggedIn')) {
+            return redirect()->route('login')->withErrors(__('Please login to access this page.'));
+        }
+        $data['user_session'] = User::where('id', Session::get('LoggedIn'))->first();
+        $data['title'] = __('Top Instructor Section');
         $data['navApplicationSettingParentActiveClass'] = 'mm-active';
         $data['subNavHomeSettingsActiveClass'] = 'mm-active';
         $data['topInstructorSectionActiveClass'] = 'active';
@@ -275,11 +300,11 @@ class HomeSettingController extends Controller
 
     public function becomeInstructorVideoSection()
     {
-        if (!Auth::user()->can('home_setting')) {
-            abort('403');
-        } // end permission checking
-
-        $data['title'] = 'Become Instructor Video Section';
+        if (!Session::has('LoggedIn')) {
+            return redirect()->route('login')->withErrors(__('Please login to access this page.'));
+        }
+        $data['user_session'] = User::where('id', Session::get('LoggedIn'))->first();
+        $data['title'] = __('Become Instructor Video Section');
         $data['navApplicationSettingParentActiveClass'] = 'mm-active';
         $data['subNavHomeSettingsActiveClass'] = 'mm-active';
         $data['becomeInstructorVideoSectionActiveClass'] = 'active';
@@ -289,11 +314,11 @@ class HomeSettingController extends Controller
 
     public function customerSaySection()
     {
-        if (!Auth::user()->can('home_setting')) {
-            abort('403');
-        } // end permission checking
-
-        $data['title'] = 'Customer Say Section';
+        if (!Session::has('LoggedIn')) {
+            return redirect()->route('login')->withErrors(__('Please login to access this page.'));
+        }
+        $data['user_session'] = User::where('id', Session::get('LoggedIn'))->first();
+        $data['title'] = __('Customer Say Section');
         $data['navApplicationSettingParentActiveClass'] = 'mm-active';
         $data['subNavHomeSettingsActiveClass'] = 'mm-active';
         $data['customerSaySectionActiveClass'] = 'active';
@@ -303,11 +328,11 @@ class HomeSettingController extends Controller
 
     public function achievementSection()
     {
-        if (!Auth::user()->can('home_setting')) {
-            abort('403');
-        } // end permission checking
-
-        $data['title'] = 'Achievement Section';
+        if (!Session::has('LoggedIn')) {
+            return redirect()->route('login')->withErrors(__('Please login to access this page.'));
+        }
+        $data['user_session'] = User::where('id', Session::get('LoggedIn'))->first();
+        $data['title'] = __('Achievement Section');
         $data['navApplicationSettingParentActiveClass'] = 'mm-active';
         $data['subNavHomeSettingsActiveClass'] = 'mm-active';
         $data['achievementSectionActiveClass'] = 'active';

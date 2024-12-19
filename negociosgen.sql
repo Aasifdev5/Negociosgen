@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 17, 2024 at 11:10 AM
+-- Generation Time: Dec 19, 2024 at 10:12 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -770,6 +770,78 @@ CREATE TABLE `forum_post_comments` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `homes`
+--
+
+CREATE TABLE `homes` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `banner_mini_words_title` text DEFAULT NULL,
+  `banner_first_line_title` varchar(255) DEFAULT NULL,
+  `banner_second_line_title` varchar(255) DEFAULT NULL,
+  `banner_second_line_changeable_words` text DEFAULT NULL,
+  `banner_third_line_title` varchar(255) DEFAULT NULL,
+  `banner_subtitle` text DEFAULT NULL,
+  `banner_first_button_name` varchar(255) DEFAULT NULL,
+  `banner_first_button_link` text DEFAULT NULL,
+  `banner_second_button_name` varchar(255) DEFAULT NULL,
+  `banner_second_button_link` text DEFAULT NULL,
+  `banner_image` varchar(255) DEFAULT NULL,
+  `special_feature_area` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1=active, 2=disable',
+  `courses_area` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1=active, 2=disable',
+  `product_area` tinyint(4) NOT NULL DEFAULT 0,
+  `bundle_area` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1=active, 2=disable',
+  `top_category_area` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1=active, 2=disable',
+  `consultation_area` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1=active, 2=disable',
+  `instructor_area` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1=active, 2=disable',
+  `video_area` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1=active, 2=disable',
+  `customer_says_area` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1=active, 2=disable',
+  `achievement_area` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1=active, 2=disable',
+  `faq_area` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1=active, 2=disable',
+  `instructor_support_area` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1=active, 2=disable',
+  `category_courses_area` tinyint(4) NOT NULL DEFAULT 0,
+  `upcoming_courses_area` tinyint(4) NOT NULL DEFAULT 0,
+  `subscription_show` tinyint(4) NOT NULL DEFAULT 1,
+  `saas_show` tinyint(4) NOT NULL DEFAULT 1,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `homes`
+--
+
+INSERT INTO `homes` (`id`, `banner_mini_words_title`, `banner_first_line_title`, `banner_second_line_title`, `banner_second_line_changeable_words`, `banner_third_line_title`, `banner_subtitle`, `banner_first_button_name`, `banner_first_button_link`, `banner_second_button_name`, `banner_second_button_link`, `banner_image`, `special_feature_area`, `courses_area`, `product_area`, `bundle_area`, `top_category_area`, `consultation_area`, `instructor_area`, `video_area`, `customer_says_area`, `achievement_area`, `faq_area`, `instructor_support_area`, `category_courses_area`, `upcoming_courses_area`, `subscription_show`, `saas_show`, `created_at`, `updated_at`) VALUES
+(1, '[\"Come\",\"for\",\"learn\"]', 'A Better', 'Learning', '[\"Future\",\"Platform\",\"Era\",\"Point\",\"Area\"]', 'Starts Here.', 'While the lovely valley teems with vapour around me, and the meridian sun strikes the upper', 'Take A Tour', '#', 'Popular Courses', '#', 'uploads_demo/home/hero-img.png', 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, '2022-12-04 17:05:33', '2022-12-04 17:05:33');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `home_settings`
+--
+
+CREATE TABLE `home_settings` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `key` varchar(191) NOT NULL,
+  `title` varchar(191) NOT NULL,
+  `description` text NOT NULL,
+  `video` varchar(191) DEFAULT NULL,
+  `video_thumbnail` varchar(191) DEFAULT NULL,
+  `video_caption` varchar(191) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `home_settings`
+--
+
+INSERT INTO `home_settings` (`id`, `key`, `title`, `description`, `video`, `video_thumbnail`, `video_caption`, `created_at`, `updated_at`) VALUES
+(1, 'develop_skills', 'fsf', 'sdfsf', 'uploads/videos/1734592186_HeKXT2al9Q.mp4', 'uploads/thumbnails/1734592186_lXLXYpkkec.png', 'aasif', '2024-12-19 01:39:46', '2024-12-19 01:39:46'),
+(2, 'success_tips', 'fsf', 'sdfsf', 'uploads/videos/1734593327_ip76a66CJc.mp4', 'uploads/thumbnails/1734592186_lXLXYpkkec.png', 'aasif', '2024-12-19 01:39:46', '2024-12-19 01:58:47');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `languages`
 --
 
@@ -790,8 +862,9 @@ CREATE TABLE `languages` (
 --
 
 INSERT INTO `languages` (`id`, `language`, `iso_code`, `flag`, `rtl`, `status`, `default_language`, `created_at`, `updated_at`) VALUES
-(2, 'Spanish', 'esp', 'uploads/flag/1712151497-QzC6JiBxzU.png', 0, 1, 'on', '2024-04-03 08:08:17', '2024-12-10 01:26:15'),
-(3, 'Portuguese', 'por', 'uploads/flag/1730284740-nCG3TXpG4B.webp', 0, 1, 'off', '2024-10-30 05:02:08', '2024-12-10 01:26:15');
+(2, 'Spanish', 'es', '<i class=\"flag-icon flag-icon-es\"></i>', 0, 1, 'on', '2024-04-03 08:08:17', '2024-12-10 01:26:15'),
+(3, 'Portuguese', 'pt', '<i class=\"flag-icon flag-icon-pt\"></i>', 0, 1, 'off', '2024-10-30 05:02:08', '2024-12-10 01:26:15'),
+(4, 'English', 'gb', '<i class=\"flag-icon flag-icon-gb\"></i>', 0, 1, 'off', '2024-10-30 05:02:08', '2024-12-10 01:26:15');
 
 -- --------------------------------------------------------
 
@@ -1290,7 +1363,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (40, '2024_12_11_040805_add_membership_columns_to_users_table', 27),
 (41, '2024_12_11_041019_create_memberships_table', 27),
 (42, '2024_12_11_042221_create_membership_payments_table', 28),
-(43, '2024_12_17_081443_create_news_table', 29);
+(43, '2024_12_17_081443_create_news_table', 29),
+(44, '2024_12_19_042802_create_home_settings_table', 30);
 
 -- --------------------------------------------------------
 
@@ -2327,7 +2401,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `is_active`, `profile_photo`, `account_type`, `balance`, `membershipType`, `is_subscribed`, `refer`, `level`, `is_online`, `last_seen`, `birth_date`, `role`, `permissions`, `name`, `email`, `email_verified_at`, `password`, `custom_password`, `mobile_number`, `about`, `city`, `facebook`, `instagram`, `linkedin`, `twitter`, `address`, `status`, `remember_token`, `ip_address`, `is_system`, `id_number`, `country`, `created_by`, `deleted_at`, `language`, `is_super_admin`, `created_at`, `updated_at`, `membership_status`, `membership_start_date`, `membership_end_date`, `renewal_due_date`, `payment_status`, `membership_card_number`, `guest_access_count`) VALUES
-(1, NULL, 1, '149071.png', 'admin', NULL, NULL, 0, NULL, NULL, 1, '2024-12-17 01:52:25', NULL, 1, NULL, 'SUPER ADMINISTRADOR', 'gen@negociosgen.com', '2023-03-23 07:45:02', '$2y$10$2Xg3cj6N2RMrVNhMvzL6hu5vkvjZ.zOMsFrTICTE40rT1paV6CtP6', '987654321', '8878326802', NULL, 'bolivia', NULL, NULL, NULL, NULL, 'sdfafa', 1, NULL, '127.0.0.1', 1, '1', '1', NULL, NULL, 'es', 1, '2023-03-23 07:45:02', '2024-12-17 01:52:25', 'pending', NULL, NULL, NULL, 'unpaid', NULL, 0),
+(1, NULL, 1, '149071.png', 'admin', NULL, NULL, 0, NULL, NULL, 1, '2024-12-19 01:24:22', NULL, 1, NULL, 'SUPER ADMINISTRADOR', 'gen@negociosgen.com', '2023-03-23 07:45:02', '$2y$10$2Xg3cj6N2RMrVNhMvzL6hu5vkvjZ.zOMsFrTICTE40rT1paV6CtP6', '987654321', '8878326802', NULL, 'bolivia', NULL, NULL, NULL, NULL, 'sdfafa', 1, NULL, '127.0.0.1', 1, '1', '1', NULL, NULL, 'es', 1, '2023-03-23 07:45:02', '2024-12-19 01:24:22', 'pending', NULL, NULL, NULL, 'unpaid', NULL, 0),
 (3, NULL, 1, NULL, 'affiliate', '530', NULL, 1, NULL, NULL, 0, '2024-12-03 21:10:40', '2024-10-16', 2, NULL, 'Alex', 'arstech2a@gmail.com', NULL, '$2y$10$yfNz3sJ2P3d31JhNkPve8.L.rVsISl81scG5DGvgB8pcfQUZd9l.e', NULL, '591591591', 'df', NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, '127.0.0.1', 0, '1', NULL, NULL, NULL, '\'en\'', 0, '2024-10-29 22:26:33', '2024-12-04 01:10:40', 'pending', NULL, '0000-00-00 00:00:00', NULL, 'unpaid', NULL, 0),
 (5, NULL, 1, NULL, 'affiliate', '1450', 'GEN_GOLD', 1, NULL, '3', 1, '2024-12-14 22:45:50', '2024-10-03', 2, NULL, 'muskan bano', 'aasifdev5@gmail.com', NULL, '$2y$10$9LiWUF5HP0GDOj05wal90eb/uZ8SsuXJveTWm.VbMDi6Jy4D3zViG', NULL, '591', NULL, '14', NULL, NULL, NULL, NULL, '722 azad nagar indore', 1, NULL, NULL, 0, '45', '1', NULL, NULL, '\'en\'', 0, '2024-10-31 01:23:24', '2024-12-14 22:45:50', 'expired', '2023-01-01 10:42:38', '2024-12-10 10:42:38', '2024-11-10 00:00:00', 'paid', NULL, 0),
 (6, NULL, 1, NULL, 'affiliate', '530', NULL, 1, NULL, '2', 0, '2024-11-27 21:17:35', '2024-11-20', 2, NULL, 'Tanzila', 'hrnatrajdfsinfotech@gmail.com', NULL, '$2y$10$1d.I9JhZ3wp1WNix7lxFA.L5J5vIXgrttg9e.rDX4xHMgy2VfVxgG', NULL, '5919589642080', NULL, '12', NULL, NULL, NULL, NULL, '722 azad nagar indore', 1, NULL, '127.0.0.1', 0, '', '1', NULL, NULL, '\'en\'', 0, '2024-11-20 00:36:57', '2024-11-28 01:17:35', 'pending', NULL, NULL, NULL, 'unpaid', NULL, 0),
@@ -2532,6 +2606,19 @@ ALTER TABLE `forum_posts`
 ALTER TABLE `forum_post_comments`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `forum_post_comments_uuid_unique` (`uuid`);
+
+--
+-- Indexes for table `homes`
+--
+ALTER TABLE `homes`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `home_settings`
+--
+ALTER TABLE `home_settings`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `home_settings_key_unique` (`key`);
 
 --
 -- Indexes for table `languages`
@@ -2885,10 +2972,22 @@ ALTER TABLE `forum_post_comments`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `homes`
+--
+ALTER TABLE `homes`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `home_settings`
+--
+ALTER TABLE `home_settings`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `languages`
 --
 ALTER TABLE `languages`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `mail_templates`
@@ -2930,7 +3029,7 @@ ALTER TABLE `metas`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `news`

@@ -33,7 +33,7 @@
                                             @foreach ($languages as $key => $language)
                                                 <tr class="removable-item">
                                                     <td>
-                                                        <img src="{{ getImageFile($language->flag) }}" height="50">
+                                                        <i class="flag-icon flag-icon-{{ $language->iso_code }}"></i>
                                                     </td>
                                                     <td>{{ $language->language }}</td>
                                                     <td>{{ $language->iso_code }}</td>

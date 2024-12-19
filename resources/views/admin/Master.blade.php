@@ -228,18 +228,20 @@
 
                         <!-- Language Dropdown -->
                         <li>
+
                             <a href="#" class="btn btn-dropdown site-language" id="dropdownLanguage"
                                 data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="{{ asset(selectedLanguage(session()->get('local'))->flag) }}"
-                                    width="50" height="30" alt="Language Icon">
+                                <!-- Display the icon for the specific language using ISO code -->
+                                <i
+                                    class="flag-icon flag-icon-{{ selectedLanguage(session()->get('local'))->iso_code }}"></i>
                             </a>
+
                             <ul class="dropdown-menu" aria-labelledby="dropdownLanguage" style="background: #000">
                                 @foreach (appLanguages() as $app_lang)
                                     <li>
                                         <a class="dropdown-item"
                                             href="{{ url('admin/local/' . $app_lang->iso_code) }}">
-                                            <img src="{{ asset($app_lang->flag) }}" width="50" height="30"
-                                                alt="icon">
+                                            <i class="flag-icon flag-icon-{{ $app_lang->iso_code }}"></i>
                                             <span>{{ $app_lang->language }}</span>
                                         </a>
                                     </li>
@@ -336,7 +338,12 @@
                                         </a>
                                     </li>
 
-
+                                    <li class="">
+                                        <a href="{{ route('settings.special-feature-section') }}">
+                                            <i class="fa fa-circle"></i>
+                                            <span>{{ __('Home Settings') }}</span>
+                                        </a>
+                                    </li>
 
                                     <li class="">
                                         <a href="{{ route('settings.location.country.index') }}">
@@ -381,22 +388,26 @@
 
                                 </ul>
                             </li>
-                            <li><a class="sidebar-header" href="{{ url('admin/withdraws') }}"><i class="icofont icofont-bank"></i><span>{{ __('Solicitudes de Retiro') }}
-                            </span></a></li>
-                            <li><a class="sidebar-header" href="{{ route('audiolibros.index') }}"><i class="icofont icofont-ui-head-phone"></i><span>{{ __('Audiolibros') }}
-                            </span></a></li>
+                            <li><a class="sidebar-header" href="{{ url('admin/withdraws') }}"><i
+                                        class="icofont icofont-bank"></i><span>{{ __('Solicitudes de Retiro') }}
+                                    </span></a></li>
+                            <li><a class="sidebar-header" href="{{ route('audiolibros.index') }}"><i
+                                        class="icofont icofont-ui-head-phone"></i><span>{{ __('Audiolibros') }}
+                                    </span></a></li>
                             <li><a class="sidebar-header" href="{{ url('admin/banners') }}"><i
                                         data-feather="monitor"></i><span>{{ __('Bandera') }}
                                     </span></a></li>
-                                    {{-- <li><a class="sidebar-header" href="{{ url('admin/portfolios') }}"><i class="icofont icofont-briefcase"></i><span>{{ __('Portfolio') }}
+                            {{-- <li><a class="sidebar-header" href="{{ url('admin/portfolios') }}"><i class="icofont icofont-briefcase"></i><span>{{ __('Portfolio') }}
                                     </span></a></li>
                                     <li><a class="sidebar-header" href="{{ url('admin/testimonials') }}"><i class="icofont icofont-award"></i><span>{{ __('Testimonials') }}
                                     </span></a></li> --}}
-                            <li><a class="sidebar-header" href="{{ url('admin/qrcode') }}"><i class="fa fa-qrcode"></i> CÓDIGO QR </a></li>
+                            <li><a class="sidebar-header" href="{{ url('admin/qrcode') }}"><i
+                                        class="fa fa-qrcode"></i> CÓDIGO QR </a></li>
                             <li>
-                                <li><a class="sidebar-header" href="{{ route('news.index') }}"><i class="icofont icofont-triangle"></i> Noticias </a></li>
+                            <li><a class="sidebar-header" href="{{ route('news.index') }}"><i
+                                        class="icofont icofont-triangle"></i> Noticias </a></li>
                             <li>
-                            {{-- <li class="">
+                                {{-- <li class="">
                                 <a class="has-arrow sidebar-header" href="#">
                                     <i class="icofont icofont-social-blogger"></i>
                                     <span>{{ __('Administrar Blog') }}<i
@@ -501,7 +512,7 @@
                             <li>
                                 <a class="sidebar-header" href="{{ route('curso.index') }}">
                                     <i class="fa fa-graduation-cap"></i>
-                                    <span>{{ __('Consejos de éxito') }}</span>
+                                    <span>{{ __('Curso') }}</span>
                                 </a>
                             </li>
                             {{-- <li><a class="sidebar-header" href="#"><i data-feather="layers"></i><span>

@@ -145,7 +145,7 @@
                         <div class="col-6 col-md-3 text-center mb-4">
                             <div class="rounded"
                                 style="background: #000000; border: 1px solid #2e2e2e; border-radius: 16px; padding: 30px; position: relative;">
-                                <img class="mb-3" style="width: 80px; height: 80px;" src="{{ asset('assets/b3.png') }}"
+                                <img class="mb-3" style="width: 80px; height: 58px;" src="{{ asset('assets/FireShot_Capture_084_-_Compra_en_línea_-_Iconos_gratis_de_comercio_-_www.flaticon.es-removebg-preview.png') }}"
                                     alt="Descuentos en empresas afiliadas" />
                                 <p class="text-light"
                                     style="font-size: 16px; font-family: 'Space Grotesk', sans-serif; line-height: 24px;">
@@ -300,7 +300,7 @@
                 <div class="col-lg-6 col-md-12 order-2 order-md-1" style="padding-bottom: 10px;">
                     <div class="video-container">
                         <div class="gradient-overlay"></div>
-                        <img src="{{ asset('assets/image (6).png') }}" class="thumbnail" alt="Video Thumbnail" />
+                        <img src="{{ asset($develop_skills->video_thumbnail) }}" class="thumbnail" alt="Video Thumbnail" />
                         <span class="play-button"><img src="{{ asset('assets/Play (1).svg') }}"
                                 alt="Play Button" /></span>
                         <div class="embed-responsive" style="display: none;">
@@ -313,7 +313,7 @@
                     </div>
                     <h1
                         style="width: 100%; color: #EDEDED; font-size: 16px; font-family: Space Grotesk; font-weight: 700; word-wrap: break-word;padding-top: 5px;">
-                        {{ __('Transformación Personal para Emprendedores') }}
+                        {{ $develop_skills->video_caption }}
                     </h1>
                 </div>
 
@@ -321,15 +321,12 @@
 
                     <h1 class="text-center text-md-start"
                         style="width: 100%; color: #EDEDED; font-size: 32px; font-family: Space Grotesk; font-weight: 700; word-wrap: break-word;">
-                        {{ __('Desarrolla Tus Habilidades: Coaching y Formación para Emprendedores') }}
+                        {{ $develop_skills->title }}
                     </h1>
 
                     <p class="text-center text-md-start"
                         style="width: 100%; color: #A1A1A1; font-size: 16px; font-family: 'Space Grotesk', sans-serif; font-weight: 400; line-height: 24px; word-wrap: break-word;">
-                        {{ __('Nuestra sección de Coaching y Cursos está diseñada para empoderar a emprendedores a través de
-                                                                                                programas prácticos de formación. Aprende de expertos en marketing, desarrollo personal e
-                                                                                                inteligencia emocional, y transforma tus conocimientos en oportunidades de éxito. Únete a nuestra
-                                                                                                comunidad y comienza tu viaje hacia el crecimiento hoy mismo.') }}
+                        {{ $develop_skills->description }}
                     </p>
                 </div>
 

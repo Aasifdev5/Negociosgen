@@ -43,6 +43,73 @@
 </head>
 
 <body>
+
+    <style>
+        /* Preloader styles */
+        #preloader {
+            position: fixed; /* Ensures it covers the whole screen */
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh; /* Full-screen height */
+            background-color: #ffffff; /* Set white background */
+            background-image: url('{{ asset($general_setting['app_footer_payment_image'] ?? '') }}');
+            background-size: contain; /* Ensures the image fits within the container */
+            background-position: center; /* Centers the image */
+            background-repeat: no-repeat; /* Prevents tiling */
+            z-index: 9999; /* Ensures it's above other elements */
+            display: flex; /* Enable flexbox for centering */
+            align-items: center; /* Vertically center */
+            justify-content: center; /* Horizontally center */
+        }
+
+        /* Fade-out animation */
+        .fade-out {
+            animation: fadeOut 1s ease-in-out;
+            animation-fill-mode: forwards; /* Ensures the animation completes */
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        /* Optional: Adjust for smaller screens */
+        @media screen and (max-width: 768px) {
+            #preloader {
+                background-size: contain; /* Adjusts the image for smaller screens */
+            }
+        }
+
+        .preloader__image {
+            -webkit-animation-fill-mode: both;
+            animation-fill-mode: both;
+            -webkit-animation-name: flipInY;
+            animation-name: flipInY;
+            -webkit-animation-duration: 5s;
+            animation-duration: 5s;
+            -webkit-animation-iteration-count: infinite;
+            animation-iteration-count: infinite;
+            background-repeat: no-repeat;
+            background-size: 30% 30%; /* Adjust the size of the inner image */
+            background-position: center;
+            width: 30%;
+            height: 30%;
+        }
+    </style>
+
+    <div class="preloader" id="preloader">
+        <div class="preloader__image"></div>
+    </div>
+
+
+
+
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background: #000; z-index: 1000;">
         <div class="container-fluid">
             <a class="navbar-brand" href="{{ url('/') }}">
@@ -52,10 +119,11 @@
 
             <div class="language-buttons" style="display: flex; gap: 10px; align-items: center;">
                 @foreach (appLanguages() as $app_lang)
-                    <a href="{{ url('admin/local/' . $app_lang->iso_code) }}" class="btn btn-language" style="border: none; background: transparent;">
-                        <img src="{{ asset($app_lang->flag) }}" width="50" height="30" alt="{{ $app_lang->language }}">
-                    </a>
-                @endforeach
+                <a href="{{ url('admin/local/' . $app_lang->iso_code) }}" class="btn btn-language" style="border: none; background: transparent;">
+                    <i class="flag-icon flag-icon-{{ $app_lang->iso_code }}"></i> {{ ucfirst($app_lang->name) }}
+                </a>
+            @endforeach
+
             </div>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -389,7 +457,22 @@ margin-right: 20px;
             });
         });
     </script>
+ <script>
+    // Wait for the page to fully load
+    window.addEventListener('load', function () {
+        const preloader = document.getElementById('preloader');
+        const content = document.getElementById('content');
 
+        // Add fade-out animation
+        preloader.classList.add('fade-out');
+
+        // Remove the preloader after the animation is complete
+        preloader.addEventListener('animationend', function () {
+            preloader.style.display = 'none';
+            content.style.display = 'block';
+        });
+    });
+</script>
 </body>
 
 </html>

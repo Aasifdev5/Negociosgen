@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\UserRegistered;
+
 use App\Mail\ComposeMail;
-use App\Mail\MarkdownMail;
+
 use App\Mail\SendMailreset;
 use App\Models\Audiobook;
 use App\Models\BankDetails;
 use App\Models\Banner;
-use App\Models\BillingDetail;
+
 use App\Models\Blog;
-use App\Models\BlogCategory;
+
 use App\Models\BlogComment;
 use App\Models\Brand;
 use App\Models\Campaign;
@@ -22,6 +22,7 @@ use App\Models\Country;
 use App\Models\Course;
 use App\Models\Event;
 use App\Models\GeneralSetting;
+use App\Models\HomeSettings;
 use App\Models\Like;
 use App\Models\MailTemplate;
 use App\Models\News;
@@ -102,10 +103,12 @@ class UserController extends Controller
         // Fetch 4 most recent courses
         $audiobook = Audiobook::orderBy('created_at', 'desc')->take(6)->get();  // Fetch 6 most recent audiobooks
         $latest_posts = News::orderBy('id', 'DESC')->take(3)->get();
+        $develop_skills = HomeSettings::where('key', 'develop_skills')->first();
+        $success_tips = HomeSettings::where('key', 'success_tips')->first();
         $brands = Brand::all();
         $pages = Page::all();
 
-        return view('index', compact('user_session',   'pages', 'course', 'audiobook', 'brands','supportQuestions','latest_posts'));
+        return view('index', compact('user_session',   'pages', 'course', 'audiobook', 'brands','supportQuestions','latest_posts','success_tips','develop_skills'));
     }
     public function requestWithdrawal(Request $request)
     {
@@ -602,23 +605,17 @@ class UserController extends Controller
         return view('blog', compact('user_session', 'latest_posts', 'blogs', 'pages', 'blogComments', 'query'));
     }
 
-    public function news_category($slug)
+    public function news(Request $request)
     {
-        $news = DB::table('blogs')
-            ->join('blog_categories', 'blogs.blog_category_id', '=', 'blog_categories.id')
-            ->where('blog_categories.slug', $slug)
-            ->select('blogs.*')
-            ->get();
-
-        // dd($news);
+        $query = $request->get('query');
         $user_session = User::where('id', Session::get('LoggedIn'))->first();
-        $title = $slug;
-        $data['blogComments'] = BlogComment::active();
-        $blogComments = $data['blogComments']->whereNull('parent_id')->get();
-        $pages = Page::all();
-        $latest_posts = Blog::orderBy('id', 'DESC')->paginate(3);
 
-        return view('news_category', compact('user_session', 'latest_posts', 'title', 'news', 'pages', 'blogComments'));
+        $latest_posts = News::when($query, function ($queryBuilder) use ($query) {
+            $queryBuilder->where('title', 'like', '%' . $query . '%')
+                ->orWhere('content', 'like', '%' . $query . '%')->orWhere('author', 'like', '%' . $query . '%');
+        })->orderBy('id', 'DESC')->paginate(9);
+
+        return view('news', compact('user_session', 'latest_posts'));
     }
     public function blogCommentStore(Request $request)
     {
@@ -893,12 +890,13 @@ class UserController extends Controller
 
         // Fetch courses with pagination
         $courses = Course::latest()->paginate(12);
-
+        $develop_skills = HomeSettings::where('key', 'develop_skills')->first();
+        $success_tips = HomeSettings::where('key', 'success_tips')->first();
         // Fetch pages
         $pages = Page::all();
 
         // Render the course view
-        return view('course', compact('pages', 'user_session', 'courses'));
+        return view('course', compact('pages', 'user_session', 'courses','success_tips','develop_skills'));
     }
 
     public function storeBack(Request $request)

@@ -139,7 +139,7 @@ Route::group(['middleware' => ['prevent-back-history', SetLocale::class]], funct
     Route::get('term', [UserController::class, 'term'])->name('term');
     Route::get('/invoice/{id}', [InvoiceController::class, 'generateInvoice'])->name('invoice.generate');
 
-    Route::get('/news-category/{id}', [UserController::class, 'news_category'])->name('news_category');
+    Route::get('/news', [UserController::class, 'news'])->name('news');
     Route::get('/membership', [UserController::class, 'membership'])->name('membership');
     Route::get('/membership/renew', [UserController::class, 'membershipRenew'])->name('membershipRenew');
     Route::post('/renew', [UserController::class, 'renew'])->name('renew');
@@ -353,6 +353,8 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('banner-section-settings', [HomeSettingController::class, 'bannerSection'])->name('banner-section');
             Route::post('banner-section-settings', [HomeSettingController::class, 'bannerSectionUpdate'])->name('banner-section.update');
             Route::get('special-feature-section-settings', [HomeSettingController::class, 'specialFeatureSection'])->name('special-feature-section');
+            Route::post('updateHomeSettings', [HomeSettingController::class, 'updateHomeSettings'])->name('updateHomeSettings');
+            Route::post('updateCourseSettings', [HomeSettingController::class, 'updateCourseSettings'])->name('updateCourseSettings');
             Route::get('course-section-settings', [HomeSettingController::class, 'courseSection'])->name('course-section');
             Route::get('category-course-section-settings', [HomeSettingController::class, 'categoryCourseSection'])->name('category-course-section');
             Route::get('upcoming-course-section-settings', [HomeSettingController::class, 'upcomingCourseSection'])->name('upcoming-course-section');
