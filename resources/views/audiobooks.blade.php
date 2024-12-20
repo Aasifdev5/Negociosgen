@@ -21,7 +21,7 @@
         <div class="row">
             @foreach ($audiobooks as $row)
             <div class="col-lg-6 col-md-6 col-12 mb-4">
-                <div style="background: #1a1a1a; padding: 15px; border: 1px solid #2e2e2e; border-radius: 8px;">
+                <div style="background: #000; padding: 15px; border: 1px solid #2e2e2e; border-radius: 8px;">
                     <!-- Audiobook Title -->
                     <h3 style="color: white; font-size: 18px; margin-bottom: 10px;">
                         <a href="{{ route('showAudiobookDetails', $row->id) }}" style="color: #00aced; text-decoration: none;">

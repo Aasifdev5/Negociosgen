@@ -3,7 +3,7 @@
     {{ __('¿Necesitas ayuda?') }}
 @endsection
 @section('content')
-    <section style="padding: 90px 0;background: #1A1A1A;">
+    <section style="padding: 90px 0;background: #000;">
 
         <div class="container my-5">
             @if (Session::has('success'))

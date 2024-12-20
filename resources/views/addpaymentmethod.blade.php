@@ -3,7 +3,7 @@
     {{ __('Formulario de Registro') }}
 @endsection
 @section('content')
-<section style="padding: 90px 0; background: #1a1a1a">
+<section style="padding: 90px 0; background: #000">
     <div class="container">
         @if(Session::has('success'))
         <div class="alert alert-success">

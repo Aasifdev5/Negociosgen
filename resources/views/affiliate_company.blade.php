@@ -3,7 +3,7 @@
 {{ __('Empresas Afiliadas') }}
 @endsection
 @section('content')
-<section style="padding: 20px 0;background: #1A1A1A;">
+<section style="padding: 20px 0;background: #000;">
 
 <div class="container py-5">
     @if(Session::has('success'))
@@ -24,7 +24,7 @@
         </p>
     </div>
 
-    <section style="padding: 20px 0;background: #1A1A1A;">
+    <section style="padding: 20px 0;background: #000;">
         <div class="container">
             <h1 style="padding-top: 5px;color: #ffff;">{{ __('Nuestros Aliados') }}</h1>
             <p style="color: #A1A1A1;">{{ __('También disfrutarás de descuentos en una amplia variedad de negocios asociados a nivel nacional e internacional.') }}</p>

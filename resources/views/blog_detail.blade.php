@@ -45,7 +45,7 @@
             /* Remove the border */
         }
     </style>
-    <section style="padding: 90px 0; background: #1a1a1a">
+    <section style="padding: 90px 0; background: #000">
         <div class="container-fluid custom-bg w-100">
             <div class="container my-5">
                 @if(Session::has('success'))
@@ -151,7 +151,7 @@
             </div>
         </div>
     </section>
-    <section style="padding: 20px 0; background: #0A0A0A;">
+    <section style="padding: 20px 0; background: #000;">
         <div class="container my-4">
             <div class="row">
                 <div class="col-lg-9 col-md-12 col-sm-12 col-12 mb-4 p-4"

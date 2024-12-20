@@ -7,7 +7,7 @@
 @section('content')
 
     <!-- Main Content Section -->
-    <section style="padding: 160px 0 40px 0; background: #111;">
+    <section style="padding: 160px 0 40px 0; background: #000;">
         <div class="container">
             @if (Session::has('success'))
                 <div class="alert alert-success">

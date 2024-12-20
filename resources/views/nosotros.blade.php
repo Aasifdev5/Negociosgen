@@ -101,7 +101,7 @@
     </div>
   </div>
 
-  <section style="padding: 20px 0; background-color: #0a0a0a">
+  <section style="padding: 20px 0; background-color: #000">
     <div class="container">
       <div class="row">
         <div
@@ -261,7 +261,7 @@
       </div>
     </div>
   </section>
-  <section style="padding: 20px 0; background: #1a1a1a">
+  <section style="padding: 20px 0; background: #000">
     <div class="container">
       <div class="row my-4 text-center text-md-start">
         <div class="col-12 mb-4">
@@ -912,7 +912,7 @@
         </div>
       </div>
 
-        <div class="container py-5" style="background: #1A1A1A;border: 1px solid #1A1A1A;border-radius: 16px;">
+        <div class="container py-5" style="background: #000;border: 1px solid #000;border-radius: 16px;">
           <div class="row align-items-center">
             <!-- Image on the left -->
             <div class="col-lg-6 col-md-12 text-center mb-4 mb-lg-0">
@@ -1049,7 +1049,7 @@
               <div class="col-6 col-md-4">Bs. 21,870</div>
           </div>
       </div>
-      <div class="container py-5 text-center" style="background: #0f1c2e;border: 1px solid #1a1a1a;border-radius: 16px;">
+      <div class="container py-5 text-center" style="background: #0f1c2e;border: 1px solid #000;border-radius: 16px;">
           <!-- Title -->
           <div class="row justify-content-center">
               <div class="col-12">

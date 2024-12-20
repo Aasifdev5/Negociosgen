@@ -25,7 +25,7 @@
             /* Optional: Change the text color for better contrast */
         }
     </style>
-    <section style="padding: 90px 0; background: #1a1a1a;">
+    <section style="padding: 90px 0; background: #000;">
         <h1 class="text-center" style="color: #ededed;">
             Términos de <span style="color: #0090ff;">Uso</span>
         </h1>

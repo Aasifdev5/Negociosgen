@@ -32,11 +32,11 @@
 
   <style>
     body {
-      background-color: #0A0A0A;
+      background-color: #000;
       color: #EDEDED;
     }
     .auth-bg-video {
-      background: #0A0A0A;
+      background: #000;
     }
     .authentication-box {
       background: #000;

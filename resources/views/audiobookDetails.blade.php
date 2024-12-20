@@ -68,7 +68,7 @@
 
         .details-container {
             padding: 25px;
-            background: #1a1a1a;
+            background: #000;
             border-radius: 12px;
             box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5);
         }

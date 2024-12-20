@@ -140,7 +140,7 @@
                     </li>
                     <li
                         class="nav-item nav-item-custom-padding {{ Request::is('who')  ? 'active' : '' }}">
-                        <a class="nav-link text-light" href="{{ url('who') }}">{{ __('Quienes somos nosotras') }}</a>
+                        <a class="nav-link text-light" href="{{ url('who') }}">{{ __('Quienes somos') }}</a>
                     </li>
                     <li
                         class="nav-item nav-item-custom-padding {{ Request::is('affiliate_company')  ? 'active' : '' }}">
@@ -271,7 +271,7 @@ margin-right: 20px;
     @yield('content')
 
     <!-- Footer -->
-    <footer class="section-footer text-light py-4" style="background-color: #0A0A0A;">
+    <footer class="section-footer text-light py-4" style="background-color: #000;">
         <div class="container">
             <div class="row">
                 <!-- Logo Section -->

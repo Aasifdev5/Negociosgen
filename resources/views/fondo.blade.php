@@ -4,7 +4,7 @@
 @endsection
 @section('content')
 
-<section style="background: #1a1a1a; padding: 100px 0;">
+<section style="background: #000; padding: 100px 0;">
     <div class="container">
         <div class=" text-light p-4 rounded" style="border: 1px solid #000;background: #000;">
             <div class="text-center mb-4">

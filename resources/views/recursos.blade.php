@@ -13,7 +13,7 @@
     <p>{{session::get('fail')}}</p>
 </div>
 @endif
-    <section style="padding: 80px 0; background: #1a1a1a">
+    <section style="padding: 80px 0; background: #000">
         <div class="container mt-5">
             <!-- Title Section -->
             <h1 class="text-center text-light mb-4">{{ __('Elige tu recurso y ') }}<span
@@ -302,7 +302,7 @@
 
     <div class="modal fade" id="bannerModal" tabindex="-1" aria-labelledby="bannerModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content" style="background-color: #0A0A0A; color: #ededed;">
+            <div class="modal-content" style="background-color: #000; color: #ededed;">
                 <div class="modal-header" style="border: none;">
                     <h5 class="modal-title banner-de-marketing text-light" id="bannerModalLabel"></h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>

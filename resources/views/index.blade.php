@@ -173,7 +173,7 @@
 
 
     </div>
-    <div class="container-fluid custom-bg w-100" style="padding: 50px 0; background: #1a1a1a;">
+    <div class="container-fluid custom-bg w-100" style="padding: 50px 0; background: #000;">
         <div class="container my-5">
             <!-- Title -->
             <h2 class="text-center mb-5"
@@ -294,7 +294,7 @@
         </div>
     </div>
 
-    <section style="padding: 20px 0; background-color: #0A0A0A;">
+    <section style="padding: 20px 0; background-color: #000;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-6 col-md-12 order-2 order-md-1" style="padding-bottom: 10px;">
@@ -328,6 +328,7 @@
                         style="width: 100%; color: #A1A1A1; font-size: 16px; font-family: 'Space Grotesk', sans-serif; font-weight: 400; line-height: 24px; word-wrap: break-word;">
                         {{ $develop_skills->description }}
                     </p>
+                    <a href="{{ url('membership') }}" class="btn btn-primary btn-lg">{{ __('Únete ahora') }}</a>
                 </div>
 
 
@@ -337,7 +338,7 @@
     </section>
 
 
-    <section style="padding: 20px 0; background-color: #0A0A0A; position: relative;">
+    <section style="padding: 20px 0; background-color: #000; position: relative;">
         <div class="container">
             <!-- View All Button -->
             <div class="view-all-btn" style="position: absolute; top: -30px; right: 20px;">
@@ -378,6 +379,83 @@
             </div>
         </div>
     </section>
+    <section style="padding: 20px 0; background: #000;">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-lg-6 col-md-12 text-center text-md-start" style="padding-bottom: 10px;">
+                    <h2 class="mb-4" style="color: #EDEDED; font-family: Space Grotesk; font-weight: 700;">
+                        {{ $success_tips->title }}
+                    </h2>
+                    <p style="color: #A1A1A1; font-size: 16px; font-family: Space Grotesk; font-weight: 400; line-height: 24px;">
+                        {{ $success_tips->description }}
+                    </p>
+
+                </div>
+
+
+
+
+                <!-- Repeat for other columns -->
+                <div class="col-lg-6 col-md-12" style="padding-bottom: 10px;">
+                    <div class="video-container">
+                        <div class="gradient-overlay"></div>
+                        <img src="{{ asset($success_tips->video_thumbnail) }}" class="thumbnail" alt="Video Thumbnail" />
+                        <span class="play-button"><img src="{{ asset('assets/Play (1).svg') }}" alt="Play Button" /></span>
+                        <div class="embed-responsive" style="display: none;">
+                            <video class="embed-responsive-item" controls>
+                                <source src="Affiliate Marketing Whiteboard Video.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                    </div>
+                    <h1 style="width: 100%; color: #EDEDED; font-size: 20px; font-family: Space Grotesk; font-weight: 700; word-wrap: break-word;">
+                        {{ $success_tips->video_caption }}
+                    </h1>
+                </div>
+            </div>
+
+            <!-- View All Button -->
+            <div class="view-all-btn" style="position: absolute; top: -30px; right: 20px;">
+                <a href="{{ url('course') }}" class="btn btn-primary">{{ __('Ver Todos') }}</a>
+            </div>
+
+            <div class="row">
+                @foreach ($course as $row)
+                    <!-- Use $row to avoid conflict with $course -->
+                    <div class="col-lg-3 col-md-12" style="margin-bottom: 20px;">
+                        <!-- Course Introduction -->
+                        <div class="course-intro" style="margin-bottom: 20px;">
+                            <div class="video-container">
+                                <div class="gradient-overlay"></div>
+                                <img src="{{ asset($row->video_thumbnail) }}" class="thumbnail"
+                                    alt="Course Thumbnail" />
+                                @if (!empty($user_session))
+                                    <span class="play-button">
+                                        <img src="{{ asset('assets/Play (1).svg') }}" alt="Play Button" />
+                                    </span>
+                                @else
+                                    <a href="{{ url('Userlogin') }}">
+                                        <span class="play-button">
+                                            <img src="{{ asset('assets/Play (1).svg') }}" alt="Play Button" />
+                                        </span>
+                                    </a>
+                                @endif
+                                <div class="embed-responsive" style="display: none;">
+                                    <iframe class="embed-responsive-item" src="{{ $row->getEmbedUrl($row->video_link) }}"
+                                        frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                                </div>
+                            </div>
+                            <h3 style="color: #EDEDED; margin-top: 10px;">{{ $row->title }}</h3>
+                            <p style="color: #E0E0E0;">Coach: {{ $row->coache }}</p>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+
+        </div>
+    </section>
+
 
     <section style="padding: 20px 0; background: #000000; position: relative;">
         <div class="container">
@@ -450,7 +528,7 @@
             <div class="row">
                 @foreach ($audiobook as $row)
                     <div class="col-lg-6 col-md-6 col-12 mb-4">
-                        <div style="background: #1a1a1a; padding: 15px; border: 1px solid #2e2e2e; border-radius: 8px;">
+                        <div style="background: #000; padding: 15px; border: 1px solid #2e2e2e; border-radius: 8px;">
                             <!-- Audiobook Title -->
                             <h3 style="color: white; font-size: 18px; margin-bottom: 10px;">
                                 <a href="{{ route('showAudiobookDetails', $row->id) }}"
@@ -476,7 +554,7 @@
     </section>
 
 
-    <section style="padding: 40px 0; background: #111111; position: relative;">
+    <section style="padding: 40px 0; background: #000; position: relative;">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h1 class="text-light">{{ __('Noticias') }}</h1>
@@ -509,7 +587,7 @@
 
 
 
-    <section style="padding: 20px 0; background: #1A1A1A;">
+    <section style="padding: 20px 0; background: #000;">
         <div class="container">
             <div class="row">
                 <!-- Column 1: Text Content -->
@@ -574,9 +652,14 @@
 
         </div>
     </section>
-    <section style="padding: 20px 0;background: #1A1A1A;">
+    <section style="padding: 20px 0;background: #000;">
         <div class="container">
-            <h1 style="padding-top: 5px;color: #ffff;">{{ __('Nuestros Aliados') }}</h1>
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 style="padding-top: 5px;color: #ffff;">{{ __('Empresas aliadas') }}</h1>
+                <a href="{{ url('affiliate_company') }}" class="btn btn-primary btn-sm pull-right">{{ __('Ver más') }}</a>
+            </div>
+
+
             <p style="color: #A1A1A1;">
                 {{ __('También disfrutarás de descuentos en una amplia variedad de negocios asociados a nivel nacional e internacional.') }}
             </p>
@@ -631,7 +714,7 @@
         </div>
     </section>
     <!-- Sección de Ingreso Adicional -->
-    <section style="padding: 40px 0; background: #1A1A1A;">
+    <section style="padding: 40px 0; background: #000;">
         <div class="container">
             <div class="text-center mb-4">
                 <h2 class="text-light fw-bold">{{ __('Ingreso Adicional') }}</h2>
@@ -671,7 +754,7 @@
         </div>
     </section>
 
-    <section style="padding: 20px 0;background: #212020;">
+    <section style="padding: 20px 0;background: #000;">
         <div class="container">
             <div class="container my-5 p-4"
                 style="background-color: #0f1c2e; border: 1px solid #2E2E2E; border-radius: 16px;">
@@ -699,7 +782,7 @@
         $general_setting = \App\Models\Setting::pluck('option_value', 'option_key')->toArray();
 
     @endphp
-    <section style="padding: 20px 0;background: #1A1A1A;">
+    <section style="padding: 20px 0;background: #000;">
         <div class="container my-5">
             <div class="row">
                 <!-- Left Column: Contact Information -->

@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-<section style="padding: 105px 0; background: #1a1a1a;">
+<section style="padding: 105px 0; background: #000;">
     <div class="container">
         <!-- Success Message -->
         @if(Session::has('success'))

@@ -8,7 +8,7 @@
 @php
         $general_setting = \App\Models\Setting::pluck('option_value', 'option_key')->toArray();
     @endphp
-<section style="padding: 20px 0;background: #1A1A1A;">
+<section style="padding: 20px 0;background: #000;">
     <div class="container mt-5">
         <div class="row">
             <div class="col-md-12">

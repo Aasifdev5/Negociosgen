@@ -106,7 +106,7 @@
 
     </style>
 
-    <section style="padding: 80px 0; background: #1a1a1a">
+    <section style="padding: 80px 0; background: #000">
         <div class="container">
             @if(Session::has('success'))
 <div class="alert alert-success">
@@ -328,12 +328,12 @@
 
                     <div class="row text-center mb-3 g-3">
                         <div class="col text-white"
-                             style="background: #1a1a1a; border:#1a1a1a; border-radius:10px; padding:15px;margin-right: 5px;">
+                             style="background: #000; border:#000; border-radius:10px; padding:15px;margin-right: 5px;">
                             <b id="totalSales">$500</b>
                             <div>{{ __('Ventas') }} Totales</div>
                         </div>
                         <div class="col-sm-6 text-white"
-                             style="background: #1a1a1a; border:#1a1a1a; border-radius:10px; padding:15px;">
+                             style="background: #000; border:#000; border-radius:10px; padding:15px;">
                             <b id="referralsActive">50</b>
                             <div>Referidos Activos</div>
                         </div>

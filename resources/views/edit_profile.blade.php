@@ -3,7 +3,7 @@
     {{ __('Editar Tu Perfil') }}
 @endsection
 @section('content')
-    <section style="padding: 80px 0; background: #1a1a1a">
+    <section style="padding: 80px 0; background: #000">
         <div class="container my-5">
             @if (Session::has('success'))
                 <div class="alert alert-success" style="background-color: green;">

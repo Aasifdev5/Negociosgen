@@ -7,7 +7,7 @@
         $general_setting = \App\Models\Setting::pluck('option_value', 'option_key')->toArray();
     @endphp
 
-    <section style="padding: 40px 0; background: #1A1A1A;">
+    <section style="padding: 40px 0; background: #000;">
         <div class="container py-5">
             @if(Session::has('success'))
      <div class="alert alert-success">
