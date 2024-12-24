@@ -36,7 +36,7 @@
 
                     <!-- Link to More Details -->
                     <a href="{{ route('showAudiobookDetails', $row->id) }}" class="btn btn-sm btn-secondary">
-                        {{ __('Learn More') }}
+                        {{ __('Más información') }}
                     </a>
                 </div>
             </div>

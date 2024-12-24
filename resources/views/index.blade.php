@@ -1,6 +1,6 @@
 @extends('master')
 @section('title')
-    Inicio
+    {{ __('Inicio') }}
 @endsection
 @section('content')
 
@@ -50,8 +50,7 @@
                     font-weight: 400;
                     line-height: 28px;
                     color: #A1A1A1;">
-                        {{ __('Únete a nuestro equipo de afiliados, toma nuestros cursos de desarrollo personal y genera ingresos
-                                                                                                promoviendo conocimiento y transformación.') }}
+                        {{ __('Únete a nuestro equipo de afiliados, toma nuestros cursos de desarrollo personal y genera ingresos promoviendo conocimiento y transformación.') }}
                     </p>
 
                     <!-- Button -->
@@ -544,7 +543,7 @@
 
                             <!-- Link to More Details -->
                             <a href="{{ route('showAudiobookDetails', $row->id) }}" class="btn btn-sm btn-secondary">
-                                {{ __('Learn More') }}
+                                {{ __('Más información') }}
                             </a>
                         </div>
                     </div>

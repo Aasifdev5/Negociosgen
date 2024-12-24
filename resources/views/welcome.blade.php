@@ -37,7 +37,7 @@
             />
             <div class="d-grid gap-2">
               <a href="{{ url('dashboard') }}" class="btn btn-primary" id="frameContainer">
-                Empezar
+                {{ __('Empezar') }}
               </a>
             </div>
           </div>

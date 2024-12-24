@@ -114,7 +114,7 @@
 
                     <div class="row mb-3">
                         <div class="col-md-6 mb-3">
-                            <label for="contrasena" class="form-label text-light">Contraseña</label>
+                            <label for="contrasena" class="form-label text-light">{{ __('Contraseña') }}</label>
                             <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" id="contrasena" placeholder="xxxxxxxxxxxxx">
                             @error('password')
                                 <div class="invalid-feedback">
@@ -123,7 +123,7 @@
                             @enderror
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="confirmContrasena" class="form-label text-light">Repetir Contraseña</label>
+                            <label for="confirmContrasena" class="form-label text-light">{{ __('Repetir Contraseña') }}</label>
                             <input type="password" name="confirm_password" class="form-control @error('confirm_password') is-invalid @enderror" id="confirmContrasena" placeholder="xxxxxxxxxxxxx">
                             @error('confirm_password')
                                 <div class="invalid-feedback">

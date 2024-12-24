@@ -31,7 +31,7 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label for="contrasena" class="form-label text-light">Contraseña</label>
+                                <label for="contrasena" class="form-label text-light">{{ __('Contraseña') }}</label>
                                 <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" id="contrasena" placeholder="xxxxxxxxxxxxx">
                                 @error('password')
                                     <div class="invalid-feedback">
@@ -39,7 +39,7 @@
                                     </div>
                                 @enderror
                             </div>
-                            <button type="submit" class="btn btn-primary w-100">Login</button>
+                            <button type="submit" class="btn btn-primary w-100">{{ __('Iniciar Sesión') }}</button>
                             <div class="mt-3 text-center">
                                 <span class="text-light">{{ __('¿Aún no eres afiliado?') }} </span>
                                 <a href="{{ url('membership') }}" class="text-primary">{{ __('Únete ahora') }}</a>

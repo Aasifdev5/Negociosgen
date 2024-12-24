@@ -1,13 +1,13 @@
 @extends('master')
 
 @section('title')
-{{ __('Work with Us') }}
+{{ __('Trabaja con Nosotros') }}
 @endsection
 
 @section('content')
 @php
         $general_setting = \App\Models\Setting::pluck('option_value', 'option_key')->toArray();
-    @endphp
+@endphp
 <section style="padding: 20px 0;background: #000;">
     <div class="container mt-5">
         <div class="row">
@@ -17,35 +17,33 @@
                     <div class="card-body">
                         <div class="text-center pt-5 mb-5">
                             <img src="<?php echo '/' . $general_setting['app_footer_payment_image'] ?? ''; ?>" alt="GEN Logo" class="img-fluid mb-3" width="200px" height="200px" style="max-width: 200px;">
-                            <h1 class="fw-bold text-light">Work with Us</h1>
+                            <h1 class="fw-bold text-light">{{ __('Trabaja con Nosotros') }}</h1>
                             <p class="lead" style="color: #A1A1A1;">
-                                GEN, Specialized Business Group, is a company dedicated to financial education, motivation, and personal growth.
-                                Our commitment is to provide high-value services, helping individuals achieve their goals and transform their lives.
-                                With a focus on tangible results, we are here to guide you toward mental, physical, spiritual, and financial freedom.
+                                {{ __('GEN, Grupo Empresarial Especializado, es una compañía dedicada a la educación financiera, motivación y crecimiento personal.Nuestro compromiso es ofrecer servicios de alto valor, ayudando a las personas a alcanzar sus metas y transformar sus vidas. Con un enfoque en resultados tangibles, estamos aquí para guiarte hacia la libertad mental, física, espiritual y financiera.') }}
                             </p>
                         </div>
-                        <p class="lead  text-center" style="color: #A1A1A1;">
-                            <strong>{{ __('Explore career opportunities and unlock potential with GEN!') }}</strong>
+                        <p class="lead text-center" style="color: #A1A1A1;">
+                            <strong>{{ __('¡Explora oportunidades de carrera y desbloquea tu potencial con GEN!') }}</strong>
                         </p>
 
                         <div class="row">
                             <div class="col-md-6">
-                                <h3 class="text-light">{{ __('What We Offer') }}</h3>
+                                <h3 class="text-light">{{ __('Lo que Ofrecemos') }}</h3>
                                 <ul style="color: #A1A1A1;">
-                                    <li>Multi-level marketing opportunities</li>
-                                    <li>Comprehensive training and development programs</li>
-                                    <li>Networking benefits with industry professionals</li>
-                                    <li>Flexible working hours and remote options</li>
-                                    <li>Attractive compensation and rewards</li>
+                                    <li>{{ __('Oportunidades de marketing multinivel') }}</li>
+                                    <li>{{ __('Programas de capacitación y desarrollo integral') }}</li>
+                                    <li>{{ __('Beneficios de networking con profesionales de la industria') }}</li>
+                                    <li>{{ __('Horarios flexibles y opciones remotas') }}</li>
+                                    <li>{{ __('Compensaciones y recompensas atractivas') }}</li>
                                 </ul>
                             </div>
                             <div class="col-md-6">
-                                <h3 class="text-light">{{ __('How to Get Started') }}</h3>
-                                <p style="color: #A1A1A1;">To join our network and take advantage of these incredible opportunities, follow these simple steps:</p>
+                                <h3 class="text-light">{{ __('Cómo Comenzar') }}</h3>
+                                <p style="color: #A1A1A1;">{{ __('Para unirte a nuestra red y aprovechar estas increíbles oportunidades, sigue estos sencillos pasos:') }}</p>
                                 <ol style="color: #A1A1A1;">
-                                    <li>Fill out the application form</li>
-                                    <li>Attend our introductory session</li>
-                                    <li>Start your journey with GEN!</li>
+                                    <li>{{ __('Completa el formulario de solicitud') }}</li>
+                                    <li>{{ __('Asiste a nuestra sesión introductoria') }}</li>
+                                    <li>{{ __('¡Empieza tu viaje con GEN!') }}</li>
                                 </ol>
                             </div>
                         </div>
@@ -58,7 +56,7 @@
         </div>
     </div>
 
-    <!-- Add some custom styling to enhance the design -->
+    <!-- Añadir algo de estilo personalizado para mejorar el diseño -->
     <style>
         .card-header {
             border-bottom: 2px solid #fff;

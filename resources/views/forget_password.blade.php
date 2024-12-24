@@ -27,10 +27,10 @@
                                         placeholder="ejemplo@gmail.com" required>
                                 </div>
 
-                                <button type="submit" class="btn btn-primary w-100">Enviar</button>
+                                <button type="submit" class="btn btn-primary w-100">{{ __('Enviar') }}</button>
                                 <div class="mt-3 text-center">
                                     <span class="text-light">{{ __('¿Aún no eres afiliado?') }} </span>
-                                    <a href="{{ url('Userlogin') }}" class="text-primary">Únete aquí</a>
+                                    <a href="{{ url('Userlogin') }}" class="text-primary">{{ __('Únete aquí') }}</a>
                                 </div>
                             </form>
                         </div>

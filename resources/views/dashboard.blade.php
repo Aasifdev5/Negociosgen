@@ -51,7 +51,7 @@
                     <div class="menu-item mb-3 d-flex align-items-center">
                         <a href="{{ url('gen_cards') }}" style="text-decoration: none; color: inherit;">
                             <i class="fas fa-credit-card me-2" style="font-size: 24px;"></i>
-                            <span>{{ __('GEN Cards') }}</span>
+                            <span>{{ __('Tarjetas GEN') }}</span>
                         </a>
                     </div>
 
@@ -64,7 +64,7 @@
                     <div class="menu-item mb-3 d-flex align-items-center">
                         <a href="{{ url('gen_members_area') }}" style="text-decoration: none; color: inherit;">
                             <i class="fas fa-tree me-2" style="font-size: 24px;"></i>
-                            <span>{{ __('GEN Members Area') }}</span>
+                            <span>{{ __('Área de miembros de GEN') }}</span>
                         </a>
                     </div>
 
@@ -87,11 +87,11 @@
                             @if (!empty($user_session->profile_photo))
                             <img src="{{ asset('profile_photo/') }}<?php echo '/' . $user_session->profile_photo; ?>" class="rounded-circle img-fluid" alt="{{ $user_session->name }}" width="24" height="24">
 
-                            <span>Perfil</span>
+                            <span>{{ __('Perfil') }}</span>
                         @else
                         <img src="{{ asset('149071.png') }}" alt="Perfil" class="me-2 rounded-circle" width="24" height="24">
 
-                        <span>Perfil</span>
+                        <span>{{ __('Perfil') }}</span>
                         @endif
 
 

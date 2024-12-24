@@ -282,6 +282,20 @@ class UserController extends Controller
                         'user' => $user
                     ]);
                 }
+                if ($user->membership_status == 'expired') {
+                    // Actualizar detalles del usuario después de una verificación exitosa
+                    $user->update([
+                        'is_online' => 1,
+                        'last_seen' => Carbon::now('UTC')
+                    ]);
+
+                    // Establecer la sesión para el usuario conectado
+                    $request->session()->put('LoggedIn', $user->id);
+                    return redirect('/membership/renew')->with([
+
+                        'user' => $user
+                    ]);
+                }
                 // Verificar si el usuario está suscrito
                 if ($user->is_subscribed !== 1) {
                     return back()->with('fail', 'Tu cuenta no está suscrita. Por favor, suscríbete para continuar.');

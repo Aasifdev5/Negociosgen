@@ -1,6 +1,6 @@
 @extends('master')
 @section('title')
-    {{ __('Formulario de Registro') }}
+    {{ __('Pagar ahora') }}
 @endsection
 @section('content')
 <section style="padding: 90px 0; background: #000">
@@ -21,7 +21,7 @@
             <div class="col-lg-6 mb-4">
                 <div class="container" style="background: #000; padding: 20px; border: 1px solid #000; border-radius: 16px;">
                     <div class="mb-4">
-                        <h4 class="text-light">Selected Membership:
+                        <h4 class="text-light">{{ __('Membresía seleccionada') }}:
                         @if ($user_session->membershipType=="GEN_CLASSIC")
                         GEN CLASSIC Member
                         @endif
@@ -66,7 +66,7 @@
                                     <input type="text" class="form-control" id="amount" name="amount">
                                 </div>
                                 <div class="payment__history mb-4">
-                                    <h3 class="text-light payment__history--title">Código QR</h3>
+                                    <h3 class="text-light payment__history--title">{{ __('CÓDIGO QR') }}</h3>
                                     <ul class="payment__history--inner d-flex">
                                         <img class="img-radius img-70 align-top m-r-15" src="{{ asset('qrcode/' . $qrcode->qrcode_path) }}" height="70px" alt="">
                                     </ul>

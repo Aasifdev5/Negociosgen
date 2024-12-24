@@ -5,7 +5,6 @@
 @endsection
 
 @section('content')
-
     <style>
         /* Custom styles */
         .navbar .nav-link {
@@ -49,16 +48,16 @@
 
     <section style="padding: 80px 0; background: #1a1a1a">
         <div class="container my-4">
-            @if(Session::has('success'))
-<div class="alert alert-success">
-    <p>{{session::get('success')}}</p>
-</div>
-@endif
-@if(Session::has('fail'))
-<div class="alert alert-danger">
-    <p>{{session::get('fail')}}</p>
-</div>
-@endif
+            @if (Session::has('success'))
+                <div class="alert alert-success">
+                    <p>{{ session::get('success') }}</p>
+                </div>
+            @endif
+            @if (Session::has('fail'))
+                <div class="alert alert-danger">
+                    <p>{{ session::get('fail') }}</p>
+                </div>
+            @endif
             <h1 style="color: #ededed">
                 Tus <span style="color: #0090ff">{{ __('Ganancias') }}</span>
             </h1>
@@ -101,12 +100,12 @@
                                         class="rounded-circle img-fluid" alt="{{ $user_session->name }}" width="24"
                                         height="24">
 
-                                    <span>Perfil</span>
+                                    <span>{{ __('Perfil') }}</span>
                                 @else
                                     <img src="{{ asset('149071.png') }}" alt="Perfil" class="me-2 rounded-circle"
                                         width="24" height="24">
 
-                                    <span>Perfil</span>
+                                    <span>{{ __('Perfil') }}</span>
                                 @endif
 
 

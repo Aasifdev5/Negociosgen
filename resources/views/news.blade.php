@@ -1,7 +1,7 @@
 @extends('master')
 
 @section('title')
-Noticia
+    {{ __('Noticia') }}
 @endsection
 
 @section('content')

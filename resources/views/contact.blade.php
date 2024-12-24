@@ -1,6 +1,6 @@
 @extends('master')
 @section('title')
-{{ __('Ponte en contacto') }}
+{{ __('¡Ponte en Contacto!') }}
 @endsection
 @section('content')
 @php
@@ -24,9 +24,7 @@
             <div class="col-lg-6 col-md-12 mb-4">
                 <h2 class="text-light mb-4">{{ __('¡Ponte en Contacto!') }}</h2>
                 <p class="" style="color: #a1a1a1;">
-                    {{ __('Si tienes dudas o simplemente quieres saludarnos, la mejor forma de contactarnos es a través de nuestro formulario.
-                    Nos esforzamos en responder en menos de 48 horas, aunque a veces tardamos un poco más. ¡Gracias por tu paciencia! Leemos cada mensaje y lo dirigimos al equipo adecuado.
-                    También puedes visitar nuestra página de Ayuda para respuestas a las preguntas más comunes sobre GEN.')}}
+                    {{ __('Si tienes dudas o simplemente quieres saludarnos, la mejor forma de contactarnos es a través de nuestro formulario.Nos esforzamos en responder en menos de 48 horas, aunque a veces tardamos un poco más. ¡Gracias por tu paciencia! Leemos cada mensaje y lo dirigimos al equipo adecuado.También puedes visitar nuestra página de Ayuda para respuestas a las preguntas más comunes sobre GEN.')}}
                 </p>
                 <p class="" style="color: #a1a1a1;">
                     {{ __('Conéctate con nosotros a través de nuestras redes sociales') }}:

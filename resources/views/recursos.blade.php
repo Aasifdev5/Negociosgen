@@ -39,7 +39,7 @@
                 </div>
             </div>
 
-            <h1 class="text-light mb-3">{{ __('Banderas') }}</h1>
+            <h1 class="text-light mb-3">{{ __('Banners') }}</h1>
             <!-- Banners Section -->
             <div class="row mb-4">
                 @foreach ($banners as $row)

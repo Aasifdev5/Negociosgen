@@ -17,69 +17,76 @@
             @endif
             <div class="row">
                 <!-- Left Sidebar -->
-            <div class="col-lg-3 col-md-4 col-sm-12">
-    <div class="card mb-4" style="background-color: #121212; border: 1px solid #2e2e2e; border-radius: 10px;">
-        <div class="d-flex flex-column align-items-center p-4">
-            <!-- Profile Photo Upload & Preview -->
-            <form action="{{ url('update_profile') }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                <input type="hidden" name="user_id" value="{{ $user_session->id }}">
+                <div class="col-lg-3 col-md-4 col-sm-12">
+                    <div class="card mb-4"
+                        style="background-color: #121212; border: 1px solid #2e2e2e; border-radius: 10px;">
+                        <div class="d-flex flex-column align-items-center p-4">
+                            <!-- Profile Photo Upload & Preview -->
+                            <form action="{{ url('update_profile') }}" method="POST" enctype="multipart/form-data">
+                                @csrf
+                                <input type="hidden" name="user_id" value="{{ $user_session->id }}">
 
-                <div class="personal-image mb-3 text-center">
-                    <label class="label" style="cursor: pointer;">
-                        <input type="file" name="profile_photo" id="profilePhotoInput"
-                            onchange="previewImage(this)" style="display: none;" />
-                        <figure class="personal-figure">
-                            <img src="{{ !empty($user_session->profile_photo) ? asset('profile_photo/' . $user_session->profile_photo) : asset('149071.png') }}"
-                                id="profileImagePreview"
-                                style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid #4CAF50; cursor: pointer;">
-                        </figure>
-                    </label>
-                    <h4 class="mt-3 text-light">{{ $user_session->name ?? 'Usuario' }}</h4>
-                    <p style="color: #a1a1a1; font-size: 14px;">{{ $user_session->username ?? 'usuario' }}</p>
-                    <div class="d-flex justify-content-center align-items-center mt-2">
-                        <div class="{{ $user_session->is_online == 1 ? 'bg-success' : 'bg-secondary' }} rounded-circle"
-                            style="width: 10px; height: 10px;" aria-hidden="true"></div>
-                        <span class="text-light ms-2" style="font-size: 14px;">{{ $user_session->is_online == 1 ? 'En Línea' : 'Desconectado' }}</span>
+                                <div class="personal-image mb-3 text-center">
+                                    <label class="label" style="cursor: pointer;">
+                                        <input type="file" name="profile_photo" id="profilePhotoInput"
+                                            onchange="previewImage(this)" style="display: none;" />
+                                        <figure class="personal-figure">
+                                            <img src="{{ !empty($user_session->profile_photo) ? asset('profile_photo/' . $user_session->profile_photo) : asset('149071.png') }}"
+                                                id="profileImagePreview"
+                                                style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid #4CAF50; cursor: pointer;">
+                                        </figure>
+                                    </label>
+                                    <h4 class="mt-3 text-light">{{ $user_session->name ?? 'Usuario' }}</h4>
+                                    <p style="color: #a1a1a1; font-size: 14px;">{{ $user_session->username ?? 'usuario' }}
+                                    </p>
+                                    <div class="d-flex justify-content-center align-items-center mt-2">
+                                        <div class="{{ $user_session->is_online == 1 ? 'bg-success' : 'bg-secondary' }} rounded-circle"
+                                            style="width: 10px; height: 10px;" aria-hidden="true"></div>
+                                        <span class="text-light ms-2"
+                                            style="font-size: 14px;">{{ $user_session->is_online == 1 ? 'En Línea' : 'Desconectado' }}</span>
+                                    </div>
+                                </div>
+
+                                <div class="p-4 text-center">
+                                    <p class="text-light mb-3" style="font-size: 14px;">
+                                        {{ $user_session->about ?? 'Sin descripción' }}</p>
+                                    <p class="text-muted" style="font-size: 14px;">Lima - Perú</p>
+
+                                    <!-- Social Links -->
+                                    <div class="d-flex justify-content-center mb-3">
+                                        @if (!empty($user_session->facebook))
+                                            <a href="{{ $user_session->facebook }}" target="_blank" class="me-2">
+                                                <img src="{{ asset('assets/Group.svg') }}" alt="Facebook" width="30">
+                                            </a>
+                                        @endif
+                                        @if (!empty($user_session->instagram))
+                                            <a href="{{ $user_session->instagram }}" target="_blank" class="me-2">
+                                                <img src="{{ asset('assets/Vector (1).svg') }}" alt="Instagram"
+                                                    width="30">
+                                            </a>
+                                        @endif
+                                        @if (!empty($user_session->linkedin))
+                                            <a href="{{ $user_session->linkedin }}" target="_blank" class="me-2">
+                                                <img src="{{ asset('assets/Vector (2).svg') }}" alt="LinkedIn"
+                                                    width="30">
+                                            </a>
+                                        @endif
+                                        @if (!empty($user_session->twitter))
+                                            <a href="{{ $user_session->twitter }}" target="_blank">
+                                                <img src="{{ asset('assets/Vector (3).svg') }}" alt="Twitter"
+                                                    width="30">
+                                            </a>
+                                        @endif
+                                    </div>
+
+
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                </div>
-
-                <div class="p-4 text-center">
-                    <p class="text-light mb-3" style="font-size: 14px;">{{ $user_session->about ?? 'Sin descripción' }}</p>
-                    <p class="text-muted" style="font-size: 14px;">Lima - Perú</p>
-
-                    <!-- Social Links -->
-                    <div class="d-flex justify-content-center mb-3">
-                        @if (!empty($user_session->facebook))
-                            <a href="{{ $user_session->facebook }}" target="_blank" class="me-2">
-                                <img src="{{ asset('assets/Group.svg') }}" alt="Facebook" width="30">
-                            </a>
-                        @endif
-                        @if (!empty($user_session->instagram))
-                            <a href="{{ $user_session->instagram }}" target="_blank" class="me-2">
-                                <img src="{{ asset('assets/Vector (1).svg') }}" alt="Instagram" width="30">
-                            </a>
-                        @endif
-                        @if (!empty($user_session->linkedin))
-                            <a href="{{ $user_session->linkedin }}" target="_blank" class="me-2">
-                                <img src="{{ asset('assets/Vector (2).svg') }}" alt="LinkedIn" width="30">
-                            </a>
-                        @endif
-                        @if (!empty($user_session->twitter))
-                            <a href="{{ $user_session->twitter }}" target="_blank">
-                                <img src="{{ asset('assets/Vector (3).svg') }}" alt="Twitter" width="30">
-                            </a>
-                        @endif
-                    </div>
 
 
                 </div>
-            </form>
-        </div>
-    </div>
-
-
-</div>
 
 
                 <!-- Main Content -->
