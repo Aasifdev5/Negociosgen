@@ -73,17 +73,20 @@ class Pages extends Controller
         'name' => 'required|string',
         'email' => 'required|email',
         'message' => 'required|string',
+        'city' => 'required|string',
     ]);
 
     // Extract validated data
     $name = $validatedData['name'];
     $email = $validatedData['email'];
+    $city = $validatedData['city'];
     $message_content = $validatedData['message'];
 
     // Prepare data for the email
     $data = [
         'name' => $name,
         'email' => $email,
+        'city'=>$city,
         'phone'=>$request->phone,
         'subject'=>$request->subject,
         'message_content' => $message_content,

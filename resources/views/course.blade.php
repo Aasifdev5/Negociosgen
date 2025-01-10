@@ -95,7 +95,7 @@
                         <span class="play-button"><img src="{{ asset('assets/Play (1).svg') }}" alt="Play Button" /></span>
                         <div class="embed-responsive" style="display: none;">
                             <video class="embed-responsive-item" controls>
-                                <source src="{{ asset('assets/Affiliate Marketing Whiteboard Video.mp4') }}"
+                                <source src="{{ asset($success_tips->video) }}"
                                     type="video/mp4">
                                 Your browser does not support the video tag.
                             </video>
@@ -155,7 +155,7 @@
                         <span class="play-button"><img src="{{ asset('assets/Play (1).svg') }}" alt="Play Button" /></span>
                         <div class="embed-responsive" style="display: none;">
                             <video class="embed-responsive-item" controls>
-                                <source src="{{ asset('assets/Affiliate Marketing Whiteboard Video.mp4') }}"
+                                <source src="{{ asset($develop_skills->video) }}"
                                     type="video/mp4">
                                 Your browser does not support the video tag.
                             </video>
@@ -184,6 +184,7 @@
 
 
             </div>
+            <h1 class="text-white">Consejos de éxito</h1>
         </div>
     </section>
 

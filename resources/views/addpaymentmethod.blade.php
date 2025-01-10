@@ -22,18 +22,7 @@
                 <div class="container" style="background: #000; padding: 20px; border: 1px solid #000; border-radius: 16px;">
                     <div class="mb-4">
                         <h4 class="text-light">{{ __('Membresía seleccionada') }}:
-                        @if ($user_session->membershipType=="GEN_CLASSIC")
-                        GEN CLASSIC Member
-                        @endif
-                        @if ($user_session->membershipType=="GEN_VIP")
-                        GEN VIP Member
-                        @endif
-                        @if ($user_session->membershipType=="GEN_GOLD")
-                        GEN GOLD Member
-                        @endif
-                        @if ($user_session->membershipType=="GEN_PLATINUM")
-                        GEN PLATINUM Member
-                        @endif
+                       {{ $user_session->membershipType }}
 
 
                         </h4>

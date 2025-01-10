@@ -18,7 +18,7 @@
     @endif
     <!-- Empresas Afiliadas Section -->
     <div class="text-center mb-5">
-        <h2 class="fw-bold text-light">{{ __('Empresas Afiliadas') }}</h2>
+        <h2 class="fw-bold text-light" style="margin-top: 10px;">{{ __('Empresas Afiliadas') }}</h2>
         <p class="lead" style="color: #A1A1A1;">
             {{ __('Para recibir descuentos o beneficios de las empresas afiliadas a GEN, abre el sitio web de GEN, ingresa al área de miembros y muestra al representante de la empresa que tu cuenta está activa (si aún no tienes tu tarjeta GEN). No olvides llevar una identificación para confirmar tus datos.') }}
         </p>

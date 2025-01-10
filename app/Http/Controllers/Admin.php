@@ -34,6 +34,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
+use App\Models\Membership;
 
 
 
@@ -1041,33 +1042,15 @@ class Admin extends Controller
                     'is_active' => 1
                 ]);
             } else {
-                if ($user->membershipType == "GEN_CLASSIC") {
-                    $durationInYears = 1;
-                    // Membership cost and percentage distribution across levels
-                    $membershipCost = 1000; // Adjust as needed
-                    $membership_id = 1;
-                }
+                $membership = Membership::where('name', $user->membershipType)->first();
 
-                if ($user->membershipType == "GEN_VIP") {
-                    $durationInYears = 1;
-                    // Membership cost and percentage distribution across levels
-                    $membershipCost = 3000; // Adjust as needed
-                    $membership_id = 2;
-                }
+                $durationInYears = $membership->duration;
+                // Membership cost and percentage distribution across levels
+                $membershipCost = $membership->price; // Adjust as needed
+                $membership_id = $membership->id;
 
-                if ($user->membershipType == "GEN_GOLD") {
-                    $durationInYears = 1;
-                    // Membership cost and percentage distribution across levels
-                    $membershipCost = 5000; // Adjust as needed
-                    $membership_id = 3;
-                }
 
-                if ($user->membershipType == "GEN_PLATINUM") {
-                    $durationInYears = 2;
-                    // Membership cost and percentage distribution across levels
-                    $membershipCost = 7000; // Adjust as needed
-                    $membership_id = 4;
-                }
+
                 if ($user->membership_status == "expired" || $user->membership_status == "pending" || $user->payment_status == "unpaid" || $user->payment_status == "pending") {
                     // Otherwise, just mark them as subscribed (if not already)
                     $user->update([
@@ -1086,7 +1069,6 @@ class Admin extends Controller
                         'payment_date' => now(),
                         'payment_method' => 'paypal',
                     ]);
-
                 }
 
 

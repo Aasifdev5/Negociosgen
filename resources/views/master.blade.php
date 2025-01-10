@@ -52,7 +52,7 @@
             left: 0;
             width: 100vw;
             height: 100vh; /* Full-screen height */
-            background-color: #ffffff; /* Set white background */
+            background-color: #000; /* Set white background */
             background-image: url('{{ asset($general_setting['app_footer_payment_image'] ?? '') }}');
             background-size: contain; /* Ensures the image fits within the container */
             background-position: center; /* Centers the image */

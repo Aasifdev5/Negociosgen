@@ -56,6 +56,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
+use App\Models\Membership;
 
 
 
@@ -215,11 +216,11 @@ class UserController extends Controller
 
         // Handle mobile number with prefix
         $prefixedMobileNumber = "591" . $request->mobile_number;
-
+        $membershipType = Membership::find($request->membershipType)->name;
         // Create a new user
         $user = User::create([
             'account_type' => 'affiliate',
-            'membershipType' => $request->membershipType,
+            'membershipType' => $membershipType,
             'membership_status' => 'pending',
             'name' => trim($request->first_name . ' ' . $request->last_name),
             'email' => $request->email,
@@ -778,7 +779,7 @@ class UserController extends Controller
     {
         // Validate the incoming request
         $request->validate([
-            'membership' => 'required|string|in:GEN_CLASSIC,GEN_VIP,GEN_GOLD,GEN_PLATINUM',
+            'membership' => 'required',
         ]);
 
         // Retrieve the logged-in user
@@ -790,6 +791,7 @@ class UserController extends Controller
 
         // Renew membership logic (update user's membership type and expiry date)
         $membershipType = $request->input('membership');
+        $membershipType = Membership::find($membershipType)->name;
         $user_session->update([
             'membershipType' => $membershipType,
             'membership_status' => 'pending',

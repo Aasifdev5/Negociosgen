@@ -34,7 +34,7 @@
                                     <thead>
                                         <tr>
                                             <th><input type="checkbox" id="select-all"></th>
-                                            <th>Miniatura</th>
+
                                             <th>Título</th>
                                             <th>Autor</th>
                                             <th>Acciones</th>
@@ -45,14 +45,7 @@
                                             <tr>
                                                 <td><input type="checkbox" class="select-item" value="{{ $audiobook->id }}">
                                                 </td>
-                                                <td>
-                                                    @if ($audiobook->thumbnail)
-                                                        <img src="{{ asset($audiobook->thumbnail) }}" alt="Miniatura"
-                                                            width="50">
-                                                    @else
-                                                        <span>Sin miniatura</span>
-                                                    @endif
-                                                </td>
+
                                                 <td>{{ $audiobook->title }}</td>
                                                 <td>{{ $audiobook->author }}</td>
                                                 <td>

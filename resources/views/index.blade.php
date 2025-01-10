@@ -304,7 +304,7 @@
                                 alt="Play Button" /></span>
                         <div class="embed-responsive" style="display: none;">
                             <video class="embed-responsive-item" controls>
-                                <source src="{{ asset('assets/Affiliate Marketing Whiteboard Video.mp4') }}"
+                                <source src="{{ asset($develop_skills->video) }}"
                                     type="video/mp4">
                                 Your browser does not support the video tag.
                             </video>
@@ -333,6 +333,7 @@
 
 
             </div>
+            <h1 class="text-white">Consejos de éxito</h1>
         </div>
     </section>
 
@@ -403,7 +404,7 @@
                         <span class="play-button"><img src="{{ asset('assets/Play (1).svg') }}" alt="Play Button" /></span>
                         <div class="embed-responsive" style="display: none;">
                             <video class="embed-responsive-item" controls>
-                                <source src="Affiliate Marketing Whiteboard Video.mp4" type="video/mp4">
+                                <source src="{{ asset($success_tips->video) }}" type="video/mp4">
                                 Your browser does not support the video tag.
                             </video>
                         </div>
@@ -530,7 +531,7 @@
                         <div style="background: #000; padding: 15px; border: 1px solid #2e2e2e; border-radius: 8px;">
                             <!-- Audiobook Title -->
                             <h3 style="color: white; font-size: 18px; margin-bottom: 10px;">
-                                <a href="{{ route('showAudiobookDetails', $row->id) }}"
+                                <a href="{{ $row->audiobook_url }}"
                                     style="color: #00aced; text-decoration: none;">
                                     {{ $row->title }}
                                 </a>
@@ -542,7 +543,7 @@
                             </p>
 
                             <!-- Link to More Details -->
-                            <a href="{{ route('showAudiobookDetails', $row->id) }}" class="btn btn-sm btn-secondary">
+                            <a href="{{ $row->audiobook_url }}" class="btn btn-sm btn-secondary">
                                 {{ __('Más información') }}
                             </a>
                         </div>
@@ -893,18 +894,66 @@
                         {!! Form::open(['url' => 'contact_send', 'class' => 'row', 'id' => 'contact_form', 'role' => 'form']) !!}
                         <div class="mb-3">
                             <label for="nombre" class="form-label text-light">{{ __('Nombre') }}</label>
-                            <input type="text" name="name" class="form-control" id="nombre"
-                                placeholder="Título">
+                            <input
+                                type="text"
+                                name="name"
+                                class="form-control @error('name') is-invalid @enderror"
+                                id="nombre"
+                                placeholder="Título"
+                                value="{{ old('name') }}">
+                            @error('name')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                            @enderror
                         </div>
+
                         <div class="mb-3">
                             <label for="email" class="form-label text-light">{{ __('Correo electrónico') }}</label>
-                            <input type="email" class="form-control" name="email" id="email"
-                                placeholder="ejemplo@gmail.com">
+                            <input
+                                type="email"
+                                class="form-control @error('email') is-invalid @enderror"
+                                name="email"
+                                id="email"
+                                placeholder="ejemplo@gmail.com"
+                                value="{{ old('email') }}">
+                            @error('email')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                            @enderror
                         </div>
+
                         <div class="mb-3">
                             <label for="telefono" class="form-label text-light">{{ __('Número de celular') }}</label>
-                            <input type="tel" class="form-control" name="phone" id="telefono"
-                                placeholder="+591">
+                            <input
+                                type="tel"
+                                class="form-control @error('phone') is-invalid @enderror"
+                                name="phone"
+                                id="telefono"
+                                placeholder="+591"
+                                value="{{ old('phone') }}">
+                            @error('phone')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="text-light">{{ __('Ciudad') }}</label>
+                            <input
+                                type="text"
+                                name="city"
+                                id="city"
+                                class="form-control @error('city') is-invalid @enderror"
+                                placeholder="Ciudad"
+                                value="{{ old('city') }}">
+                            @error('city')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                            @enderror
                         </div>
 
                         <div class=" mb-3">

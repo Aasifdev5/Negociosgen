@@ -321,7 +321,7 @@
                             <li><a class="sidebar-header" href="{{ route('events.index') }}"><i
                                         data-feather="calendar"></i><span> {{ __('Eventos') }}</span></a></li>
 
-
+                         <li><a class="sidebar-header" href="{{ route('memberships.index') }}"><i data-feather="calendar"></i><span> {{ __('Gestionar Membresías') }}</span></a></li>
 
 
                             <li>

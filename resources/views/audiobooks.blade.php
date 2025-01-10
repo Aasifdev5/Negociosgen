@@ -24,7 +24,7 @@
                 <div style="background: #000; padding: 15px; border: 1px solid #2e2e2e; border-radius: 8px;">
                     <!-- Audiobook Title -->
                     <h3 style="color: white; font-size: 18px; margin-bottom: 10px;">
-                        <a href="{{ route('showAudiobookDetails', $row->id) }}" style="color: #00aced; text-decoration: none;">
+                        <a href="{{ $row->audiobook_url }}" style="color: #00aced; text-decoration: none;">
                             {{ $row->title }}
                         </a>
                     </h3>
@@ -35,7 +35,7 @@
                     </p>
 
                     <!-- Link to More Details -->
-                    <a href="{{ route('showAudiobookDetails', $row->id) }}" class="btn btn-sm btn-secondary">
+                    <a href="{{ $row->audiobook_url }}" class="btn btn-sm btn-secondary">
                         {{ __('Más información') }}
                     </a>
                 </div>

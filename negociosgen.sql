@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 24, 2024 at 09:02 AM
+-- Generation Time: Jan 10, 2025 at 01:55 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -31,6 +31,7 @@ CREATE TABLE `audiobooks` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `title` varchar(191) NOT NULL,
   `author` varchar(191) NOT NULL,
+  `audiobook_url` varchar(255) DEFAULT NULL,
   `audio_file_path` varchar(191) NOT NULL,
   `thumbnail` varchar(191) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -41,9 +42,9 @@ CREATE TABLE `audiobooks` (
 -- Dumping data for table `audiobooks`
 --
 
-INSERT INTO `audiobooks` (`id`, `title`, `author`, `audio_file_path`, `thumbnail`, `created_at`, `updated_at`) VALUES
-(1, 'Success is Attracted by How You Think', 'By Dr. Joe Dispenza. Learn how your mindset influences your success.', 'uploads/audiobooks/1732530704-E74wGvAT2l.mp3', 'uploads/audiobook_thumbnails/1732528379-FDbshDhQx1.png', '2024-11-25 04:22:59', '2024-11-25 05:01:44'),
-(2, 'The Power of Habit', 'By Charles Duhigg. Understand the science of habits and how to change them.', 'uploads/audiobooks/1732528414-zELuKGwN3L.mp3', 'uploads/audiobook_thumbnails/1732528414-ulGTrRjSAT.png', '2024-11-25 04:23:34', '2024-11-25 04:23:34');
+INSERT INTO `audiobooks` (`id`, `title`, `author`, `audiobook_url`, `audio_file_path`, `thumbnail`, `created_at`, `updated_at`) VALUES
+(1, 'Success is Attracted by How You Think', 'By Dr. Joe Dispenza. Learn how your mindset influences your success.', 'https://open.spotify.com/episode/7tJq21Tf0ZP8IoUSQ4HMtg?si=ock0jzCIQpe7JVsvaZ6kyQ', 'uploads/audiobooks/1732530704-E74wGvAT2l.mp3', 'uploads/audiobook_thumbnails/1732528379-FDbshDhQx1.png', '2024-11-25 04:22:59', '2025-01-10 04:26:41'),
+(2, 'The Power of Habit', 'By Charles Duhigg. Understand the science of habits and how to change them.', NULL, 'uploads/audiobooks/1732528414-zELuKGwN3L.mp3', 'uploads/audiobook_thumbnails/1732528414-ulGTrRjSAT.png', '2024-11-25 04:23:34', '2024-11-25 04:23:34');
 
 -- --------------------------------------------------------
 
@@ -1204,13 +1205,24 @@ INSERT INTO `media_options` (`id`, `title`, `alt_title`, `thumbnail`, `large_ima
 
 CREATE TABLE `memberships` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `tier` varchar(191) NOT NULL,
-  `price` decimal(10,2) NOT NULL,
-  `duration_in_days` int(11) NOT NULL,
-  `benefits` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`benefits`)),
+  `name` varchar(191) NOT NULL,
+  `price` varchar(191) NOT NULL,
+  `benefits` text DEFAULT NULL,
+  `duration` varchar(191) NOT NULL DEFAULT '1 year',
+  `highlight_color` varchar(191) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `memberships`
+--
+
+INSERT INTO `memberships` (`id`, `name`, `price`, `benefits`, `duration`, `highlight_color`, `created_at`, `updated_at`) VALUES
+(1, 'Miembro GEN CLASSIC', '1000', '[\"Acceso por un a\\u00f1o a cursos y coaching virtual.\",\"Acceso a formaci\\u00f3n.\",\"Descuentos y beneficios en empresas nacionales.\",\"Apoyo de l\\u00edderes a nivel nacional.\"]', '1', '#701010', '2025-01-10 05:30:23', '2025-01-10 05:58:03'),
+(2, 'Miembro GEN VIP', '3000', '[\"Acceso por un a\\u00f1o a cursos y coaching virtual.\",\"Acceso a formaci\\u00f3n y eventos en vivo (incluye 1 invitado).\",\"Asientos reservados en las primeras filas.\",\"Descuentos y beneficios en empresas nacionales e internacionales.\",\"Tarjeta VIP GEN con beneficios adicionales.\"]', '1', '#cbcd37', '2025-01-10 05:34:21', '2025-01-10 06:00:51'),
+(3, 'Miembro GEN GOLD', '5000', '[\"Acceso por un a\\u00f1o a cursos, coaching virtual y acceso libre a coaching en vivo (incluye 2 invitados).\",\"Acceso a formaci\\u00f3n y eventos en vivo (incluye 2 invitados).\",\"Apoyo personalizado de l\\u00edderes nacionales e internacionales.\",\"Tarjeta GOLD GEN con beneficios adicionales.\"]', '1', '#efd006', '2025-01-10 05:35:22', '2025-01-10 06:02:15'),
+(4, 'Miembro GEN PLATINUM', '7000', '[\"Acceso por dos a\\u00f1os a cursos, coaching virtual y coaching en vivo (incluye 3 invitados).\",\"Acceso a formaci\\u00f3n y eventos en vivo (incluye 3 invitados).\",\"Asientos reservados en las primeras filas.\",\"Descuentos y beneficios en empresas VIP nacionales e internacionales.\",\"Tarjeta PLATINUM GEN con beneficios exclusivos.\"]', '2', '#3da022', '2025-01-10 05:36:25', '2025-01-10 06:04:40');
 
 -- --------------------------------------------------------
 
@@ -1364,7 +1376,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (41, '2024_12_11_041019_create_memberships_table', 27),
 (42, '2024_12_11_042221_create_membership_payments_table', 28),
 (43, '2024_12_17_081443_create_news_table', 29),
-(44, '2024_12_19_042802_create_home_settings_table', 30);
+(44, '2024_12_19_042802_create_home_settings_table', 30),
+(45, '2025_01_10_101916_create_memberships_table', 31);
 
 -- --------------------------------------------------------
 
@@ -2401,7 +2414,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `is_active`, `profile_photo`, `account_type`, `balance`, `membershipType`, `is_subscribed`, `refer`, `level`, `is_online`, `last_seen`, `birth_date`, `role`, `permissions`, `name`, `email`, `email_verified_at`, `password`, `custom_password`, `mobile_number`, `about`, `city`, `facebook`, `instagram`, `linkedin`, `twitter`, `address`, `status`, `remember_token`, `ip_address`, `is_system`, `id_number`, `country`, `created_by`, `deleted_at`, `language`, `is_super_admin`, `created_at`, `updated_at`, `membership_status`, `membership_start_date`, `membership_end_date`, `renewal_due_date`, `payment_status`, `membership_card_number`, `guest_access_count`) VALUES
-(1, NULL, 1, '149071.png', 'admin', NULL, NULL, 0, NULL, NULL, 1, '2024-12-24 00:14:49', NULL, 1, NULL, 'SUPER ADMINISTRADOR', 'gen@negociosgen.com', '2023-03-23 07:45:02', '$2y$10$2Xg3cj6N2RMrVNhMvzL6hu5vkvjZ.zOMsFrTICTE40rT1paV6CtP6', '987654321', '8878326802', NULL, 'bolivia', NULL, NULL, NULL, NULL, 'sdfafa', 1, NULL, '127.0.0.1', 1, '1', '1', NULL, NULL, 'es', 1, '2023-03-23 07:45:02', '2024-12-24 00:14:49', 'pending', NULL, NULL, NULL, 'unpaid', NULL, 0),
+(1, NULL, 1, '149071.png', 'admin', NULL, NULL, 0, NULL, NULL, 1, '2025-01-10 04:16:42', NULL, 1, NULL, 'SUPER ADMINISTRADOR', 'gen@negociosgen.com', '2023-03-23 07:45:02', '$2y$10$2Xg3cj6N2RMrVNhMvzL6hu5vkvjZ.zOMsFrTICTE40rT1paV6CtP6', '987654321', '8878326802', NULL, 'bolivia', NULL, NULL, NULL, NULL, 'sdfafa', 1, NULL, '127.0.0.1', 1, '1', '1', NULL, NULL, 'es', 1, '2023-03-23 07:45:02', '2025-01-10 04:16:42', 'pending', NULL, NULL, NULL, 'unpaid', NULL, 0),
 (3, NULL, 1, NULL, 'affiliate', '530', NULL, 1, NULL, NULL, 0, '2024-12-03 21:10:40', '2024-10-16', 2, NULL, 'Alex', 'arstech2a@gmail.com', NULL, '$2y$10$yfNz3sJ2P3d31JhNkPve8.L.rVsISl81scG5DGvgB8pcfQUZd9l.e', NULL, '591591591', 'df', NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, '127.0.0.1', 0, '1', NULL, NULL, NULL, '\'en\'', 0, '2024-10-29 22:26:33', '2024-12-04 01:10:40', 'pending', NULL, '0000-00-00 00:00:00', NULL, 'unpaid', NULL, 0),
 (5, NULL, 1, NULL, 'affiliate', '1450', 'GEN_GOLD', 1, NULL, '3', 1, '2024-12-14 22:45:50', '2024-10-03', 2, NULL, 'muskan bano', 'aasifdev5@gmail.com', NULL, '$2y$10$9LiWUF5HP0GDOj05wal90eb/uZ8SsuXJveTWm.VbMDi6Jy4D3zViG', NULL, '591', NULL, '14', NULL, NULL, NULL, NULL, '722 azad nagar indore', 1, NULL, NULL, 0, '45', '1', NULL, NULL, '\'en\'', 0, '2024-10-31 01:23:24', '2024-12-14 22:45:50', 'expired', '2023-01-01 10:42:38', '2024-12-10 10:42:38', '2024-11-10 00:00:00', 'paid', NULL, 0),
 (6, NULL, 1, NULL, 'affiliate', '530', NULL, 1, NULL, '2', 0, '2024-11-27 21:17:35', '2024-11-20', 2, NULL, 'Tanzila', 'hrnatrajdfsinfotech@gmail.com', NULL, '$2y$10$1d.I9JhZ3wp1WNix7lxFA.L5J5vIXgrttg9e.rDX4xHMgy2VfVxgG', NULL, '5919589642080', NULL, '12', NULL, NULL, NULL, NULL, '722 azad nagar indore', 1, NULL, '127.0.0.1', 0, '', '1', NULL, NULL, '\'en\'', 0, '2024-11-20 00:36:57', '2024-11-28 01:17:35', 'pending', NULL, NULL, NULL, 'unpaid', NULL, 0),
@@ -2650,8 +2663,7 @@ ALTER TABLE `media_options`
 -- Indexes for table `memberships`
 --
 ALTER TABLE `memberships`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `memberships_tier_unique` (`tier`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `membership_payments`
@@ -3011,7 +3023,7 @@ ALTER TABLE `media_options`
 -- AUTO_INCREMENT for table `memberships`
 --
 ALTER TABLE `memberships`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `membership_payments`
@@ -3029,7 +3041,7 @@ ALTER TABLE `metas`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT for table `news`

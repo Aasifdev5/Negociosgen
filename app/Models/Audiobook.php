@@ -17,6 +17,7 @@ class Audiobook extends Model
     protected $fillable = [
         'title',
         'author',
+        'audiobook_url',
         'audio_file_path',
         'thumbnail',
     ];

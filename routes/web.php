@@ -20,21 +20,22 @@ use App\Http\Controllers\Admin\LocationController;
 
 use App\Http\Controllers\Admin\MediaController;
 
+use App\Http\Controllers\Admin\MembershipController;
+
 use App\Http\Controllers\Admin\RoleController;
+
 
 use App\Http\Controllers\Admin\SettingController;
 
-
 use App\Http\Controllers\Admin\SubcategoryController;
-
 use App\Http\Controllers\Admin\SupportTicketController;
 use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\AudiobookController;
 use App\Http\Controllers\Auth\OTPController;
 use App\Http\Controllers\Backend\ProductsController;
 use App\Http\Controllers\ChatController;
-use App\Http\Controllers\EmailAppController;
 
+use App\Http\Controllers\EmailAppController;
 use App\Http\Controllers\FacebookSocialiteController;
 use App\Http\Controllers\ForumController;
 use App\Http\Controllers\FundController;
@@ -45,8 +46,8 @@ use App\Http\Controllers\NewsController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Pages;
 use App\Http\Controllers\PortfolioController;
-use App\Http\Controllers\QRCodeController;
 
+use App\Http\Controllers\QRCodeController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\SalesController;
 use App\Http\Controllers\TestimonialController;
@@ -57,6 +58,7 @@ use App\Models\Language;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 use Maatwebsite\Excel\Facades\Excel;
+
 
 
 
@@ -227,7 +229,7 @@ Route::group(['prefix' => 'admin'], function () {
             Route::delete('delete/{id}', [TestimonialController::class, 'destroy'])->name('testimonials.delete');
             Route::post('bulk-delete', [TestimonialController::class, 'bulkDelete'])->name('testimonials.bulk.delete');
         });
-
+        Route::resource('memberships', MembershipController::class);
         // Portfolio routes
         Route::prefix('portfolios')->group(function () {
             Route::get('/', [PortfolioController::class, 'index'])->name('portfolios.index');

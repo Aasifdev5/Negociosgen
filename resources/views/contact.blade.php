@@ -113,18 +113,66 @@
                         {!! Form::open(['url' => 'contact_send', 'class' => 'row', 'id' => 'contact_form', 'role' => 'form']) !!}
                         <div class="mb-3">
                             <label for="nombre" class="form-label text-light">{{ __('Nombre') }}</label>
-                            <input type="text" name="name" class="form-control" id="nombre"
-                                placeholder="Título">
+                            <input
+                                type="text"
+                                name="name"
+                                class="form-control @error('name') is-invalid @enderror"
+                                id="nombre"
+                                placeholder="Título"
+                                value="{{ old('name') }}">
+                            @error('name')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                            @enderror
                         </div>
+
                         <div class="mb-3">
                             <label for="email" class="form-label text-light">{{ __('Correo electrónico') }}</label>
-                            <input type="email" class="form-control" name="email" id="email"
-                                placeholder="ejemplo@gmail.com">
+                            <input
+                                type="email"
+                                class="form-control @error('email') is-invalid @enderror"
+                                name="email"
+                                id="email"
+                                placeholder="ejemplo@gmail.com"
+                                value="{{ old('email') }}">
+                            @error('email')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                            @enderror
                         </div>
+
                         <div class="mb-3">
                             <label for="telefono" class="form-label text-light">{{ __('Número de celular') }}</label>
-                            <input type="tel" class="form-control" name="phone" id="telefono"
-                                placeholder="+591">
+                            <input
+                                type="tel"
+                                class="form-control @error('phone') is-invalid @enderror"
+                                name="phone"
+                                id="telefono"
+                                placeholder="+591"
+                                value="{{ old('phone') }}">
+                            @error('phone')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="text-light">{{ __('Ciudad') }}</label>
+                            <input
+                                type="text"
+                                name="city"
+                                id="city"
+                                class="form-control @error('city') is-invalid @enderror"
+                                placeholder="Ciudad"
+                                value="{{ old('city') }}">
+                            @error('city')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                            @enderror
                         </div>
 
                         <div class=" mb-3">
