@@ -39,10 +39,9 @@
                                             <tr>
                                                 <th><input type="checkbox" id="select-all"></th>
                                                 <th>Fecha de creación</th>
-                                                <th>Nombre del curso</th>
-                                                <th>Descripción</th>
+
                                                 <th>Coache</th>
-                                                <th>Enlace de video</th>
+
                                                 <th>Portada</th>
                                                 <th>Estado</th>
                                                 <th>Acción</th>
@@ -51,26 +50,19 @@
                                         <tbody>
                                             @foreach ($courses as $course)
                                                 <tr class="removable-item">
-                                                    <td><input type="checkbox" class="course-checkbox" value="{{ $course->uuid }}"></td>
+                                                    <td><input type="checkbox" class="course-checkbox" value="{{ $course->id }}"></td>
                                                     <td>{{ $course->created_at->format('d/m/Y') }}</td>
-                                                    <td>{{ $course->title }}</td>
-                                                    <td>{!! Str::limit($course->description, 50) !!}</td>
-                                                    <td>{{ $course->coache }}</td>
-                                                    <td>
-                                                        <a href="{{ $course->video_link }}" target="_blank" title="{{ __('Ver video') }}" class="btn btn-danger">
-                                                            <i class="fab fa-youtube"></i> {{ __('Ver video') }}
-                                                        </a>
-                                                    </td>
 
+                                                    <td>{{ $course->coach_name }}</td>
 
-                                                    <td><img src="{{ asset($course->video_thumbnail) }}" alt="Portada" class="img-thumbnail" style="width: 50px;"></td>
+                                                    <td><img src="{{ asset($course->coach_thumbnail) }}" alt="Portada" class="img-thumbnail" style="width: 50px;"></td>
                                                     <td><span class="badge bg-success">Activo</span></td>
                                                     <td>
                                                         <div class="action__buttons">
-                                                            <a href="{{ route('curso.edit', [$course->uuid]) }}" title="Editar" class="btn btn-icon waves-effect waves-light btn-success m-b-5 m-r-5" data-toggle="tooltip">
+                                                            <a href="{{ route('curso.edit', [$course->id]) }}" title="Editar" class="btn btn-icon waves-effect waves-light btn-success m-b-5 m-r-5" data-toggle="tooltip">
                                                                 <i class="fa fa-edit"></i>
                                                             </a>
-                                                            <a href="javascript:void(0);" title="Eliminar" class="btn btn-icon waves-effect waves-light btn-danger m-b-5 delete-course" data-toggle="tooltip" data-url="{{ route('curso.delete', $course->uuid) }}">
+                                                            <a href="javascript:void(0);" title="Eliminar" class="btn btn-icon waves-effect waves-light btn-danger m-b-5 delete-course" data-toggle="tooltip" data-url="{{ route('curso.delete', $course->id) }}">
                                                                 <i class="fa fa-remove"></i>
                                                             </a>
                                                         </div>
@@ -79,7 +71,6 @@
                                             @endforeach
                                         </tbody>
                                     </table>
-
                                 </div>
                             </div>
                         </div>

@@ -4,145 +4,121 @@
 @endsection
 
 @section('content')
-    <!-- Page content area start -->
-    <div class="page-body" style="background: #000; margin-top: 80px;">
+    <div class="page-body" style="background: #f8f9fa; margin-top: 80px;">
+        <br>
         <div class="container">
-            <div class="card mt-4 p-4" style="background: #fff;">
-                <div class="text-center">
-                    <img src="assets/images/endless-logo.png" alt="">
-                </div>
+            <div class="card shadow-sm border-0 mt-4 p-4" style="background: #ffffff;">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="form-vertical__item bg-style">
+                            <div class="form-vertical__item">
                                 <div class="item-top mb-30">
-                                    <h2>{{ __('Editar curso') }}</h2>
+                                    <h2 class="text-primary">{{ __('Editar curso') }}</h2>
+                                    <p class="text-muted">Actualiza la información del curso y los archivos necesarios.</p>
                                 </div>
                                 <form id="courseForm" method="POST" enctype="multipart/form-data">
                                     @csrf
+                                    <!-- No need for @method('PUT') -->
 
-
-                                    <div class="upload-img-box mb-25">
-                                        <img id="preview" src="{{ asset($course->video_thumbnail) }}" alt="Image Preview" class="img-fluid preview-img" style="max-height: 350px; max-width: 350px; object-fit: contain;">
-                                        <input type="file" id="imageUpload" name="video_thumbnail" accept="image/*" onchange="previewImage(event)" style="display: none;">
-                                        <div class="upload-img-box-icon" onclick="document.getElementById('imageUpload').click();">
-                                            <i class="fa fa-camera"></i>
-                                            <p class="m-0">{{ __('Imagen') }}</p>
-                                        </div>
+                                    <!-- Coach Name -->
+                                    <div class="mb-4">
+                                        <label class="form-label text-dark">Nombre del Coach <span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" name="coach_name" class="form-control border-primary"
+                                            value="{{ $course->coach_name }}" placeholder="Nombre del coach" required>
                                     </div>
 
-                                    <!-- JavaScript for Image Preview -->
-                                    <script>
-                                        function previewImage(event) {
-                                            const preview = document.getElementById('preview');
-                                            const file = event.target.files[0];
-                                            const reader = new FileReader();
-
-                                            reader.onload = function(e) {
-                                                preview.src = e.target.result;
-                                                preview.style.display = 'block'; // Show the preview
-                                            };
-
-                                            if (file) {
-                                                reader.readAsDataURL(file);
-                                            } else {
-                                                preview.src = "{{ asset($course->image_path) }}"; // Keep the original image
-                                                preview.style.display = 'block'; // Show original if no new file
-                                            }
-                                        }
-                                    </script>
-
-                                    <!-- Course Title -->
-                                    <div class="mb-3">
-                                        <label for="courseTitle" class="form-label">Título del curso</label>
-                                        <input type="text" class="form-control" id="courseTitle" name="title" placeholder="Título" value="{{ old('title', $course->title) }}" >
-                                        <span class="text-danger" id="titleError"></span>
+                                    <!-- Coach Intro Video -->
+                                    <div class="mb-4">
+                                        <label class="form-label text-dark">Video Intro del Coach <span
+                                                class="text-danger">*</span></label>
+                                        <input type="file" name="coach_video" class="form-control border-primary"
+                                            accept="video/*">
+                                        <small class="form-text text-muted">Sube un video introductorio del coach en formato
+                                            MP4 o AVI. Deja vacío para mantener el actual.</small>
+                                        @if ($course->coach_video && $course->coach_video)
+                                            <video id="videoPreview" width="300px" height="300px" controls
+                                                style="display: block; margin-top: 10px;">
+                                                <source src="{{ asset($course->coach_video) }}" type="video/mp4">
+                                            </video>
+                                        @endif
                                     </div>
 
-                                    <!-- Course Description -->
-                                    <div class="mb-3">
-                                        <label for="courseDescription" class="form-label">Descripción</label>
-                                        <textarea class="form-control" id="courseDescription" name="description" placeholder="Escribe la descripción del curso">{{ old('description', $course->description) }}</textarea>
-                                        <span class="text-danger" id="descriptionError"></span>
+                                    <!-- Intro Video Thumbnail -->
+                                    <div class="mb-4">
+                                        <label class="form-label text-dark">Miniatura del Video Intro <span
+                                                class="text-danger">*</span></label>
+                                        <input type="file" name="coach_thumbnail" class="form-control border-primary"
+                                            accept="image/*" onchange="previewThumbnail(this, '#coachThumbnailPreview')">
+                                        <img id="coachThumbnailPreview" src="{{ asset($course->coach_thumbnail) }}"
+                                            class="img-thumbnail mt-2" style="max-width: 200px; height: auto;">
+                                        <small class="form-text text-muted">Elige una imagen como miniatura del video
+                                            introductorio. Deja vacío para mantener la actual.</small>
                                     </div>
 
-                                    <!-- Course Price -->
-                                    <div class="mb-3">
-                                        <label for="coursePrice" class="form-label">Coache</label>
-                                        <input type="text" class="form-control" id="coursePrice" name="coache" value="{{ old('coache', $course->coache) }}" >
-                                        <span class="text-danger" id="priceError"></span>
+                                    <!-- Dynamic Section for Editing -->
+                                    <div id="dynamic-section">
+                                        @forelse ($course->items as $item)
+                                            <div class="course-item mb-4 border rounded p-3 bg-light">
+                                                <div class="row">
+                                                    <!-- Thumbnail -->
+                                                    <div class="col-md-4 mb-3">
+                                                        <label class="form-label text-dark">Miniatura <span
+                                                                class="text-danger">*</span></label>
+                                                        <input type="file" name="thumbnails[]"
+                                                            class="form-control border-primary" accept="image/*"
+                                                            onchange="previewThumbnail(this, '#thumbnailPreview{{ $loop->index }}')">
+                                                        <img id="thumbnailPreview{{ $loop->index }}"
+                                                            src="{{ asset($item->thumbnail) }}"
+                                                            class="thumbnail-preview img-thumbnail mt-2"
+                                                            style="max-width: 100%; height: auto;">
+                                                        <small class="form-text text-muted">Elige una imagen como miniatura
+                                                            del curso. Deja vacío para mantener la actual.</small>
+                                                    </div>
+
+                                                    <!-- Course Title -->
+                                                    <div class="col-md-4 mb-3">
+                                                        <label class="form-label text-dark">Título del curso <span
+                                                                class="text-danger">*</span></label>
+                                                        <input type="text" name="titles[]"
+                                                            class="form-control border-primary" value="{{ $item->title }}"
+                                                            placeholder="Título del curso" required>
+                                                    </div>
+
+                                                    <!-- Video URL -->
+                                                    <div class="col-md-4 mb-3">
+                                                        <label class="form-label text-dark">Enlace de video <span
+                                                                class="text-danger">*</span></label>
+                                                        <input type="url" name="video_urls[]"
+                                                            class="form-control border-primary"
+                                                            value="{{ $item->video_url }}" placeholder="youtube.com"
+                                                            required>
+                                                    </div>
+                                                </div>
+                                                <div class="text-end">
+                                                    <button type="button"
+                                                        class="btn btn-danger btn-sm remove-course">Eliminar curso</button>
+                                                </div>
+                                            </div>
+                                        @empty
+                                            <p>No hay cursos para editar. Agregue algunos.</p>
+                                        @endforelse
                                     </div>
 
-
-
-                                    <!-- Video Link -->
-                                    <div class="mb-3">
-                                        <label for="videoLink" class="form-label">Enlace de video</label>
-                                        <input type="url" class="form-control" id="videoLink" name="video_link" placeholder="youtube.com" value="{{ old('video_link', $course->video_link) }}" >
-                                        <span class="text-danger" id="videoLinkError"></span>
+                                    <!-- Add More Button -->
+                                    <div class="text-end mb-4">
+                                        <button type="button" class="btn btn-success btn-sm" id="addMoreCourses">
+                                            <i class="fa fa-plus-circle"></i> Añadir otro curso
+                                        </button>
                                     </div>
 
-                                    <button type="submit" class="btn btn-primary">Actualizar curso</button>
+                                    <!-- Submit Button -->
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fa fa-paper-plane"></i> Actualizar cursos
+                                        </button>
+                                    </div>
                                 </form>
-
-                                <!-- Include jQuery and SweetAlert -->
-                                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-                                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-                                <script>
-                                    $(document).ready(function() {
-                                        $('#courseForm').submit(function(e) {
-                                            e.preventDefault();
-
-                                            // Clear previous error messages
-                                            $('.text-danger').text('');
-
-                                            let formData = new FormData(this);
-
-                                            $.ajax({
-                                                type: "POST",
-                                                url: "{{ route('curso.update', $course->uuid) }}", // Update URL
-                                                data: formData,
-                                                contentType: false,
-                                                processData: false,
-                                                success: function(response) {
-                                                    if (response.success) {
-                                                        Swal.fire({
-                                                            icon: 'success',
-                                                            title: 'Éxito',
-                                                            text: 'Curso actualizado exitosamente.',
-                                                        }).then(() => {
-                                                            window.location.href = "{{ route('curso.index') }}";
-                                                        });
-                                                    } else {
-                                                        Swal.fire({
-                                                            icon: 'error',
-                                                            title: 'Error',
-                                                            text: response.message || 'No se pudo actualizar el curso.',
-                                                        });
-                                                    }
-                                                },
-                                                error: function(xhr) {
-                                                    let errors = xhr.responseJSON.errors;
-                                                    if (errors) {
-                                                        // Display validation errors
-                                                        if (errors.title) $('#titleError').text(errors.title[0]);
-                                                        if (errors.description) $('#descriptionError').text(errors.description[0]);
-                                                        if (errors.price) $('#priceError').text(errors.price[0]);
-                                                        if (errors.category) $('#categoryError').text(errors.category[0]);
-                                                        if (errors.video_link) $('#videoLinkError').text(errors.video_link[0]);
-                                                    } else {
-                                                        Swal.fire({
-                                                            icon: 'error',
-                                                            title: 'Error',
-                                                            text: 'Ocurrió un error. Por favor, inténtelo de nuevo más tarde.',
-                                                        });
-                                                    }
-                                                }
-                                            });
-                                        });
-                                    });
-                                </script>
                             </div>
                         </div>
                     </div>
@@ -150,5 +126,78 @@
             </div>
         </div>
     </div>
-    <!-- Page content area end -->
+
+    <!-- Include jQuery and SweetAlert -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        // Function to clone course item
+        $('#addMoreCourses').on('click', function() {
+            let courseItem = $('.course-item').first().clone();
+            courseItem.find('input').val('');
+            courseItem.find('.thumbnail-preview').hide();
+            $('#dynamic-section').append(courseItem);
+        });
+
+        // Remove course item
+        $(document).on('click', '.remove-course', function() {
+            $(this).closest('.course-item').remove();
+        });
+
+        // Function to preview thumbnail
+        function previewThumbnail(input, previewSelector) {
+            const reader = new FileReader();
+            const preview = $(previewSelector);
+
+            reader.onload = function(e) {
+                preview.attr('src', e.target.result).show();
+            };
+
+            if (input.files[0]) {
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                preview.hide();
+            }
+        }
+
+        // AJAX Form Submission
+        $('#courseForm').submit(function(e) {
+            e.preventDefault();
+
+            let formData = new FormData(this);
+
+            $.ajax({
+                type: "POST", // Using POST
+                url: "{{ route('curso.update', $course->id) }}", // Correct route URL
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    if (response.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Éxito',
+                            text: 'Cursos actualizados exitosamente.',
+                        }).then(() => {
+                            window.location.href = "{{ route('curso.index') }}";
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: response.message || 'No se pudieron actualizar los cursos.',
+                        });
+                    }
+                },
+                error: function(xhr) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Ocurrió un error. Por favor, inténtelo de nuevo más tarde.',
+                    });
+                }
+            });
+        });
+    </script>
 @endsection

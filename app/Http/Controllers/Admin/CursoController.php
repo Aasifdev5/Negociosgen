@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Course;
 use App\Models\User;
-use App\Tools\Repositories\Crud;
 use App\Traits\General;
 use App\Traits\ImageSaveTrait;
 use Illuminate\Http\Request;
@@ -18,11 +17,9 @@ class CursoController extends Controller
 {
     use ImageSaveTrait, General;
 
-    protected $model;
-
-    public function __construct(Course $course)
+    public function __construct()
     {
-        $this->model = new Crud($course);
+        // Removed the Crud dependency as it's no longer required.
     }
 
     public function index()
@@ -45,163 +42,175 @@ class CursoController extends Controller
         }
     }
 
-
     public function store(Request $request)
     {
         $validator = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'coache' => 'required',
-
-            'video_link' => [
-                'required',
-                'url',
-                function ($attribute, $value, $fail) {
-                    // Regular expressions to match YouTube, Vimeo, and Dailymotion
-                    if (!preg_match('/^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be|vimeo\.com|dailymotion\.com)\//', $value)) {
-                        $fail('The :attribute must be a valid video URL from YouTube, Vimeo, or Dailymotion.');
-                    }
-                }
-            ],
-            'video_thumbnail' => 'nullable|image|mimes:png,jpg,jpeg', // Optional: limit to 2MB
+            'coach_name' => 'required|string|max:255',
+            'coach_video' => 'required|file|mimetypes:video/mp4,video/avi',
+            'coach_thumbnail' => 'required|image|mimes:png,jpg,jpeg',
+            'titles' => 'required|array',
+            'titles.*' => 'required|string|max:255',
+            'video_urls' => 'required|array',
+            'video_urls.*' => 'required|url',
+            'thumbnails' => 'required|array',
+            'thumbnails.*' => 'nullable|image|mimes:png,jpg,jpeg'
         ]);
 
-
-
-        // Prepare the data for storage
-        $data = [
-            'title' => $request->title,
-            'description' => $request->description,
-            'coache' => $request->coache,
-
-            'video_link' => $request->video_link,
-            'slug' => Str::slug($request->title),
-        ];
-
-        // Handle video thumbnail upload if provided
-        if ($request->hasFile('video_thumbnail')) {
-            $data['video_thumbnail'] = $this->uploadThumbnail($request->file('video_thumbnail'));
-        }
-
-        // Save the data to the database
         try {
-            $this->model->create($data);
-            return response()->json(['success' => true, 'message' => 'Course created successfully!']);
+            // Upload Coach Intro Video and Thumbnail
+            $coachVideoPath = $this->uploadFile($request->file('coach_video'), 'coach_videos');
+            $coachThumbnailPath = $this->uploadFile($request->file('coach_thumbnail'), 'coach_thumbnails');
+
+            // Prepare the courses data with titles, video URLs, and thumbnails
+            $courses = [];
+            foreach ($request->titles as $key => $title) {
+                // Upload course video thumbnail if available
+                $thumbnailPath = $request->hasFile("thumbnails.$key")
+                    ? $this->uploadFile($request->file("thumbnails.$key"), 'course_thumbnails')
+                    : null;
+
+                // Add course data to the array
+                $courses[] = [
+                    'title' => $title,
+                    'video_url' => $request->video_urls[$key],
+                    'thumbnail' => $thumbnailPath,
+                    'slug' => Str::slug($title),
+                ];
+            }
+
+            // Create Course entry
+            Course::create([
+                'coach_name' => $request->coach_name,
+                'coach_video' => $coachVideoPath,
+                'coach_thumbnail' => $coachThumbnailPath,
+                'courses' => json_encode($courses),
+            ]);
+
+            return response()->json(['success' => true, 'message' => 'Cursos añadidos con éxito.']);
         } catch (\Exception $e) {
-            Log::error('Error creating course: ' . $e->getMessage());
-            return response()->json(['success' => false, 'message' => 'An unexpected error occurred. Please try again later.'], 500);
+            Log::error('Error creating courses: ' . $e->getMessage());
+            return response()->json(['success' => false, 'message' => 'Error al añadir cursos. Inténtalo de nuevo más tarde.'], 500);
         }
     }
 
-    /**
-     * Handles the video thumbnail upload.
-     *
-     * @param  \Illuminate\Http\UploadedFile  $file
-     * @return string
-     */
-    public function uploadThumbnail($file)
-    {
-        // Generate a unique file name
-        $fileName = time() . '-' . Str::random(10) . '.' . $file->getClientOriginalExtension();
-
-        // Define the upload path (e.g., 'uploads/video_thumbnails')
-        $destinationPath = public_path('uploads/video_thumbnails');
-
-        // Move the uploaded file to the destination folder
-        $file->move($destinationPath, $fileName);
-
-        // Return the file path (relative to the public directory)
-        return 'uploads/video_thumbnails/' . $fileName;
-    }
-
-
-
-    public function edit($uuid)
+    public function edit($id)
     {
         if (Session::has('LoggedIn')) {
             $data['user_session'] = User::where('id', Session::get('LoggedIn'))->first();
             $data['title'] = 'Editar Curso';
             $data['categories'] = Category::all();
-            $data['course'] = $this->model->getRecordByUuid($uuid);
+            $course = Course::where('id', $id)->first();
+
+            // Decode the 'courses' JSON column to an array
+            $course->items = json_decode($course->courses);
+            $data['course'] = $course;
+
             return view('admin.curso.edit', $data);
         }
     }
 
-    public function update(Request $request, $uuid)
+
+    public function update(Request $request, $id)
     {
-        Log::info('Updating course with UUID: ' . $uuid); // Log UUID
-
-        // Retrieve the course by UUID
-        $course = Course::where('uuid', $uuid)->first(); // Directly query the Course model
-
-        // Check if the course exists
+        $course = Course::where('id', $id)->first();
         if (!$course) {
-            return response()->json(['success' => false, 'message' => 'Course not found.'], 404);
+            return response()->json(['success' => false, 'message' => 'Curso no encontrado.'], 404);
         }
 
-        // Validate the incoming request
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'coache' => 'required',
+        try {
+            // Decode the courses field if it's a JSON string
+            $courses = json_decode($course->courses, true);
 
-            'video_link' => 'required|url',
-            'video_thumbnail' => 'nullable|image|mimes:png,jpg,jpeg',
-        ]);
+            // Update Coach Intro Video and Thumbnail if available
+            if ($request->hasFile('coach_video')) {
+                $this->deleteFile($course->coach_video);
+                $course->coach_video = $this->uploadFile($request->file('coach_video'), 'coach_videos');
+            }
 
-        // Prepare the data for update
-        $data = [
-            'title' => $request->title,
-            'description' => $request->description,
-            'coache' => $request->coache,
-            'category' => $request->category,
-            'video_link' => $request->video_link,
-            'slug' => Str::slug($request->title),
-        ];
+            if ($request->hasFile('coach_thumbnail')) {
+                $this->deleteFile($course->coach_thumbnail);
+                $course->coach_thumbnail = $this->uploadFile($request->file('coach_thumbnail'), 'coach_thumbnails');
+            }
 
-        // Handle video thumbnail upload if a new file is provided
-        if ($request->hasFile('video_thumbnail')) {
-            // Remove the old thumbnail if it exists
-            $this->deleteFile($course->video_thumbnail); // You can handle this in your deleteFile method
-            // Save the new video thumbnail
-            $data['video_thumbnail'] = $this->saveImage($request->file('video_thumbnail'), 'video_thumbnail'); // Adjust directory as needed
+            // Prepare updated courses data
+            $updatedCourses = [];
+            foreach ($request->titles as $key => $title) {
+                // Initialize thumbnail path
+                $thumbnailPath = null;
+
+                // Check if a new thumbnail is provided
+                if ($request->hasFile("thumbnails.$key")) {
+                    // If a new thumbnail is uploaded, delete the old one
+                    if (isset($courses[$key]['thumbnail'])) {
+                        $this->deleteFile($courses[$key]['thumbnail']);
+                    }
+
+                    // Upload the new thumbnail
+                    $thumbnailPath = $this->uploadFile($request->file("thumbnails.$key"), 'course_thumbnails');
+                } else {
+                    // Keep the existing thumbnail if no new one is uploaded
+                    $thumbnailPath = $courses[$key]['thumbnail'] ?? null;
+                }
+
+                // Prepare the updated course data
+                $updatedCourses[] = [
+                    'title' => $title,
+                    'video_url' => $request->video_urls[$key],
+                    'thumbnail' => $thumbnailPath,
+                    'slug' => Str::slug($title),
+                ];
+            }
+
+            // Update course entry
+            $course->update([
+                'coach_name' => $request->coach_name,
+                'courses' => json_encode($updatedCourses),
+            ]);
+
+            return response()->json(['success' => true, 'message' => 'Curso actualizado exitosamente.']);
+        } catch (\Exception $e) {
+            Log::error('Error updating course: ' . $e->getMessage());
+            return response()->json(['success' => false, 'message' => 'Error al actualizar el curso.'], 500);
         }
-
-        // Update the course attributes
-        $course->update($data); // Directly update the model instance
-
-        return response()->json(['success' => true]);
     }
 
 
-
-    public function delete($uuid)
+    public function delete($id)
     {
-        $course = Course::where('uuid', $uuid)->first();
+        $course = Course::where('id', $id)->first();
 
         if (!$course) {
             return response()->json(['success' => false, 'message' => 'Curso no encontrado.'], 404);
         }
 
-        $this->deleteFile($course->video_thumbnail); // Eliminar el archivo de video thumbnail asociado
+        // Delete course-related files
+        $this->deleteFile($course->coach_video);
+        $this->deleteFile($course->coach_thumbnail);
+
+        foreach (json_decode($course->courses, true) as $courseData) {
+            if (!empty($courseData['thumbnail'])) {
+                $this->deleteFile($courseData['thumbnail']);
+            }
+        }
+
+        // Delete course record
         $course->delete();
 
-        return response()->json(['success' => true]);
+        return response()->json(['success' => true, 'message' => 'Curso eliminado exitosamente.']);
     }
-
     public function bulkDelete(Request $request)
     {
         try {
             $request->validate([
                 'ids' => 'required|array',
-                'ids.*' => 'exists:courses,uuid'
+                'ids.*' => 'exists:courses,id'
             ]);
 
-            $courses = Course::whereIn('uuid', $request->ids)->get();
+            $courses = Course::whereIn('id', $request->ids)->get();
             foreach ($courses as $course) {
                 $this->deleteFile($course->video_thumbnail); // Remove video thumbnail files before deleting
             }
-            Course::whereIn('uuid', $request->ids)->delete();
+            Course::whereIn('id', $request->ids)->delete();
 
             return response()->json([
                 'success' => true,
@@ -212,6 +221,21 @@ class CursoController extends Controller
                 'success' => false,
                 'message' => 'Error al eliminar los cursos seleccionados.'
             ], 500);
+        }
+    }
+
+    private function uploadFile($file, $folder)
+    {
+        $fileName = time() . '-' . Str::random(10) . '.' . $file->getClientOriginalExtension();
+        $destinationPath = public_path('uploads/' . $folder);
+        $file->move($destinationPath, $fileName);
+        return 'uploads/' . $folder . '/' . $fileName;
+    }
+
+    private function deleteFile($filePath)
+    {
+        if (file_exists(public_path($filePath))) {
+            unlink(public_path($filePath));
         }
     }
 }

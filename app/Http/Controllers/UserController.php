@@ -89,15 +89,14 @@ class UserController extends Controller
     {
 
         $user_session = User::where('id', Session::get('LoggedIn'))->first();
-        $course = Course::whereNotNull('coache') // Exclude records with null 'coache' values
-            ->orderBy('created_at', 'desc') // Order by creation date, newest first
-            ->get()
-            ->groupBy('coache') // Group courses by 'coache'
-            ->map(function ($group) {
-                return $group->take(4); // Take the latest 4 courses per coach
-            })
-            ->flatten(); // Flatten the collection to a single-level array
-            $supportQuestions = SupportTicketQuestion::orderBy('created_at', 'desc')  // Order by most recent
+        $course = Course::take(4)->get(); // Fetch only 4 courses from the database
+
+        // Decode the 'courses' JSON column to an array
+        $course->each(function ($item) {
+            $item->courses = json_decode($item->courses, true); // Decode 'courses' JSON field
+        });
+
+        $supportQuestions = SupportTicketQuestion::orderBy('created_at', 'desc')  // Order by most recent
             ->limit(9)  // Fetch only the 9 most recent questions
             ->get();  // Retrieve the results
 
@@ -109,7 +108,7 @@ class UserController extends Controller
         $brands = Brand::all();
         $pages = Page::all();
 
-        return view('index', compact('user_session',   'pages', 'course', 'audiobook', 'brands','supportQuestions','latest_posts','success_tips','develop_skills'));
+        return view('index', compact('user_session',   'pages', 'course', 'audiobook', 'brands', 'supportQuestions', 'latest_posts', 'success_tips', 'develop_skills'));
     }
     public function requestWithdrawal(Request $request)
     {
@@ -292,9 +291,8 @@ class UserController extends Controller
 
                     // Establecer la sesión para el usuario conectado
                     $request->session()->put('LoggedIn', $user->id);
-                    return redirect('/membership/renew')->with([
-
-                        'user' => $user
+                    return redirect('/membership/renew?user_id=' . $user->id)->with([
+                        'user' => $user,
                     ]);
                 }
                 // Verificar si el usuario está suscrito
@@ -390,7 +388,15 @@ class UserController extends Controller
             $pages = Page::all();
             $user_session = User::where('id', Session::get('LoggedIn'))->first();
 
-            $course = Course::orderBy('created_at', 'desc')->take(4)->get();
+
+            // Fetch the latest 4 courses, decode the 'courses' JSON column, and paginate
+            $course = Course::latest()->take(4)->get(); // Limit to 4 records
+
+            // Decode the 'courses' JSON column to an array
+            $course->each(function ($item) {
+                $item->courses = json_decode($item->courses, true); // Decode 'courses' JSON field
+            });
+
             if (in_array($user_session->membership_status, ['expired', 'pending'])) {
                 return redirect()->back()->with('fail', __('Your membership is expired or pending. Please update your membership.'));
             }
@@ -468,7 +474,7 @@ class UserController extends Controller
         $latest_posts = News::orderBy('id', 'DESC')->paginate(3);
         $user_session = User::where('id', Session::get('LoggedIn'))->first();
         // dd($request->id);
-        return view('newsDetails', compact( 'user_session', 'news', 'latest_posts'));
+        return view('newsDetails', compact('user_session', 'news', 'latest_posts'));
     }
 
 
@@ -905,14 +911,21 @@ class UserController extends Controller
         }
 
         // Fetch courses with pagination
+        // If you want to keep pagination (12 per page) and decode the 'courses' field
         $courses = Course::latest()->paginate(12);
+
+        // Decode the 'courses' JSON column to an array
+        $courses->getCollection()->each(function ($item) {
+            $item->courses = json_decode($item->courses, true); // Decode 'courses' JSON field
+        });
+
         $develop_skills = HomeSettings::where('key', 'develop_skills')->first();
         $success_tips = HomeSettings::where('key', 'success_tips')->first();
         // Fetch pages
         $pages = Page::all();
 
         // Render the course view
-        return view('course', compact('pages', 'user_session', 'courses','success_tips','develop_skills'));
+        return view('course', compact('pages', 'user_session', 'courses', 'success_tips', 'develop_skills'));
     }
 
     public function storeBack(Request $request)

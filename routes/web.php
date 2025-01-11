@@ -497,9 +497,9 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('/', [CursoController::class, 'index'])->name('curso.index')->middleware('AdminIsLoggedIn');
             Route::get('create', [CursoController::class, 'create'])->name('curso.create')->middleware('AdminIsLoggedIn');
             Route::post('store', [CursoController::class, 'store'])->name('curso.store');
-            Route::get('edit/{uuid}', [CursoController::class, 'edit'])->name('curso.edit')->middleware('AdminIsLoggedIn');
-            Route::post('update/{uuid}', [CursoController::class, 'update'])->name('curso.update');
-            Route::get('delete/{uuid}', [CursoController::class, 'delete'])->name('curso.delete');
+            Route::get('edit/{id}', [CursoController::class, 'edit'])->name('curso.edit')->middleware('AdminIsLoggedIn');
+            Route::post('update/{id}', [CursoController::class, 'update'])->name('curso.update');
+            Route::get('delete/{id}', [CursoController::class, 'delete'])->name('curso.delete');
             Route::post('bulk-delete', [CursoController::class, 'bulkDelete'])->name('curso.bulk.delete');
         });
         Route::prefix('subcategory')->group(function () {

@@ -22,7 +22,7 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
-        \App\Http\Middleware\InactivityTimeout::class,
+
 
     ];
 
@@ -40,7 +40,7 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\SetLocale::class,
-            \App\Http\Middleware\InactivityTimeout::class,
+
         ],
 
         'api' => [
@@ -58,7 +58,7 @@ class Kernel extends HttpKernel
      */
     protected $routeMiddleware = [
 
-        'inactivity.timeout' => \App\Http\Middleware\InactivityTimeout::class,
+
         'AdminAlreadyLoggedIn' => \App\Http\Middleware\AdminAlreadyLoggedIn::class,
         'AdminIsLoggedIn' => \App\Http\Middleware\AdminIsLoggedIn::class,
         'alreadyLoggedIn' => \App\Http\Middleware\AlreadyLoggedIn::class,

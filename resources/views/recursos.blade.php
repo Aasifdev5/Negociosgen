@@ -115,28 +115,72 @@
 
                     <div class="row">
                         @foreach ($course as $row)
-                            <div class="col-lg-3 col-md-6 col-6" style="padding-bottom: 10px;">
-                                <div class="video-container">
-                                    <div class="gradient-overlay"></div>
-                                    <img src="{{ asset($row->video_thumbnail) }}" class="thumbnail"
-                                        alt="Video Thumbnail" />
-                                    @if (!empty($user_session))
-                                        <span class="play-button"><img src="{{ asset('assets/Play (1).svg') }}"
-                                                alt="Play Button" /></span>
-                                    @else
-                                        <a href="{{ url('Userlogin') }}"><span class="play-button"><img
-                                                    src="{{ asset('assets/Play (1).svg') }}"
-                                                    alt="Play Button" /></span></a>
-                                    @endif
+                            <div class="col-12">
+                                <!-- Coach Intro Section -->
+                                <div class="course-intro" style="margin-bottom: 30px;">
+                                    <div class="video-container" style="position: relative;">
+                                        <div class="gradient-overlay"></div>
+                                        <!-- Coach Intro Video Thumbnail -->
+                                        <img src="{{ asset($row->coach_thumbnail) }}" class="thumbnail img-fluid" alt="Coach Thumbnail" />
+                                        <!-- Play Button for Intro Video -->
+                                        @if (!empty($user_session))
+                                            <span class="play-button">
+                                                <img src="{{ asset('assets/Play (1).svg') }}" alt="Play Button" />
+                                            </span>
+                                        @else
+                                            <a href="{{ url('Userlogin') }}">
+                                                <span class="play-button">
+                                                    <img src="{{ asset('assets/Play (1).svg') }}" alt="Play Button" />
+                                                </span>
+                                            </a>
+                                        @endif
+                                        <!-- Video Embed (hidden initially) -->
+                                        <div class="embed-responsive" style="display: none;">
+                                            <video class="embed-responsive-item" controls>
+                                                <source src="{{ asset($row->coach_video) }}" type="video/mp4">
+                                                Your browser does not support the video tag.
+                                            </video>
 
-                                    <div class="embed-responsive" style="display: none;">
-                                        <iframe class="embed-responsive-item"
-                                            src="{{ $row->getEmbedUrl($row->video_link) }}" frameborder="0"
-                                            allow="autoplay; encrypted-media" allowfullscreen>
-                                        </iframe>
+                                        </div>
                                     </div>
+                                    <h1 class="mt-3 text-center" style="color: #EDEDED;">Coach : {{ $row->coach_name }}</h1>
                                 </div>
-                                <h4 style="color: #EDEDED;">{{ $row->title }}</h4>
+
+                                <!-- Course Videos Section -->
+                                <div class="row">
+                                    @foreach ($row->courses as $courseItem)
+                                    <div class="col-lg-3 col-md-6" style="margin-bottom: 20px;">
+                                        <div class="course-video">
+                                            <div class="video-container">
+                                                <div class="gradient-overlay"></div>
+                                                <!-- Video Thumbnail -->
+                                                <img src="{{ asset($courseItem['thumbnail']) }}" class="thumbnail img-fluid" alt="Course Thumbnail" />
+                                                @if (!empty($user_session))
+                                                    <span class="play-button">
+                                                        <img src="{{ asset('assets/Play (1).svg') }}" alt="Play Button" />
+                                                    </span>
+                                                @else
+                                                    <a href="{{ url('Userlogin') }}">
+                                                        <span class="play-button">
+                                                            <img src="{{ asset('assets/Play (1).svg') }}" alt="Play Button" />
+                                                        </span>
+                                                    </a>
+                                                @endif
+                                                <!-- Video Embed (hidden initially) -->
+                                                <div class="embed-responsive" style="display: none;">
+                                                    <iframe class="embed-responsive-item"
+                                                        src="{{ $row->getEmbedUrl($courseItem['video_url']) }}"
+                                                        frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
+                                                    </iframe>
+                                                </div>
+                                            </div>
+                                            <h4 style="color: #EDEDED; margin-top: 10px;">{{ $courseItem['title'] }}</h4>
+                                            <p style="color: #E0E0E0;">Coach: {{ $row->coach_name }}</p>
+                                        </div>
+                                    </div>
+                                @endforeach
+
+                                </div>
                             </div>
                         @endforeach
                     </div>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 10, 2025 at 01:55 PM
+-- Generation Time: Jan 11, 2025 at 08:14 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -65,16 +65,16 @@ CREATE TABLE `balances` (
 --
 
 INSERT INTO `balances` (`id`, `user_id`, `amount`, `created_at`, `updated_at`) VALUES
-(1, 5, 1550.00, '2024-11-20 02:08:40', '2024-11-22 00:18:32'),
-(2, 10, 300.00, '2024-11-21 23:11:37', '2024-11-21 23:11:37'),
-(3, 11, 330.00, '2024-11-22 00:14:43', '2024-11-22 00:18:32'),
+(1, 5, 1440.00, '2024-11-20 02:08:40', '2025-01-10 21:44:50'),
+(2, 10, 1100.00, '2024-11-21 23:11:37', '2025-01-10 21:10:29'),
+(3, 11, 230.00, '2024-11-22 00:14:43', '2025-01-10 21:44:53'),
 (4, 14, 300.00, '2024-11-22 00:18:32', '2024-11-22 00:18:32'),
-(5, 6, 630.00, '2024-11-27 22:13:54', '2024-11-27 22:31:51'),
-(6, 17, 300.00, '2024-11-27 22:31:51', '2024-11-27 22:31:51'),
-(7, 3, 630.00, '2024-11-28 01:20:54', '2024-11-28 01:26:07'),
-(8, 20, 300.00, '2024-11-28 01:26:07', '2024-11-28 01:26:07'),
-(9, 7, 575.00, '2024-11-28 01:34:16', '2024-12-05 00:47:49'),
-(10, 22, 300.00, '2024-11-28 01:37:51', '2024-11-28 01:37:51');
+(5, 6, 530.00, '2024-11-27 22:13:54', '2025-01-10 21:44:51'),
+(6, 17, 200.00, '2024-11-27 22:31:51', '2025-01-10 21:44:58'),
+(7, 3, 530.00, '2024-11-28 01:20:54', '2025-01-10 21:44:47'),
+(8, 20, 200.00, '2024-11-28 01:26:07', '2025-01-10 21:45:01'),
+(9, 7, 475.00, '2024-11-28 01:34:16', '2025-01-10 21:44:52'),
+(10, 22, 200.00, '2024-11-28 01:37:51', '2025-01-10 21:45:03');
 
 -- --------------------------------------------------------
 
@@ -575,13 +575,10 @@ INSERT INTO `countries` (`id`, `short_name`, `country_name`, `flag`, `slug`, `ph
 
 CREATE TABLE `courses` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `uuid` char(36) NOT NULL,
-  `title` varchar(191) NOT NULL,
-  `description` text DEFAULT NULL,
-  `coache` varchar(255) DEFAULT NULL,
-  `category` varchar(191) DEFAULT NULL,
-  `video_link` varchar(191) NOT NULL,
-  `video_thumbnail` varchar(255) DEFAULT NULL,
+  `coach_name` varchar(191) NOT NULL,
+  `coach_video` varchar(191) NOT NULL,
+  `coach_thumbnail` varchar(191) NOT NULL,
+  `courses` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`courses`)),
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -590,11 +587,9 @@ CREATE TABLE `courses` (
 -- Dumping data for table `courses`
 --
 
-INSERT INTO `courses` (`id`, `uuid`, `title`, `description`, `coache`, `category`, `video_link`, `video_thumbnail`, `created_at`, `updated_at`) VALUES
-(3, '0100bd04-ba9f-4bc1-ba4d-e87652ac338d', 'xcvxvxcvcx', '<p>xcvxvxcxvxvcxvxvx</p>', 'alex', NULL, 'https://www.youtube.com/watch?v=_Ip-f_ULaM4', 'uploads/video_thumbnail/1732514407-JSulnJUK1V.jpg', '2024-11-25 00:30:08', '2024-12-14 23:06:50'),
-(4, '117f741c-0261-485d-88f4-910812237342', 'ertetewrwer', '<p>ewrsrfwerwredf</p>', 'alex', NULL, 'https://www.youtube.com/watch?v=guDx-8fu3Uc', 'uploads/video_thumbnail/1732514780-Duuj7alqSl.jpg', '2024-11-25 00:36:20', '2024-12-14 23:06:19'),
-(5, 'cd18d727-0794-47d5-9f49-2153f60ee7e3', 'drebgrdvte44e', '<p>fhbdhh</p>', 'alex', NULL, 'https://www.youtube.com/watch?v=UrW19xffEUk', 'uploads/video_thumbnails/1732527932-gHegvF3QuR.jpg', '2024-11-25 04:15:33', '2024-12-14 23:05:59'),
-(6, '9c82e844-32ab-4c90-996f-bc765605fec6', 'xcsdfsfs', '<p>xcvsdds</p>', 'alex', NULL, 'https://www.youtube.com/watch?v=BgoTIV2hA4I', 'uploads/video_thumbnails/1734237278-Z2Ll8rn8Zl.png', '2024-12-14 23:04:38', '2024-12-14 23:04:38');
+INSERT INTO `courses` (`id`, `coach_name`, `coach_video`, `coach_thumbnail`, `courses`, `created_at`, `updated_at`) VALUES
+(1, 'Aasif Ahmed', 'uploads/coach_videos/1736569392-rrXTw0wtDR.mp4', 'uploads/coach_thumbnails/1736569392-uEvgvOYWQ6.png', '\"[{\\\"title\\\":\\\"web design\\\",\\\"video_url\\\":\\\"https:\\\\\\/\\\\\\/www.youtube.com\\\\\\/watch?v=AlNd5pV0PB0\\\",\\\"thumbnail\\\":\\\"uploads\\\\\\/course_thumbnails\\\\\\/1736571202-6jdEZazsB2.jpg\\\",\\\"slug\\\":\\\"web-design\\\"},{\\\"title\\\":\\\"web app\\\",\\\"video_url\\\":\\\"https:\\\\\\/\\\\\\/www.youtube.com\\\\\\/watch?v=KsqI6FXMNQA\\\",\\\"thumbnail\\\":\\\"uploads\\\\\\/course_thumbnails\\\\\\/1736571240-0xS8QzBymb.png\\\",\\\"slug\\\":\\\"web-app\\\"},{\\\"title\\\":\\\"mobile app\\\",\\\"video_url\\\":\\\"https:\\\\\\/\\\\\\/www.youtube.com\\\\\\/watch?v=hq_xTYSaZpw\\\",\\\"thumbnail\\\":\\\"uploads\\\\\\/course_thumbnails\\\\\\/1736571240-1IyPCMb4u1.png\\\",\\\"slug\\\":\\\"mobile-app\\\"},{\\\"title\\\":\\\"hybrid app\\\",\\\"video_url\\\":\\\"https:\\\\\\/\\\\\\/www.youtube.com\\\\\\/watch?v=W3LmurxcyxM\\\",\\\"thumbnail\\\":\\\"uploads\\\\\\/course_thumbnails\\\\\\/1736570939-MrcbL5aMvy.png\\\",\\\"slug\\\":\\\"hybrid-app\\\"}]\"', '2025-01-10 22:53:12', '2025-01-10 23:24:00'),
+(2, 'Tanzila', 'uploads/coach_videos/1736575711-la0yGWieSJ.mp4', 'uploads/coach_thumbnails/1736575711-VxmN6eTe5K.jpg', '\"[{\\\"title\\\":\\\"machine learning\\\",\\\"video_url\\\":\\\"https:\\\\\\/\\\\\\/www.youtube.com\\\\\\/watch?v=B8EIAnI8Q0Q\\\",\\\"thumbnail\\\":\\\"uploads\\\\\\/course_thumbnails\\\\\\/1736575711-l1UT8Kq5Am.jpg\\\",\\\"slug\\\":\\\"machine-learning\\\"},{\\\"title\\\":\\\"native app\\\",\\\"video_url\\\":\\\"https:\\\\\\/\\\\\\/www.youtube.com\\\\\\/watch?v=vnh4C5Bsf7U\\\",\\\"thumbnail\\\":\\\"uploads\\\\\\/course_thumbnails\\\\\\/1736575711-JemqgiPrRQ.jpg\\\",\\\"slug\\\":\\\"native-app\\\"}]\"', '2025-01-11 00:38:31', '2025-01-11 00:38:31');
 
 -- --------------------------------------------------------
 
@@ -1222,7 +1217,7 @@ INSERT INTO `memberships` (`id`, `name`, `price`, `benefits`, `duration`, `highl
 (1, 'Miembro GEN CLASSIC', '1000', '[\"Acceso por un a\\u00f1o a cursos y coaching virtual.\",\"Acceso a formaci\\u00f3n.\",\"Descuentos y beneficios en empresas nacionales.\",\"Apoyo de l\\u00edderes a nivel nacional.\"]', '1', '#701010', '2025-01-10 05:30:23', '2025-01-10 05:58:03'),
 (2, 'Miembro GEN VIP', '3000', '[\"Acceso por un a\\u00f1o a cursos y coaching virtual.\",\"Acceso a formaci\\u00f3n y eventos en vivo (incluye 1 invitado).\",\"Asientos reservados en las primeras filas.\",\"Descuentos y beneficios en empresas nacionales e internacionales.\",\"Tarjeta VIP GEN con beneficios adicionales.\"]', '1', '#cbcd37', '2025-01-10 05:34:21', '2025-01-10 06:00:51'),
 (3, 'Miembro GEN GOLD', '5000', '[\"Acceso por un a\\u00f1o a cursos, coaching virtual y acceso libre a coaching en vivo (incluye 2 invitados).\",\"Acceso a formaci\\u00f3n y eventos en vivo (incluye 2 invitados).\",\"Apoyo personalizado de l\\u00edderes nacionales e internacionales.\",\"Tarjeta GOLD GEN con beneficios adicionales.\"]', '1', '#efd006', '2025-01-10 05:35:22', '2025-01-10 06:02:15'),
-(4, 'Miembro GEN PLATINUM', '7000', '[\"Acceso por dos a\\u00f1os a cursos, coaching virtual y coaching en vivo (incluye 3 invitados).\",\"Acceso a formaci\\u00f3n y eventos en vivo (incluye 3 invitados).\",\"Asientos reservados en las primeras filas.\",\"Descuentos y beneficios en empresas VIP nacionales e internacionales.\",\"Tarjeta PLATINUM GEN con beneficios exclusivos.\"]', '2', '#3da022', '2025-01-10 05:36:25', '2025-01-10 06:04:40');
+(4, 'Miembro GEN PLATINUM', '7000', '[\"Acceso por dos a\\u00f1os a cursos, coaching virtual y coaching en vivo (incluye 3 invitados).\",\"Acceso a formaci\\u00f3n y eventos en vivo (incluye 3 invitados).\",\"Asientos reservados en las primeras filas.\",\"Descuentos y beneficios en empresas VIP nacionales e internacionales.\",\"Tarjeta PLATINUM GEN con beneficios exclusivos.\",\"6\"]', '2', '#3da022', '2025-01-10 05:36:25', '2025-01-10 21:39:34');
 
 -- --------------------------------------------------------
 
@@ -1246,7 +1241,9 @@ CREATE TABLE `membership_payments` (
 --
 
 INSERT INTO `membership_payments` (`id`, `user_id`, `membership_id`, `amount_paid`, `payment_date`, `payment_method`, `created_at`, `updated_at`) VALUES
-(1, 27, 4, 7000.00, '2024-12-12 02:15:02', 'paypal', '2024-12-12 02:15:02', '2024-12-12 02:15:02');
+(1, 27, 4, 7000.00, '2024-12-12 02:15:02', 'paypal', '2024-12-12 02:15:02', '2024-12-12 02:15:02'),
+(2, 28, 2, 3000.00, '2025-01-10 21:10:29', 'paypal', '2025-01-10 21:10:29', '2025-01-10 21:10:29'),
+(3, 5, 4, 7000.00, '2025-01-10 22:04:45', 'paypal', '2025-01-10 22:04:45', '2025-01-10 22:04:45');
 
 -- --------------------------------------------------------
 
@@ -1377,7 +1374,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (42, '2024_12_11_042221_create_membership_payments_table', 28),
 (43, '2024_12_17_081443_create_news_table', 29),
 (44, '2024_12_19_042802_create_home_settings_table', 30),
-(45, '2025_01_10_101916_create_memberships_table', 31);
+(45, '2025_01_10_101916_create_memberships_table', 31),
+(46, '2025_01_11_041533_create_courses_table', 32);
 
 -- --------------------------------------------------------
 
@@ -1523,7 +1521,8 @@ INSERT INTO `notifications` (`id`, `uuid`, `sender_id`, `user_id`, `text`, `targ
 (93, '8380edbb-80d9-409c-a41e-11255f53333e', 24, 24, 'A new member has registered on the platform.', 'http://127.0.0.1:8000/admin/users', 'no', 1, '2024-11-28 01:37:33', '2024-11-28 01:37:33'),
 (94, '07eec683-7e43-4108-ae95-48eada469dea', 25, 25, 'A new member has registered on the platform.', 'http://127.0.0.1:8000/admin/users', 'no', 1, '2024-12-10 03:20:58', '2024-12-10 03:20:58'),
 (95, '6698969d-f0ca-43fc-924f-d495c45b68e6', 26, 26, 'A new member has registered on the platform.', 'http://127.0.0.1:8000/admin/users', 'no', 1, '2024-12-10 03:54:37', '2024-12-10 03:54:37'),
-(96, 'e18597e7-e481-4b70-b6a5-dc5137e29086', 27, 27, 'A new member has registered on the platform.', 'http://127.0.0.1:8000/admin/users', 'no', 1, '2024-12-10 04:02:31', '2024-12-10 04:02:31');
+(96, 'e18597e7-e481-4b70-b6a5-dc5137e29086', 27, 27, 'A new member has registered on the platform.', 'http://127.0.0.1:8000/admin/users', 'no', 1, '2024-12-10 04:02:31', '2024-12-10 04:02:31'),
+(97, '321b49a0-ad3c-4919-9f48-edac02170fbf', 28, 28, 'A new member has registered on the platform.', 'http://127.0.0.1:8000/admin/users', 'no', 1, '2025-01-10 21:08:37', '2025-01-10 21:08:37');
 
 -- --------------------------------------------------------
 
@@ -1624,7 +1623,9 @@ INSERT INTO `payments` (`id`, `order_id`, `name`, `email`, `product_details`, `m
 (19, NULL, 'czxc xv', NULL, NULL, NULL, 23, NULL, 1000.00, 'payment_receipt/20241115_210616.jpg', 1, 'initial', 'zxc@gmail.com', '2024-11-28 01:35:45', '2024-11-28 01:35:53'),
 (20, NULL, 'dgsdff sdfsafaf', NULL, NULL, NULL, 24, NULL, 1000.00, 'payment_receipt/logo.png', 1, 'initial', 'sdfzscqwfewqsafrq@gmail.com', '2024-11-28 01:37:45', '2024-11-28 01:37:51'),
 (21, NULL, 'muskan bano', NULL, NULL, NULL, 5, NULL, 100.00, 'payment_receipt/Screenshot (144).png', 1, 'initial', 'aasifdev5@gmail.com', '2024-12-04 00:55:34', '2024-12-04 01:24:35'),
-(22, NULL, 'xcvxcv', NULL, NULL, 'GEN_PLATINUM', 27, NULL, 7000.00, 'payment_receipt/UpscaleImage_1_20241027_mano--texto.jpg', 1, 'initial', 'b3515736@gmail.com', '2024-12-12 02:14:42', '2024-12-12 02:15:02');
+(22, NULL, 'xcvxcv', NULL, NULL, 'GEN_PLATINUM', 27, NULL, 7000.00, 'payment_receipt/UpscaleImage_1_20241027_mano--texto.jpg', 1, 'initial', 'b3515736@gmail.com', '2024-12-12 02:14:42', '2024-12-12 02:15:02'),
+(23, NULL, 'altamas', NULL, NULL, 'Miembro GEN VIP', 28, NULL, 2000.00, 'payment_receipt/image (2).png', 1, 'initial', 'altamas@gmail.com', '2025-01-10 21:09:02', '2025-01-10 21:10:29'),
+(24, NULL, 'muskan bano', NULL, NULL, 'Miembro GEN PLATINUM', 5, NULL, 7000.00, 'payment_receipt/Screenshot 2024-03-06 15284411.png', 1, 'initial', 'aasifdev5@gmail.com', '2025-01-10 22:02:51', '2025-01-10 22:04:45');
 
 -- --------------------------------------------------------
 
@@ -1793,7 +1794,9 @@ INSERT INTO `sales` (`id`, `user_id`, `refer_id`, `level`, `percentage`, `commis
 (5, 22, '7', 1, '0.3', 300.00, '2024-11-28', '2024-11-28 01:34:16', '2024-11-28 01:34:16'),
 (6, 23, '7', 1, '0.3', 300.00, '2024-11-28', '2024-11-28 01:35:53', '2024-11-28 01:35:53'),
 (7, 24, '22', 1, '0.3', 300.00, '2024-11-28', '2024-11-28 01:37:51', '2024-11-28 01:37:51'),
-(8, 24, '7', 2, '0.03', 30.00, '2024-11-28', '2024-11-28 01:37:51', '2024-11-28 01:37:51');
+(8, 24, '7', 2, '0.03', 30.00, '2024-11-28', '2024-11-28 01:37:51', '2024-11-28 01:37:51'),
+(9, 28, '10', 1, '0.3', 900.00, '2025-01-11', '2025-01-10 21:10:29', '2025-01-10 21:10:29'),
+(10, 28, '5', 2, '0.03', 90.00, '2025-01-11', '2025-01-10 21:10:29', '2025-01-10 21:10:29');
 
 -- --------------------------------------------------------
 
@@ -2414,31 +2417,32 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `is_active`, `profile_photo`, `account_type`, `balance`, `membershipType`, `is_subscribed`, `refer`, `level`, `is_online`, `last_seen`, `birth_date`, `role`, `permissions`, `name`, `email`, `email_verified_at`, `password`, `custom_password`, `mobile_number`, `about`, `city`, `facebook`, `instagram`, `linkedin`, `twitter`, `address`, `status`, `remember_token`, `ip_address`, `is_system`, `id_number`, `country`, `created_by`, `deleted_at`, `language`, `is_super_admin`, `created_at`, `updated_at`, `membership_status`, `membership_start_date`, `membership_end_date`, `renewal_due_date`, `payment_status`, `membership_card_number`, `guest_access_count`) VALUES
-(1, NULL, 1, '149071.png', 'admin', NULL, NULL, 0, NULL, NULL, 1, '2025-01-10 04:16:42', NULL, 1, NULL, 'SUPER ADMINISTRADOR', 'gen@negociosgen.com', '2023-03-23 07:45:02', '$2y$10$2Xg3cj6N2RMrVNhMvzL6hu5vkvjZ.zOMsFrTICTE40rT1paV6CtP6', '987654321', '8878326802', NULL, 'bolivia', NULL, NULL, NULL, NULL, 'sdfafa', 1, NULL, '127.0.0.1', 1, '1', '1', NULL, NULL, 'es', 1, '2023-03-23 07:45:02', '2025-01-10 04:16:42', 'pending', NULL, NULL, NULL, 'unpaid', NULL, 0),
-(3, NULL, 1, NULL, 'affiliate', '530', NULL, 1, NULL, NULL, 0, '2024-12-03 21:10:40', '2024-10-16', 2, NULL, 'Alex', 'arstech2a@gmail.com', NULL, '$2y$10$yfNz3sJ2P3d31JhNkPve8.L.rVsISl81scG5DGvgB8pcfQUZd9l.e', NULL, '591591591', 'df', NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, '127.0.0.1', 0, '1', NULL, NULL, NULL, '\'en\'', 0, '2024-10-29 22:26:33', '2024-12-04 01:10:40', 'pending', NULL, '0000-00-00 00:00:00', NULL, 'unpaid', NULL, 0),
-(5, NULL, 1, NULL, 'affiliate', '1450', 'GEN_GOLD', 1, NULL, '3', 1, '2024-12-14 22:45:50', '2024-10-03', 2, NULL, 'muskan bano', 'aasifdev5@gmail.com', NULL, '$2y$10$9LiWUF5HP0GDOj05wal90eb/uZ8SsuXJveTWm.VbMDi6Jy4D3zViG', NULL, '591', NULL, '14', NULL, NULL, NULL, NULL, '722 azad nagar indore', 1, NULL, NULL, 0, '45', '1', NULL, NULL, '\'en\'', 0, '2024-10-31 01:23:24', '2024-12-14 22:45:50', 'expired', '2023-01-01 10:42:38', '2024-12-10 10:42:38', '2024-11-10 00:00:00', 'paid', NULL, 0),
-(6, NULL, 1, NULL, 'affiliate', '530', NULL, 1, NULL, '2', 0, '2024-11-27 21:17:35', '2024-11-20', 2, NULL, 'Tanzila', 'hrnatrajdfsinfotech@gmail.com', NULL, '$2y$10$1d.I9JhZ3wp1WNix7lxFA.L5J5vIXgrttg9e.rDX4xHMgy2VfVxgG', NULL, '5919589642080', NULL, '12', NULL, NULL, NULL, NULL, '722 azad nagar indore', 1, NULL, '127.0.0.1', 0, '', '1', NULL, NULL, '\'en\'', 0, '2024-11-20 00:36:57', '2024-11-28 01:17:35', 'pending', NULL, NULL, NULL, 'unpaid', NULL, 0),
-(7, NULL, 1, NULL, 'affiliate', '475', NULL, 1, NULL, '2', 1, '2024-12-04 23:56:04', '2024-11-19', 2, NULL, 'Vergil', 'hrnatrajinfmbvnotech@gmail.com', NULL, '$2y$10$dUOlOwtjE3eTrkg6FuelNuX8l2NH/WaPx9lqk/07G/sBMsfR4DuES', NULL, '59154285285', NULL, '12', NULL, NULL, NULL, NULL, '722 azad nagar indore', 1, NULL, '127.0.0.1', 0, '', '1', NULL, NULL, '\'en\'', 0, '2024-11-20 00:46:16', '2024-12-05 00:47:49', 'pending', NULL, NULL, NULL, 'unpaid', NULL, 0),
+(1, NULL, 1, '149071.png', 'admin', NULL, NULL, 0, NULL, NULL, 1, '2025-01-10 22:02:21', NULL, 1, NULL, 'SUPER ADMINISTRADOR', 'gen@negociosgen.com', '2023-03-23 07:45:02', '$2y$10$2Xg3cj6N2RMrVNhMvzL6hu5vkvjZ.zOMsFrTICTE40rT1paV6CtP6', '987654321', '8878326802', NULL, 'bolivia', NULL, NULL, NULL, NULL, 'sdfafa', 1, NULL, '127.0.0.1', 1, '1', '1', NULL, NULL, 'es', 1, '2023-03-23 07:45:02', '2025-01-10 22:02:21', 'pending', NULL, NULL, NULL, 'unpaid', NULL, 0),
+(3, NULL, 1, NULL, 'affiliate', '430', NULL, 1, NULL, NULL, 0, '2024-12-03 21:10:40', '2024-10-16', 2, NULL, 'Alex', 'arstech2a@gmail.com', NULL, '$2y$10$yfNz3sJ2P3d31JhNkPve8.L.rVsISl81scG5DGvgB8pcfQUZd9l.e', NULL, '591591591', 'df', NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, '127.0.0.1', 0, '1', NULL, NULL, NULL, '\'en\'', 0, '2024-10-29 22:26:33', '2024-12-04 01:10:40', 'pending', NULL, '0000-00-00 00:00:00', NULL, 'unpaid', NULL, 0),
+(5, NULL, 1, NULL, 'affiliate', '1440', 'Miembro GEN PLATINUM', 1, NULL, '2', 0, '2025-01-10 19:41:23', '2024-10-03', 2, NULL, 'muskan bano', 'aasifdev5@gmail.com', NULL, '$2y$10$9LiWUF5HP0GDOj05wal90eb/uZ8SsuXJveTWm.VbMDi6Jy4D3zViG', NULL, '591', NULL, '14', NULL, NULL, NULL, NULL, '722 azad nagar indore', 1, NULL, NULL, 0, '45', '1', NULL, NULL, '\'en\'', 0, '2024-10-31 01:23:24', '2025-01-10 23:41:23', 'expired', '2024-01-10 03:34:45', '2025-01-10 03:34:45', '2024-12-12 03:34:45', 'paid', NULL, 0),
+(6, NULL, 1, NULL, 'affiliate', '430', NULL, 1, NULL, '2', 0, '2024-11-27 21:17:35', '2024-11-20', 2, NULL, 'Tanzila', 'hrnatrajdfsinfotech@gmail.com', NULL, '$2y$10$1d.I9JhZ3wp1WNix7lxFA.L5J5vIXgrttg9e.rDX4xHMgy2VfVxgG', NULL, '5919589642080', NULL, '12', NULL, NULL, NULL, NULL, '722 azad nagar indore', 1, NULL, '127.0.0.1', 0, '', '1', NULL, NULL, '\'en\'', 0, '2024-11-20 00:36:57', '2024-11-28 01:17:35', 'pending', NULL, NULL, NULL, 'unpaid', NULL, 0),
+(7, NULL, 1, NULL, 'affiliate', '375', NULL, 1, NULL, '2', 1, '2024-12-04 23:56:04', '2024-11-19', 2, NULL, 'Vergil', 'hrnatrajinfmbvnotech@gmail.com', NULL, '$2y$10$dUOlOwtjE3eTrkg6FuelNuX8l2NH/WaPx9lqk/07G/sBMsfR4DuES', NULL, '59154285285', NULL, '12', NULL, NULL, NULL, NULL, '722 azad nagar indore', 1, NULL, '127.0.0.1', 0, '', '1', NULL, NULL, '\'en\'', 0, '2024-11-20 00:46:16', '2024-12-05 00:47:49', 'pending', NULL, NULL, NULL, 'unpaid', NULL, 0),
 (8, NULL, 1, NULL, 'affiliate', NULL, NULL, NULL, NULL, NULL, 0, NULL, '2024-11-20', 2, NULL, 'Aasif Ahmed', 'hrnatrajinffdggfdgotech@gmail.com', NULL, '$2y$10$6I.z1YM8jLYN39OKqJkWOOxdEWGZfPp7M32liMruXyX3u/GdzRw8a', NULL, '5919589642080', NULL, '12', NULL, NULL, NULL, NULL, '722 azad nagar indore', 1, NULL, '127.0.0.1', 0, '', '1', NULL, NULL, '\'en\'', 0, '2024-11-20 00:50:55', '2024-11-20 00:50:55', 'pending', NULL, NULL, NULL, 'unpaid', NULL, 0),
 (9, NULL, 1, NULL, 'affiliate', NULL, NULL, NULL, NULL, NULL, 0, NULL, '2024-11-20', 2, NULL, 'Aasif Ahmed', 'hrnatrajinffdggbvfdgotech@gmail.com', NULL, '$2y$10$OahB7QIcZU15Nb6fOX3rwu2Dgj.sHJHiuuF88s9WV.WYwI/f8RXn2', NULL, '5919589642080', NULL, '12', NULL, NULL, NULL, NULL, '722 azad nagar indore', 1, NULL, '127.0.0.1', 0, '', '1', NULL, NULL, '\'en\'', 0, '2024-11-20 00:53:52', '2024-11-20 00:53:52', 'pending', NULL, NULL, NULL, 'unpaid', NULL, 0),
-(10, NULL, 1, NULL, 'affiliate', '200', NULL, 1, '5', NULL, 0, '2024-11-21 20:35:21', '2024-11-20', 2, NULL, 'uzair Ahmed', 'saddamahmed3@gmail.com', NULL, '$2y$10$gViB4B9TMHM4EVRiYfTT1uPNZ0V8cnl2CnXpPjJZiS5Mbb.kWr4hS', NULL, '5919589642080', NULL, '14', NULL, NULL, NULL, NULL, '722 azad nagar indore', 1, NULL, '127.0.0.1', 0, '', '1', NULL, NULL, '\'en\'', 0, '2024-11-20 01:56:58', '2024-11-22 00:35:21', 'pending', NULL, NULL, NULL, 'unpaid', NULL, 0),
-(11, NULL, 1, NULL, 'affiliate', '230', NULL, 1, '5', '2', 0, '2024-11-21 20:23:48', '2024-11-20', 2, NULL, 'brijlal pawar', 'brijlalpawar@gmail.com', NULL, '$2y$10$Bs8qb4ijGgUjFpXiTdNU2uxKN59NL7UjQ6S8fxVV9ZbeRhu6tvQbq', NULL, '5914353535353', NULL, '11', NULL, NULL, NULL, NULL, '722 azad nagar indore', 1, NULL, '127.0.0.1', 0, '', '1', NULL, NULL, '\'en\'', 0, '2024-11-20 02:01:41', '2024-11-22 00:23:48', 'pending', NULL, NULL, NULL, 'unpaid', NULL, 0),
-(12, NULL, 1, NULL, 'affiliate', NULL, NULL, 1, '10', NULL, 0, '2024-11-21 19:11:59', '2024-11-15', 2, NULL, 'deepak rathore', 'deepak@gmail.com', NULL, '$2y$10$BtGdQH9Iw2.1nLCNbACrpuIP2SfEvKJF2dUh19qFp8Hhe1bGI1sOC', NULL, '5919589642080', NULL, '12', NULL, NULL, NULL, NULL, '722 azad nagar indore', 1, NULL, '127.0.0.1', 0, '', '2', NULL, NULL, '\'en\'', 0, '2024-11-21 22:54:38', '2024-11-21 23:11:59', 'pending', NULL, NULL, NULL, 'unpaid', NULL, 0),
-(13, NULL, 1, NULL, 'affiliate', NULL, NULL, 1, '5', NULL, 0, '2024-11-21 20:12:10', '2024-10-29', 2, NULL, 'heena khan', 'heena@gmail.com', NULL, '$2y$10$KC8NbZQgFeZo5wugpKQ5juoyvWXQcXNPCLWIchZODvSPVtutl8OnO', NULL, '591545', NULL, '11', NULL, NULL, NULL, NULL, 'dffasfsa', 1, NULL, '127.0.0.1', 0, '', '2', NULL, NULL, '\'en\'', 0, '2024-11-21 23:16:01', '2024-11-22 00:12:10', 'pending', NULL, NULL, NULL, 'unpaid', NULL, 0),
+(10, NULL, 1, NULL, 'affiliate', '1100', NULL, 1, '5', '1', 0, '2024-11-21 20:35:21', '2024-11-20', 2, NULL, 'uzair Ahmed', 'saddamahmed3@gmail.com', NULL, '$2y$10$gViB4B9TMHM4EVRiYfTT1uPNZ0V8cnl2CnXpPjJZiS5Mbb.kWr4hS', NULL, '5919589642080', NULL, '14', NULL, NULL, NULL, NULL, '722 azad nagar indore', 1, NULL, '127.0.0.1', 0, '', '1', NULL, NULL, '\'en\'', 0, '2024-11-20 01:56:58', '2025-01-10 21:10:29', 'pending', NULL, NULL, NULL, 'unpaid', NULL, 0),
+(11, NULL, 1, NULL, 'affiliate', '130', NULL, 1, '5', '2', 0, '2024-11-21 20:23:48', '2024-11-20', 2, NULL, 'brijlal pawar', 'brijlalpawar@gmail.com', NULL, '$2y$10$Bs8qb4ijGgUjFpXiTdNU2uxKN59NL7UjQ6S8fxVV9ZbeRhu6tvQbq', NULL, '5914353535353', NULL, '11', NULL, NULL, NULL, NULL, '722 azad nagar indore', 1, NULL, '127.0.0.1', 0, '', '1', NULL, NULL, '\'en\'', 0, '2024-11-20 02:01:41', '2024-11-22 00:23:48', 'pending', NULL, NULL, NULL, 'unpaid', NULL, 0),
+(12, NULL, 0, NULL, 'affiliate', NULL, NULL, 0, '10', NULL, 0, '2024-11-21 19:11:59', '2024-11-15', 2, NULL, 'deepak rathore', 'deepak@gmail.com', NULL, '$2y$10$BtGdQH9Iw2.1nLCNbACrpuIP2SfEvKJF2dUh19qFp8Hhe1bGI1sOC', NULL, '5919589642080', NULL, '12', NULL, NULL, NULL, NULL, '722 azad nagar indore', 1, NULL, '127.0.0.1', 0, '', '2', NULL, NULL, '\'en\'', 0, '2024-11-21 22:54:38', '2024-11-21 23:11:59', 'pending', NULL, NULL, NULL, 'unpaid', NULL, 0),
+(13, NULL, 0, NULL, 'affiliate', NULL, NULL, 0, '5', NULL, 0, '2024-11-21 20:12:10', '2024-10-29', 2, NULL, 'heena khan', 'heena@gmail.com', NULL, '$2y$10$KC8NbZQgFeZo5wugpKQ5juoyvWXQcXNPCLWIchZODvSPVtutl8OnO', NULL, '591545', NULL, '11', NULL, NULL, NULL, NULL, 'dffasfsa', 1, NULL, '127.0.0.1', 0, '', '2', NULL, NULL, '\'en\'', 0, '2024-11-21 23:16:01', '2024-11-22 00:12:10', 'pending', NULL, NULL, NULL, 'unpaid', NULL, 0),
 (14, NULL, 1, NULL, 'affiliate', '200', NULL, 0, '11', '1', 0, '2024-11-21 20:25:18', '2024-11-21', 2, NULL, 'akansha sharma', 'akansha@gmail.com', NULL, '$2y$10$YLFQW9EGdWJAFdEK1XJfr.QCqg4G/lDBP4IEei7RNu8scQhX8JyUK', NULL, '59154526515', NULL, '11', NULL, NULL, NULL, NULL, 'dffasfsa', 1, NULL, '127.0.0.1', 0, '', '3', NULL, NULL, '\'en\'', 0, '2024-11-22 00:13:39', '2024-11-22 00:25:18', 'pending', NULL, NULL, NULL, 'unpaid', NULL, 0),
-(15, NULL, 1, NULL, 'affiliate', NULL, NULL, 1, '14', '0', 0, NULL, '2024-11-21', 2, NULL, 'malka khan', 'malkakhan@gmail.com', NULL, '$2y$10$obhrzP8HhAuUyzFa.m984uJqZMzPrTmvhupbaJ6iWPoiVqAjKaRVi', NULL, '5911654845445', NULL, '9', NULL, NULL, NULL, NULL, 'fgsdfsdffs', 1, NULL, '127.0.0.1', 0, '', '3', NULL, NULL, '\'en\'', 0, '2024-11-22 00:17:12', '2024-11-22 00:18:32', 'pending', NULL, NULL, NULL, 'unpaid', NULL, 0),
-(16, NULL, 1, NULL, 'affiliate', NULL, NULL, 1, '6', '0', 0, '2024-11-27 18:19:57', '2024-11-28', 2, NULL, 'xvxdffd sdfdfd', 'dffffghwerw@gmail.com', NULL, '$2y$10$tIyfP2.UXIz6x28soQN8w.3NLSYf.IBZRByq6vXaeACdT51eO.qF.', NULL, '59154452545', NULL, '12', NULL, NULL, NULL, NULL, 'dfgfgsewe', 1, NULL, '127.0.0.1', 0, '', '2', NULL, NULL, '\'en\'', 0, '2024-11-27 22:12:18', '2024-11-27 22:19:57', 'pending', NULL, NULL, NULL, 'unpaid', NULL, 0),
-(17, NULL, 1, NULL, 'affiliate', '200', NULL, 1, '6', '1', 0, '2024-11-27 18:32:11', '2024-11-14', 2, NULL, 'dfsfsfsd dfgsdfsf', 'dsfdsfxcfg@gmail.com', NULL, '$2y$10$yEtUnSOOZ82F26BknS.uve3.8ydLvTa8mvEiYMUEyBjbxyyqzm1lC', NULL, '591521654185', NULL, '13', NULL, NULL, NULL, NULL, 'xdfdsff', 1, NULL, '127.0.0.1', 0, '', '3', NULL, NULL, '\'en\'', 0, '2024-11-27 22:27:04', '2024-11-27 22:32:11', 'pending', NULL, NULL, NULL, 'unpaid', NULL, 0),
-(18, NULL, 1, NULL, 'affiliate', NULL, NULL, 1, '17', '0', 0, NULL, '2024-11-27', 2, NULL, 'nivesdk dgnjn', 'nbfef@gmail.com', NULL, '$2y$10$YCRG8IUGnFsbhBw7m/nyH.vo0F8THwqjYpIMDN2nRPQh/QwjeIZp2', NULL, '59165487454', NULL, '8', NULL, NULL, NULL, NULL, 'fdgdfgertw', 1, NULL, '127.0.0.1', 0, '', '2', NULL, NULL, '\'en\'', 0, '2024-11-27 22:31:28', '2024-11-27 22:31:51', 'pending', NULL, NULL, NULL, 'unpaid', NULL, 0),
-(19, NULL, 1, NULL, 'affiliate', NULL, NULL, 1, '3', '0', 0, '2024-11-27 21:22:56', '2024-11-20', 2, NULL, 'cxvxvxdfgerfsd fghfghfbhdgr', 'qweqwzdawe@gmail.com', NULL, '$2y$10$Sr.e/7PIlahJLfynEUy1Zebxy.0fOYtIjqjsNm.M4E1Wn5gChLOyS', NULL, '5915441548', NULL, '11', NULL, NULL, NULL, NULL, '722 Azad Nagar Indore', 1, NULL, '127.0.0.1', 0, '', '2', NULL, NULL, '\'en\'', 0, '2024-11-28 01:20:30', '2024-11-28 01:22:56', 'pending', NULL, NULL, NULL, 'unpaid', NULL, 0),
-(20, NULL, 1, NULL, 'affiliate', '200', NULL, 1, '3', '0', 0, '2024-11-27 21:24:58', '2024-11-12', 2, NULL, 'park xzf', 'park@gmail.com', NULL, '$2y$10$UygZroV9eAU25MZnnQmm9u./f/1eldvVIiqhbFmPKrg7XmkHe//zC', NULL, '5916546874154', NULL, '11', NULL, NULL, NULL, NULL, '722 Azad Nagar Indore', 1, NULL, '127.0.0.1', 0, '', '3', NULL, NULL, '\'en\'', 0, '2024-11-28 01:23:54', '2024-11-28 01:26:07', 'pending', NULL, NULL, NULL, 'unpaid', NULL, 0),
-(21, NULL, 1, NULL, 'affiliate', NULL, NULL, 1, '20', '0', 0, '2024-11-27 21:33:09', '2024-11-06', 2, NULL, 'dante tan', 'dante@gmail.com', NULL, '$2y$10$GrCYnvJdFmkJAV3kFuuRT.J51HZ/g4k.5yxgsCTP4ajNsXnDfB5jy', NULL, '5916546874154', NULL, '11', NULL, NULL, NULL, NULL, '722 Azad Nagar Indore', 1, NULL, '127.0.0.1', 0, '', '3', NULL, NULL, '\'en\'', 0, '2024-11-28 01:25:48', '2024-11-28 01:33:09', 'pending', NULL, NULL, NULL, 'unpaid', NULL, 0),
-(22, NULL, 1, NULL, 'affiliate', '200', NULL, 1, '7', '1', 0, '2024-11-27 21:34:47', '2024-11-14', 2, NULL, 'dxzcdzfsa fg', 'sdfxcsdfsa@gmail.com', NULL, '$2y$10$7Y0.vE4epn9oaoxti.4BguWBia874Bbl1lfGnxTYnxTtR5WPpMQuy', NULL, '5916546874154', NULL, '11', NULL, NULL, NULL, NULL, '722 Azad Nagar Indore', 1, NULL, '127.0.0.1', 0, '', '3', NULL, NULL, '\'en\'', 0, '2024-11-28 01:33:53', '2024-11-28 01:37:51', 'pending', NULL, NULL, NULL, 'unpaid', NULL, 0),
-(23, NULL, 1, NULL, 'affiliate', NULL, NULL, 1, '7', '0', 0, '2024-11-27 21:36:50', '2024-11-14', 2, NULL, 'czxc xv', 'zxc@gmail.com', NULL, '$2y$10$tVEG27fc3pi2OyTtc3Vbe.JMeU1KesDaR4MMv3XXMx1iwzaMJUBZu', NULL, '5916546874154', NULL, '11', NULL, NULL, NULL, NULL, '722 Azad Nagar Indore', 1, NULL, '127.0.0.1', 0, '', '3', NULL, NULL, '\'en\'', 0, '2024-11-28 01:35:32', '2024-11-28 01:36:50', 'pending', NULL, NULL, NULL, 'unpaid', NULL, 0),
-(24, NULL, 1, NULL, 'affiliate', NULL, NULL, 1, '22', '0', 0, NULL, '2024-11-06', 2, NULL, 'dgsdff sdfsafaf', 'sdfzscqwfewqsafrq@gmail.com', NULL, '$2y$10$WeszZhVzXkDw.J/v31uGfOq5EqLpnaZIRMw7ED6B/pHLMtAq2JY9O', NULL, '5916546874154', NULL, '11', NULL, NULL, NULL, NULL, '722 Azad Nagar Indore', 1, NULL, '127.0.0.1', 0, '', '3', NULL, NULL, '\'en\'', 0, '2024-11-28 01:37:33', '2024-11-28 01:37:51', 'pending', NULL, NULL, NULL, 'unpaid', NULL, 0),
+(15, NULL, 0, NULL, 'affiliate', NULL, NULL, 0, '14', '0', 0, NULL, '2024-11-21', 2, NULL, 'malka khan', 'malkakhan@gmail.com', NULL, '$2y$10$obhrzP8HhAuUyzFa.m984uJqZMzPrTmvhupbaJ6iWPoiVqAjKaRVi', NULL, '5911654845445', NULL, '9', NULL, NULL, NULL, NULL, 'fgsdfsdffs', 1, NULL, '127.0.0.1', 0, '', '3', NULL, NULL, '\'en\'', 0, '2024-11-22 00:17:12', '2024-11-22 00:18:32', 'pending', NULL, NULL, NULL, 'unpaid', NULL, 0),
+(16, NULL, 0, NULL, 'affiliate', NULL, NULL, 0, '6', '0', 0, '2024-11-27 18:19:57', '2024-11-28', 2, NULL, 'xvxdffd sdfdfd', 'dffffghwerw@gmail.com', NULL, '$2y$10$tIyfP2.UXIz6x28soQN8w.3NLSYf.IBZRByq6vXaeACdT51eO.qF.', NULL, '59154452545', NULL, '12', NULL, NULL, NULL, NULL, 'dfgfgsewe', 1, NULL, '127.0.0.1', 0, '', '2', NULL, NULL, '\'en\'', 0, '2024-11-27 22:12:18', '2024-11-27 22:19:57', 'pending', NULL, NULL, NULL, 'unpaid', NULL, 0),
+(17, NULL, 1, NULL, 'affiliate', '100', NULL, 1, '6', '1', 0, '2024-11-27 18:32:11', '2024-11-14', 2, NULL, 'dfsfsfsd dfgsdfsf', 'dsfdsfxcfg@gmail.com', NULL, '$2y$10$yEtUnSOOZ82F26BknS.uve3.8ydLvTa8mvEiYMUEyBjbxyyqzm1lC', NULL, '591521654185', NULL, '13', NULL, NULL, NULL, NULL, 'xdfdsff', 1, NULL, '127.0.0.1', 0, '', '3', NULL, NULL, '\'en\'', 0, '2024-11-27 22:27:04', '2024-11-27 22:32:11', 'pending', NULL, NULL, NULL, 'unpaid', NULL, 0),
+(18, NULL, 0, NULL, 'affiliate', NULL, NULL, 0, '17', '0', 0, NULL, '2024-11-27', 2, NULL, 'nivesdk dgnjn', 'nbfef@gmail.com', NULL, '$2y$10$YCRG8IUGnFsbhBw7m/nyH.vo0F8THwqjYpIMDN2nRPQh/QwjeIZp2', NULL, '59165487454', NULL, '8', NULL, NULL, NULL, NULL, 'fdgdfgertw', 1, NULL, '127.0.0.1', 0, '', '2', NULL, NULL, '\'en\'', 0, '2024-11-27 22:31:28', '2024-11-27 22:31:51', 'pending', NULL, NULL, NULL, 'unpaid', NULL, 0),
+(19, NULL, 0, NULL, 'affiliate', NULL, NULL, 0, '3', '0', 0, '2024-11-27 21:22:56', '2024-11-20', 2, NULL, 'cxvxvxdfgerfsd fghfghfbhdgr', 'qweqwzdawe@gmail.com', NULL, '$2y$10$Sr.e/7PIlahJLfynEUy1Zebxy.0fOYtIjqjsNm.M4E1Wn5gChLOyS', NULL, '5915441548', NULL, '11', NULL, NULL, NULL, NULL, '722 Azad Nagar Indore', 1, NULL, '127.0.0.1', 0, '', '2', NULL, NULL, '\'en\'', 0, '2024-11-28 01:20:30', '2024-11-28 01:22:56', 'pending', NULL, NULL, NULL, 'unpaid', NULL, 0),
+(20, NULL, 1, NULL, 'affiliate', '100', NULL, 1, '3', '0', 0, '2024-11-27 21:24:58', '2024-11-12', 2, NULL, 'park xzf', 'park@gmail.com', NULL, '$2y$10$UygZroV9eAU25MZnnQmm9u./f/1eldvVIiqhbFmPKrg7XmkHe//zC', NULL, '5916546874154', NULL, '11', NULL, NULL, NULL, NULL, '722 Azad Nagar Indore', 1, NULL, '127.0.0.1', 0, '', '3', NULL, NULL, '\'en\'', 0, '2024-11-28 01:23:54', '2024-11-28 01:26:07', 'pending', NULL, NULL, NULL, 'unpaid', NULL, 0),
+(21, NULL, 0, NULL, 'affiliate', NULL, NULL, 0, '20', '0', 0, '2024-11-27 21:33:09', '2024-11-06', 2, NULL, 'dante tan', 'dante@gmail.com', NULL, '$2y$10$GrCYnvJdFmkJAV3kFuuRT.J51HZ/g4k.5yxgsCTP4ajNsXnDfB5jy', NULL, '5916546874154', NULL, '11', NULL, NULL, NULL, NULL, '722 Azad Nagar Indore', 1, NULL, '127.0.0.1', 0, '', '3', NULL, NULL, '\'en\'', 0, '2024-11-28 01:25:48', '2024-11-28 01:33:09', 'pending', NULL, NULL, NULL, 'unpaid', NULL, 0),
+(22, NULL, 1, NULL, 'affiliate', '100', NULL, 1, '7', '1', 0, '2024-11-27 21:34:47', '2024-11-14', 2, NULL, 'dxzcdzfsa fg', 'sdfxcsdfsa@gmail.com', NULL, '$2y$10$7Y0.vE4epn9oaoxti.4BguWBia874Bbl1lfGnxTYnxTtR5WPpMQuy', NULL, '5916546874154', NULL, '11', NULL, NULL, NULL, NULL, '722 Azad Nagar Indore', 1, NULL, '127.0.0.1', 0, '', '3', NULL, NULL, '\'en\'', 0, '2024-11-28 01:33:53', '2024-11-28 01:37:51', 'pending', NULL, NULL, NULL, 'unpaid', NULL, 0),
+(23, NULL, 0, NULL, 'affiliate', NULL, NULL, 0, '7', '0', 0, '2024-11-27 21:36:50', '2024-11-14', 2, NULL, 'czxc xv', 'zxc@gmail.com', NULL, '$2y$10$tVEG27fc3pi2OyTtc3Vbe.JMeU1KesDaR4MMv3XXMx1iwzaMJUBZu', NULL, '5916546874154', NULL, '11', NULL, NULL, NULL, NULL, '722 Azad Nagar Indore', 1, NULL, '127.0.0.1', 0, '', '3', NULL, NULL, '\'en\'', 0, '2024-11-28 01:35:32', '2024-11-28 01:36:50', 'pending', NULL, NULL, NULL, 'unpaid', NULL, 0),
+(24, NULL, 0, NULL, 'affiliate', NULL, NULL, 0, '22', '0', 0, NULL, '2024-11-06', 2, NULL, 'dgsdff sdfsafaf', 'sdfzscqwfewqsafrq@gmail.com', NULL, '$2y$10$WeszZhVzXkDw.J/v31uGfOq5EqLpnaZIRMw7ED6B/pHLMtAq2JY9O', NULL, '5916546874154', NULL, '11', NULL, NULL, NULL, NULL, '722 Azad Nagar Indore', 1, NULL, '127.0.0.1', 0, '', '3', NULL, NULL, '\'en\'', 0, '2024-11-28 01:37:33', '2024-11-28 01:37:51', 'pending', NULL, NULL, NULL, 'unpaid', NULL, 0),
 (25, NULL, 1, NULL, 'affiliate', NULL, 'GEN_GOLD', NULL, '_token', '0', 0, NULL, '2024-12-10', 2, NULL, 'xdcvxzcvdf', 'aasifdesddadav5@gmail.com', NULL, '$2y$10$SpbK8apkhTfI7INEU896XuWQE98sX6hp6RrDEKFi63TvLXsd6AAb.', NULL, '59109876543215', NULL, '11', NULL, NULL, NULL, NULL, '722 Azad Nagar Indore', 1, NULL, '127.0.0.1', 0, '', '2', NULL, NULL, '\'en\'', 0, '2024-12-10 03:20:58', '2024-12-10 03:20:58', 'pending', NULL, NULL, NULL, 'unpaid', NULL, 0),
 (26, NULL, 1, NULL, 'affiliate', NULL, 'GEN_VIP', NULL, '3', '0', 0, NULL, '2024-12-10', 2, NULL, 'xcvxv', 'gen@negosdfadasdciosgen.com', NULL, '$2y$10$N0x3bnDONlt0anO4J78fLuYOoixzKsPxl3sBgwHoMQDgLuDU/76q6', NULL, '5914544', NULL, '10', NULL, NULL, NULL, NULL, 'szdds', 1, NULL, '127.0.0.1', 0, '', '1', NULL, NULL, '\'en\'', 0, '2024-12-10 03:54:37', '2024-12-10 03:54:37', 'pending', NULL, NULL, NULL, 'unpaid', NULL, 0),
-(27, NULL, 1, NULL, 'affiliate', NULL, 'GEN_PLATINUM', 1, NULL, '0', 1, '2024-12-12 01:43:30', '2024-12-10', 2, NULL, 'xcvxcv', 'b3515736@gmail.com', NULL, '$2y$10$gwm1qIIFO7puPwW2U8OIg.8IJLYsRjghyHJaGxYHa012yF1p16GhC', NULL, '591564897', NULL, '11', NULL, NULL, NULL, NULL, 'dffsrfe', 1, NULL, '127.0.0.1', 0, '', '2', NULL, NULL, '\'en\'', 0, '2024-12-10 04:02:31', '2024-12-12 02:15:02', 'active', '2024-12-12 07:45:02', '2026-12-12 07:45:02', '2026-11-12 07:45:02', 'paid', NULL, 0);
+(27, NULL, 0, NULL, 'affiliate', NULL, 'GEN_PLATINUM', 0, NULL, '0', 1, '2024-12-12 01:43:30', '2024-12-10', 2, NULL, 'xcvxcv', 'b3515736@gmail.com', NULL, '$2y$10$gwm1qIIFO7puPwW2U8OIg.8IJLYsRjghyHJaGxYHa012yF1p16GhC', NULL, '591564897', NULL, '11', NULL, NULL, NULL, NULL, 'dffsrfe', 1, NULL, '127.0.0.1', 0, '', '2', NULL, NULL, '\'en\'', 0, '2024-12-10 04:02:31', '2024-12-12 02:15:02', 'active', '2024-12-12 07:45:02', '2026-12-12 07:45:02', '2026-11-12 07:45:02', 'paid', NULL, 0),
+(28, NULL, 0, NULL, 'affiliate', NULL, 'Miembro GEN VIP', 0, '10', '0', 1, '2025-01-10 23:42:50', '2025-01-04', 2, NULL, 'altamas', 'altamas@gmail.com', NULL, '$2y$10$MW6EO2niz2VQe1uiMu3rzeux1j4AoFyWAQNfNZUmhNor77wGuNgTC', NULL, '591542154254', NULL, '10', NULL, NULL, NULL, NULL, '722 azad nagar indore', 1, NULL, '127.0.0.1', 0, '', '1', NULL, NULL, '\'en\'', 0, '2025-01-10 21:08:36', '2025-01-10 23:42:50', 'active', '2025-01-11 02:40:29', '2026-01-11 02:40:29', '2025-12-12 02:40:29', 'paid', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -2570,8 +2574,7 @@ ALTER TABLE `countries`
 -- Indexes for table `courses`
 --
 ALTER TABLE `courses`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `courses_uuid_unique` (`uuid`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `currencies`
@@ -2945,7 +2948,7 @@ ALTER TABLE `countries`
 -- AUTO_INCREMENT for table `courses`
 --
 ALTER TABLE `courses`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `currencies`
@@ -3029,7 +3032,7 @@ ALTER TABLE `memberships`
 -- AUTO_INCREMENT for table `membership_payments`
 --
 ALTER TABLE `membership_payments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `metas`
@@ -3041,7 +3044,7 @@ ALTER TABLE `metas`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT for table `news`
@@ -3053,7 +3056,7 @@ ALTER TABLE `news`
 -- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=98;
 
 --
 -- AUTO_INCREMENT for table `pages`
@@ -3071,7 +3074,7 @@ ALTER TABLE `password_resets`
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `permissions`
@@ -3095,7 +3098,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `sales`
 --
 ALTER TABLE `sales`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `settings`
@@ -3173,7 +3176,7 @@ ALTER TABLE `ticket_related_services`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `withdrawals`
