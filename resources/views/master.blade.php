@@ -458,20 +458,23 @@ margin-right: 20px;
         });
     </script>
  <script>
-    // Wait for the page to fully load
-    window.addEventListener('load', function () {
+     document.addEventListener('DOMContentLoaded', function () {
         const preloader = document.getElementById('preloader');
-        const content = document.getElementById('content');
-
-        // Add fade-out animation
-        preloader.classList.add('fade-out');
-
-        // Remove the preloader after the animation is complete
-        preloader.addEventListener('animationend', function () {
-            preloader.style.display = 'none';
-            content.style.display = 'block';
-        });
+        if (preloader) {
+            preloader.classList.add('fade-out');
+            setTimeout(() => {
+                preloader.style.display = 'none';
+            }, 500); // Adjust based on animation duration
+        }
     });
+
+    // Fallback in case DOMContentLoaded is delayed
+    setTimeout(() => {
+        const preloader = document.getElementById('preloader');
+        if (preloader && preloader.style.display !== 'none') {
+            preloader.style.display = 'none';
+        }
+    }, 3000); // 3-second fallback
 </script>
 </body>
 
