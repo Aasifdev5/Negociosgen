@@ -195,11 +195,9 @@
                         <img src="{{ asset($develop_skills->video_thumbnail) }}" class="thumbnail" alt="Video Thumbnail" />
                         <span class="play-button"><img src="{{ asset('assets/Play (1).svg') }}" alt="Play Button" /></span>
                         <div class="embed-responsive" style="display: none;">
-                            <video class="embed-responsive-item" controls>
-                                <source src="{{ asset($develop_skills->video) }}"
-                                    type="video/mp4">
-                                Your browser does not support the video tag.
-                            </video>
+                            <div style="padding:177.78% 0 0 0;">
+
+                                <iframe src="https://player.vimeo.com/video/1048085044?h=f51662363d&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="VIDEO JAVI GEN"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
                         </div>
                     </div>
                     <h1

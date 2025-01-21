@@ -29,7 +29,7 @@ class CheckUserActivity extends Command
             // Check referrals for the current month
             $referidosContados = DB::table('users')
                 ->where('refer', $usuario->id)
-                ->whereMonth('created_at', Carbon::now()->month)
+                ->whereMonth('refer_date', Carbon::now()->month)
                 ->count();
 
             if ($referidosContados === 0) {

@@ -71,8 +71,9 @@
             </p>
         </div>
         <div class="col-md-6 text-center">
-            <i class="fas fa-users fa-5x text-primary"></i> <!-- Example font icon (Users icon) -->
+            <img src="{{ asset('assets/WhatsApp Image 2025-01-18 at 13.39.00.jpeg') }}" alt="WhatsApp Image 2025-01-18" class="img-fluid">
         </div>
+
 
     </div>
 

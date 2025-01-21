@@ -92,8 +92,8 @@ Route::group(['middleware' => ['prevent-back-history', SetLocale::class]], funct
     Route::get('/local/{ln}', function ($ln) {
         return redirect()->back()->with('local', $ln);
     });
-
-
+    Route::get('/genTerm', [UserController::class, 'genTerm'])->name('genTerm');
+    Route::get('/privacy', [UserController::class, 'privacy'])->name('privacy');
     Route::get('/geanologìa', [UserController::class, 'geanologìa']);
     Route::get('/sales-details/{id}', [SalesController::class, 'getSalesDetails'])->name('sales.details');
     Route::get('Userlogin', [UserController::class, 'Userlogin'])->name('Userlogin');

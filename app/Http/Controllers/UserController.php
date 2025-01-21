@@ -143,6 +143,26 @@ class UserController extends Controller
         $pages = Page::all();
         return view('ganancias', compact('user_session', 'pages', 'sales'));
     }
+    public function privacy()
+    {
+
+
+        $user_session = User::where('id', Session::get('LoggedIn'))->first();
+
+
+        $pages = Page::all();
+        return view('privacy', compact('user_session', 'pages'));
+    }
+    public function genTerm()
+    {
+
+
+        $user_session = User::where('id', Session::get('LoggedIn'))->first();
+
+
+        $pages = Page::all();
+        return view('genTerm', compact('user_session', 'pages'));
+    }
     public function fondo()
     {
 

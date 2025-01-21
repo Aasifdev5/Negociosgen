@@ -401,8 +401,9 @@ margin-right: 20px;
                     <div class="content-redes-sociales2">
                         <b class="informacin-de-contacto" style="display: block;">{{ __('Legales & Derechos Reservados') }}</b>
                         <ul class="content-list-redes list-unstyled" style="margin-top: 13px; display: flex; flex-direction: column;">
-                            <li class="list-item mb-2" style="margin-bottom: 0.5rem;"><a href="{{ url('workUs') }}" style="text-decoration: none;color:#fff;">{{ __('Trabaja con nosotras') }}</a></li>
-                            <li class="list-item mb-2" style="margin-bottom: 0.5rem;">{{ __('Política de privacidad') }}</li>
+                            <li class="list-item mb-2" style="margin-bottom: 0.5rem;"><a href="{{ url('workUs') }}" style="text-decoration: none;color:#fff;">{{ __('Trabaja con nosotros') }}</a></li>
+                            <li class="list-item mb-2" style="margin-bottom: 0.5rem;"><a href="{{ url('genTerm') }}" style="text-decoration: none;color:#fff;">{{ __('Condiciones de Uso del Sitio Web de GEN') }}</a></li>
+                            <li class="list-item mb-2" style="margin-bottom: 0.5rem;"><a href="{{ url('privacy') }}" style="text-decoration: none;color:#fff;">{{ __('Política de Privacidad de GEN') }}</a></li>
                             <li class="list-item" style="margin-bottom: 0;"><a href="{{ url('term') }}" style="text-decoration: none;color:#fff;">{{ __('Términos de uso') }}</a></li>
                             @if (!empty($user_session))
                                 <li class="list-item" style="margin-bottom: 0;"><a href="{{ route('tickets.create') }}" style="text-decoration: none;color:#fff;">{{ __('Apoyo') }}</a></li>

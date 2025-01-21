@@ -1087,7 +1087,14 @@ class Admin extends Controller
                     // Start with the immediate referrer
                     $currentReferrer = $user->refer;
                     $level = 1;
+                    $mainrefer = User::where('id', $user->refer)->first();
 
+                    if ($mainrefer) {
+                        // Update the refer_date field
+                        $mainrefer->update([
+                            'refer_date' => Carbon::now(),
+                        ]);
+                    }
                     // Distribute commissions up to 7 levels and update user levels
                     while ($currentReferrer && $level <= 7) {
                         $referrer = User::find($currentReferrer);

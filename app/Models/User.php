@@ -39,6 +39,7 @@ class User extends Authenticatable
         'about',
         'level',
         'refer',
+        'refer_date',
         'username',
         'facebook',
         'instagram',
