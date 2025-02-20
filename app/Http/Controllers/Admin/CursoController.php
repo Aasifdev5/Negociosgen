@@ -46,45 +46,65 @@ class CursoController extends Controller
     {
         $validator = $request->validate([
             'coach_name' => 'required|string|max:255',
-            'coach_video' => 'required|file|mimetypes:video/mp4,video/avi',
-            'coach_thumbnail' => 'required|image|mimes:png,jpg,jpeg',
-            'titles' => 'required|array',
-            'titles.*' => 'required|string|max:255',
-            'video_urls' => 'required|array',
-            'video_urls.*' => 'required|url',
-            'thumbnails' => 'required|array',
-            'thumbnails.*' => 'nullable|image|mimes:png,jpg,jpeg'
+            'coach_video' => 'required|url',
+            'coach_thumbnail' => 'nullable|image|mimes:png,jpg,jpeg',
+            // 'titles' => 'required|array',
+            // 'titles.*' => 'required|string|max:255',
+            // 'descriptions' => 'required|array',
+            // 'descriptions.*' => 'required|string|max:1000',
+            // 'video_urls' => 'required|array',
+            // 'video_urls.*' => 'required|url',
+            // 'thumbnails' => 'required|array',
+            // 'thumbnails.*' => 'nullable|image|mimes:png,jpg,jpeg'
         ]);
 
         try {
-            // Upload Coach Intro Video and Thumbnail
-            $coachVideoPath = $this->uploadFile($request->file('coach_video'), 'coach_videos');
-            $coachThumbnailPath = $this->uploadFile($request->file('coach_thumbnail'), 'coach_thumbnails');
+            // Upload Coach Intro Video
+            $coachVideoPath = $request->coach_video;
 
-            // Prepare the courses data with titles, video URLs, and thumbnails
-            $courses = [];
+            // Handle cropped or regular coach thumbnail
+            if ($request->has('coach_thumbnail_cropped')) {
+                $croppedImage = $request->coach_thumbnail_cropped;
+                $imageData = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $croppedImage));
+                $fileName = 'thumbnail_' . time() . '.jpg';
+                file_put_contents(public_path('uploads/coach_thumbnails/' . $fileName), $imageData);
+                $coachThumbnailPath = 'uploads/coach_thumbnails/' . $fileName;
+            } elseif ($request->hasFile('coach_thumbnail')) {
+                $coachThumbnailPath = $this->uploadFile($request->file('coach_thumbnail'), 'coach_thumbnails');
+            }
+
+           // Prepare courses data only if all required fields are provided
+        $courses = [];
+        if ($request->has('titles') && is_array($request->titles)) {
             foreach ($request->titles as $key => $title) {
-                // Upload course video thumbnail if available
+                if (!isset($request->descriptions[$key], $request->video_urls[$key])) {
+                    continue; // Skip if any essential course data is missing
+                }
+
                 $thumbnailPath = $request->hasFile("thumbnails.$key")
                     ? $this->uploadFile($request->file("thumbnails.$key"), 'course_thumbnails')
                     : null;
 
-                // Add course data to the array
                 $courses[] = [
                     'title' => $title,
+                    'description' => $request->descriptions[$key],
                     'video_url' => $request->video_urls[$key],
                     'thumbnail' => $thumbnailPath,
                     'slug' => Str::slug($title),
                 ];
             }
+        }
 
-            // Create Course entry
-            Course::create([
-                'coach_name' => $request->coach_name,
-                'coach_video' => $coachVideoPath,
-                'coach_thumbnail' => $coachThumbnailPath,
-                'courses' => json_encode($courses),
-            ]);
+        // Create Course entry
+        Course::create([
+            'coach_name' => $request->coach_name,
+            'course_title' => $request->course_title,
+            'course_description' => $request->course_description,
+            'coach_video' => $coachVideoPath,
+            'coach_thumbnail' => $coachThumbnailPath ?? null,
+            'courses' => !empty($courses) ? json_encode($courses) : null, // Store only if courses are present
+        ]);
+
 
             return response()->json(['success' => true, 'message' => 'Cursos añadidos con éxito.']);
         } catch (\Exception $e) {
@@ -92,6 +112,8 @@ class CursoController extends Controller
             return response()->json(['success' => false, 'message' => 'Error al añadir cursos. Inténtalo de nuevo más tarde.'], 500);
         }
     }
+
+
 
     public function edit($id)
     {
@@ -118,54 +140,63 @@ class CursoController extends Controller
         }
 
         try {
-            // Decode the courses field if it's a JSON string
+            // Decode the existing courses field
             $courses = json_decode($course->courses, true);
 
-            // Update Coach Intro Video and Thumbnail if available
-            if ($request->hasFile('coach_video')) {
-                $this->deleteFile($course->coach_video);
-                $course->coach_video = $this->uploadFile($request->file('coach_video'), 'coach_videos');
-            }
 
+                $course->coach_video = $request->coach_video;
+
+
+            // Handle Coach Thumbnail (cropped or regular)
             if ($request->hasFile('coach_thumbnail')) {
                 $this->deleteFile($course->coach_thumbnail);
                 $course->coach_thumbnail = $this->uploadFile($request->file('coach_thumbnail'), 'coach_thumbnails');
             }
 
-            // Prepare updated courses data
-            $updatedCourses = [];
+            if ($request->has('coach_thumbnail_cropped')) {
+                $croppedImage = $request->coach_thumbnail_cropped;
+                $imageData = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $croppedImage));
+                $fileName = 'thumbnail_' . time() . '.jpg';
+                file_put_contents(public_path('uploads/coach_thumbnails/' . $fileName), $imageData);
+                $course->coach_thumbnail = 'uploads/coach_thumbnails/' . $fileName;
+            }
+
+
+        // Prepare updated courses data only if valid input exists
+        $updatedCourses = [];
+        if ($request->has('titles') && is_array($request->titles)) {
             foreach ($request->titles as $key => $title) {
-                // Initialize thumbnail path
-                $thumbnailPath = null;
-
-                // Check if a new thumbnail is provided
-                if ($request->hasFile("thumbnails.$key")) {
-                    // If a new thumbnail is uploaded, delete the old one
-                    if (isset($courses[$key]['thumbnail'])) {
-                        $this->deleteFile($courses[$key]['thumbnail']);
-                    }
-
-                    // Upload the new thumbnail
-                    $thumbnailPath = $this->uploadFile($request->file("thumbnails.$key"), 'course_thumbnails');
-                } else {
-                    // Keep the existing thumbnail if no new one is uploaded
-                    $thumbnailPath = $courses[$key]['thumbnail'] ?? null;
+                if (!isset($request->descriptions[$key], $request->video_urls[$key])) {
+                    continue; // Skip if any essential course data is missing
                 }
 
-                // Prepare the updated course data
+                $thumbnailPath = $courses[$key]['thumbnail'] ?? null;
+
+                // Check if a new thumbnail is uploaded
+                if ($request->hasFile("thumbnails.$key")) {
+                    if (!empty($courses[$key]['thumbnail'])) {
+                        $this->deleteFile($courses[$key]['thumbnail']);
+                    }
+                    $thumbnailPath = $this->uploadFile($request->file("thumbnails.$key"), 'course_thumbnails');
+                }
+
                 $updatedCourses[] = [
                     'title' => $title,
+                    'description' => $request->descriptions[$key],
                     'video_url' => $request->video_urls[$key],
                     'thumbnail' => $thumbnailPath,
                     'slug' => Str::slug($title),
                 ];
             }
+        }
 
-            // Update course entry
-            $course->update([
-                'coach_name' => $request->coach_name,
-                'courses' => json_encode($updatedCourses),
-            ]);
+        // Update the course entry
+        $course->update([
+            'coach_name' => $request->coach_name,
+            'course_title' => $request->course_title,
+            'course_description' => $request->course_description,
+            'courses' => !empty($updatedCourses) ? json_encode($updatedCourses) : $course->courses, // Keep existing courses if no updates are provided
+        ]);
 
             return response()->json(['success' => true, 'message' => 'Curso actualizado exitosamente.']);
         } catch (\Exception $e) {
@@ -173,6 +204,9 @@ class CursoController extends Controller
             return response()->json(['success' => false, 'message' => 'Error al actualizar el curso.'], 500);
         }
     }
+
+
+
 
 
     public function delete($id)

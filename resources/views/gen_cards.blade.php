@@ -31,8 +31,8 @@
             <div class="card shadow-sm border-light rounded" style="background-color: #000; color: white;">
                 <div class="card-body text-center">
                     <h4 class="card-title text-primary fw-bold">{{ __('GEN CLÁSICO') }}</h4>
-                    <p class="card-text">{{ __('Acceso de un año a cursos, coaching virtual y más.') }}</p>
-
+                    <p class="card-text">{{ __('Acceso de un año a cursos, coaching virtual y más.') }} <br>100 Bs</p>
+                    <a href="{{ url('CardRegister') }}?price=100&title=GEN+CLÁSICO&userId={{ $user_session->id }}" class="btn btn-primary w-100">{{ __('Enlace de Pago') }}</a>
                 </div>
             </div>
         </div>
@@ -41,9 +41,9 @@
         <div class="col-md-3 mb-4">
             <div class="card shadow-sm border-light rounded" style="background-color: #000; color: white;">
                 <div class="card-body text-center">
-                    <h4 class="card-title text-warning fw-bold">GEN VIP</h4>
-                    <p class="card-text">{{ __('Acceso a cursos, eventos en vivo y beneficios exclusivos.') }}</p>
-
+                    <h4 class="card-title text-danger fw-bold">{{ __('GEN VIP') }}</h4>
+                    <p class="card-text">{{ __('Acceso a cursos, eventos en vivo y beneficios exclusivos.') }} <br>300 Bs</p>
+                    <a href="{{ url('CardRegister') }}?price=300&title=GEN+VIP&userId={{ $user_session->id }}" class="btn btn-danger w-100">{{ __('Enlace de Pago') }}</a>
                 </div>
             </div>
         </div>
@@ -53,8 +53,8 @@
             <div class="card shadow-sm border-light rounded" style="background-color: #000; color: white;">
                 <div class="card-body text-center">
                     <h4 class="card-title text-warning fw-bold">{{ __('ORO GEN') }}</h4>
-                    <p class="card-text">{{ __('Acceso de un año a cursos, coaching virtual y coaching en vivo.') }}</p>
-
+                    <p class="card-text">{{ __('Acceso de un año a cursos, coaching virtual y coaching en vivo.') }} <br>500 Bs</p>
+                    <a href="{{ url('CardRegister') }}?price=500&title=ORO+GEN&userId={{ $user_session->id }}" class="btn btn-warning w-100">{{ __('Enlace de Pago') }}</a>
                 </div>
             </div>
         </div>
@@ -64,12 +64,14 @@
             <div class="card shadow-sm border-light rounded" style="background-color: #000; color: white;">
                 <div class="card-body text-center">
                     <h4 class="card-title text-success fw-bold">{{ __('GEN PLATINO') }}</h4>
-                    <p class="card-text">{{ __('Acceso de dos años a cursos, coaching virtual, coaching en vivo y más.') }}</p>
-
+                    <p class="card-text">{{ __('Acceso de dos años a cursos, coaching virtual, coaching en vivo y más.') }} <br>700 Bs</p>
+                    <a href="{{ url('CardRegister') }}?price=700&title=GEN+PLATINO&userId={{ $user_session->id }}" class="btn btn-success w-100">{{ __('Enlace de Pago') }}</a>
                 </div>
             </div>
         </div>
     </div>
+
+
 </section>
 
 @endsection

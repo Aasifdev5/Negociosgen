@@ -7,19 +7,29 @@
     <div class="container">
         @if(Session::has('success'))
             <div class="alert alert-success">
-                <p>{{ session::get('success') }}</p>
+                <p class="text-dark">{{ session::get('success') }}</p>
             </div>
         @endif
 
         @if(Session::has('fail'))
             <div class="alert alert-danger">
-                <p>{{ session::get('fail') }}</p>
+                <p class="text-dark">{{ session::get('fail') }}</p>
             </div>
         @endif
-        @php
-            $amount = \App\Models\Membership::where('name', $user_session->membershipType)->first()->price;
 
+        @php
+            $membership = \App\Models\Membership::where('name', $user_session->membershipType)->first();
+            $countryModel = \App\Models\Country::where('id', $user_session->country)->first();
+
+            $amount = $membership ? $membership->price : 0;
+            $country = $countryModel ? $countryModel->country_name : 'N/A';
         @endphp
+
+        @if($amount == 0 || $country == 'N/A')
+            <div class="alert alert-warning">
+                {{ __('Información de membresía o país no encontrada. Por favor, contacte con soporte.') }}
+            </div>
+        @else
         <div class="row">
             <!-- Left Section: Payment Method -->
             <div class="col-lg-6 mb-4">
@@ -31,110 +41,93 @@
                             <div class="col text-light text-end">
                                 <b>Bs {{ $amount }} </b>
                             </div>
-
                         </h4>
                         <p class="text-light">{{ __('Métodos de Pago') }}</p>
 
-                        <!-- Toggle Buttons -->
+                        <!-- Payment Options Based on Country -->
                         <div class="mb-3 d-grid gap-2 my-3 text-center">
-                            <button class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#qrCodeSection"
-                                aria-expanded="false" aria-controls="qrCodeSection">
-                                {{ __('CÓDIGO QR') }}
-                            </button>
-                            <button class="btn btn-secondary" data-bs-toggle="collapse"
-                                data-bs-target="#creditCardSection" aria-expanded="false"
-                                aria-controls="creditCardSection">
-                                {{ __('Tarjeta de crédito') }}
-                            </button>
+                            @if($country == 'Bolivia')
+                                <button class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#qrCodeSection"
+                                    aria-expanded="false" aria-controls="qrCodeSection">
+                                    {{ __('CÓDIGO QR') }}
+                                </button>
+                            @elseif($country == 'Brazil')
+                                <button class="btn btn-success" data-bs-toggle="collapse" data-bs-target="#mercadoPagoSection"
+                                    aria-expanded="false" aria-controls="mercadoPagoSection">
+                                    {{ __('MercadoPago') }}
+                                </button>
+                                <button class="btn btn-warning" data-bs-toggle="collapse" data-bs-target="#payoneerSection"
+                                    aria-expanded="false" aria-controls="payoneerSection">
+                                    {{ __('Payoneer') }}
+                                </button>
+                            @endif
                         </div>
 
-                        <!-- PayPal Button -->
-                        <div class="d-grid gap-2 my-3">
-                            <button class="btn btn-secondary">{{ __('PayPal') }}</button>
+                        <!-- Payment Forms -->
+                        <div id="paymentMethods">
+                            <!-- QR Code Payment (Bolivia) -->
+                            @if($country == 'Bolivia')
+                                <div class="collapse multi-collapse" id="qrCodeSection" data-bs-parent="#paymentMethods">
+                                    <form action="{{ route('order.store') }}" method="POST" enctype="multipart/form-data">
+                                        @csrf
+                                        <input type="hidden" name="user_id" value="{{ $user_session->id }}">
+                                        <input type="hidden" name="membershipType" value="{{ $user_session->membershipType ?? '' }}">
+
+                                        <!-- Amount Field -->
+                                        <div class="mb-3">
+                                            <label for="amount" class="text-light form-label">{{ __('Monto a depositar') }}</label>
+                                            <input type="text" class="form-control @error('amount') is-invalid @enderror" id="amount" name="amount" required pattern="^\d+(\.\d{1,2})?$">
+                                            @error('amount')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                            <small class="form-text text-muted">Ingrese un monto válido (Ej: 100.00).</small>
+                                        </div>
+
+                                        <div class="payment__history mb-4">
+                                            <h3 class="text-light">{{ __('CÓDIGO QR') }}</h3>
+                                            <ul class="payment__history--inner d-flex">
+                                                @if (!empty($qrcode))
+                                                    <img class="img-radius img-70 align-top m-r-15" src="{{ asset('qrcode/' . $qrcode->qrcode_path) }}" height="70px" alt="">
+                                                    <a href="{{ asset('qrcode/' . $qrcode->qrcode_path) }}" class="btn btn-block btn-primary" download="qr_code.png">
+                                                        <i class="fa fa-download"></i> {{ __('Descargar Código QR') }}
+                                                    </a>
+                                                @endif
+                                            </ul>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="payment_receipt" class="text-light form-label">{{ __('Recibo de Pago') }}</label>
+                                            <input type="file" class="form-control @error('payment_receipt') is-invalid @enderror" id="payment_receipt" name="payment_receipt" accept="image/*">
+                                            @error('payment_receipt')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                        <button class="btn btn-primary btn-sm pull-right" type="submit">{{ __('Enviar') }}</button>
+                                    </form>
+                                </div>
+                            @endif
+
+                            <!-- MercadoPago Payment (Brazil) -->
+                            @if($country == 'Brazil')
+                                <div class="collapse multi-collapse" id="mercadoPagoSection" data-bs-parent="#paymentMethods">
+                                    <p class="text-light">Pague usando MercadoPago.</p>
+                                    <a href="https://www.mercadopago.com.br" class="btn btn-success">Ir a MercadoPago</a>
+                                </div>
+
+                                <!-- Payoneer Payment (Brazil) -->
+                                <div class="collapse multi-collapse" id="payoneerSection" data-bs-parent="#paymentMethods">
+                                    <p class="text-light">Pague usando Payoneer.</p>
+                                    <a href="https://www.payoneer.com/" class="btn btn-warning">Ir a Payoneer</a>
+                                </div>
+                            @endif
                         </div>
 
-                        <!-- QR Code Section -->
-                        <div class="collapse multi-collapse" id="qrCodeSection" data-bs-parent="#paymentMethods">
-                            <form action="{{ route('order.store') }}" method="POST" enctype="multipart/form-data">
-                                @csrf
-                                <input type="hidden" name="user_id" value="{{ $user_session->id }}">
-                                <input type="hidden" name="membershipType"
-                                    value="{{ $user_session->membershipType ?? '' }}">
-
-                                <div class="mb-3">
-                                    <label for="amount" class="text-light form-label">{{ __('Monto') }}</label>
-                                    <input type="text" class="form-control" id="amount" name="amount">
-                                </div>
-                                <div class="payment__history mb-4">
-                                    <h3 class="text-light payment__history--title">{{ __('CÓDIGO QR') }}</h3>
-                                    <ul class="payment__history--inner d-flex">
-                                        <img class="img-radius img-70 align-top m-r-15"
-                                            src="{{ asset('qrcode/' . $qrcode->qrcode_path) }}" height="70px" alt="">
-                                    </ul>
-                                    @if (!empty($qrcode))
-                                        <a href="{{ asset('qrcode/' . $qrcode->qrcode_path) }}"
-                                            class="btn btn-block btn-primary" download="qr_code.png">
-                                            <i class="fa fa-download"></i> {{ __('Descargar Código QR') }}
-                                        </a>
-                                    @endif
-                                </div>
-                                <div class="mb-3">
-                                    <label for="payment_receipt"
-                                        class="text-light form-label">{{ __('Recibo de Pago') }}</label>
-                                    <input type="file" class="form-control" id="payment_receipt" name="payment_receipt"
-                                        accept="image/*">
-                                </div>
-                                <button class="btn btn-primary btn-sm pull-right"
-                                    type="submit">{{ __('Enviar') }}</button>
-                            </form>
-                        </div>
-
-                        <!-- Credit Card Section -->
-                        <div class="collapse multi-collapse" id="creditCardSection" data-bs-parent="#paymentMethods">
-                            <form>
-                                <div class="mb-3">
-                                    <label for="cardNumber"
-                                        class="form-label text-light">{{ __('Número de tarjeta') }}</label>
-                                    <input type="text" class="form-control" id="cardNumber"
-                                        placeholder="_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _">
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label for="firstName" class="form-label text-light">{{ __('Nombre') }}</label>
-                                        <input type="text" class="form-control" id="firstName" placeholder="Nombre">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="lastName" class="form-label text-light">{{ __('Apellido') }}</label>
-                                        <input type="text" class="form-control" id="lastName" placeholder="Apellido">
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label for="expiration"
-                                            class="form-label text-light">{{ __('Expiración') }}</label>
-                                        <input type="text" class="form-control" id="expiration" placeholder="_ _ / _ _">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="securityCode"
-                                            class="form-label text-light">{{ __('Código de seguridad') }}</label>
-                                        <input type="text" class="form-control" id="securityCode" placeholder="_ _ _">
-                                    </div>
-                                </div>
-                                <div class="form-check mb-4">
-                                    <input class="form-check-input" type="checkbox" id="terms">
-                                    <label class="form-check-label text-light" for="terms">
-                                        {{ __('Acepto los') }} <a href="#"
-                                            class="text-decoration-none">{{ __('Términos y condiciones') }}</a>
-                                    </label>
-                                </div>
-                                <button class="btn btn-primary" type="submit">Pagar</button>
-                            </form>
-                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Right Section: Membresía anual -->
+            <!-- Right Section: Membership Benefits -->
             <div class="col-lg-6 mb-4">
                 <div class="container"
                     style="background: #000; padding: 20px; border: 1px solid #000; border-radius: 16px;">
@@ -148,34 +141,22 @@
                         </div>
                     </div>
                     <div class="mb-4">
-                        <div class="d-flex align-items-center mb-2">
-                            <img class="me-2" src="{{ asset('assets/CheckCircleOutline (1).svg') }}" alt="Check" />
-                            <div style="color: #EDEDED;">
-                                {{ __('Acceso ilimitado a todos los cursos, entrenamientos y materiales digitales.') }}
+                        @foreach([
+                            __('Acceso ilimitado a todos los cursos, entrenamientos y materiales digitales.'),
+                            __('Comisiones por las personas que inscribas en tu red hasta el séptimo nivel.'),
+                            __('Oportunidad de mejorar tus finanzas, crecer personalmente y contribuir a causas sociales.'),
+                            __('Participación en eventos exclusivos para expandir tu red de contactos.')
+                        ] as $benefit)
+                            <div class="d-flex align-items-center mb-2">
+                                <img class="me-2" src="{{ asset('assets/CheckCircleOutline (1).svg') }}" alt="Check" />
+                                <div style="color: #EDEDED;">{{ $benefit }}</div>
                             </div>
-                        </div>
-                        <div class="d-flex align-items-center mb-2">
-                            <img class="me-2" src="{{ asset('assets/CheckCircleOutline (1).svg') }}" alt="Check" />
-                            <div style="color: #EDEDED;">
-                                {{ __('Comisiones por las personas que inscribas en tu red hasta el séptimo nivel.') }}
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center mb-2">
-                            <img class="me-2" src="{{ asset('assets/CheckCircleOutline (1).svg') }}" alt="Check" />
-                            <div style="color: #EDEDED;">
-                                {{ __('Oportunidad de mejorar tus finanzas, crecer personalmente y contribuir a causas sociales.') }}
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center mb-2">
-                            <img class="me-2" src="{{ asset('assets/CheckCircleOutline (1).svg') }}" alt="Check" />
-                            <div style="color: #EDEDED;">
-                                {{ __('Participación en eventos exclusivos para expandir tu red de contactos.') }}
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
         </div>
+        @endif
     </div>
 </section>
 @endsection

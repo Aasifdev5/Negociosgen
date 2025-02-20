@@ -21,7 +21,8 @@
 
     <!-- SweetAlert2 JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
     <!-- Google font-->
     <link href="https://fonts.googleapis.com/css?family=Work+Sans:100,200,300,400,500,600,700,800,900" rel="stylesheet">
     <link
@@ -441,8 +442,7 @@
                                 </ul>
                             </li> --}}
 
-                            <li><a class="sidebar-header" href="{{ url('admin/transactions_report') }}"><i
-                                        data-feather="dollar-sign"></i><span>{{ __('Recibir Fondos') }} </span></a>
+                            <li><a class="sidebar-header" href="{{ url('admin/transactions_report') }}"><i class="icofont icofont-money-bag"></i><span>{{ __('Recibir Fondos') }} </span></a>
                             </li>
                             {{-- <li><a class="sidebar-header" href="{{ url('admin/pages') }}"><i
                                         data-feather="book"></i><span>{{ __('Pages') }} </span></a> </li>
@@ -513,6 +513,18 @@
                                 <a class="sidebar-header" href="{{ route('curso.index') }}">
                                     <i class="fa fa-graduation-cap"></i>
                                     <span>{{ __('Curso') }}</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="sidebar-header" href="{{ route('success.index') }}">
+                                    <i class="fa fa-trophy"></i>
+                                    <span>{{ __('Consejos para el éxito') }}</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="sidebar-header" href="{{ route('intro.index') }}">
+                                    <i class="fa fa-video-camera"></i>
+                                    <span>{{ __('Vídeo de introducción') }}</span>
                                 </a>
                             </li>
                             {{-- <li><a class="sidebar-header" href="#"><i data-feather="layers"></i><span>

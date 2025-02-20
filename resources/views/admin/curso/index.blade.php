@@ -34,36 +34,44 @@
                                     <i class="fas fa-trash-alt"></i> Eliminar Seleccionados
                                 </button>
                                 <div class="table-responsive">
-                                    <table id="advance-1" class="row-border data-table-filter table-style">
+                                    <table id="advance-1" class="table table-striped">
                                         <thead>
                                             <tr>
                                                 <th><input type="checkbox" id="select-all"></th>
                                                 <th>Fecha de creación</th>
-
-                                                <th>Coache</th>
-
+                                                <th>Coach</th>
+                                                <th>Título del Curso</th>
+                                                <th>Descripción</th>
                                                 <th>Portada</th>
-                                                <th>Estado</th>
                                                 <th>Acción</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach ($courses as $course)
                                                 <tr class="removable-item">
-                                                    <td><input type="checkbox" class="course-checkbox" value="{{ $course->id }}"></td>
+                                                    <td>
+                                                        <input type="checkbox" class="course-checkbox" value="{{ $course->id }}">
+                                                    </td>
                                                     <td>{{ $course->created_at->format('d/m/Y') }}</td>
-
                                                     <td>{{ $course->coach_name }}</td>
-
-                                                    <td><img src="{{ asset($course->coach_thumbnail) }}" alt="Portada" class="img-thumbnail" style="width: 50px;"></td>
-                                                    <td><span class="badge bg-success">Activo</span></td>
+                                                    <td>{{ $course->course_title }}</td>
+                                                    <td>
+                                                        <!-- Limit description to 3-5 words -->
+                                                        {{ \Illuminate\Support\Str::words($course->course_description, 5, '...') }}
+                                                    </td>
+                                                    <td>
+                                                        <img src="{{ asset($course->coach_thumbnail) }}" alt="Portada" class="img-thumbnail" style="width: 50px;">
+                                                    </td>
                                                     <td>
                                                         <div class="action__buttons">
-                                                            <a href="{{ route('curso.edit', [$course->id]) }}" title="Editar" class="btn btn-icon waves-effect waves-light btn-success m-b-5 m-r-5" data-toggle="tooltip">
-                                                                <i class="fa fa-edit"></i>
+                                                            <a href="{{ route('curso.edit', [$course->id]) }}" title="Editar"
+                                                               class="btn btn-icon waves-effect waves-light btn-success m-b-5 m-r-5" data-toggle="tooltip">
+                                                               <i class="fa fa-edit"></i>
                                                             </a>
-                                                            <a href="javascript:void(0);" title="Eliminar" class="btn btn-icon waves-effect waves-light btn-danger m-b-5 delete-course" data-toggle="tooltip" data-url="{{ route('curso.delete', $course->id) }}">
-                                                                <i class="fa fa-remove"></i>
+                                                            <a href="javascript:void(0);" title="Eliminar"
+                                                               class="btn btn-icon waves-effect waves-light btn-danger m-b-5 delete-course"
+                                                               data-toggle="tooltip" data-url="{{ route('curso.delete', $course->id) }}">
+                                                               <i class="fa fa-remove"></i>
                                                             </a>
                                                         </div>
                                                     </td>
@@ -71,6 +79,9 @@
                                             @endforeach
                                         </tbody>
                                     </table>
+
+
+
                                 </div>
                             </div>
                         </div>
@@ -84,6 +95,9 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+
+
+
         $(document).ready(function() {
             // Select all checkboxes
             $('#select-all').click(function() {

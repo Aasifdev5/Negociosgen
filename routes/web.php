@@ -1,8 +1,7 @@
 <?php
 
+
 use App\Http\Controllers\Admin;
-
-
 use App\Http\Controllers\Admin\BankController;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\BlogCategoryController;
@@ -15,26 +14,28 @@ use App\Http\Controllers\Admin\CursoController;
 use App\Http\Controllers\Admin\EventsController;
 use App\Http\Controllers\Admin\ForumCategoryController;
 use App\Http\Controllers\Admin\HomeSettingController;
+
+use App\Http\Controllers\Admin\IntroController;
+
 use App\Http\Controllers\Admin\LanguageController;
+
 use App\Http\Controllers\Admin\LocationController;
+
 
 use App\Http\Controllers\Admin\MediaController;
 
 use App\Http\Controllers\Admin\MembershipController;
-
 use App\Http\Controllers\Admin\RoleController;
-
-
 use App\Http\Controllers\Admin\SettingController;
-
 use App\Http\Controllers\Admin\SubcategoryController;
+use App\Http\Controllers\Admin\SuccessController;
 use App\Http\Controllers\Admin\SupportTicketController;
 use App\Http\Controllers\Admin\TagController;
+
 use App\Http\Controllers\AudiobookController;
 use App\Http\Controllers\Auth\OTPController;
 use App\Http\Controllers\Backend\ProductsController;
 use App\Http\Controllers\ChatController;
-
 use App\Http\Controllers\EmailAppController;
 use App\Http\Controllers\FacebookSocialiteController;
 use App\Http\Controllers\ForumController;
@@ -42,11 +43,11 @@ use App\Http\Controllers\FundController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\MailTemplateController;
+
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Pages;
 use App\Http\Controllers\PortfolioController;
-
 use App\Http\Controllers\QRCodeController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\SalesController;
@@ -58,6 +59,7 @@ use App\Models\Language;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 use Maatwebsite\Excel\Facades\Excel;
+
 
 
 
@@ -86,12 +88,15 @@ Route::post('/ResetPassword', [UserController::class, 'ResetPassword'])->name('R
 
 
 
+
 Route::group(['middleware' => ['prevent-back-history', SetLocale::class]], function () {
     Route::get('/', [UserController::class, 'home'])->name('home');
     Route::get('/index', [UserController::class, 'home'])->name('home');
     Route::get('/local/{ln}', function ($ln) {
-        return redirect()->back()->with('local', $ln);
-    });
+        session(['locale' => $ln]); // Store locale persistently
+        return redirect()->back();
+    })->name('changeLanguage'); // Add name here
+
     Route::get('/genTerm', [UserController::class, 'genTerm'])->name('genTerm');
     Route::get('/privacy', [UserController::class, 'privacy'])->name('privacy');
     Route::get('/geanologìa', [UserController::class, 'geanologìa']);
@@ -160,15 +165,18 @@ Route::group(['middleware' => ['prevent-back-history', SetLocale::class]], funct
     Route::post('contact_send', [Pages::class, 'contact_send']);
     Route::get('/blog_detail/{slug}', [UserController::class, 'blog_detail'])->name('blog_detail');
     Route::get('/addpaymentmethod', [UserController::class, 'addpaymentmethod'])->name('addpaymentmethod')->middleware('isLoggedIn');
+    Route::get('/genCardpaymentmethod', [UserController::class, 'genCardpaymentmethod'])->name('genCardpaymentmethod')->middleware('isLoggedIn');
     Route::get('/ayuda', [UserController::class, 'ayuda'])->name('ayuda');
     Route::get('/welcome', [UserController::class, 'welcome'])->name('welcome')->middleware('isLoggedIn');
+    Route::get('/genThanks', [UserController::class, 'genThanks'])->name('genThanks');
     Route::get('/Details', [UserController::class, 'Details'])->name('Details')->middleware('isLoggedIn');
     Route::get('/product-details/{slug}', [UserController::class, 'ProductDetail'])->name('ProductDetail')->middleware('isLoggedIn');
 
     Route::get('/transferencia', [UserController::class, 'transferencia'])->name('transferencia')->middleware('isLoggedIn');
     Route::get('/recursos', [UserController::class, 'recursos'])->middleware('check.membership')->name('recursos')->middleware('alreadyLoggedIn');
 
-    Route::get('/signup', [UserController::class, 'signup'])->name('signup')->middleware('alreadyLoggedIn');
+     Route::get('/signup', [UserController::class, 'signup'])->name('signup')->middleware('alreadyLoggedIn');
+    Route::get('/CardRegister', [UserController::class, 'CardRegister'])->name('CardRegister')->middleware('alreadyLoggedIn');
     Route::get('verify-otp', [OTPController::class, 'showOtpForm'])->name('verify.otp')->middleware('alreadyLoggedIn');
     Route::get('/Userlogin', [UserController::class, 'Userlogin'])->name('Userlogin')->middleware('alreadyLoggedIn');
     Route::get('show/{uuid}', [SupportTicketController::class, 'ticketUserShow'])->name('show')->middleware('isLoggedIn');
@@ -185,8 +193,10 @@ Route::group(['middleware' => ['prevent-back-history', SetLocale::class]], funct
         Route::get('search-forum-list', [ForumController::class, 'searchForumList'])->name('search-forum.list');
     });
 });
+
 Route::post('/update-logout-time', [UserController::class, 'updateLogoutTime'])->name('update.logout.time');
-Route::post('/reg', [UserController::class, 'registration']);
+ Route::post('/reg', [UserController::class, 'registration']);
+Route::post('/cardreg', [UserController::class, 'cardreg']);
 Route::get('/audiobooks', [AudiobookController::class, 'audiobook'])->name('audiobook');
 Route::get('/audiobook/{id}', [AudiobookController::class, 'showAudiobookDetails'])->name('showAudiobookDetails');
 
@@ -502,6 +512,24 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('delete/{id}', [CursoController::class, 'delete'])->name('curso.delete');
             Route::post('bulk-delete', [CursoController::class, 'bulkDelete'])->name('curso.bulk.delete');
         });
+        Route::prefix('success')->group(function () {
+            Route::get('/', [SuccessController::class, 'index'])->name('success.index')->middleware('AdminIsLoggedIn');
+            Route::get('create', [SuccessController::class, 'create'])->name('success.create')->middleware('AdminIsLoggedIn');
+            Route::post('store', [SuccessController::class, 'store'])->name('success.store');
+            Route::get('edit/{id}', [SuccessController::class, 'edit'])->name('success.edit')->middleware('AdminIsLoggedIn');
+            Route::post('update/{id}', [SuccessController::class, 'update'])->name('success.update');
+            Route::get('delete/{id}', [SuccessController::class, 'delete'])->name('success.delete');
+            Route::post('bulk-delete', [SuccessController::class, 'bulkDelete'])->name('success.bulk.delete');
+        });
+        Route::prefix('intro')->group(function () {
+            Route::get('/', [IntroController::class, 'index'])->name('intro.index')->middleware('AdminIsLoggedIn');
+            Route::get('create', [IntroController::class, 'create'])->name('intro.create')->middleware('AdminIsLoggedIn');
+            Route::post('store', [IntroController::class, 'store'])->name('intro.store');
+            Route::get('edit/{id}', [IntroController::class, 'edit'])->name('intro.edit')->middleware('AdminIsLoggedIn');
+            Route::post('update/{id}', [IntroController::class, 'update'])->name('intro.update');
+            Route::get('delete/{id}', [IntroController::class, 'delete'])->name('intro.delete');
+            Route::post('bulk-delete', [IntroController::class, 'bulkDelete'])->name('intro.bulk.delete');
+        });
         Route::prefix('subcategory')->group(function () {
             Route::get('/', [SubcategoryController::class, 'index'])->name('subcategory.index');
             Route::get('create', [SubcategoryController::class, 'create'])->name('subcategory.create');
@@ -605,7 +633,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('add_user', [Admin::class, 'add_user'])->middleware('AdminIsLoggedIn');
         Route::post('save_user', [Admin::class, 'save_user'])->middleware('AdminIsLoggedIn');
 
-        Route::get('user/delete_user/{id}', [Admin::class, 'delete_user'])->middleware('AdminIsLoggedIn');
+        Route::get('user/delete_user/{id}', [Admin::class, 'delete_user']);
         Route::post('user/bulk_delete', [Admin::class, 'bulkDelete'])->name('user.bulkDelete');
         Route::get('shopkeepers', [Admin::class, 'shopkeepers'])->name('shopkeepers')->middleware('AdminIsLoggedIn');
         Route::get('shopkeeper/edit/{id}', [Admin::class, 'edit_shopkeeper'])->name('edit_shopkeeper')->middleware('AdminIsLoggedIn');

@@ -117,13 +117,19 @@
                     class="rounded-pill" />
             </a>
 
+
             <div class="language-buttons" style="display: flex; gap: 10px; align-items: center;">
-                @foreach (appLanguages() as $app_lang)
-                <a href="{{ url('admin/local/' . $app_lang->iso_code) }}" class="btn btn-language" style="border: none; background: transparent;">
+                @php
+                $currentLang = session('locale', config('app.locale'));
+            @endphp
+
+            @foreach (appLanguages() as $app_lang)
+                <a href="{{ route('changeLanguage', $app_lang->iso_code) }}"
+                   class="btn btn-language"
+                   style="border: none; background: transparent; {{ $app_lang->iso_code == $currentLang ? 'font-weight: bold;' : '' }}">
                     <i class="flag-icon flag-icon-{{ $app_lang->iso_code }}"></i> {{ ucfirst($app_lang->name) }}
                 </a>
             @endforeach
-
             </div>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -457,6 +463,33 @@ margin-right: 20px;
                 video.querySelector('video').play();
             });
         });
+        function playVideo(button) {
+        const videoContainer = button.closest('.video-container');
+        const iframe = videoContainer.querySelector('iframe');
+        const embedResponsive = videoContainer.querySelector('.embed-responsive');
+
+        // Show the embed-responsive div
+        embedResponsive.style.display = 'block';
+
+        // Request full screen for the iframe
+        if (iframe.requestFullscreen) {
+            iframe.requestFullscreen();
+        } else if (iframe.mozRequestFullScreen) { // Firefox
+            iframe.mozRequestFullScreen();
+        } else if (iframe.webkitRequestFullscreen) { // Chrome, Safari, and Opera
+            iframe.webkitRequestFullscreen();
+        } else if (iframe.msRequestFullscreen) { // IE/Edge
+            iframe.msRequestFullscreen();
+        }
+
+        // Play the video using Vimeo Player API
+        const player = new Vimeo.Player(iframe);
+        player.play().then(() => {
+            console.log('Video is playing');
+        }).catch((error) => {
+            console.error('Error playing video:', error);
+        });
+    }
     </script>
  <script>
      document.addEventListener('DOMContentLoaded', function () {

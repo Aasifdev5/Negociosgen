@@ -48,6 +48,47 @@
 
                     </div>
                 </div>
+                <br>
+<div class="row">
+    <h1 class="text-light">Accede a estos cursos y muchos más:</h1>
+    @foreach ($course as $row)
+                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                    <!-- Coach Intro Section -->
+                    <div class="course-intro" style="margin-bottom: 30px; max-width: 265px; text-align: center;">
+                        <div class="video-container"
+                            style="position: relative; width: 100%; height: 184px; overflow: hidden; display: flex; justify-content: center; align-items: center;">
+                            <div class="gradient-overlay"></div>
+                            <!-- Coach Intro Video Thumbnail -->
+                            <img src="{{ asset($row->coach_thumbnail) }}" class="thumbnail img-fluid" alt="Coach Thumbnail"
+                                style="width: 100%; height: 100%; object-fit: cover; border-radius: 5px;" />
+                            <!-- Play Button for Intro Video -->
+                            <span class="play-button" onclick="playVideo(this)">
+                                <img src="{{ asset('assets/Play (1).svg') }}" alt="Play Button" />
+                            </span>
+                            <!-- Video Embed (hidden initially) -->
+                            <div class="embed-responsive" style="display: none;">
+                                @php
+                                    $embedUrl = $row->getEmbedUrl($row->coach_video);
+                                @endphp
+
+                                <iframe class="embed-responsive-item" src="{{ $embedUrl }}" frameborder="0"
+                                    allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media"
+                                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+                                    title="Video Player">
+                                </iframe>
+
+                                <script src="https://player.vimeo.com/api/player.js"></script>
+                            </div>
+                        </div>
+                        <h1 class="mt-3 text-center" style="color: #EDEDED;">
+                            {{ $row->coach_name }}
+                        </h1>
+                    </div>
+                </div>
+            @endforeach
+</div>
+
+
 
 
 

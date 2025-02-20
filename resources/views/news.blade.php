@@ -166,25 +166,38 @@
                 <div class="row">
                     <!-- Blog Posts -->
                     @forelse ($latest_posts as $item)
-                        <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
-                            <div class="card shadow-lg border-0 rounded h-100">
-                                <a href="{{ url('newsDetails/' . $item->id) }}" class="text-decoration-none">
-                                    <img src="{{ asset($item->thumbnail) }}" alt="{{ $item->title }}"
-                                        class="card-img-top rounded-top" style="object-fit: cover; height: 200px;">
-                                    <div class="card-body bg-dark text-light">
-                                        <h5 class="card-title mb-3">{{ $item->title }}</h5>
-                                        <p class="card-text mb-3">{!! Str::limit($item->content, 150) !!}</p>
-                                        <span class="text-muted">{{ __('Leer más') }} <i
-                                                class="fa fa-arrow-right"></i></span>
-                                    </div>
-                                </a>
-                            </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                        <div class="card border-0 shadow-lg rounded overflow-hidden h-100 d-flex flex-column">
+                            <a href="{{ url('newsDetails/' . $item->id) }}" class="text-decoration-none d-flex flex-column h-100">
+
+                                <!-- Thumbnail Image -->
+                                <div class="news-thumbnail" style="height: 250px; overflow: hidden;">
+                                    <img src="{{ asset($item->thumbnail) }}"
+                                         alt="{{ $item->title }}"
+                                         class="card-img-top transition"
+                                         style="object-fit: cover; width: 100%; height: 100%; filter: brightness(85%);">
+                                </div>
+
+                                <!-- Card Content -->
+                                <div class="card-body bg-dark text-light p-4 flex-grow-1 d-flex flex-column">
+                                    <h5 class="card-title mb-3 fw-bold">{{ $item->title }}</h5>
+                                    <p class="card-text mb-3 opacity-75 flex-grow-1">
+                                        {!! Str::limit(strip_tags($item->content), 150) !!}
+                                    </p>
+                                    <span class="text-primary fw-bold mt-auto">Leer más
+                                        <i class="fa fa-arrow-right"></i>
+                                    </span>
+                                </div>
+
+                            </a>
                         </div>
-                    @empty
-                        <div class="alert alert-warning text-center w-100">
-                            <strong>{{ __('No se encontraron publicaciones de blog.') }}</strong>
-                        </div>
-                    @endforelse
+                    </div>
+                @empty
+                    <div class="alert alert-warning text-center w-100">
+                        <strong>{{ __('No se encontraron publicaciones de blog.') }}</strong>
+                    </div>
+                @endforelse
+
 
                 </div>
 

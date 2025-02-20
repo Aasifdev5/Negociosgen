@@ -119,55 +119,64 @@
             @endif
             <div class="row">
                 <div class="col-lg-3">
-                    <div class="text-white p-3 rounded" style="background: #000">
-                        <div class="menu-item mb-3 d-flex align-items-center">
-                            <a href="{{ url('dashboard') }}" style="text-decoration: none; color: inherit;">
-                                <img src="{{ asset('assets/ChartBar.svg') }}" alt="Dashboard" class="me-2" width="24"
-                                    height="24">
-                                <span>{{ __('Panel') }}</span>
-                            </a>
-                        </div>
-                        <div class="menu-item mb-3 d-flex align-items-center">
-                            <a href="{{ url('geanologìa') }}" style="text-decoration: none; color: inherit;">
-                                <img src="{{ asset('assets/TreeStructure.svg') }}" alt="Genealogía" class="me-2"
-                                    width="24" height="24">
-                                <span>{{ __('Genealogía') }}</span>
-                            </a>
-                        </div>
-                        <div class="menu-item mb-3 d-flex align-items-center">
-                            <a href="{{ url('ganancias') }}" style="text-decoration: none; color: inherit;">
-                                <img src="{{ asset('assets/Wallet.svg') }}" alt="Ganancias" class="me-2" width="24"
-                                    height="24">
-                                <span>{{ __('Ganancias') }}</span>
-                            </a>
-                        </div>
-                        <div class="menu-item mb-3 d-flex align-items-center">
-                            <a href="{{ url('recursos') }}" style="text-decoration: none; color: inherit;">
-                                <img src="{{ asset('assets/Image.svg') }}" alt="Recursos" class="me-2" width="24"
-                                    height="24">
-                                <span>{{ __('Recursos') }}</span>
-                            </a>
-                        </div>
-                        <div class="menu-item d-flex align-items-center">
-                            <a href="{{ url('edit_profile') }}" style="text-decoration: none; color: inherit;">
-                                @if (!empty($user_session->profile_photo))
-                                    <img src="{{ asset('profile_photo/') }}<?php echo '/' . $user_session->profile_photo; ?>"
-                                        class="rounded-circle img-fluid" alt="{{ $user_session->name }}" width="24"
-                                        height="24">
+                <div class="text-white p-3 rounded" style="background: #000">
+                    <div class="menu-item mb-3 d-flex align-items-center">
+                        <a href="{{ url('dashboard') }}" style="text-decoration: none; color: inherit;">
+                            <i class="fas fa-tachometer-alt me-2" style="font-size: 24px;"></i>
+                            <span>{{ __('Panel') }}</span>
+                        </a>
+                    </div>
+                    <div class="menu-item mb-3 d-flex align-items-center">
+                        <a href="{{ url('gen_cards') }}" style="text-decoration: none; color: inherit;">
+                            <i class="fas fa-credit-card me-2" style="font-size: 24px;"></i>
+                            <span>{{ __('Tarjetas GEN') }}</span>
+                        </a>
+                    </div>
 
-                                    <span>{{ __('Perfil') }}</span>
-                                @else
-                                    <img src="{{ asset('149071.png') }}" alt="Perfil" class="me-2 rounded-circle"
-                                        width="24" height="24">
+                    <div class="menu-item mb-3 d-flex align-items-center">
+                        <a href="{{ url('geanologìa') }}" style="text-decoration: none; color: inherit;">
+                            <i class="fas fa-sitemap me-2" style="font-size: 24px;"></i>
+                            <span>{{ __('Genealogía') }}</span>
+                        </a>
+                    </div>
+                    <div class="menu-item mb-3 d-flex align-items-center">
+                        <a href="{{ url('gen_members_area') }}" style="text-decoration: none; color: inherit;">
+                            <i class="fas fa-tree me-2" style="font-size: 24px;"></i>
+                            <span>{{ __('Área de miembros de GEN') }}</span>
+                        </a>
+                    </div>
 
-                                    <span>{{ __('Perfil') }}</span>
-                                @endif
+                    <div class="menu-item mb-3 d-flex align-items-center">
+                        <a href="{{ url('ganancias') }}" style="text-decoration: none; color: inherit;">
+                            <i class="fas fa-wallet me-2" style="font-size: 24px;"></i>
+                            <span>{{ __('Ganancias') }}</span>
+                        </a>
+                    </div>
+
+                    <div class="menu-item mb-3 d-flex align-items-center">
+                        <a href="{{ url('recursos') }}" style="text-decoration: none; color: inherit;">
+                            <i class="fas fa-image me-2" style="font-size: 24px;"></i>
+                            <span>{{ __('Recursos') }}</span>
+                        </a>
+                    </div>
+
+                    <div class="menu-item d-flex align-items-center">
+                        <a href="{{ url('edit_profile') }}" style="text-decoration: none; color: inherit;">
+                            @if (!empty($user_session->profile_photo))
+                            <img src="{{ asset('profile_photo/') }}<?php echo '/' . $user_session->profile_photo; ?>" class="rounded-circle img-fluid" alt="{{ $user_session->name }}" width="24" height="24">
+
+                            <span>{{ __('Perfil') }}</span>
+                        @else
+                        <img src="{{ asset('149071.png') }}" alt="Perfil" class="me-2 rounded-circle" width="24" height="24">
+
+                        <span>{{ __('Perfil') }}</span>
+                        @endif
 
 
-                            </a>
-                        </div>
+                        </a>
                     </div>
                 </div>
+            </div>
 
                 <div class="col-lg-9">
                     <div class="tree">
@@ -184,7 +193,7 @@
                                         data-level="{{ $user_session->level }}" class="p-3">
                                         @if (!empty($user_session->profile_photo))
                                             <img src="{{ asset('profile_photo/') }}<?php echo '/' . $user_session->profile_photo; ?>"
-                                                class="rounded-circle img-fluid" alt="{{ $user_session->name }}">
+                                                class="rounded-circle img-fluid" alt="{{ $user_session->name }}" style="width: 60px; height: 60px;">
                                             <br>
                                             <span class="badge bg-primary" style="margin-top: 10px">{{ __('Nivel') }}
                                                 {{ $user_session->level }}</span> <!-- Display Level -->
@@ -219,7 +228,7 @@
                                                         data-level="{{ $child->level }}" class="p-3">
                                                         @if (!empty($child->profile_photo))
                                                             <img src="{{ asset('profile_photo/') }}<?php echo '/' . $child->profile_photo; ?>"
-                                                                class="rounded-circle img-fluid" alt="{{ $child->name }}">
+                                                                class="rounded-circle img-fluid" alt="{{ $child->name }}" style="width: 60px; height: 60px;">
                                                             <br>
                                                             <span class="badge bg-primary"
                                                                 style="margin-top: 10px">{{ __('Nivel') }}
@@ -260,7 +269,7 @@
                                                                         @if (!empty($grandchild->profile_photo))
                                                                             <img src="{{ asset('profile_photo/') }}<?php echo '/' . $grandchild->profile_photo; ?>"
                                                                                 class="rounded-circle img-fluid"
-                                                                                alt="{{ $grandchild->name }}">
+                                                                                alt="{{ $grandchild->name }}" style="width: 60px; height: 60px;">
                                                                             <br>
                                                                             <span class="badge bg-primary"
                                                                                 style="margin-top: 10px">{{ __('Nivel') }}
@@ -307,7 +316,7 @@
                                                                                         @if (!empty($greatGrandchild->profile_photo))
                                                                                             <img src="{{ asset('profile_photo/') }}<?php echo '/' . $greatGrandchild->profile_photo; ?>"
                                                                                                 class="rounded-circle img-fluid"
-                                                                                                alt="{{ $greatGrandchild->name }}">
+                                                                                                alt="{{ $greatGrandchild->name }}" style="width: 60px; height: 60px;">
                                                                                             <br>
                                                                                             <span class="badge bg-primary"
                                                                                                 style="margin-top: 10px">{{ __('Nivel') }}

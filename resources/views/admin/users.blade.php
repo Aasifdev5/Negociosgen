@@ -247,7 +247,7 @@ LISTA DE USUARIOS
             }).then((result) => {
                 if (result.isConfirmed) {
                     fetch("{{ url('admin/user/delete_user') }}/" + userId, {
-                        method: 'DELETE',
+                        method: 'GET',
                         headers: {
                             'Content-Type': 'application/json',
                             'X-CSRF-TOKEN': '{{ csrf_token() }}'

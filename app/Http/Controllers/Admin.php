@@ -16,7 +16,7 @@ use App\Models\Notification;
 use App\Models\PasswordReset;
 
 use App\Models\Payment;
-
+use App\Models\Membership;
 use App\Models\Permissions;
 
 use App\Models\Sales;
@@ -34,7 +34,6 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
-use App\Models\Membership;
 
 
 
@@ -210,7 +209,7 @@ class Admin extends Controller
     {
         if (Session::has('LoggedIn')) {
 
-            $usersData = DB::table("users")->where('is_super_admin', '0')->orderby('id', 'desc')->get();
+            $usersData = DB::table("users")->where('is_super_admin', '0')->orderBy('created_at', 'desc')->get();
             $total_users = User::where('is_super_admin', 0)
                 ->whereNot('account_type', 'admin')
                 ->get();
@@ -342,7 +341,7 @@ class Admin extends Controller
     public function users(Request $request)
     {
         if (Session::has('LoggedIn')) {
-            $usersData = DB::table("users")->where('is_super_admin', '0')->get();
+            $usersData = DB::table("users")->where('is_super_admin', '0')->orderBy('created_at', 'desc')->get();
             $user_session = User::where('id', Session::get('LoggedIn'))->first();
 
             return view('admin/users', compact('user_session', 'usersData'));
@@ -582,18 +581,17 @@ class Admin extends Controller
             return back()->with('fail', 'failed');
         }
     }
-    public function delete_user($id)
-    {
+   public function delete_user($id)
+{
+    $user = User::find($id);
 
-        $user = User::where('id', '=', $id)->first();
-
-        if ($user) {
-            $user->delete();
-            return back()->with('success', 'Eliminado con éxito');
-        } else {
-            return back()->with('error', 'User not found');
-        }
+    if ($user) {
+        $user->delete();
+        return response()->json(['success' => true, 'message' => 'Usuario eliminado con éxito.']);
+    } else {
+        return response()->json(['success' => false, 'message' => 'Usuario no encontrado.']);
     }
+}
     public function delete_shopkeeper($id)
     {
 
@@ -1042,33 +1040,35 @@ class Admin extends Controller
                     'is_active' => 1
                 ]);
             } else {
-                $membership = Membership::where('name', $user->membershipType)->first();
+                if ($user->membershipType != null) {
+                    $membership = Membership::where('name', $user->membershipType)->first();
 
-                $durationInYears = $membership->duration;
-                // Membership cost and percentage distribution across levels
-                $membershipCost = $membership->price; // Adjust as needed
-                $membership_id = $membership->id;
+                    if ($membership) {
+                        $durationInYears = $membership->duration;
+                        // Membership cost and percentage distribution across levels
+                        $membershipCost = $membership->price; // Adjust as needed
+                        $membership_id = $membership->id;
 
-
-
-                if ($user->membership_status == "expired" || $user->membership_status == "pending" || $user->payment_status == "unpaid" || $user->payment_status == "pending") {
-                    // Otherwise, just mark them as subscribed (if not already)
-                    $user->update([
-                        'is_subscribed' => 1,
-                        'membershipType' => $user->membershipType,
-                        'membership_status' => 'active',
-                        'membership_start_date' => now(),
-                        'membership_end_date' => now()->addYears($durationInYears),
-                        'renewal_due_date' => now()->addYears($durationInYears)->subDays(30), // Reminder one month before expiry
-                        'payment_status' => 'paid',
-                    ]);
-                    MembershipPayment::create([
-                        'user_id' => $user->id,
-                        'membership_id' => $membership_id,
-                        'amount_paid' => $membershipCost,
-                        'payment_date' => now(),
-                        'payment_method' => 'paypal',
-                    ]);
+                        if ($user->membership_status == "expired" || $user->membership_status == "pending" || $user->payment_status == "unpaid" || $user->payment_status == "pending") {
+                            // Otherwise, just mark them as subscribed (if not already)
+                            $user->update([
+                                'is_subscribed' => 1,
+                                'membershipType' => $user->membershipType,
+                                'membership_status' => 'active',
+                                'membership_start_date' => now(),
+                                'membership_end_date' => now()->addYears($durationInYears),
+                                'renewal_due_date' => now()->addYears($durationInYears)->subDays(30), // Reminder one month before expiry
+                                'payment_status' => 'paid',
+                            ]);
+                            MembershipPayment::create([
+                                'user_id' => $user->id,
+                                'membership_id' => $membership_id,
+                                'amount_paid' => $membershipCost,
+                                'payment_date' => now(),
+                                'payment_method' => 'paypal',
+                            ]);
+                        }
+                    }
                 }
 
 
@@ -1086,15 +1086,17 @@ class Admin extends Controller
                 if ($payment->amount != 100.00) {
                     // Start with the immediate referrer
                     $currentReferrer = $user->refer;
-                    $level = 1;
-                    $mainrefer = User::where('id', $user->refer)->first();
+                    // Find the user by reference
+                   $mainrefer = User::where('id', $user->refer)->first();
 
-                    if ($mainrefer) {
-                        // Update the refer_date field
-                        $mainrefer->update([
-                            'refer_date' => Carbon::now(),
-                        ]);
-                    }
+if ($mainrefer) {
+    // Update the refer_date field
+    $mainrefer->update([
+        'refer_date' => Carbon::now(),
+    ]);
+}
+                    $level = 1;
+
                     // Distribute commissions up to 7 levels and update user levels
                     while ($currentReferrer && $level <= 7) {
                         $referrer = User::find($currentReferrer);

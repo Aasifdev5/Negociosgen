@@ -57,8 +57,8 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use App\Models\Membership;
-
-
+use App\Models\SuccessTips;
+use App\Models\Intro;
 
 function getIp()
 {
@@ -85,16 +85,15 @@ class UserController extends Controller
 
 
 
-    public function home()
+   public function home()
     {
 
         $user_session = User::where('id', Session::get('LoggedIn'))->first();
-        $course = Course::take(4)->get(); // Fetch only 4 courses from the database
+        $course = Course::orderBy('created_at', 'desc')  // Order by most recent
+            ->limit(4)  // Fetch only the 9 most recent questions
+            ->get(); // Fetch only 4 courses from the database
 
-        // Decode the 'courses' JSON column to an array
-        $course->each(function ($item) {
-            $item->courses = json_decode($item->courses, true); // Decode 'courses' JSON field
-        });
+
 
         $supportQuestions = SupportTicketQuestion::orderBy('created_at', 'desc')  // Order by most recent
             ->limit(9)  // Fetch only the 9 most recent questions
@@ -103,12 +102,33 @@ class UserController extends Controller
         // Fetch 4 most recent courses
         $audiobook = Audiobook::orderBy('created_at', 'desc')->take(6)->get();  // Fetch 6 most recent audiobooks
         $latest_posts = News::orderBy('id', 'DESC')->take(3)->get();
+        $SuccessTipss = SuccessTips::orderBy('id', 'DESC')->take(9)->get();
         $develop_skills = HomeSettings::where('key', 'develop_skills')->first();
         $success_tips = HomeSettings::where('key', 'success_tips')->first();
         $brands = Brand::all();
         $pages = Page::all();
 
-        return view('index', compact('user_session',   'pages', 'course', 'audiobook', 'brands', 'supportQuestions', 'latest_posts', 'success_tips', 'develop_skills'));
+        return view('index', compact('user_session',   'pages', 'course', 'audiobook','SuccessTipss', 'brands', 'supportQuestions', 'latest_posts', 'success_tips', 'develop_skills'));
+    }
+    public function privacy()
+    {
+
+
+        $user_session = User::where('id', Session::get('LoggedIn'))->first();
+
+
+        $pages = Page::all();
+        return view('privacy', compact('user_session', 'pages'));
+    }
+    public function genTerm()
+    {
+
+
+        $user_session = User::where('id', Session::get('LoggedIn'))->first();
+
+
+        $pages = Page::all();
+        return view('genTerm', compact('user_session', 'pages'));
     }
     public function requestWithdrawal(Request $request)
     {
@@ -143,26 +163,6 @@ class UserController extends Controller
         $pages = Page::all();
         return view('ganancias', compact('user_session', 'pages', 'sales'));
     }
-    public function privacy()
-    {
-
-
-        $user_session = User::where('id', Session::get('LoggedIn'))->first();
-
-
-        $pages = Page::all();
-        return view('privacy', compact('user_session', 'pages'));
-    }
-    public function genTerm()
-    {
-
-
-        $user_session = User::where('id', Session::get('LoggedIn'))->first();
-
-
-        $pages = Page::all();
-        return view('genTerm', compact('user_session', 'pages'));
-    }
     public function fondo()
     {
 
@@ -193,7 +193,10 @@ class UserController extends Controller
     public function Userlogin()
     {
         $pages = Page::all();
-        return view('login', compact('pages'));
+        $course = Course::orderBy('created_at', 'desc')  // Order by most recent
+            ->limit(4)  // Fetch only the 9 most recent questions
+            ->get(); // Fetch only 4 courses from the database
+        return view('login', compact('pages','course'));
     }
     public function admin()
     {
@@ -207,17 +210,123 @@ class UserController extends Controller
         // Check if the keys array is not empty before accessing the first key
         $refer = request()->get('refer');
         $membershipType = request()->get('membership');
-
+$course = Course::orderBy('created_at', 'desc')  // Order by most recent
+            ->limit(4)  // Fetch only the 9 most recent questions
+            ->get(); // Fetch only 4 courses from the database
         // Fetch the necessary data
         $pages = Page::all();
         $countries = Country::all();
         $cities = City::all();
 
         // Pass the $refer value to the view
-        return view('register', compact('pages', 'countries', 'cities', 'refer', 'membershipType'));
+        return view('register', compact('pages', 'countries', 'cities', 'refer', 'membershipType','course'));
     }
+ public function CardRegister(Request $request)
+    {
+
+        // Get all keys from the request
+        $keys = array_keys($request->all());
+        // Check if the userId is provided
+        if (!empty($request->userId)) {
+            // Store the price in session
+            session(['CardPrice' => $request->get('price')]);
+
+            // Find the user and update the 'card' field with the title
+            $user = User::find($request->userId);
+
+            // Ensure the user exists before updating
+            if ($user) {
+                $user->update([
+                    'card' => $request->get('title')
+                ]);
+            }
+
+            // Redirect to the payment method route
+            return redirect()->route('genCardpaymentmethod');
+        }
 
 
+        $price = request()->get('price');
+        $cardtitle = request()->get('title');
+        // Fetch the necessary data
+        $pages = Page::all();
+        $countries = Country::all();
+        $cities = City::all();
+
+        // Pass the $refer value to the view
+        return view('CardRegister', compact('pages', 'countries', 'cities', 'price', 'cardtitle'));
+    }
+    public function genCardpaymentmethod(Request $request)
+    {
+        // Retrieve the user ID from the session
+        $userId = session('LoggedIn');
+
+        if (!$userId) {
+            return back()->with('fail', 'Session expired. Please log in again.');
+        }
+
+        // Fetch the user and associated data
+        $user_session = User::find($userId);
+        $qrcode = BankDetails::orderby('id', 'desc')->first();
+        $pages = Page::all();
+
+        return view('payment_link_for_gen_card', compact('user_session', 'pages', 'qrcode'));
+    }
+ public function cardreg(Request $request)
+    {
+        // Validate input fields
+        $request->validate([
+            'first_name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => ['required', 'string', 'min:8', 'max:30'],
+            'mobile_number' => 'required|string|max:15',
+            'address' => 'required|string|max:255',
+            'birth_date' => 'required|date',
+            'country' => 'nullable|exists:countries,id',
+            'city' => 'nullable|exists:cities,id',
+            'refer' => 'nullable|string|max:255' // Optional referral field
+        ]);
+
+        // Handle mobile number with prefix
+        $prefixedMobileNumber = "591" . $request->mobile_number;
+
+        // Create a new user
+        $user = User::create([
+            'account_type' => 'CardTaker',
+            'membershipType' => '',
+            'card' => $request->card,
+            'membership_status' => 'pending',
+            'name' => trim($request->first_name . ' ' . $request->last_name),
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'custom_password' => $request->password, // Storing plain password is insecure; reconsider this
+            'mobile_number' => $prefixedMobileNumber,
+            'refer' => $request->refer,
+            'ip_address' => $request->ip(), // Assuming getIpAddress is a defined method
+            'country' => $request->country,
+            'address' => $request->address,
+            'city' => $request->city,
+            'birth_date' => $request->birth_date
+        ]);
+
+        if ($user) {
+            // Send notification for registration
+            $text = 'A new card taker has registered on the platform.';
+            $target_url = route('users');
+            $this->sendForApi($text, 1, $target_url, $user->id, $user->id);
+
+            // Store user ID in session for further steps
+            session(['LoggedIn' => $user->id]);
+            // Store user ID in session for further steps
+            session(['CardPrice' => $request->price]);
+            return redirect('genCardpaymentmethod')->with([
+
+                'user' => $user
+            ]);
+        }
+
+        return back()->with('fail', 'User registration failed.');
+    }
     public function registration(Request $request)
     {
         // Validate input fields
@@ -247,7 +356,7 @@ class UserController extends Controller
             'custom_password' => $request->password, // Storing plain password is insecure; reconsider this
             'mobile_number' => $prefixedMobileNumber,
             'refer' => $request->refer,
-            'ip_address' => getIp(), // Assuming getIpAddress is a defined method
+            'ip_address' => $request->ip(), // Assuming getIpAddress is a defined method
             'country' => $request->country,
             'address' => $request->address,
             'city' => $request->city,
@@ -311,9 +420,10 @@ class UserController extends Controller
 
                     // Establecer la sesión para el usuario conectado
                     $request->session()->put('LoggedIn', $user->id);
-                    return redirect('/membership/renew?user_id=' . $user->id)->with([
-                        'user' => $user,
-                    ]);
+                   return redirect('/membership/renew?user_id=' . $user->id)->with([
+    'user' => $user,
+]);
+
                 }
                 // Verificar si el usuario está suscrito
                 if ($user->is_subscribed !== 1) {
@@ -408,7 +518,6 @@ class UserController extends Controller
             $pages = Page::all();
             $user_session = User::where('id', Session::get('LoggedIn'))->first();
 
-
             // Fetch the latest 4 courses, decode the 'courses' JSON column, and paginate
             $course = Course::latest()->take(4)->get(); // Limit to 4 records
 
@@ -416,7 +525,6 @@ class UserController extends Controller
             $course->each(function ($item) {
                 $item->courses = json_decode($item->courses, true); // Decode 'courses' JSON field
             });
-
             if (in_array($user_session->membership_status, ['expired', 'pending'])) {
                 return redirect()->back()->with('fail', __('Your membership is expired or pending. Please update your membership.'));
             }
@@ -494,7 +602,7 @@ class UserController extends Controller
         $latest_posts = News::orderBy('id', 'DESC')->paginate(3);
         $user_session = User::where('id', Session::get('LoggedIn'))->first();
         // dd($request->id);
-        return view('newsDetails', compact('user_session', 'news', 'latest_posts'));
+        return view('newsDetails', compact( 'user_session', 'news', 'latest_posts'));
     }
 
 
@@ -624,6 +732,15 @@ class UserController extends Controller
             // Redirect to the login page if the user is not logged in
             return redirect()->route('Userlogin'); // or use 'login' if you have a named route for login
         }
+    }
+     public function genThanks()
+    {
+
+            $user_session = User::where('id', Session::get('LoggedIn'))->first();
+            $pages = Page::all();
+
+            return view('genThanks', compact('user_session', 'pages'));
+
     }
 
     public function blogs(Request $request)
@@ -910,7 +1027,7 @@ class UserController extends Controller
         $pages = Page::all();
         return view('blog', compact('pages', 'user_session'));
     }
-    public function course()
+   public function course()
     {
         // Redirect if the user is not logged in
         if (!Session::has('LoggedIn')) {

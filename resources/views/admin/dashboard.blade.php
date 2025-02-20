@@ -3,7 +3,7 @@
     Panel
 @endsection
 @section('content')
-<div class="page-body">
+    <div class="page-body">
 
         <section style="padding: 50px 0; background: #1a1a1a;">
             <div class="container my-4">
@@ -11,36 +11,45 @@
                 <h1 style="color: #ededed;">
                     Dashboard de <span style="color: #0090ff;">Administrador</span>
                 </h1>
+                @php
+                    $totalMembers = \App\Models\User::where('is_super_admin', 0)->where('account_type', 'affiliate')->count();
+                    $totalCardTakers = \App\Models\User::where('is_super_admin', 0)->where('account_type', 'CardTaker')->count();
+                    $totalGenMembers = \App\Models\User::where('is_super_admin', 0)->count();
+                    $introVideo = \App\Models\Intro::count();
+                    $tipsVideo = \App\Models\SuccessTips::count();
+                    $course = \App\Models\Course::count();
+                    $comisionesPagadas = \App\Models\Withdrawal::where('status', 'approved')->sum('amount');
+                    $comisionesPendientes = \App\Models\Withdrawal::where('status', 'pending')->sum('amount');
+                @endphp
 
-                <!-- Summary Section -->
                 <div class="container">
-                    <div class="row mb-4" style="margin-left: -10px; margin-right: -10px;">
-                        <div class="col-lg-2 col-md-6 col-sm-12 mb-4"
-                            style="background: #000; color: #fff; border: 1px solid #333; border-radius: 16px; padding: 20px; text-align: center; margin-left: 5px; margin-right: 5px;">
-                            <b class="display-4" style="color: #0090ff;">$500</b>
-                            <br>
-                            <b>Ventas Totales</b>
-                        </div>
-                        <div class="col-lg-2 col-md-6 col-sm-12 mb-4"
-                            style="background: #000; color: #fff; border: 1px solid #333; border-radius: 16px; padding: 20px; text-align: center; margin-left: 5px; margin-right: 5px;">
-                            <b class="display-4" style="color: #0090ff;">300</b>
-                            <br>
-                            <b>Distribuidores</b>
-                        </div>
-                        <div class="col-lg-2 col-md-6 col-sm-12 mb-4"
-                            style="background: #000; color: #fff; border: 1px solid #333; border-radius: 16px; padding: 20px; text-align: center; margin-left: 5px; margin-right: 5px;">
-                            <b class="display-4" style="color: #0090ff;">1100</b>
-                            <br>
-                            <b>Estudiantes</b>
-                        </div>
-                        <div class="col-lg-2 col-md-6 col-sm-12 mb-4"
-                            style="background: #000; color: #fff; border: 1px solid #333; border-radius: 16px; padding: 20px; text-align: center; margin-left: 5px; margin-right: 5px;">
-                            <b class="display-4" style="color: #0090ff;">100</b>
-                            <br>
-                            <b>Coaches</b>
-                        </div>
+                    <div class="row justify-content-center text-center">
+                        @php
+                            $stats = [
+                                ['icon' => 'users', 'count' => $totalMembers, 'label' => 'Total de Members'],
+                                ['icon' => 'id-card', 'count' => $totalCardTakers, 'label' => 'Total de Gen Card Takers'],
+                                ['icon' => 'user-friends', 'count' => $totalGenMembers, 'label' => 'Total de Gen Members y Card Takers'],
+                                ['icon' => 'video', 'count' => $introVideo, 'label' => 'Videos Introductorios'],
+                                ['icon' => 'lightbulb', 'count' => $tipsVideo, 'label' => 'Videos de Éxito'],
+                                ['icon' => 'book-open', 'count' => $course, 'label' => 'Cursos'],
+                                ['icon' => 'dollar-sign', 'count' => '$' . number_format($comisionesPagadas, 2), 'label' => 'Comisiones Pagadas'],
+                                ['icon' => 'hourglass-half', 'count' => '$' . number_format($comisionesPendientes, 2), 'label' => 'Comisiones Pendientes']
+                            ];
+                        @endphp
+
+                        @foreach($stats as $stat)
+                            <div class="col-lg-3 col-md-4 col-sm-6 px-2 mb-4">
+                                <div class="d-flex flex-column justify-content-between h-100 p-4 text-white border border-secondary rounded-3"
+                                    style="background: #000">
+                                    <i class="fas fa-{{ $stat['icon'] }} fa-3x text-primary"></i>
+                                    <h3 class="mt-2 text-primary">{{ $stat['count'] }}</h3>
+                                    <p><b>{{ $stat['label'] }}</b></p>
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
+
 
                 <div class="card">
                     <div class="card-body">
@@ -50,13 +59,10 @@
                                 <thead>
                                     <tr>
 
-                                        <th>Acción</th>
+
                                         <th>Nombre de Usuario</th>
                                         <th>Correo Electrónico</th>
                                         <th>Dirección IP</th>
-                                        <th>Estado del correo electrónico</th>
-
-
                                         <th>La fecha registrada</th>
                                     </tr>
                                 </thead>
@@ -65,18 +71,7 @@
                                         @if ($data->account_type != 'admin')
                                             <tr>
 
-                                                <td>
-                                                    <a href="{{ url('admin/user/edit', $data->id) }}"
-                                                        class="btn btn-icon waves-effect waves-light btn-success m-b-5 m-r-5"
-                                                        data-toggle="tooltip" title="edit">
-                                                        <i class="fa fa-edit"></i>
-                                                    </a>
-                                                    <a href="javascript:void(0);"
-                                                        class="btn btn-icon waves-effect waves-light btn-danger m-b-5 m-r-5 delete-btn"
-                                                        data-id="{{ $data->id }}" data-toggle="tooltip" title="Eliminar">
-                                                        <i class="fa fa-trash"></i>
-                                                    </a>
-                                                </td>
+
                                                 <td>
                                                     @if (!empty($data->profile_photo))
                                                         <img src="{{ asset('profile_photo/' . $data->profile_photo) }}"
@@ -90,13 +85,7 @@
 
 
                                                 <td>{{ $data->ip_address }}</td>
-                                                <td>
-                                                    @if ($data->status == 1)
-                                                        <span class="badge badge-success">Activo</span>
-                                                    @else
-                                                        <span class="badge badge-danger">Inactivo</span>
-                                                    @endif
-                                                </td>
+
                                                 <td>{{ \Carbon\Carbon::parse($data->created_at)->format('d-m-Y  H:i:s') }}</td>
                                             </tr>
                                         @endif
@@ -171,7 +160,7 @@
         </style>
 
         <script>
-            $(document).ready(function() {
+            $(document).ready(function () {
                 $('#salesTable').DataTable({
                     dom: 'Bfrtip',
                     buttons: [
@@ -191,6 +180,6 @@
         </script>
 
 
-</div>
+    </div>
 
 @endsection

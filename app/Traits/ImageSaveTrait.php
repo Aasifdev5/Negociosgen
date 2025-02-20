@@ -42,32 +42,35 @@ trait ImageSaveTrait
 
 
 
-    private function updateImage($destination, $new_attribute, $old_attribute): string
-    {
-        // Ensure the directory exists
-        if (!File::isDirectory(public_path('uploads/' . $destination))) {
-            File::makeDirectory(public_path('uploads/' . $destination), 0755, true, true);
-        }
+   // Function to upload file (for videos, images, etc.)
 
 
-        $file_name = time() . Str::random(10) . '.' . $new_attribute->extension();
-        $path = 'uploads/' . $destination . '/' . $file_name;
-        $new_attribute->move(public_path('uploads/' . $destination), $file_name);
-        File::delete($old_attribute);
-        return $path;
-
-
-        // Save the image without resizing
-        $file_extension = $new_attribute->getClientOriginalExtension();
-        $file_name = time() . '-' . Str::random(10) . '.' . $file_extension;
-        $returnPath = 'uploads/' . $destination . '/' . $file_name;
-
-        // Move uploaded file to the destination directory
-        $new_attribute->move(public_path('uploads/' . $destination), $file_name);
-        File::delete($old_attribute);
-
-        return $returnPath;
+// Function to update image (for thumbnails)
+private function updateImage($destination, $new_attribute, $old_attribute): string
+{
+    // Ensure the directory exists
+    $uploadPath = public_path('uploads/' . $destination);
+    if (!File::isDirectory($uploadPath)) {
+        File::makeDirectory($uploadPath, 0755, true, true);
     }
+
+    // Generate a unique filename for the new image
+    $file_name = time() . Str::random(10) . '.' . $new_attribute->extension();
+    $path = 'uploads/' . $destination . '/' . $file_name;
+
+    // Move the uploaded file to the destination folder
+    $new_attribute->move($uploadPath, $file_name);
+
+    // Delete the old file if it exists
+    if (File::exists(public_path($old_attribute))) {
+        File::delete(public_path($old_attribute));
+    }
+
+    // Return the new file path
+    return $path;
+}
+
+
 
 
     /*

@@ -44,7 +44,7 @@
                 <div class="text-white p-3 rounded" style="background: #000">
                     <div class="menu-item mb-3 d-flex align-items-center">
                         <a href="{{ url('dashboard') }}" style="text-decoration: none; color: inherit;">
-                            <img src="{{ asset('assets/ChartBar.svg') }}" alt="Dashboard" class="me-2" width="24" height="24">
+                            <i class="fas fa-tachometer-alt me-2" style="font-size: 24px;"></i>
                             <span>{{ __('Panel') }}</span>
                         </a>
                     </div>
@@ -57,7 +57,7 @@
 
                     <div class="menu-item mb-3 d-flex align-items-center">
                         <a href="{{ url('geanologìa') }}" style="text-decoration: none; color: inherit;">
-                            <img src="{{ asset('assets/TreeStructure.svg') }}" alt="Genealogía" class="me-2" width="24" height="24">
+                            <i class="fas fa-sitemap me-2" style="font-size: 24px;"></i>
                             <span>{{ __('Genealogía') }}</span>
                         </a>
                     </div>
@@ -70,14 +70,14 @@
 
                     <div class="menu-item mb-3 d-flex align-items-center">
                         <a href="{{ url('ganancias') }}" style="text-decoration: none; color: inherit;">
-                            <img src="{{ asset('assets/Wallet.svg') }}" alt="Ganancias" class="me-2" width="24" height="24">
+                            <i class="fas fa-wallet me-2" style="font-size: 24px;"></i>
                             <span>{{ __('Ganancias') }}</span>
                         </a>
                     </div>
 
                     <div class="menu-item mb-3 d-flex align-items-center">
                         <a href="{{ url('recursos') }}" style="text-decoration: none; color: inherit;">
-                            <img src="{{ asset('assets/Image.svg') }}" alt="Recursos" class="me-2" width="24" height="24">
+                            <i class="fas fa-image me-2" style="font-size: 24px;"></i>
                             <span>{{ __('Recursos') }}</span>
                         </a>
                     </div>
@@ -108,7 +108,7 @@
                 <div class="row">
                     <div class="col-lg-4 mb-3">
                         <div class="card  text-white p-4" style="background: #000">
-                            <h3>Bs 500</h3>
+                            <h3>Bs {{ \App\Models\User::where('id', $user_session->id)->first()->balance }}</h3>
                             <p class="mb-0">{{ __('Ventas Totales') }}</p>
                         </div>
                     </div>
