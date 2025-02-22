@@ -50,22 +50,32 @@
                 </style>
 
                 <div class="row">
-                    @if ($supportQuestions->count())
-                        @foreach ($supportQuestions as $question)
-                            <div class="col-lg-4 col-12 mb-4">
-                                <div class="card image-parent h-100 transparent-card">
-                                    <div class="card-body stack">
-                                        <h5 class="card-title fw-bold ttulo-del-blog">{{ $question->question }}</h5>
-                                        <p class="card-text estamos-dedicados-a">{{ $question->answer }}</p>
-                                    </div>
+                    @php
+                    $currentLang = session('locale', config('app.locale'));
+                @endphp
+
+                @if ($supportQuestions->count())
+                    @foreach ($supportQuestions as $question)
+                        <div class="col-lg-4 col-12 mb-4">
+                            <div class="card image-parent h-100 transparent-card">
+                                <div class="card-body stack">
+                                    <h5 class="card-title fw-bold ttulo-del-blog">
+                                        {{ $question->getTranslation('question', $currentLang) ?? $question->getTranslation('question', 'en') ?? 'Question not available' }}
+                                    </h5>
+                                    <p class="card-text estamos-dedicados-a">
+                                        {{ $question->getTranslation('answer', $currentLang) ?? $question->getTranslation('answer', 'en') ?? 'Answer not available' }}
+                                    </p>
                                 </div>
                             </div>
-                        @endforeach
-                    @else
-                        <div class="alert alert-warning text-center">
-                            <strong>{{ __('No se encontraron resultados para tu búsqueda.') }}</strong>
                         </div>
-                    @endif
+                    @endforeach
+
+
+                @else
+                    <div class="alert alert-warning text-center">
+                        <strong>{{ __('No se encontraron resultados para tu búsqueda.') }}</strong>
+                    </div>
+                @endif
                 </div>
 
             </div>

@@ -85,7 +85,7 @@
                             <iframe
                                 src="{{ asset('assets/VIDEO GEN PÁGINA WEB.MP4') }}"
                                 frameborder="0"
-                                allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media"
+                                allow="fullscreen; picture-in-picture; clipboard-write; encrypted-media"
                                 style="position:absolute;top:0;left:0;width:100%;height:100%;"
                                 title="Presentacion GEN oficial"></iframe>
                         </div>
@@ -315,7 +315,7 @@
                             <iframe
                                 src="https://player.vimeo.com/video/1048085044?h=f51662363d&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479"
                                 frameborder="0"
-                                allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media"
+                                allow="fullscreen; picture-in-picture; clipboard-write; encrypted-media"
                                 style="position:absolute;top:0;left:0;width:100%;height:100%;"
                                 title="VIDEO JAVI GEN"></iframe>
                         </div>
@@ -330,11 +330,11 @@
             <div class="col-lg-6 col-md-12 order-1 order-md-2" style="padding-bottom: 10px;">
                 <h1 class="text-center text-md-start"
                     style="width: 100%; color: #EDEDED; font-size: 32px; font-family: Space Grotesk; font-weight: 700; word-wrap: break-word;">
-                    {{ $develop_skills->title }}
+                    {{ __('Desarrolla tus Habilidades: Coaching y Entrenamiento para lograr tu libertad, no sólo financiera.') }}
                 </h1>
                 <p class="text-center text-md-start"
                     style="width: 100%; color: #A1A1A1; font-size: 16px; font-family: 'Space Grotesk', sans-serif; font-weight: 400; line-height: 24px; word-wrap: break-word;">
-                    {{ $develop_skills->description }}
+                    {{ __('Nuestra sección de Coaching y Cursos está diseñada para empoderarte como persona y como emprendedor a través de programas de formación práctica. Aprende de expertos en marketing, desarrollo personal, finanzas e inteligencia emocional, entre otros, y transforma tus conocimientos en oportunidades de éxito. Únase a nuestra comunidad y comience su viaje hacia el crecimiento hoy. Juntos podemos construir un mundo mejor') }}
                 </p>
                 <a href="{{ url('membership') }}" class="btn btn-primary btn-lg">{{ __('Únete ahora') }}</a>
             </div>
@@ -371,7 +371,7 @@
                                 @endphp
 
                                 <iframe class="embed-responsive-item" src="{{ $embedUrl }}" frameborder="0"
-                                    allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media"
+                                    allow="fullscreen; picture-in-picture; clipboard-write; encrypted-media"
                                     style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
                                     title="Video Player">
                                 </iframe>
@@ -394,11 +394,11 @@
         <div class="row">
             <div class="col-lg-6 col-md-12 text-center text-md-start" style="padding-bottom: 10px;">
                 <h2 class="mb-4" style="color: #EDEDED; font-family: Space Grotesk; font-weight: 700;">
-                    {{ $success_tips->title }}
+                    {{ __('Consejos para el éxito: sabiduría de empresarios y emprendedores') }}
                 </h2>
                 <p
                     style="color: #A1A1A1; font-size: 16px; font-family: Space Grotesk; font-weight: 400; line-height: 24px;">
-                    {{ $success_tips->description }}
+                    {{ __('En esta sección hemos recopilado valiosos consejos y experiencias de empresarios y dueños de negocios exitosos que han emprendido el camino del emprendimiento. Aprende de sus triunfos y fracasos para aplicarlos a tu propio recorrido y descubrir las claves para superar retos, fomentar la innovación y alcanzar el éxito en tu negocio.') }}
                 </p>
             </div>
 
@@ -415,7 +415,7 @@
                             <iframe
                                 src="https://player.vimeo.com/video/1053709659?h=edef3ed92f&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479"
                                 frameborder="0"
-                                allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media"
+                                allow="fullscreen; picture-in-picture; clipboard-write; encrypted-media"
                                 style="position:absolute;top:0;left:0;width:100%;height:100%;"
                                 title="Presentacion GEN oficial"></iframe>
                         </div>
@@ -455,7 +455,7 @@
                                 @endphp
 
                                 <iframe class="embed-responsive-item" src="{{ $embedUrl }}" frameborder="0"
-                                    allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media"
+                                    allow="fullscreen; picture-in-picture; clipboard-write; encrypted-media"
                                     style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
                                     title="Video Player">
                                 </iframe>
@@ -506,7 +506,7 @@
 
 <section style="padding: 20px 0; background: #000000; position: relative;">
     <div class="container">
-        <h1 class="text-light">{{ __('Libros que todo empreendedor debe leer') }}:</h1>
+        <h1 class="text-light">{{ __('Libros que todo emprendedor debería leer') }}:</h1>
         <ul style="list-style: none; padding: 0;">
             <!-- List Items -->
             <li class="mb-3 d-flex align-items-start">
@@ -681,7 +681,7 @@
             <!-- Column 1: Text Content -->
             <div class="col-lg-6 col-md-12 order-2 order-md-1 text-center text-md-start" style="padding-bottom: 10px;">
                 <h2 class="mb-4" style="color: #EDEDED; font-family: Space Grotesk; font-weight: 700;">
-                    {{ __('Adquira seu cartão GEN') }}
+                    {{ __('Consigue tu tarjeta GEN') }}
                 </h2>
 
 
@@ -690,21 +690,21 @@
                     <img class="me-2" src="{{ asset('assets/CheckCircleOutline (1).svg') }}" alt="Check icon"
                         style="width: 24px; height: 24px;">
                     <div class="text-light">
-                        {{ __('Os cartões GEN oferecem descontos e benefícios em dezenas de negócios e empresas a nível nacional e internacional.') }}
+                        {{ __('Las tarjetas GEN ofrecen descuentos y beneficios en decenas de comercios y empresas a nivel nacional e internacional.') }}
                     </div>
                 </div>
 
                 <div class="mb-3 d-flex align-items-start">
                     <img class="me-2" src="{{ asset('assets/CheckCircleOutline (1).svg') }}" alt="Check icon"
                         style="width: 24px; height: 24px;">
-                    <div class="text-light">{{ __(' Você não precisa ser membro do GEN para adquirir seu cartão.') }}</div>
+                    <div class="text-light">{{ __('No es necesario ser miembro de GEN para comprar su tarjeta.') }}</div>
                 </div>
 
                 <div class="mb-4 d-flex align-items-start">
                     <img class="me-2" src="{{ asset('assets/CheckCircleOutline (1).svg') }}" alt="Check icon"
                         style="width: 24px; height: 24px;">
                     <div class="text-light">
-                        {{ __('E se você tiver, por exemplo, um cartão Classic, pode subir de nível pagando a diferença do valor do cartão desejado.') }}
+                        {{ __('Y si tienes, por ejemplo, una tarjeta Clásica, puedes subir de nivel pagando la diferencia de valor de la tarjeta deseada.') }}
                     </div>
                 </div>
                 <!--<div class="mb-4 d-flex align-items-start">-->
@@ -734,7 +734,7 @@
                             <iframe
                                 src="{{ asset('assets/VID-20250118-WA0002.mp4') }}"
                                 frameborder="0"
-                                allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media"
+                                allow="fullscreen; picture-in-picture; clipboard-write; encrypted-media"
                                 style="position:absolute;top:0;left:0;width:100%;height:100%;"
                                 title="Presentacion GEN oficial"></iframe>
                         </div>
@@ -852,31 +852,42 @@
 <section style="padding: 20px 0;background-color: #000000;">
     <div class="container my-5">
         <h1 class="text-center text-light mb-4">{{ __('Preguntas Frecuentes (FAQ)') }}</h1>
+        @php
+                $currentLang = session('locale', config('app.locale'));
+            @endphp
         @if ($supportQuestions->count())
-            @foreach ($supportQuestions as $question)
-                <!-- FAQ Item -->
-                <div class="row mb-3">
-                    <div class="col-12">
-                        <div class="d-flex align-items-center" data-bs-toggle="collapse"
-                            data-bs-target="#faq{{ $question->id }}" aria-expanded="false"
-                            aria-controls="faq{{ $question->id }}">
-                            <div class="flex-grow-1">
-                                <b class="fw-bold faq-title">{{ $question->question }}</b>
-                            </div>
-                            <img class="faq-icon ms-auto" src="{{ asset('assets/PlusOutline.svg') }}" alt="Plus Icon"
-                                style="filter: brightness(0) invert(1);">
+        @foreach ($supportQuestions as $question)
+            <!-- FAQ Item -->
+            <div class="row mb-3">
+                <div class="col-12">
+                    <div class="d-flex align-items-center" data-bs-toggle="collapse"
+                         data-bs-target="#faq{{ $question->id }}" aria-expanded="false"
+                         aria-controls="faq{{ $question->id }}">
+                        <div class="flex-grow-1">
+                            <b class="fw-bold faq-title">
+                                {{ $question->getTranslation('question', $currentLang) ?? 'Question not available' }}
+                            </b>
                         </div>
-                        <div class="collapse" id="faq{{ $question->id }}">
-                            <p class="mt-2 faq-content">{{ $question->answer }}</p>
-                        </div>
+                        <img class="faq-icon ms-auto" src="{{ asset('assets/PlusOutline.svg') }}" alt="Plus Icon"
+                             style="filter: brightness(0) invert(1);">
+                    </div>
+                    <div class="collapse" id="faq{{ $question->id }}">
+                        <p class="mt-2 faq-content">
+                            {{ $question->getTranslation('answer', $currentLang) ?? 'Answer not available' }}
+                        </p>
                     </div>
                 </div>
-            @endforeach
-        @else
-            <div class="alert alert-warning text-center">
-                <strong>{{ __('No se encontraron resultados para tu búsqueda.') }}</strong>
             </div>
-        @endif
+        @endforeach
+    @else
+        <div class="alert alert-warning text-center">
+            <strong>{{ __('No se encontraron resultados para tu búsqueda.') }}</strong>
+        </div>
+    @endif
+
+    @php
+        $currentLang = session('locale', config('app.locale'));
+    @endphp
     </div>
 </section>
 <!-- Sección de Ingreso Adicional -->

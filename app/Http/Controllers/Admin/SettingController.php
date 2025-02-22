@@ -10,6 +10,7 @@ use App\Models\Language;
 use App\Models\Meta;
 use App\Models\Setting;
 use App\Models\SupportTicketQuestion;
+use App\Models\SupportTicketTranslation;
 use App\Models\User;
 use App\Tools\Repositories\Crud;
 use App\Traits\General;
@@ -21,8 +22,8 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Session;
 
+use Illuminate\Support\Facades\Session;
 use Response;
 use Spatie\Sitemap\SitemapGenerator;
 
@@ -464,46 +465,88 @@ class SettingController extends Controller
     }
 
     public function supportTicketQuesAns()
-    {
-        if (Session::has('LoggedIn')) {
-            $data['user_session'] = User::where('id', Session::get('LoggedIn'))->first();
-            $data['title'] = 'Support Ticket Question & Answer';
-            $data['navApplicationSettingParentActiveClass'] = 'mm-active';
-            $data['subNavSupportSettingsActiveClass'] = 'mm-active';
-            $data['supportQuestionActiveClass'] = 'active';
-            $data['supportTickets'] = SupportTicketQuestion::all();
-
-            return view('admin.application_settings.support_ticket.question', $data);
-        }
+{
+    if (Session::has('LoggedIn')) {
+        return view('admin.application_settings.support_ticket.question', [
+            'user_session' => User::find(Session::get('LoggedIn')),
+            'title' => 'Support Ticket Question & Answer',
+            'navApplicationSettingParentActiveClass' => 'mm-active',
+            'subNavSupportSettingsActiveClass' => 'mm-active',
+            'supportQuestionActiveClass' => 'active',
+            'supportTickets' => SupportTicketQuestion::with('translations')->get(),
+        ]);
     }
+}
 
-    public function supportTicketQuesAnsUpdate(Request $request)
-    {
-        $now = now();
-        if ($request['question_answers']) {
-            if (count(@$request['question_answers']) > 0) {
-                foreach ($request['question_answers'] as $question_answers) {
-                    if (@$question_answers['question']) {
-                        if (@$question_answers['id']) {
-                            $question_answer = SupportTicketQuestion::find($question_answers['id']);
-                        } else {
-                            $question_answer = new SupportTicketQuestion();
-                        }
-                        $question_answer->question = @$question_answers['question'];
-                        $question_answer->answer = @$question_answers['answer'];
-                        $question_answer->updated_at = $now;
-                        $question_answer->save();
+
+public function supportTicketQuesAnsUpdate(Request $request)
+{
+    // Debugging: Uncomment to check incoming data structure
+    // dd($request->all());
+
+    // Fetch all existing question IDs
+    $existingQuestionIds = SupportTicketQuestion::pluck('id')->toArray();
+
+    // Collect IDs from the incoming data
+    $incomingQuestionIds = [];
+
+    if ($request->has('question_answers') && is_array($request->question_answers)) {
+        foreach ($request->question_answers as $question_answer) {
+            // Validate presence of required data
+            if (
+                isset($question_answer['question'], $question_answer['answer']) &&
+                is_array($question_answer['question']) &&
+                is_array($question_answer['answer'])
+            ) {
+                // Determine if updating or creating a new question
+                $question = null;
+                if (!empty($question_answer['id']) && in_array($question_answer['id'], $existingQuestionIds)) {
+                    $question = SupportTicketQuestion::find($question_answer['id']);
+                }
+
+                if (!$question) {
+                    $question = new SupportTicketQuestion();
+                    $question->save(); // Save to generate ID for new questions
+                }
+
+                // Collect the ID for comparison later
+                $incomingQuestionIds[] = $question->id;
+
+                // Save translations for each locale
+                foreach ($question_answer['question'] as $locale => $translated_question) {
+                    $translated_answer = $question_answer['answer'][$locale] ?? null;
+
+                    if (!empty($translated_question) && !empty($translated_answer)) {
+                        SupportTicketTranslation::updateOrCreate(
+                            [
+                                'support_ticket_question_id' => $question->id,
+                                'locale' => $locale
+                            ],
+                            [
+                                'question' => $translated_question,
+                                'answer' => $translated_answer
+                            ]
+                        );
                     }
                 }
             }
         }
-
-        SupportTicketQuestion::where('updated_at', '!=', $now)->get()->map(function ($q) {
-            $q->delete();
-        });
-
-        return redirect()->back();
     }
+
+    // Delete questions that are no longer present in the incoming data
+    // $questionsToDelete = array_diff($existingQuestionIds, $incomingQuestionIds);
+    // if (!empty($questionsToDelete)) {
+    //     // Delete translations first to avoid foreign key constraints
+    //     SupportTicketTranslation::whereIn('support_ticket_question_id', $questionsToDelete)->delete();
+    //     // Delete the questions
+    //     SupportTicketQuestion::whereIn('id', $questionsToDelete)->delete();
+    // }
+
+    return redirect()->back()->with('success', __('Support ticket questions updated successfully.'));
+}
+
+
+
 
 
 

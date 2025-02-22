@@ -37,7 +37,7 @@
                                 <iframe class="embed-responsive-item"
                                     src="{{ $embedUrl }}"
                                     frameborder="0"
-                                    allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media"
+                                    allow=" fullscreen; picture-in-picture; clipboard-write; encrypted-media"
                                     style="position:absolute;top:0;left:0;width:100%;height:100%;"
                                     title="Video Player">
                                 </iframe>
@@ -59,7 +59,7 @@
                                 <iframe class="embed-responsive-item"
                                     src="{{ $embedUrl }}"
                                     frameborder="0"
-                                    allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media"
+                                    allow=" fullscreen; picture-in-picture; clipboard-write; encrypted-media"
                                     style="position:absolute;top:0;left:0;width:100%;height:100%;"
                                     title="Video Player">
                                 </iframe>
@@ -108,7 +108,7 @@
                                         <iframe class="embed-responsive-item"
                                             src="{{ $courseEmbedUrl }}"
                                             frameborder="0"
-                                            allow="autoplay; encrypted-media"
+                                            allow=" encrypted-media"
                                             allowfullscreen>
                                         </iframe>
                                     </div>

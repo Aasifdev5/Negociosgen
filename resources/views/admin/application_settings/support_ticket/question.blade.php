@@ -1,181 +1,167 @@
 @extends('admin.Master')
+
 @section('title')
     {{ $title }}
 @endsection
+
 @section('content')
+
+<!-- Styles & Scripts -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery.repeater/jquery.repeater.min.js"></script>
-    <!-- Page content area start -->
-    <div class="page-body">
-        <div class="page-content">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="breadcrumb__content">
-                            <div class="breadcrumb__content__left">
-                                <div class="breadcrumb__title">
-                                    <h2>{{ __('Application Settings') }}</h2>
-                                </div>
+<script src="https://cdn.jsdelivr.net/npm/jquery.repeater@1.2.1/jquery.repeater.min.js"></script>
+
+<!-- Page Content Start -->
+<div class="page-body">
+    <div class="page-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="breadcrumb__content">
+                        <div class="breadcrumb__content__left">
+                            <div class="breadcrumb__title">
+                                <h2>{{ __('Application Settings') }}</h2>
                             </div>
-                            <div class="breadcrumb__content__right">
-                                <nav aria-label="breadcrumb">
-                                    <ul class="breadcrumb">
-                                        <li class="breadcrumb-item"><a href="{{url('admin\dashboard')}}">{{__('Dashboard')}}</a></li>
-                                        <li class="breadcrumb-item active" aria-current="page">{{ __(@$title) }}</li>
-                                    </ul>
-                                </nav>
-                            </div>
+                        </div>
+                        <div class="breadcrumb__content__right">
+                            <nav aria-label="breadcrumb">
+                                <ul class="breadcrumb">
+                                    <li class="breadcrumb-item">
+                                        <a href="{{ url('admin/dashboard') }}">{{ __('Dashboard') }}</a>
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">{{ __($title) }}</li>
+                                </ul>
+                            </nav>
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="card col-lg-3 col-md-4">
-                        @include('admin.application_settings.sidebar')
-                    </div>
-                    <div class="col-lg-9 col-md-8">
-                        <div class="card">
-                            <div class="card-header"><h2>{{ __(@$title) }}</h2></div>
-                            <div class="card-body">
-                                <form action="{{route('settings.support-ticket.question.update')}}" method="post">
-                                    @csrf
-                                    <div id="add_repeater" class="mb-3">
-                                        <div data-repeater-list="question_answers" class="">
-                                            @if($supportTickets->count() > 0)
-                                                @foreach($supportTickets as $question)
-                                                    <div data-repeater-item="" class="form-group row ">
-                                                        <input type="hidden" name="id" value="{{ @$question['id'] }}"/>
-                                                        <div class="custom-form-group mb-3 col-lg-5">
-                                                            <label for="question_{{ @$question['id'] }}" class="text-lg-right text-black"> {{ __('Question') }} </label>
-                                                            <div class="">
-                                                                <input type="text" name="question" id="question_{{ @$question['id'] }}" value="{{ $question->question }}"
-                                                                       class="form-control" placeholder="{{ __('Type question') }}" required>
-                                                            </div>
-                                                        </div>
-                                                        <div class="custom-form-group mb-3 col-lg-6">
-                                                            <label for="answer_{{ @$question['id'] }}" class="text-lg-right text-black"> {{ __('Answer') }} </label>
-                                                            <div class="">
-                                                                <textarea name="answer" id="answer_{{ @$question['id'] }}" rows="5"
-                                                                          class="form-control" required>{{ $question->answer }}</textarea>
-                                                            </div>
-                                                        </div>
+            </div>
 
-                                                        <div class="col-lg-1 mb-3 removeClass">
-                                                            <label class="text-lg-right text-black opacity-0">{{ __('Remove') }}</label>
-                                                            <a href="javascript:;" data-repeater-delete="" class="btn btn-icon-remove btn-danger" onclick="deleteMember({{ @$question['id'] }})">
-                                                                <i class="fas fa-times"></i>
-                                                            </a>
-                                                        </div>
+            <div class="row">
+                <!-- Sidebar -->
+                <div class="card col-lg-3 col-md-4">
+                    @include('admin.application_settings.sidebar')
+                </div>
 
+                <!-- Main Content -->
+                <div class="col-lg-9 col-md-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>{{ __($title) }}</h2>
+                        </div>
+                        <div class="card-body">
+                            <form action="{{ route('settings.support-ticket.question.update') }}" method="POST">
+                                @csrf
+
+                                <div id="add_repeater">
+                                    <div data-repeater-list="question_answers">
+                                        @forelse ($supportTickets as $question)
+                                            <div data-repeater-item class="form-group row border p-3 rounded shadow-sm bg-light mb-3">
+                                                <input type="hidden" name="question_answers[{{ $loop->index }}][id]" value="{{ $question->id }}"/>
+
+                                                @foreach (appLanguages() as $locale)
+                                                    <div class="col-lg-6 mb-3">
+                                                        <label class="font-weight-bold text-primary">
+                                                            {{ __('Question') }} ({{ strtoupper($locale->language) }})
+                                                        </label>
+                                                        <input type="text"
+                                                               name="question_answers[{{ $loop->parent->index }}][question][{{ $locale->iso_code }}]"
+                                                               value="{{ $question->getTranslation('question', $locale->iso_code) ?? '' }}"
+                                                               class="form-control border border-primary"
+                                                               required>
+                                                    </div>
+
+                                                    <div class="col-lg-6 mb-3">
+                                                        <label class="font-weight-bold text-success">
+                                                            {{ __('Answer') }} ({{ strtoupper($locale->language) }})
+                                                        </label>
+                                                        <textarea name="question_answers[{{ $loop->parent->index }}][answer][{{ $locale->iso_code }}]"
+                                                                  class="form-control border border-success"
+                                                                  required>{{ $question->getTranslation('answer', $locale->iso_code) ?? '' }}</textarea>
                                                     </div>
                                                 @endforeach
-                                            @else
-                                                <div data-repeater-item="" class="form-group row">
-                                                    <div class="custom-form-group mb-3 col-lg-5">
-                                                        <label for="question" class="text-lg-right text-black">{{ __('Question') }}</label>
-                                                        <input type="text" name="question" id="question" value="" class="form-control" placeholder="{{ __('Type question') }}" required>
-                                                    </div>
-                                                    <div class="custom-form-group mb-3 col-lg-6">
-                                                        <label for="answer" class="text-lg-right text-black">{{ __('Answer') }}</label>
-                                                        <textarea name="answer" id="answer" class="form-control" rows="5" required></textarea>
-                                                    </div>
 
-                                                    <div class="col-lg-1 mb-3 removeClass">
-                                                        <label class="text-lg-right text-black opacity-0">{{ __('Remove') }}</label>
-                                                        <a href="javascript:;" data-repeater-delete=""
-                                                           class="btn btn-icon-remove btn-danger">
-                                                            <i class="fas fa-times"></i>
-                                                        </a>
-                                                    </div>
-
+                                                <div class="col-12 mt-2 text-end">
+                                                    <a href="javascript:;" data-repeater-delete class="btn btn-danger">
+                                                        <i class="fas fa-trash"></i> {{ __('Remove') }}
+                                                    </a>
                                                 </div>
-                                            @endif
-                                        </div>
-
-                                        <div class="col-lg-2">
-                                            <a id="add" href="javascript:;" data-repeater-create=""
-                                               class="btn btn-blue">
-                                                <i class="fas fa-plus"></i> {{ __('Add') }}
-                                            </a>
-                                        </div>
-
+                                            </div>
+                                        @empty
+                                            <!-- Empty state for repeater -->
+                                            <p class="text-muted">{{ __('No support ticket questions found.') }}</p>
+                                        @endforelse
                                     </div>
 
-                                    <div class="row justify-content-end">
-                                        <div class="col-md-2 text-right">
-                                            <button type="submit" class="btn btn-primary btn-sm">{{ __('Update') }}</button>
-                                        </div>
+                                    <div class="mt-3">
+                                        <a href="javascript:;" data-repeater-create class="btn btn-primary">
+                                            <i class="fas fa-plus"></i> {{ __('Add Question') }}
+                                        </a>
                                     </div>
-                                </form>
-                            </div>
+                                </div>
 
+                                <div class="row justify-content-end mt-4">
+                                    <button type="submit" class="btn btn-success">{{ __('Update') }}</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Page content area end -->
-    <script>
-        (function($) {
-            "use strict";
-            $(document).ready(function() {
-                let formRepeaterId = "#add_repeater";
+<!-- JavaScript for Repeater -->
+<script>
+(function($) {
+    "use strict";
 
-                let KTFormRepeater = function() {
-                    let demo1 = function() {
-                        $(formRepeaterId).repeater({
-                            initEmpty: false,
-                            defaultValues: {
-                                'text-input': 'foo'
-                            },
-                            show: function() {
-                                $(this).slideDown();
-                            },
-                            hide: function(deleteElement) {
-                                $(this).slideUp(deleteElement);
-                            }
-                        });
-                    };
-
-                    return {
-                        // public functions
-                        init: function() {
-                            demo1();
-                        }
-                    };
-                }();
-
-                // Initialize the repeater
-                KTFormRepeater.init();
-
-                // Bind add button to create new repeater item
-                $("#add").on("click", function() {
-                    $(formRepeaterId).repeater('add');
-                });
-            });
-
-            // Function to handle member deletion
-            window.deleteMember = function(memberId) {
-                if (confirm("Are you sure you want to delete this member?")) {
-                    $.ajax({
-                        url: '{{ url('admin/settings/support-ticket/questionAnsDelete') }}',
-                        method: 'POST',
-                        data: {
-                            _token: '{{ csrf_token() }}',
-                            id: memberId
-                        },
-                        success: function(response) {
-                            location.reload();
-                        },
-                        error: function(response) {
-                            alert('Failed to delete the member.');
-                        }
-                    });
+    $(document).ready(function() {
+        let repeater = $('#add_repeater').repeater({
+            initEmpty: false,
+            show: function() {
+                $(this).slideDown();
+            },
+            hide: function(deleteElement) {
+                if (confirm("Are you sure you want to delete this question?")) {
+                    $(this).slideUp(deleteElement);
                 }
-            };
-        })(jQuery);
-    </script>
-@endsection
+            },
+            ready: function(setIndexes) {
+                // Ensure indexes are set correctly
+            },
+            // Define the template for new items
+            repeaters: [{
+                selector: '#add_repeater',
+                defaultValues: {},
+                fields: [
+                    @foreach (appLanguages() as $locale)
+                    {
+                        name: 'question_answers[][question][{{ $locale->iso_code }}]',
+                        type: 'text',
+                        className: 'form-control border border-primary'
+                    },
+                    {
+                        name: 'question_answers[][answer][{{ $locale->iso_code }}]',
+                        type: 'textarea',
+                        className: 'form-control border border-success'
+                    },
+                    @endforeach
+                    {
+                        name: 'question_answers[][id]',
+                        type: 'hidden'
+                    }
+                ]
+            }]
+        });
 
+        // Custom handler for add button if needed
+        $('[data-repeater-create]').on('click', function() {
+            repeater.addItem();
+        });
+    });
+})(jQuery);
+</script>
+
+@endsection

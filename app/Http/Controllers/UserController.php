@@ -95,9 +95,7 @@ class UserController extends Controller
 
 
 
-        $supportQuestions = SupportTicketQuestion::orderBy('created_at', 'desc')  // Order by most recent
-            ->limit(9)  // Fetch only the 9 most recent questions
-            ->get();  // Retrieve the results
+        $supportQuestions =SupportTicketQuestion::with('translations')->get();  // Retrieve the results
 
         // Fetch 4 most recent courses
         $audiobook = Audiobook::orderBy('created_at', 'desc')->take(6)->get();  // Fetch 6 most recent audiobooks
