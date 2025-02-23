@@ -83,7 +83,7 @@
                     <div class="embed-responsive" style="display: none;">
                         <div style="padding:75% 0 0 0;position:relative;">
                             <iframe
-                                src="{{ asset('assets/VIDEO GEN PÁGINA WEB.MP4') }}"
+                                src="https://player.vimeo.com/video/1059405483?h=e811b06ef4&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479"
                                 frameborder="0"
                                 allow="fullscreen; picture-in-picture; clipboard-write; encrypted-media"
                                 style="position:absolute;top:0;left:0;width:100%;height:100%;"
@@ -732,7 +732,7 @@
                     <div class="embed-responsive" style="display: none;">
                         <div style="padding:75% 0 0 0;position:relative;">
                             <iframe
-                                src="{{ asset('assets/VID-20250118-WA0002.mp4') }}"
+                                src="https://player.vimeo.com/video/1059406126?h=9167535ce4&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479"
                                 frameborder="0"
                                 allow="fullscreen; picture-in-picture; clipboard-write; encrypted-media"
                                 style="position:absolute;top:0;left:0;width:100%;height:100%;"
@@ -852,7 +852,7 @@
 <section style="padding: 20px 0;background-color: #000000;">
     <div class="container my-5">
         <h1 class="text-center text-light mb-4">{{ __('Preguntas Frecuentes (FAQ)') }}</h1>
-        @php
+       @php
                 $currentLang = session('locale', config('app.locale'));
             @endphp
         @if ($supportQuestions->count())
@@ -884,10 +884,6 @@
             <strong>{{ __('No se encontraron resultados para tu búsqueda.') }}</strong>
         </div>
     @endif
-
-    @php
-        $currentLang = session('locale', config('app.locale'));
-    @endphp
     </div>
 </section>
 <!-- Sección de Ingreso Adicional -->
